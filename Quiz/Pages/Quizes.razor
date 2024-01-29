@@ -1,4 +1,4 @@
-@page "/Quiz/{id}"
+@page "/"
 @using Data.Models
 @using Data
 
@@ -16,6 +16,7 @@
 
 </style>
 <h1>Quiz Page</h1>
+@if(dataReady){
 <div class="question">
     <h3 class="text-center">@Quize.Description</h3>
     <hr/>
@@ -56,43 +57,5 @@
     </div>
     
 </div>
-
-
-@code{
-    [Parameter] public dynamic Id {get;set;}
-    public List<Quiz> Quizzes {get;set;}
-    public Quiz Quize {get;set;}
-    public List<Question> questions {get;set;}
-    public int pos {get;set;}
-    public Question currentQuestion {get;set;}
-    public int result {get;set;} =0;
-    public bool answered {get;set;} = false;
-
-    protected override async Task OnInitializedAsync()
-    {
-
-        Quizzes = InitData.Quizzes;
-        questions = new List<Question>();
-        questions = Quize.questions;
-        currentQuestion = questions[pos];
-    }
-    
-    public void check()
-    {
-        answered = true;
-    }
-    public void Next(){
-        pos++;
-        currentQuestion = new Question(){};
-        currentQuestion =  questions[pos];
-    }
-    public void Checked(int questId , bool answerId)
-    {
-        if(answerId){
-            result ++;
-        }else{
-            
-        }
-    }
-
 }
+
