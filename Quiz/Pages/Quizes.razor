@@ -1,0 +1,98 @@
+@page "/Quiz/{id}"
+@using Data.Models
+@using Data
+
+<style>
+    h1{
+        font-size: 26px;
+        font-family: arial;
+    }
+    
+    .btn-check:checked + .btn-light {
+    background-color: rgb(176, 214, 176);
+    border-color: darkgreen;
+    color: black;
+}
+
+</style>
+<h1>Quiz Page</h1>
+<div class="question">
+    <h3 class="text-center">@Quize.Description</h3>
+    <hr/>
+    <div class="row">
+        @if(!answered)
+        {             
+            <div class="col-8 my-5">
+                    <h1>@currentQuestion.Description</h1>
+                    <div class=" ">
+                        @foreach(var answer in currentQuestion.Answers){
+                            <div class="form-check">
+                                <input type="radio" required class="btn-check" @onchange="@((args)=>Checked(currentQuestion.Id, answer.IsOk))" name="@($"{currentQuestion.Id}")" id="@($"{currentQuestion.Id}-{answer.Id}")" autocomplete="off" checked="false" >
+                                <label class="btn btn-light  border border-secondary w-100" for="@($"{currentQuestion.Id}-{answer.Id}")">@answer.Description</label>
+                            </div>
+                        }
+                    </div>
+                    @if(pos<questions.Count()-1){
+                        @if(!answered){
+                            <div class="row mx-auto col-4 my-5">
+                                <button @onclick="@(()=>Next())" class="btn btn-secondary">Next</button>
+                            </div>
+                        }
+                    }else{
+                        <div class="row mx-auto col-8 mb-5">
+                            <button @onclick="check" class="btn btn-primary w-100 " type="button">Submit</button>
+                        </div>
+                    }
+            </div>
+        }else{
+            <div class="card text-white bg-primary mb-3 mx-auto" style="max-width: 28rem;">
+                <div class="card-header">Reultat</div>
+                <div class="card-body">
+                    <h3 class="card-title">You Have <h1>@result </h1> answer correct</h3>
+                </div>
+            </div>
+        }      
+        
+    </div>
+    
+</div>
+
+
+@code{
+    [Parameter] public dynamic Id {get;set;}
+    public List<Quiz> Quizzes {get;set;}
+    public Quiz Quize {get;set;}
+    public List<Question> questions {get;set;}
+    public int pos {get;set;}
+    public Question currentQuestion {get;set;}
+    public int result {get;set;} =0;
+    public bool answered {get;set;} = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        Quizzes = InitData.Quizzes;
+        questions = new List<Question>();
+        questions = Quize.questions;
+        currentQuestion = questions[pos];
+    }
+    
+    public void check()
+    {
+        answered = true;
+    }
+    public void Next(){
+        pos++;
+        currentQuestion = new Question(){};
+        currentQuestion =  questions[pos];
+    }
+    public void Checked(int questId , bool answerId)
+    {
+        if(answerId){
+            result ++;
+        }else{
+            
+        }
+    }
+
+}
