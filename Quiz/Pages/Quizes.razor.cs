@@ -1,4 +1,5 @@
 using Data.Models;
+using Data;
 
 namespace Quiz.Pages
 {
@@ -16,9 +17,14 @@ namespace Quiz.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            // questions = new List<Question>();
-            // questions = Quize.questions;
-            // currentQuestion = questions[pos];
+
+            Quize = InitData.Quizzes.FirstOrDefault();
+            questions = new List<Question>();
+            //questions = InitData.Quizzes.questions.ToList();
+            // dataReady = true;
+             questions = (List<Question>)Quize.questions;
+            currentQuestion = questions[pos];
+            dataReady =true;
         }
 
         public void check()
