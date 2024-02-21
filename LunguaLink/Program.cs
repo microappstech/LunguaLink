@@ -1,6 +1,14 @@
 using LunguaLink.Components;
+using LunguaLink.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("LunguaLinkContextConnection") ?? throw new InvalidOperationException("Connection string 'LunguaLinkContextConnection' not found.");
+
+builder.Services.AddDbContext<LunguaLinkContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<LunguaLinkContext>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

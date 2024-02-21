@@ -6,3 +6,7 @@
 
 /.vs/LunguaLink
 /LunguaLink/obj
+/.vs/ProjectEvaluation
+/Langua.DataContext/obj/Debug/net8.0
+/Langua.Models/obj
+/Lungua.Shared/obj
