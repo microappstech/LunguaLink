@@ -2,9 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/Quiz
-/Models/bin/Debug/net7.0
-/Models/obj
 
-/Quiz/obj
-/Quiz/bin/Debug/net7.0
+
+/.vs/LunguaLink
+/LunguaLink/obj
