@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Models", "Langua.Models\Langua.Models.csproj", "{F6E9BAB3-0F3E-4EA2-9ADC-45BD137657CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Shared", "Lungua.Shared\Langua.Shared.csproj", "{05B3C862-A1B9-433B-AC27-26488912FE42}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.DataContext", "Langua.DataContext\Langua.DataContext.csproj", "{BE9FA614-39AE-459E-A1FC-F36FD297CD72}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.WebUI", "Langua.WebUI\Langua.WebUI.csproj", "{6399B370-A782-468B-8C1A-F93BA88DA372}"
@@ -21,10 +19,6 @@ Global
 		{F6E9BAB3-0F3E-4EA2-9ADC-45BD137657CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6E9BAB3-0F3E-4EA2-9ADC-45BD137657CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6E9BAB3-0F3E-4EA2-9ADC-45BD137657CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{05B3C862-A1B9-433B-AC27-26488912FE42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05B3C862-A1B9-433B-AC27-26488912FE42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05B3C862-A1B9-433B-AC27-26488912FE42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05B3C862-A1B9-433B-AC27-26488912FE42}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE9FA614-39AE-459E-A1FC-F36FD297CD72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE9FA614-39AE-459E-A1FC-F36FD297CD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE9FA614-39AE-459E-A1FC-F36FD297CD72}.Release|Any CPU.ActiveCfg = Release|Any CPU

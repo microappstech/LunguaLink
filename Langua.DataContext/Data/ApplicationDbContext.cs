@@ -12,13 +12,11 @@ namespace Langua.DataContext.Data
             base.OnModelCreating(builder);
             builder.Entity<ApplicationUser>().ToTable("Users");
             builder.Entity<IdentityRole>().ToTable("Roles");
-            builder.Entity<IdentityUser<string>>().ToTable("UserRoles");
+            builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("UserRoleClaim");
             builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserToken");
-            builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
-
 
         }
     }
