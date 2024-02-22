@@ -1,7 +1,0 @@
-﻿namespace Lungua.Shared
-{
-    public class Class1
-    {
-
-    }
-}

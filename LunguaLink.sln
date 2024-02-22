@@ -5,11 +5,11 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Models", "Langua.Models\Langua.Models.csproj", "{F6E9BAB3-0F3E-4EA2-9ADC-45BD137657CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lungua.Shared", "Lungua.Shared\Lungua.Shared.csproj", "{05B3C862-A1B9-433B-AC27-26488912FE42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Shared", "Lungua.Shared\Langua.Shared.csproj", "{05B3C862-A1B9-433B-AC27-26488912FE42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.DataContext", "Langua.DataContext\Langua.DataContext.csproj", "{BE9FA614-39AE-459E-A1FC-F36FD297CD72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.DataContext", "Langua.DataContext\Langua.DataContext.csproj", "{BE9FA614-39AE-459E-A1FC-F36FD297CD72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lungua.WebUI", "Lungua.WebUI\Lungua.WebUI.csproj", "{5BE3461E-3A60-44CA-8932-92FA1C6D8A2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.WebUI", "Langua.WebUI\Langua.WebUI.csproj", "{6399B370-A782-468B-8C1A-F93BA88DA372}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{BE9FA614-39AE-459E-A1FC-F36FD297CD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE9FA614-39AE-459E-A1FC-F36FD297CD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE9FA614-39AE-459E-A1FC-F36FD297CD72}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5BE3461E-3A60-44CA-8932-92FA1C6D8A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BE3461E-3A60-44CA-8932-92FA1C6D8A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BE3461E-3A60-44CA-8932-92FA1C6D8A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BE3461E-3A60-44CA-8932-92FA1C6D8A2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6399B370-A782-468B-8C1A-F93BA88DA372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6399B370-A782-468B-8C1A-F93BA88DA372}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6399B370-A782-468B-8C1A-F93BA88DA372}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6399B370-A782-468B-8C1A-F93BA88DA372}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
