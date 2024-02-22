@@ -10,9 +10,9 @@ namespace Langua.DataContext.Data
 {
     public class LanguaContext : DbContext
     {
+
         public LanguaContext(DbContextOptions<LanguaContext> dbContextOptions):base(dbContextOptions)
-        {
-            
+        {            
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
