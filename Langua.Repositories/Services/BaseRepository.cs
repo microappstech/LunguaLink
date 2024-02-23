@@ -15,7 +15,7 @@ namespace Langua.Repositories.Services
         {
             this._context = context;
         }
-        T IRepositoryBase<T>.Add(T entity)
+        public T Add(T entity)
         {
             try
             {
@@ -29,22 +29,22 @@ namespace Langua.Repositories.Services
             }
         }
 
-        bool IRepositoryBase<T>.Delete(T entity)
+        public bool Delete(T entity)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<T> IRepositoryBase<T>.GetAll()
+        public IEnumerable<T> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        T IRepositoryBase<T>.GetById(int id)
+        public T GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        bool IRepositoryBase<T>.Update(T entity)
+        public bool Update(T entity)
         {
             throw new NotImplementedException();
         }

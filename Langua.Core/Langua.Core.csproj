@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
+    <ProjectReference Include="..\Langua.Shared\Langua.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
