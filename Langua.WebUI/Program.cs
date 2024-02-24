@@ -1,5 +1,5 @@
-using Langua.WebUI.Components;
-using Langua.WebUI.Components.Account;
+using Langua.WebUI.Pages;
+using Langua.WebUI.Pages.Account;
 using Langua.DataContext.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;

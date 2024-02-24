@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Core", "Langua.Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Repositories", "Langua.Repositories\Langua.Repositories.csproj", "{F42A77C3-7C7D-4669-A7C2-14A13F218E5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Shared", "Langua.Shared\Langua.Shared.csproj", "{E4BA7646-A138-4F96-A289-D4EE6D71887C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Shared", "Langua.Shared\Langua.Shared.csproj", "{E4BA7646-A138-4F96-A289-D4EE6D71887C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
