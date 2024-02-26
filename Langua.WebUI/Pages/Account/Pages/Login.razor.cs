@@ -13,7 +13,7 @@ namespace Langua.WebUI.Pages.Account.Pages
         private HttpContext HttpContext { get; set; } = default!;
 
         [SupplyParameterFromForm]
-        private InputModel Input { get; set; } = new();
+        private LoginModel Input { get; set; } = new();
 
         [SupplyParameterFromQuery]
         private string? ReturnUrl { get; set; }
@@ -54,7 +54,7 @@ namespace Langua.WebUI.Pages.Account.Pages
             }
         }
 
-        private sealed class InputModel
+        private sealed class LoginModel
         {
             [Required]
             [EmailAddress]
