@@ -1,4 +1,5 @@
-﻿@inherits LanguaGridComponent
+﻿@using System.Linq.Expressions
+@inherits LanguaGridComponent
 
 @typeparam TItem
 
@@ -7,7 +8,9 @@
         <tr>
             @foreach (var column in Columns)
             {
-                <th>@column.Header</th>
+                <th>
+                    @column.Header 
+                </th>
             }
         </tr>
     </thead>
@@ -17,7 +20,9 @@
             <tr>
                 @foreach (var column in Columns)
                 {
-                    <td>@column.Template(item)</td>
+                    <td>
+                        @column.Template(item)
+                    </td>
                 }
             </tr>
         }
@@ -30,12 +35,16 @@
             <tr class="bg-gray-200">
                 @foreach (var column in Columns)
                 {
-                    <th class="border-y border-gray-100 bg-gray-50/50 p-2">@column.Header</th>
+                    <th class="border-y border-gray-100 bg-gray-50/50 position-relative">
+                        <span class=" p-2 block ">
+                            @column.Header 
+                        </span>
+                        <InputText @bind-Value="@column.FilterValue" @ref="Filter" @onfocus="@((args)=>ShowCleanButton(args,column))" @oninput="@((args) => Search(args, column.Property))" class="p-2 w-full text-sm border attendees-count" />
+                        <span  id="@($"Clean{column.Property.ToString()}")" class="position-absolute top-[50px] right-5 text-sm font-light hidden" @onclick="@(()=>ClearInput(column))">x</span>
+                    </th>
                 }
-                <th> </th>
             </tr>
             <tr>
-                        <InputText @bind-Value="@FilterValue" @ref="Filter" @oninput="@((args) => Search(args))" class="p-2 rounded border attendees-count" />
                 @foreach (var column in Columns)
                 {
                     <td class="border border-gray-300 px-4 py-2">
@@ -95,10 +104,44 @@
     </table>
 </div>
 @code {
+
     [Parameter]
     public IEnumerable<TItem> Items { get; set; }
     [Parameter]
     public List<GridColumn<TItem>> Columns { get; set; }
-    
-    
+
+
+    [Inject] public IJSRuntime JSRuntime { get; set; }
+    public IEnumerable<TItem> OriginItems { get; set; } 
+    bool isInputFocused = false;
+
+    private Dictionary<string, string> FilterValues = new Dictionary<string, string>();
+
+    public void Search(ChangeEventArgs args, string property)
+    {
+        if (args.Value != "" || !string.IsNullOrWhiteSpace(args.Value.ToString()))
+        {
+            Items = OriginItems.Where(it => (bool)it.GetType().GetProperty(property)?.GetValue(it)?.ToString().ToLower()?.Contains(args.Value.ToString().ToLower()));
+        }
+        else
+        {
+            Items = OriginItems;
+        }
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        OriginItems = Items;
+        return base.OnInitializedAsync(); 
+    }
+
+    private async Task ClearInput(GridColumn<TItem> column)
+    {
+        column.FilterValue = ""; // Clear the input value
+    }
+    private async Task ShowCleanButton(FocusEventArgs e, GridColumn<TItem> column)
+    {
+        isInputFocused = true;
+        
+    }
 }

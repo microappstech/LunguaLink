@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Linq.Expressions;
+using System.Net.WebSockets;
 
 namespace Langua.WebUI.Pages.Components
 {
@@ -7,20 +9,25 @@ namespace Langua.WebUI.Pages.Components
         {
             public string Header { get; set; }
             public Func<TItem, object> Template { get; set; }
-        }
+            public string FilterValue { get; set; } = "";
+            public string Property { get; set; }
+    }
 
     public partial class LanguaGridComponent : BasePage
     {
         public InputText Filter;
         public string FilterValue { get; set; }
-        
-        public void Search(ChangeEventArgs args)
+
+
+
+        public static string GetPropertyName<TItem>(Func<TItem, object> template)
         {
-            // This is the same as (args) => Search(args.Value.ToString())
-            // The value of the input will be passed directly to the Search method
-            // without the need for additional casting
-            // Ensure that this method is declared with the correct parameter type
-            Console.WriteLine($"Search called with: {args.Value}");
+            var r = nameof(template);
+            var t = typeof(TItem).GetType().GetProperties();
+            var tt = template.GetType().GetProperties();
+
+
+            return "";
         }
     }
 }

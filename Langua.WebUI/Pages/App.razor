@@ -14,8 +14,19 @@
 </head>
 
 <body>
-    <Routes />
+    <Routes @rendermode="RenderMode.InteractiveServer" />
     <script src="_framework/blazor.web.js"></script>
+
+
+    <script>
+        function GetElement(id) {
+            console.log("Element ID:", id);
+            let element = document.getElementById(id);
+            console.log("Element:", element);
+            return element;
+        }
+    </script>
+
 </body>
 
 </html>

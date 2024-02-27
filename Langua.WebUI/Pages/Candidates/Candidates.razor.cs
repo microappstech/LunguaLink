@@ -5,7 +5,7 @@ using Langua.WebUI.Pages.Components;
 //using static Langua.WebUI.Pages.Components.LanguaGrid<dynamic>;
 
 
-namespace Langua.WebUI.Pages
+namespace Langua.WebUI.Pages.Candidates
 {
 
     public partial class Candidates //: BasePage
@@ -25,15 +25,15 @@ namespace Langua.WebUI.Pages
         protected override async Task OnInitializedAsync()
         {
             columns = new List<GridColumn<Candidat>> {
-                new GridColumn<Candidat> { Header = "Full Name" , Template = people => people.FullName },
-                new GridColumn<Candidat> { Header = "Email" , Template = people=>people.Email },
-                new GridColumn<Candidat> { Header = "Phone" , Template = people => people.Phone  },
-                new GridColumn<Candidat> { Header = "Creation Date" , Template = people=>people.CreatedAt }
+                new GridColumn<Candidat> { Header = "Full Name" , Template = people => people.FullName, Property="FullName" },
+                new GridColumn<Candidat> { Header = "Email" , Template = people=>people.Email , Property="Email"},
+                new GridColumn<Candidat> { Header = "Phone" , Template = people => people.Phone , Property="Phone" },
+                new GridColumn<Candidat> { Header = "Creation Date" , Template = people=>people.CreatedAt , Property = "CreatedAt"}
                 };
         }
     }
 
-    
-    
+
+
 
 }
