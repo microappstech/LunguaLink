@@ -1,7 +1,27 @@
-﻿@page "/Candidates"
+﻿@* @page "/Candidates" *@
+@page "/"
 @layout SideMainLayout
 @using Langua.Models;
-
+@inject Microsoft.Extensions.Localization.IStringLocalizer<BasePage> L
 <h3>Candidates</h3>
 
-<LanguaGrid Columns="@columns" Items="@people" TItem="Candidat" />
+@* <LanguaGrid Columns="@columns" Items="@people" TItem="Candidat" /> *@
+<RadzenContent>
+    <RadzenDataGrid Data="people" TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
+        <Columns>
+            <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Candidat" />
+            <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Candidat" />
+            <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Candidat" />
+            <RadzenDataGridColumn Property="Subject" Title="@L["Subject"]" TItem="Candidat" />
+
+            <RadzenDataGridColumn TItem="Candidat">
+                <Template Context="ConCandidate">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConCandidate))" @onclick:stopPropagation="true" class="mr-2" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConCandidate))" @onclick:stopPropagation="true" />
+
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+
+    </RadzenDataGrid>
+</RadzenContent>
