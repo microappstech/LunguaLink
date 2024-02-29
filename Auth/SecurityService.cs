@@ -37,7 +37,7 @@ namespace Langua.Auth
                     $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor.");
             }
         }
-        public async Task RegisterUser(ApplicationUser ApplicationUser)
+        public async Task<ApplicationUser> RegisterUser(ApplicationUser ApplicationUser)
         {
             var user = CreateUser();
 
@@ -49,17 +49,18 @@ namespace Langua.Auth
             if (!result.Succeeded)
             {
                 identityErrors = result.Errors;
-                return;
+                return null;
             }
 
             Ilogger.LogInformation($"User created a new account with password. on : {DateTime.Now}");
 
             var userId = await _userManager.GetUserIdAsync(user);
+            #region Cancel
             //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             //var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-                //NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-                //new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
+            //NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
+            //new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
 
             //await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
 
@@ -69,12 +70,12 @@ namespace Langua.Auth
             //        "Account/RegisterConfirmation",
             //        new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
             //}
-
+            #endregion Cancel
             await _signInManager.SignInAsync(user, isPersistent: false);
-            RedirectTo(ReturnUrl);
+            return await Task.FromResult(user);
         }
 
-        public async Task Login(Langua.ModelView.InputModels.LoginInput Input)
+        public async Task Login(ModelView.InputModels.LoginInput Input)
         {
             var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)

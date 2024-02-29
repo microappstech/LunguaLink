@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Langua.Auth")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3861c29686230e2fb0605325a2e531cc4adcca09")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+024619330003561f251612a25e721f860d094fa5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Langua.Auth")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Langua.Auth")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

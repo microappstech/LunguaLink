@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Radzen;
 using Langua.Repositories.Interfaces;
 using Langua.Repositories.Services;
+using Langua.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,7 @@ builder.Services.AddRazorComponents()
 
 //builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddRadzenComponents();
-
+builder.Services.AddScoped<SecurityService>();
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;

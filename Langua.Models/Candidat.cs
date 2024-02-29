@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,11 +12,19 @@ namespace Langua.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         public string FullName { get; set; }
         public string UserId { get; set; }
+        [Required]
         public string Photo { get; set; }
+        [Required]
         public string Phone { get; set; }
+        [Required]
         public string Email { get; set; }
+        
+        [Required]
+        [DataType(DataType.Password)]
+        [NotMapped] public string Password { get; set; }
         public Subject Subject { get; set; }
         public int SubjectId { get; set; }
         public DateTime CreatedAt { get; set; }
