@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Repositories", "Lang
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Shared", "Langua.Shared\Langua.Shared.csproj", "{E4BA7646-A138-4F96-A289-D4EE6D71887C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Auth", "Auth\Langua.Auth.csproj", "{779BBBB1-6333-46DB-82F7-B9F7EA4814D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.ModelView", "Langua.ModelView\Langua.ModelView.csproj", "{A6B9BC6C-9704-4146-963D-20E0B3FB7CCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{E4BA7646-A138-4F96-A289-D4EE6D71887C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4BA7646-A138-4F96-A289-D4EE6D71887C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4BA7646-A138-4F96-A289-D4EE6D71887C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{779BBBB1-6333-46DB-82F7-B9F7EA4814D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{779BBBB1-6333-46DB-82F7-B9F7EA4814D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{779BBBB1-6333-46DB-82F7-B9F7EA4814D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{779BBBB1-6333-46DB-82F7-B9F7EA4814D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B9BC6C-9704-4146-963D-20E0B3FB7CCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B9BC6C-9704-4146-963D-20E0B3FB7CCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B9BC6C-9704-4146-963D-20E0B3FB7CCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B9BC6C-9704-4146-963D-20E0B3FB7CCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

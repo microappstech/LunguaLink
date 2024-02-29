@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
+using Langua.Repositories.Interfaces;
+using Langua.Repositories.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,10 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 builder.Services.AddLocalization();
+builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
 //builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddRadzenComponents();
 
@@ -58,7 +64,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+
     app.UseHsts();
 }
 
@@ -70,7 +76,7 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-// Add additional endpoints required by the Identity /Account Razor components.
+
 app.MapAdditionalIdentityEndpoints();
 
 app.Run();

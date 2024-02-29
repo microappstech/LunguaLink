@@ -1,5 +1,6 @@
 ﻿using Langua.DataContext.Data;
 using Langua.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Langua.Repositories.Services
 {
-    public class BaseRepository<T> : IRepositoryBase<T> where T : class
+    public class BaseRepositoryCrud<T> : IRepositoryCrudBase<T> where T : class
     {
         private readonly LanguaContext _context;
-        public BaseRepository(LanguaContext context)
+        public BaseRepositoryCrud(LanguaContext context)
         {
-            this._context = context;
+            _context = context;
         }
         public T Add(T entity)
         {
@@ -31,22 +32,40 @@ namespace Langua.Repositories.Services
 
         public bool Delete(T entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Set<T>().Remove(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().ToList();
         }
 
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Find(id);
         }
 
         public bool Update(T entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Entry(entity).State = EntityState.Modified;
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

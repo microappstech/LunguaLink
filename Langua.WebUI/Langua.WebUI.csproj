@@ -19,7 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Auth\Langua.Auth.csproj" />
     <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
+    <ProjectReference Include="..\Langua.Repositories\Langua.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

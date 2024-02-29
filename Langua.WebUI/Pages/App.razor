@@ -15,8 +15,9 @@
 
 <body>
     <Routes @rendermode="RenderMode.InteractiveServer" />
-    <script src="_framework/blazor.web.js"></script>
 
+    <RadzenDialog @rendermode="@RenderMode.InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
 
     <script>
         function GetElement(id) {
@@ -26,6 +27,7 @@
             return element;
         }
     </script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
 
 </body>
 
