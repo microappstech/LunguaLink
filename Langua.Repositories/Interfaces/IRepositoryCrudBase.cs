@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Langua.Shared.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ namespace Langua.Repositories.Interfaces
 {
     public interface IRepositoryCrudBase<T> where T : class
     {
-        T GetById(int id);
-        T Add(T entity);
-        bool Update(T entity);
-        bool Delete(T entity);
-        IEnumerable<T> GetAll();
+        Result<T> GetById(int id);
+        Result<T> Add(T entity);
+        Result<T> Update(T entity);
+        Result<T> Delete(T entity);
+        Result<IEnumerable<T>> GetAll();
 
     }
 }

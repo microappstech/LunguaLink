@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
     <ProjectReference Include="..\Langua.Models\Langua.Models.csproj" />
+    <ProjectReference Include="..\Langua.Shared\Langua.Shared.csproj" />
   </ItemGroup>
 
 </Project>

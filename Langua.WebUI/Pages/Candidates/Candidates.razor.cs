@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using Langua.DataContext.Data;
 using Langua.Models;
+using Langua.Repositories.Interfaces;
 using Langua.Repositories.Services;
 using Langua.WebUI.Pages.Components;
 using Microsoft.AspNetCore.Components;
@@ -18,7 +19,7 @@ namespace Langua.WebUI.Pages.Candidates
     {
         public IEnumerable<Candidat> candidates { get; set; }
 
-
+        [Inject] private IRepositoryCrudBase<Candidat> baseRepository { get; set; }
         protected override Task OnInitializedAsync()
         {
             candidates = baseRepository.GetAll();

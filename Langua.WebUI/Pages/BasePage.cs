@@ -16,7 +16,7 @@ namespace Langua.WebUI.Pages
         [Inject]public NotificationService notificationService { get; set; }
         [Inject] public IStringLocalizer<BasePage> L { get; set; }
         [Inject] protected SecurityService Security { get; set; }
-        [Inject] protected IRepositoryCrudBase<Candidat> baseRepository { get; set; }
+        
         public virtual async Task<bool?> Confirm(string title, string message , ConfirmOptions confirmOptions = null)
         {
             if(confirmOptions is null)

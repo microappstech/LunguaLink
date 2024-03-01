@@ -1,0 +1,37 @@
+﻿@page "/Subjects"
+@layout SideMainLayout
+@using Langua.Models;
+<h3>Subjects</h3>
+
+<div class="row">
+    <div class="col-md-10"></div>
+    <div class="col-md-2 ">
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="px-5" Text="@L["Add"]"></RadzenButton>
+    </div>
+
+</div>
+<RadzenContent>
+    <RadzenDataGrid Data="subjects" TItem="Subject" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" >
+        <Columns>
+            <RadzenDataGridColumn Property="Photo" Title="@L["Photo"]" TItem="Subject">
+                <Template Context="SubContext">
+                    <div>
+                        <img src="@SubContext.Photo" width="50"/>
+                        <span>@SubContext.Name</span>
+                    </div>
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn Property="Description" Title="@L["Description"]" TItem="Subject" />
+            <RadzenDataGridColumn TItem="Subject">
+                <Template Context="SubContext">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(SubContext))"  class="mr-2" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(SubContext))" />
+
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+
+    </RadzenDataGrid>
+</RadzenContent>
+
+

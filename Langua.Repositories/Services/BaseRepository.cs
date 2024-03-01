@@ -1,5 +1,6 @@
 ﻿using Langua.DataContext.Data;
 using Langua.Repositories.Interfaces;
+using Langua.Shared.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,13 @@ namespace Langua.Repositories.Services
         {
             _context = context;
         }
-        public T Add(T entity)
+        public Result<T> Add(T entity)
         {
             try
             {
                 _context.Set<T>().Add(entity);
                 _context.SaveChanges();
-                return entity;
+                return new Result<T>(true,entity);
             }
             catch
             {
@@ -30,41 +31,43 @@ namespace Langua.Repositories.Services
             }
         }
 
-        public bool Delete(T entity)
+        public Result<T> Delete(T entity)
         {
             try
             {
                 _context.Set<T>().Remove(entity);
                 _context.SaveChanges();
-                return true;
+                return new Result<T>(true);
             }
-            catch
+            catch(Exception ex)
             {
-                return false;
+                return new Result<T>(false,Error:ex.Message);
             }
         }
 
-        public IEnumerable<T> GetAll()
+        public Result<IEnumerable<T>> GetAll()
         {
-            return _context.Set<T>().ToList();
+            IEnumerable<T> result = _context.Set<T>().ToList();
+            return new Result<IEnumerable<T>>(true, result);
         }
 
-        public T GetById(int id)
+        public Result<T> GetById(int id)
         {
-            return _context.Set<T>().Find(id);
+            T result = _context.Set<T>().Find(id);
+            return new Result<T>(true, result);
         }
 
-        public bool Update(T entity)
+        public Result<T> Update(T entity)
         {
             try
             {
                 _context.Entry(entity).State = EntityState.Modified;
                 _context.SaveChanges();
-                return true;
+                return new Result<T>(true, entity);
             }
-            catch
+            catch(Exception ex)
             {
-                return false;
+                return new Result<T>(true, entity, Error: ex.Message); ;
             }
         }
     }
