@@ -24,13 +24,14 @@ builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseReposito
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-//builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
 builder.Services.AddRadzenComponents();
 builder.Services.AddScoped<SecurityService>();
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+        options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
     })
     .AddIdentityCookies();
 
@@ -47,7 +48,7 @@ builder.Services.AddDbContext<LanguaContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()

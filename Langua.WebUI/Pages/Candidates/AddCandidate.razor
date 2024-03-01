@@ -11,7 +11,7 @@
         <div class="row">
             <div class="form-group mb-1 col-md-6">
                 <label for="Photo">@L["Photo"] :</label>
-                <InputFile id="Photo" @bind-Value="candidate.Photo" class="form-control" />
+                <InputFile id="Photo" OnChange="@loadImage" class="form-control" />
             </div>
             <div class="col-md-5">
                 <img src="" />
@@ -43,8 +43,8 @@
             </div>
 
             <div class="form-group mb-1 col-md-6">
-                <label for="CreatedAt">Created At:</label>
-                <InputText id="CreatedAt" @bind-Value="candidate.Password" class="form-control" />
+                <label for="CreatedAt">Password:</label>
+                <InputText  id="CreatedAt" @bind-Value="candidate.Password" class="form-control" />
             </div>
         </div>
         <div class="mx-auto mt-2 text-center">

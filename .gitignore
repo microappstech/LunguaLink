@@ -30,3 +30,4 @@
 /Langua.WebUI/wwwroot/bootstrap
 /Auth/bin
 /Auth/obj
+/Auth/obj/Debug/net8.0/Langua.Auth.AssemblyInfoInputs.cache

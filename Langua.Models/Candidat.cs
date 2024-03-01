@@ -22,9 +22,10 @@ namespace Langua.Models
         [Required]
         public string Email { get; set; }
         
-        [Required]
+        [Required] 
+        [NotMapped] 
         [DataType(DataType.Password)]
-        [NotMapped] public string Password { get; set; }
+        public string Password { get; set; }
         public Subject Subject { get; set; }
         public int SubjectId { get; set; }
         public DateTime CreatedAt { get; set; }

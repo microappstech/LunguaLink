@@ -40,7 +40,11 @@ namespace Langua.Auth
         public async Task<ApplicationUser> RegisterUser(ApplicationUser ApplicationUser)
         {
             var user = CreateUser();
-
+            user.Email = ApplicationUser.Email;
+            user.UserName = ApplicationUser.Email;
+            user.Password = ApplicationUser.Password;
+            user.NormalizedUserName = ApplicationUser.NormalizedUserName;
+            user.PhoneNumber = ApplicationUser.PhoneNumber;
             //await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
             //var emailStore = GetEmailStore();
             //await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -54,7 +58,7 @@ namespace Langua.Auth
 
             Ilogger.LogInformation($"User created a new account with password. on : {DateTime.Now}");
 
-            var userId = await _userManager.GetUserIdAsync(user);
+            //var userId = await _userManager.GetUserIdAsync(user);
             #region Cancel
             //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -71,7 +75,6 @@ namespace Langua.Auth
             //        new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
             //}
             #endregion Cancel
-            await _signInManager.SignInAsync(user, isPersistent: false);
             return await Task.FromResult(user);
         }
 

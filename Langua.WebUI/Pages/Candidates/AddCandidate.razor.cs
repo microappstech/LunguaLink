@@ -3,6 +3,7 @@ using Langua.Models;
 using Langua.Repositories.Interfaces;
 using Langua.WebUI.Pages.Account.Pages.Manage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Langua.WebUI.Pages.Candidates
 {
@@ -39,6 +40,16 @@ namespace Langua.WebUI.Pages.Candidates
         public void Close()
         {
             dialogService.Close(null);
+        }
+        public async void loadImage(InputFileChangeEventArgs args)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            await args.File.OpenReadStream().CopyToAsync(memoryStream);
+            byte[] bytes = memoryStream.ToArray();
+            string base64 = Convert.ToBase64String(bytes);
+            
+            candidate.Photo = "data:image/png;base64," + base64;
+
         }
     }
 }
