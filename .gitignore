@@ -28,3 +28,5 @@
 /Langua.Repositories/obj
 /Langua.Repositories/bin/Debug/net8.0
 /Langua.WebUI/wwwroot/bootstrap
+/Auth/bin
+/Auth/obj
