@@ -4,24 +4,31 @@ using Langua.Repositories.Interfaces;
 using Langua.WebUI.Pages.Account.Pages.Manage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Radzen;
+using System.Transactions;
 
 namespace Langua.WebUI.Pages.Candidates
 {
     public partial class AddCandidateComponent : BasePage
     {
         [Inject] private IRepositoryCrudBase<Candidat> _repository { get; set; }
-        
-        protected Candidat candidate { get; set; }
+        [Inject] private IRepositoryCrudBase<Subject> _repositorySubjects { get; set; }
 
+        protected Candidat candidate { get; set; }
+        public IEnumerable<Subject> subjects { get; set; }
+        public bool DataReady { get; set; }
         protected override async Task OnInitializedAsync()
         {
             candidate = new Candidat();
+            var SubjectResult = _repositorySubjects.GetAll();
+            if (SubjectResult.Succeeded)
+            {
+                subjects = SubjectResult.Value;
+            }
             
         }
         protected async Task HandleValidSubmit()
         {
-            string Pass = candidate.Email.Substring(0, candidate.Email.IndexOf("@"));
-            Pass = Pass.Length < 4 ? $"User_{DateTime.Now.Day}_{DateTime.Now.Month}_{DateTime.Now.Second}_{DateTime.Now.Microsecond}!" : "";
             ApplicationUser _user = new ApplicationUser()
             {
                 Email = candidate.Email,
@@ -30,11 +37,23 @@ namespace Langua.WebUI.Pages.Candidates
                 NormalizedUserName = candidate.FullName,
                 PhoneNumber = candidate.FullName
             };
-            var user = await Security.RegisterUser(_user);
-            if (user is not null)
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                candidate.UserId = user.Id;
-                var result = _repository.Add(candidate);
+
+                var user = await Security.RegisterUser(_user);
+                if (user is not null)
+                {
+                    candidate.UserId = user.Id;
+                    var result = _repository.Add(candidate);
+                    if (result.Succeeded)
+                    {
+                        notificationService.Notify(NotificationSeverity.Success, "Creation Successful Completed");
+                        StateHasChanged();
+                        dialogService.Close(null);
+                    }
+                }
+                scope.Complete();
+                
             }
         }
         public void Close()

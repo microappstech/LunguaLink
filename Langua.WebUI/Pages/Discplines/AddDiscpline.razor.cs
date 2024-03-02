@@ -12,8 +12,8 @@ namespace Langua.WebUI.Pages.Discplines
         protected Subject subject {  get; set; }
         [Inject] private IRepositoryCrudBase<Subject> _repository {  get; set; }
 
-
-        public async Task HandleValidSubmit(Subject subject)
+        public string srcImage { get; set; }
+        public async Task HandleValidSubmit()
         {
             var result = _repository.Add(subject);
             if (result.Succeeded)
@@ -22,13 +22,14 @@ namespace Langua.WebUI.Pages.Discplines
                 StateHasChanged();
                 dialogService.Close();
             }
+            await Task.CompletedTask;
         }
         protected override Task OnInitializedAsync()
         {
             subject = new Subject();
             return base.OnInitializedAsync();
         }
-        public async void loadImage(InputFileChangeEventArgs args)
+        public async Task loadImage(InputFileChangeEventArgs args)
         {
             MemoryStream memoryStream = new MemoryStream();
             await args.File.OpenReadStream().CopyToAsync(memoryStream);
@@ -36,7 +37,8 @@ namespace Langua.WebUI.Pages.Discplines
             string base64 = Convert.ToBase64String(bytes);
 
             subject.Photo = "data:image/png;base64," + base64;
-
+            srcImage = "data:image/png;base64," + base64;
+            await Task.CompletedTask;
         }
 
     }

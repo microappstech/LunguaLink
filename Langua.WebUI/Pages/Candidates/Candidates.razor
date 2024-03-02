@@ -8,14 +8,21 @@
 <div class="row">
     <div class="col-md-10"></div>
     <div class="col-md-2 ">
-        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="px-5" Text="@L["Add"]"></RadzenButton>
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="px-5" Text="@L["Add New Candidate"]"></RadzenButton>
     </div>
 
 </div>
 <RadzenContent>
     <RadzenDataGrid Data="candidates" TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
         <Columns>
-            <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Candidat" />
+            <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Candidat" >
+                <Template Context="CanContext">
+                    <div>
+                        <img src="@CanContext.Photo" width="50" />
+                        <span>@CanContext.FullName</span>
+                    </div>
+                </Template>
+            </RadzenDataGridColumn>
             <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Candidat" />
             <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Candidat" />
             <RadzenDataGridColumn Property="Subject" Title="@L["Subject"]" TItem="Candidat" />

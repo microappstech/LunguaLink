@@ -21,7 +21,7 @@ namespace Langua.WebUI.Pages
         {
             if(confirmOptions is null)
             {
-                confirmOptions = new ConfirmOptions { Width = "400px" };
+                confirmOptions = new ConfirmOptions { Width = "400px" , OkButtonText = L["Confirm"], CancelButtonText = L["Cancel"] };
             }
            return await dialogService.Confirm(message,title,confirmOptions);
         }

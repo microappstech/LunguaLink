@@ -22,7 +22,8 @@ namespace Langua.WebUI.Pages.Candidates
         [Inject] private IRepositoryCrudBase<Candidat> baseRepository { get; set; }
         protected override Task OnInitializedAsync()
         {
-            candidates = baseRepository.GetAll();
+            var candidatesResult = baseRepository.GetAll();
+            candidates = candidatesResult.Value;
             return base.OnInitializedAsync();
         }
         public async Task Delete(Candidat candidat)
@@ -30,14 +31,17 @@ namespace Langua.WebUI.Pages.Candidates
             if (await Confirm(L["Confirmation"], L["Are you sure want to delete this candidate"]) == true)
             {
 
+                var resultDelete = baseRepository.Delete(candidat);
+                if (resultDelete.Succeeded)
+                {
+                    Notify("Success", "Suppression successfully finished",NotificationSeverity.Success);
+                    dialogService.Close();
+                }
 
-
-                Notify("Success", "Suppression successfully finished");
             }
         }
         public async Task Edit(Candidat candidat)
         {
-            //var dialogResult = await DialogService.OpenAsync<EditContenu>("Editer la ressource", new Dictionary<string, object>() { { "id", args.Data.id } }, new DialogOptions() { Width = "850px", ShowClose = true });
         }
         public async Task Add()
         {
