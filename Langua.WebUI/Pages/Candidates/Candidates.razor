@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-md-10"></div>
     <div class="col-md-2 ">
-        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="px-5" Text="@L["Add New Candidate"]"></RadzenButton>
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="text-sm" Text="@L["Add New Candidate"]"></RadzenButton>
     </div>
 
 </div>
@@ -25,9 +25,9 @@
             </RadzenDataGridColumn>
             <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Candidat" />
             <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Candidat" />
-            <RadzenDataGridColumn Property="Subject" Title="@L["Subject"]" TItem="Candidat" />
+            <RadzenDataGridColumn Property="Subject." Title="@L["Subject"]" TItem="Candidat" />
 
-            <RadzenDataGridColumn TItem="Candidat">
+            <RadzenDataGridColumn TItem="Candidat" Width="140px">
                 <Template Context="ConCandidate">
                     <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConCandidate))" @onclick:stopPropagation="true" class="mr-2" />
                     <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConCandidate))" @onclick:stopPropagation="true" />

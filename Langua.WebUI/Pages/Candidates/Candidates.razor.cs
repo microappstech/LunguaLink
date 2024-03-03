@@ -42,6 +42,8 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task Edit(Candidat candidat)
         {
+            var result = await dialogService.OpenAsync<EditCandidate>("Edit Componenet", new Dictionary<string, object> { { "Id", candidat.Id } });
+            await InvokeAsync(StateHasChanged);
         }
         public async Task Add()
         {

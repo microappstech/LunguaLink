@@ -1,7 +1,7 @@
-﻿@page "/AddCandidate"
+﻿@page "/EditCandidate"
 @using Langua.Models
-@inherits AddCandidateComponent
-<PageTitle>Add Candidate</PageTitle>
+@inherits EditCandidateComponent
+<PageTitle>Edit Candidate</PageTitle>
 <div class="px-2">
 
     <EditForm Model="@candidate" OnValidSubmit="@HandleValidSubmit">
@@ -33,27 +33,14 @@
             <label for="Email">@L["Email"] :</label>
             <InputText id="Email" @bind-Value="candidate.Email" class="form-control" />
         </div>
-
-        <div class="row">
-            <div class="form-group mb-1 col-md-6">
-                <label for="SubjectId">@L["Subject"] :</label>
-                <InputSelect id="SubjectId" TValue="int"  @bind-Value="candidate.SubjectId" class="form-control">
-                    @if(subjects is null)
-                    {
-                        <option value="">None</option>
-                    }
-                    @foreach (Subject subject in subjects)
-                    {
-                        <option value="@subject.Id">@subject.Name (ID: @subject.Id)</option>
-                    }
-                </InputSelect>
-            </div>
-
+        @if (Changepass)
+        {
             <div class="form-group mb-1 col-md-6">
                 <label for="CreatedAt">Password:</label>
                 <InputText id="CreatedAt" @bind-Value="candidate.Password" class="form-control" />
             </div>
-        </div>
+        }
+
         <div class="mx-auto mt-2 text-center">
             <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
             <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>

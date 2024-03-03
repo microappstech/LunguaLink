@@ -1,41 +1,40 @@
-using Langua.DataContext.Data;
 using Langua.Models;
-using Langua.Repositories.Interfaces;
-using Langua.WebUI.Pages.Account.Pages.Manage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Langua.Repositories.Interfaces;
+using Langua.DataContext.Data;
 using Radzen;
 using System.Transactions;
 
-namespace Langua.WebUI.Pages.Candidates
+namespace Langua.WebUI.Pages.Teachers
 {
-    public partial class AddCandidateComponent : BasePage
+    public partial class AddTeacherComonent:BasePage
     {
-        [Inject] private IRepositoryCrudBase<Candidat> _repository { get; set; }
+        [Inject] private IRepositoryCrudBase<Teacher> _repository { get; set; }
         [Inject] private IRepositoryCrudBase<Subject> _repositorySubjects { get; set; }
 
-        protected Candidat candidate { get; set; }
+        protected Teacher teacher { get; set; }
         public IEnumerable<Subject> subjects { get; set; }
         public bool DataReady { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            candidate = new Candidat();
+            teacher = new Teacher();
             var SubjectResult = _repositorySubjects.GetAll();
             if (SubjectResult.Succeeded)
             {
                 subjects = SubjectResult.Value;
             }
-            
+
         }
         protected async Task HandleValidSubmit()
         {
             ApplicationUser _user = new ApplicationUser()
             {
-                Email = candidate.Email,
-                UserName = candidate.Email,
-                Password = candidate.Password,
-                NormalizedUserName = candidate.FullName,
-                PhoneNumber = candidate.Phone,
+                Email = teacher.Email,
+                UserName = teacher.Email,
+                Password = teacher.Password,
+                NormalizedUserName = teacher.FullName,
+                PhoneNumber = teacher.Phone
             };
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -43,17 +42,21 @@ namespace Langua.WebUI.Pages.Candidates
                 var user = await Security.RegisterUser(_user);
                 if (user is not null)
                 {
-                    candidate.UserId = user.Id;
-                    var result = _repository.Add(candidate);
+                    teacher.UserId = user.Id;
+                    var result = _repository.Add(teacher);
                     if (result.Succeeded)
                     {
-                        notificationService.Notify(NotificationSeverity.Success, "Creation Successful Completed");
+                        Notify("Success", "Creation Successful Completed", NotificationSeverity.Success);
                         StateHasChanged();
                         dialogService.Close(null);
+                        scope.Complete();
+                    }
+                    else
+                    {
+                        Notify("Failed", "Something Wrong", NotificationSeverity.Error);
                     }
                 }
-                scope.Complete();
-                
+
             }
         }
         public void Close()
@@ -66,8 +69,8 @@ namespace Langua.WebUI.Pages.Candidates
             await args.File.OpenReadStream().CopyToAsync(memoryStream);
             byte[] bytes = memoryStream.ToArray();
             string base64 = Convert.ToBase64String(bytes);
-            
-            candidate.Photo = "data:image/png;base64," + base64;
+
+            teacher.Photo = "data:image/png;base64," + base64;
 
         }
     }

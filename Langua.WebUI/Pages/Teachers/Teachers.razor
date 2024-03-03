@@ -1,0 +1,39 @@
+﻿@page "/Teachers"
+@layout SideMainLayout
+@using Langua.Models;
+@inherits TeachersComponent
+<h3> Teachers</h3>
+
+<div class= "row" >
+    <div class= "col-md-10" ></div>
+    <div class= "col-md-2 " >
+        <RadzenButton ButtonStyle = "ButtonStyle.Primary" Click = "@(()=>Add())" Icon = "add" class= "px-5" Text = "@L["Add New Teacher"]"></RadzenButton>
+    </div>
+
+</div>
+<RadzenContent>
+    <RadzenDataGrid Data="teachers" TItem="Teacher" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
+        <Columns>
+            <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Teacher" >
+                <Template Context="CanContext">
+                    <div>
+                        <img src="@CanContext.Photo" width="50" />
+                        <span>@CanContext.FullName</span>
+                    </div>
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Teacher" />
+            <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Teacher" />
+
+            <RadzenDataGridColumn TItem="Teacher">
+                <Template Context="ConTeacher">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConTeacher))" class="mr-2" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConTeacher))" />
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+
+    </RadzenDataGrid>
+</RadzenContent>
+
+                
