@@ -31,3 +31,6 @@
 /Auth/bin
 /Auth/obj
 /Auth/obj/Debug/net8.0/Langua.Auth.AssemblyInfoInputs.cache
+/Langua.ModelView/obj/Debug/net8.0
+/Langua.ModelView/obj
+/Langua.ModelView/bin/Debug/net8.0
