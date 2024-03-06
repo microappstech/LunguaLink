@@ -13,7 +13,7 @@ namespace Langua.Repositories.Interfaces
         Result<T> Add(T entity);
         Result<T> Update(T entity);
         Result<T> Delete(T entity);
-        Result<IEnumerable<T>> GetAll();
+        Result<IQueryable<T>> GetAll();
 
     }
 }

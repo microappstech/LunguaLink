@@ -8,6 +8,7 @@ using Langua.Repositories.Services;
 using Langua.WebUI.Pages.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Primitives;
 using Radzen;
 //using static Langua.WebUI.Pages.Components.LanguaGrid<dynamic>;
 
@@ -22,7 +23,16 @@ namespace Langua.WebUI.Pages.Candidates
         [Inject] private IRepositoryCrudBase<Candidat> baseRepository { get; set; }
         protected override Task OnInitializedAsync()
         {
+
             var candidatesResult = baseRepository.GetAll();
+            var rr = candidatesResult.Value;
+
+            Dictionary<string, StringValues> queryParams = new Dictionary<string, StringValues>
+            {
+                { "include", new StringValues("Subjects") }
+            };
+            IQueryCollection queryCollection = new QueryCollection(queryParams);
+            var r = baseService.Apply(rr, queryCollection);
             candidates = candidatesResult.Value;
             return base.OnInitializedAsync();
         }

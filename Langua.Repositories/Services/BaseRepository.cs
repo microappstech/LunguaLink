@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Langua.Repositories.Services
 {
-    public class BaseRepositoryCrud<T> : IRepositoryCrudBase<T> where T : class
+    public class BaseRepositoryCrud<T> :  IRepositoryCrudBase<T> where T : class
     {
         private readonly LanguaContext _context;
         public BaseRepositoryCrud(LanguaContext context)
@@ -45,10 +45,10 @@ namespace Langua.Repositories.Services
             }
         }
 
-        public Result<IEnumerable<T>> GetAll()
+        public Result<IQueryable<T>> GetAll()
         {
-            IEnumerable<T> result = _context.Set<T>().ToList();
-            return new Result<IEnumerable<T>>(true, result);
+            IQueryable<T> result = _context.Set<T>().AsQueryable();
+            return new Result<IQueryable<T>>(true, result);
         }
 
         public Result<T> GetById(int id)

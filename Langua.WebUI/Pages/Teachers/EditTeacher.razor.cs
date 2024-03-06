@@ -15,12 +15,14 @@ namespace Langua.WebUI.Pages.Teachers
         public Teacher teacher { get; set; }
         public bool ChangePass { get; set; }
         [Inject] private IRepositoryCrudBase<Teacher> _repository { get; set; }
+        
         protected override Task OnInitializedAsync()
         {
             var TResult = _repository.GetById(Convert.ToInt32(Id));
             if (TResult.Succeeded)
             {
                 teacher = TResult.Value;
+
             }
             return base.OnInitializedAsync();
         }
