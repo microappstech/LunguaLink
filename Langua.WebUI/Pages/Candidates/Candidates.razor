@@ -6,8 +6,8 @@
 
 @* <LanguaGrid Columns="@columns" Items="@people" TItem="Candidat" /> *@
 <div class="row">
-    <div class="col-md-10"></div>
-    <div class="col-md-2 ">
+    <div class="col-md-9"></div>
+    <div class="col-md-3 ">
         <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="text-sm" Text="@L["Add New Candidate"]"></RadzenButton>
     </div>
 
@@ -25,7 +25,7 @@
             </RadzenDataGridColumn>
             <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Candidat" />
             <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Candidat" />
-            <RadzenDataGridColumn Property="Subject." Title="@L["Subject"]" TItem="Candidat" />
+            <RadzenDataGridColumn Property="Subject.Name" Title="@L["Subject"]" TItem="Candidat" />
 
             <RadzenDataGridColumn TItem="Candidat" Width="140px">
                 <Template Context="ConCandidate">

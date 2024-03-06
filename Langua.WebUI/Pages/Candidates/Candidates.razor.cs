@@ -25,15 +25,14 @@ namespace Langua.WebUI.Pages.Candidates
         {
 
             var candidatesResult = baseRepository.GetAll();
-            var rr = candidatesResult.Value;
+            
+            IQueryCollection queryCollection = 
+                new QueryCollection(
+                    new Dictionary<string, StringValues> { { "include", new StringValues("Subject") } }
+                    );
 
-            Dictionary<string, StringValues> queryParams = new Dictionary<string, StringValues>
-            {
-                { "include", new StringValues("Subjects") }
-            };
-            IQueryCollection queryCollection = new QueryCollection(queryParams);
-            var r = baseService.Apply(rr, queryCollection);
-            candidates = candidatesResult.Value;
+            baseService.Apply(candidatesResult.Value, queryCollection);
+            candidates = (IEnumerable<Candidat>)baseService.Apply(candidatesResult.Value, queryCollection);
             return base.OnInitializedAsync();
         }
         public async Task Delete(Candidat candidat)

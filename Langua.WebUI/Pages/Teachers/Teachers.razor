@@ -5,9 +5,9 @@
 <h3> Teachers</h3>
 
 <div class= "row" >
-    <div class= "col-md-10" ></div>
-    <div class= "col-md-2 " >
-        <RadzenButton ButtonStyle = "ButtonStyle.Primary" Click = "@(()=>Add())" Icon = "add" class= "px-5" Text = "@L["Add New Teacher"]"></RadzenButton>
+    <div class= "col-md-9" ></div>
+    <div class= "col-md-3 " >
+        <RadzenButton ButtonStyle = "ButtonStyle.Primary" Click = "@(()=>Add())" Icon="add"  Text = "@L["Add New Teacher"]"></RadzenButton>
     </div>
 
 </div>
@@ -25,7 +25,7 @@
             <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Teacher" />
             <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Teacher" />
 
-            <RadzenDataGridColumn TItem="Teacher">
+            <RadzenDataGridColumn TItem="Teacher" Width="120px">
                 <Template Context="ConTeacher">
                     <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConTeacher))" class="mr-2" />
                     <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConTeacher))" />

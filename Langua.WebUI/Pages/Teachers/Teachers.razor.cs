@@ -2,6 +2,7 @@ using Langua.Models;
 using Langua.Repositories.Interfaces;
 using Langua.WebUI.Pages.Teachers;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Primitives;
 using Radzen;
 
 namespace Langua.WebUI.Pages.Teachers
@@ -13,7 +14,12 @@ namespace Langua.WebUI.Pages.Teachers
         protected override Task OnInitializedAsync()
         {
             var TeachersResult = baseRepository.GetAll();
-            teachers = TeachersResult.Value;
+
+            //teachers = baseService.Apply(TeachersResult.Value, new Dictionary<string , StringValues> { { "In",new StringValues("") } });
+            if (TeachersResult.Succeeded)
+            {
+                teachers = TeachersResult.Value;
+            }
             return base.OnInitializedAsync();
         }
         public async Task Delete(Teacher teacher)
