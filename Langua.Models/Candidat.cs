@@ -29,5 +29,8 @@ namespace Langua.Models
         public Subject Subject { get; set; }
         public int SubjectId { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool IsConnected { get; set; }
+        public List<MessageGroup> MessageGroups { get; set; }
+        
     }
 }

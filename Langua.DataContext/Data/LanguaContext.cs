@@ -29,5 +29,7 @@ namespace Langua.DataContext.Data
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<MessageGroup> MessageGroups { get; set; }
+        public DbSet<MessageUser> MessageUsers { get; set; }
     }
 }

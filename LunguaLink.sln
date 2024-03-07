@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Auth", "Auth\Langua.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.ModelView", "Langua.ModelView\Langua.ModelView.csproj", "{A6B9BC6C-9704-4146-963D-20E0B3FB7CCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Api", "Langua.Api\Langua.Api.csproj", "{0EB62F8E-DEF5-450F-8B05-CBA27E2B71D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{A6B9BC6C-9704-4146-963D-20E0B3FB7CCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6B9BC6C-9704-4146-963D-20E0B3FB7CCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6B9BC6C-9704-4146-963D-20E0B3FB7CCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EB62F8E-DEF5-450F-8B05-CBA27E2B71D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB62F8E-DEF5-450F-8B05-CBA27E2B71D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB62F8E-DEF5-450F-8B05-CBA27E2B71D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB62F8E-DEF5-450F-8B05-CBA27E2B71D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

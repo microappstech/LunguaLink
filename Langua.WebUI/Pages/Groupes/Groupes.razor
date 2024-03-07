@@ -1,0 +1,40 @@
+﻿@page "/Groups"
+@layout SideMainLayout
+@using Langua.Models;
+@inherits GroupsComponent
+<h3>Groups</h3>
+
+<div class="row">
+    <div class="col-md-9"></div>
+    <div class="col-md-3 ">
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="text-sm" Text="@L["Add New Group"]"></RadzenButton>
+    </div>
+
+</div>
+    <RadzenDataGrid @ref="@GroupGrid" Data="@Groups" TItem="Groups" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue"
+        ExpandMode="DataGridExpandMode.Single" > 
+        <Columns>
+           @*  <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Groups">
+                <Template Context="GroupContext">
+                    <div>
+                        <img src="@CanContext.Photo" width="50" />
+                        <span>@CanContext.FullName</span>
+                    </div>
+                </Template>
+            </RadzenDataGridColumn> *@
+            <RadzenDataGridColumn Property="Name" Title="@L["Name"]" TItem="Group" />
+            <RadzenDataGridColumn Property="Description" Title="@L["Description"]" TItem="Group" />
+            
+
+            <RadzenDataGridColumn TItem="Groups" Width="140px">
+                <Template Context="GroupContext">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(GroupContext))" @onclick:stopPropagation="true" class="mr-2" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(GroupContext))" @onclick:stopPropagation="true" />
+
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+
+    </RadzenDataGrid>
+
+
