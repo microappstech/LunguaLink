@@ -2,20 +2,28 @@ using Radzen;
 using Langua.Models;
 using Langua.WebUI.Pages.Candidates;
 using Radzen.Blazor;
+using Microsoft.AspNetCore.Components;
+using Langua.Repositories.Interfaces;
+using Microsoft.Extensions.Primitives;
 
 namespace Langua.WebUI.Pages.Groupes
 {
     public partial class GroupsComponent : BasePage
     {
         public RadzenDataGrid<Groups> GroupGrid;
+        public RadzenDataGrid<Candidat> candidatGroup;
+        [Inject] public IRepositoryCrudBase<Groups> repository { get; set; }
         public IEnumerable<Groups> Groups { get; set; }
+        public IEnumerable<Candidat> Candidats { get; set; }
         public void OnExpand(TreeExpandEventArgs args)
         {
 
         }
 
-        public void Add()
+        public async void Add()
         {
+            var result = dialogService.OpenAsync<AddGroup>("Create New Group");
+            await InvokeAsync(StateHasChanged);
             //var result = await dialogService.OpenAsync<AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw", ShowClose = true });
 
         }
@@ -41,12 +49,18 @@ namespace Langua.WebUI.Pages.Groupes
 
         protected override Task OnInitializedAsync()
         {
-            Groups = new List<Groups>()
+            var GResult = repository.GetAll();
+            if (GResult.Succeeded)
             {
-                new Groups { Name = "French Group", Description ="Frensh Group" },
-                new Groups { Name = "Anglais Group", Description ="Anglais Group" }
-            };
+                Groups = (IEnumerable<Groups>)baseService.Apply(GResult.Value, 
+                    new QueryCollection(new Dictionary<string, StringValues> { { "include", "GroupeMessages,Candidats" } })
+                    );
+            }
             return base.OnInitializedAsync();
+        }
+        public void RowRender(RowRenderEventArgs<Groups> args)
+        {
+         //   args.Expandable = args.Data.ShipCountry == "France" || args.Data.ShipCountry == "Brazil";
         }
     }
 }

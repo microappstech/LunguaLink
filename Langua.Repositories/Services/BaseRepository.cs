@@ -47,8 +47,14 @@ namespace Langua.Repositories.Services
 
         public Result<IQueryable<T>> GetAll()
         {
-            IQueryable<T> result = _context.Set<T>().AsQueryable();
-            return new Result<IQueryable<T>>(true, result);
+            try
+            {
+                IQueryable<T> result = _context.Set<T>().AsQueryable();
+                return new Result<IQueryable<T>>(true, result);
+            }catch(Exception ex)
+            {
+                return new Result<IQueryable<T>>(false, null);
+            }
         }
 
         public Result<T> GetById(int id)

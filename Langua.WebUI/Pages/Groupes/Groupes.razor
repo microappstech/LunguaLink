@@ -12,7 +12,39 @@
 
 </div>
     <RadzenDataGrid @ref="@GroupGrid" Data="@Groups" TItem="Groups" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue"
-        ExpandMode="DataGridExpandMode.Single" > 
+                RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single">
+    <Template Context="ContextGroup" >
+            <RadzenTabs>
+                <Tabs>
+                    <RadzenTabsItem>
+                    <RadzenDataGrid Data="@ContextGroup.Candidats" TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
+                            <Columns>
+                                <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Candidat" >
+                                    <Template Context="CanContext">
+                                        <div>
+                                            <img src="@CanContext.Photo" width="50" />
+                                            <span>@CanContext.FullName</span>
+                                        </div>
+                                    </Template>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Candidat" />
+                                <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Candidat" />
+                                <RadzenDataGridColumn Property="Subject.Name" Title="@L["Subject"]" TItem="Candidat" />
+
+                                @* <RadzenDataGridColumn TItem="Candidat" Width="140px">
+                                    <Template Context="ConCandidate">
+                                        <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConCandidate))" @onclick:stopPropagation="true" class="mr-2" />
+                                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConCandidate))" @onclick:stopPropagation="true" />
+
+                                    </Template>
+                                </RadzenDataGridColumn> *@
+                            </Columns>
+
+                        </RadzenDataGrid>
+                    </RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+        </Template>
         <Columns>
            @*  <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Groups">
                 <Template Context="GroupContext">
