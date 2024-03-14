@@ -10,8 +10,9 @@ namespace Langua.WebUI.Pages.Groupes
 {
     public partial class GroupsComponent : BasePage
     {
-        public RadzenDataGrid<Groups> GroupGrid;
-        public RadzenDataGrid<Candidat> candidatGroup;
+        
+        public RadzenDataGrid<Groups> grid;
+        public RadzenDataGrid<Candidat> gridCandidate;
         [Inject] public IRepositoryCrudBase<Groups> repository { get; set; }
         public IEnumerable<Groups> Groups { get; set; }
         public IEnumerable<Candidat> Candidats { get; set; }

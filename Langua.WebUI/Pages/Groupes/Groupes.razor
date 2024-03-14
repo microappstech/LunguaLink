@@ -6,67 +6,44 @@
 
 <div class="row">
     <div class="col-md-9"></div>
-    <div class="col-md-3 ">
+    <div class="col-md-3 mb-2">
         <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="text-sm" Text="@L["Add New Group"]"></RadzenButton>
     </div>
 
 </div>
-    <RadzenDataGrid @ref="@GroupGrid" Data="@Groups" TItem="Groups" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue"
-                RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single">
-    <Template Context="ContextGroup" >
-            <RadzenTabs>
-                <Tabs>
-                    <RadzenTabsItem>
-                    <RadzenDataGrid Data="@ContextGroup.Candidats" TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
-                            <Columns>
-                                <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Candidat" >
-                                    <Template Context="CanContext">
-                                        <div>
-                                            <img src="@CanContext.Photo" width="50" />
-                                            <span>@CanContext.FullName</span>
-                                        </div>
-                                    </Template>
-                                </RadzenDataGridColumn>
-                                <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Candidat" />
-                                <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Candidat" />
-                                <RadzenDataGridColumn Property="Subject.Name" Title="@L["Subject"]" TItem="Candidat" />
 
-                                @* <RadzenDataGridColumn TItem="Candidat" Width="140px">
-                                    <Template Context="ConCandidate">
-                                        <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConCandidate))" @onclick:stopPropagation="true" class="mr-2" />
-                                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConCandidate))" @onclick:stopPropagation="true" />
-
-                                    </Template>
-                                </RadzenDataGridColumn> *@
-                            </Columns>
-
-                        </RadzenDataGrid>
-                    </RadzenTabsItem>
-                </Tabs>
-            </RadzenTabs>
-        </Template>
-        <Columns>
-           @*  <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Groups">
-                <Template Context="GroupContext">
-                    <div>
-                        <img src="@CanContext.Photo" width="50" />
-                        <span>@CanContext.FullName</span>
+<RadzenDataGrid @ref="grid" FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single"
+                Data="@Groups" TItem="Groups">
+    <Template Context="GroupsContext">
+        <RadzenTabs>
+            <Tabs>
+                <RadzenTabsItem Text="Candidates">
+                    <div class="row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-3 mb-2">
+                            <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="text-sm" Text="@L["Add Candidat"]"></RadzenButton>
+                        </div>
                     </div>
-                </Template>
-            </RadzenDataGridColumn> *@
-            <RadzenDataGridColumn Property="Name" Title="@L["Name"]" TItem="Group" />
-            <RadzenDataGridColumn Property="Description" Title="@L["Description"]" TItem="Group" />
-            
-
-            <RadzenDataGridColumn TItem="Groups" Width="140px">
-                <Template Context="GroupContext">
-                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(GroupContext))" @onclick:stopPropagation="true" class="mr-2" />
-                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(GroupContext))" @onclick:stopPropagation="true" />
-
-                </Template>
-            </RadzenDataGridColumn>
-        </Columns>
-
-    </RadzenDataGrid>
-
-
+                    <RadzenDataGrid @ref="gridCandidate" FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@GroupsContext.Candidats" TItem="Candidat">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="Candidat" Property="Photo">
+                                <Template Context="Candidat">
+                                    <img src="@Candidat.Photo" class="" width="50px" />
+                                </Template>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="Candidat" Property="FullName" Title="@L["Full Name"]" />
+                            <RadzenDataGridColumn TItem="Candidat" Property="Phone" Title="@L["Phone"]" />
+                            <RadzenDataGridColumn TItem="Candidat" Property="Email" Title="@L["Email"]" />
+                            <RadzenDataGridColumn TItem="Candidat" Property="Subject.Name" Title="@L["Subject"]" />
+                        </Columns>
+                    </RadzenDataGrid>
+                </RadzenTabsItem>
+            </Tabs>
+        </RadzenTabs>
+    </Template>
+    <Columns>
+        <RadzenDataGridColumn TItem="Groups" Property="Name" Title="Name" Width="120px" />
+        <RadzenDataGridColumn TItem="Groups" Property="Description" Title="Desciption" Width="200px" />
+        <RadzenDataGridColumn TItem="Groups" Property="NbCandidate" Title="NB Candidates" Filterable="false" FormatString="{0:d}" Width="140px" />
+    </Columns>
+</RadzenDataGrid>
