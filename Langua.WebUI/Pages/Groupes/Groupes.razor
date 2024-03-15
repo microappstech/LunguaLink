@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-md-9"></div>
                         <div class="col-md-3 mb-2">
-                            <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="text-sm" Text="@L["Add Candidat"]"></RadzenButton>
+                            <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>AddCandidatToGroup(GroupsContext))" Icon="add" class="text-sm" Text="@L["Add Candidat"]"></RadzenButton>
                         </div>
                     </div>
                     <RadzenDataGrid @ref="gridCandidate" FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@GroupsContext.Candidats" TItem="Candidat">

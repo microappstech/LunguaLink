@@ -5,6 +5,7 @@ using Radzen.Blazor;
 using Microsoft.AspNetCore.Components;
 using Langua.Repositories.Interfaces;
 using Microsoft.Extensions.Primitives;
+using Langua.WebUI.Pages.Chat;
 
 namespace Langua.WebUI.Pages.Groupes
 {
@@ -23,30 +24,36 @@ namespace Langua.WebUI.Pages.Groupes
 
         public async void Add()
         {
-            var result = dialogService.OpenAsync<AddGroup>("Create New Group");
+            var result = dialogService.OpenAsync<AddGroup>(L["Create New Group"]);
             await InvokeAsync(StateHasChanged);
-            //var result = await dialogService.OpenAsync<AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw", ShowClose = true });
-
         }
         public async Task Delete(Groups group)
         {
             if (await Confirm(L["Confirmation"], L["Are you sure want to delete this group"]) == true)
             {
-                //var resultDelete = baseRepository.Delete(candidat);
-                //if (resultDelete.Succeeded)
-                //{
-                //    Notify("Success", "Suppression successfully finished", NotificationSeverity.Success);
-                //    dialogService.Close();
-                //}
+                var resultDelete = repository.Delete(group);
+                if (resultDelete.Succeeded)
+                {
+                    Notify(L["Success"], L["Suppression successfully finished"], NotificationSeverity.Success);
+                    dialogService.Close();
+                }
+                else
+                {
+                    Notify(L["Error"], L["Somtheing worng"],NotificationSeverity.Error);
+                }
             }
         }
         public async Task Edit(Groups group)
         {
-            //var result = await dialogService.OpenAsync<EditCandidate>("Edit Componenet", new Dictionary<string, object> { { "Id", candidat.Id } });
+            var result = await dialogService.OpenAsync<EditGroup>(@L["Edit the group "], new Dictionary<string, object> { { "Id", group.Id } });
             await InvokeAsync(StateHasChanged);
         }
 
+        public async Task AddCandidatToGroup(Groups group)
+        {
+            
 
+        }
 
         protected override Task OnInitializedAsync()
         {
@@ -61,7 +68,7 @@ namespace Langua.WebUI.Pages.Groupes
         }
         public void RowRender(RowRenderEventArgs<Groups> args)
         {
-         //   args.Expandable = args.Data.ShipCountry == "France" || args.Data.ShipCountry == "Brazil";
+
         }
     }
 }
