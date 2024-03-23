@@ -37,7 +37,7 @@ namespace Langua.WebUI.Pages.Teachers
         }
         public async Task Edit(Teacher teacher)
         {
-            var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Teachers.EditTeacher>("Edit the teacher", new Dictionary<string, object> { { "Id", teacher.Id } }, new DialogOptions { Width = "50vw", ShowClose = true });
+            var result = await dialogService.OpenAsync<EditTeacher>("Edit the teacher", new Dictionary<string, object> { { "Id", teacher.Id } }, new DialogOptions { Width = "50vw", ShowClose = true });
         }
         public async Task Add()
         {

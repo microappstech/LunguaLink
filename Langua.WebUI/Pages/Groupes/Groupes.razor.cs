@@ -5,6 +5,7 @@ using Radzen.Blazor;
 using Microsoft.AspNetCore.Components;
 using Langua.Repositories.Interfaces;
 using Microsoft.Extensions.Primitives;
+using Langua.WebUI.Pages.Chat;
 
 namespace Langua.WebUI.Pages.Groupes
 {
@@ -51,6 +52,7 @@ namespace Langua.WebUI.Pages.Groupes
         public async Task AddCandidatToGroup(Groups group)
         {
             
+
         }
 
         protected override Task OnInitializedAsync()

@@ -40,11 +40,12 @@ namespace Langua.WebUI.Pages.Discplines
         }
         public async Task Edit(Subject _subject)
         {
+            var dialogResult = await dialogService.OpenAsync<EditDiscipline>("Edit the subject", new Dictionary<string, object>() { { "Id", _subject.Id} }, new DialogOptions() { Width = "850px", ShowClose = true });
 
         }
         public async Task SubmitAdd()
         {
-            var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Discplines.AddDiscpline>("Create New Subject", null);
+            var result = await dialogService.OpenAsync<AddDiscpline>("Create New Subject", null);
             await InvokeAsync(StateHasChanged);
         }
 

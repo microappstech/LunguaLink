@@ -31,8 +31,6 @@ namespace Langua.Models
         public DateTime CreatedAt { get; set; }
         public bool IsConnected { get; set; }
         public List<MessageGroup> MessageGroups { get; set; }
-        public Groups? Group { get; set; }
-        public int? GroupId { get; set; }
         
     }
 }

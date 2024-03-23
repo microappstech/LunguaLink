@@ -14,9 +14,7 @@ namespace Langua.Models
         public int Id { get; set; }
         [Required] public string Name { get; set; }
         public string Description { get; set; }
-        #nullable enable
         public List<Candidat> Candidats { get; set; }
-        #nullable disable
         public List<MessageGroup> GroupeMessages { get; set; }
         [NotMapped] public int NbCandidate { get; set; }
     }
