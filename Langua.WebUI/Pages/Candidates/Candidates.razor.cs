@@ -51,12 +51,12 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task Edit(Candidat candidat)
         {
-            var result = await dialogService.OpenAsync<EditCandidate>("Edit Componenet", new Dictionary<string, object> { { "Id", candidat.Id } });
+            var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.EditCandidate>("Edit Componenet", new Dictionary<string, object> { { "Id", candidat.Id } });
             await InvokeAsync(StateHasChanged);
         }
         public async Task Add()
         {
-           var result = await dialogService.OpenAsync<AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw",  ShowClose = true });
+           var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw",  ShowClose = true });
             StateHasChanged();
         }
     }

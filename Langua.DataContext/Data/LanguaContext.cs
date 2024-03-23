@@ -22,6 +22,13 @@ namespace Langua.DataContext.Data
                 .WithOne(i => i.Department)
                 .HasForeignKey<Manager>(i => i.DepartmentId);
 
+            builder.Entity<Groups>()
+                .HasMany(i=>i.Candidats)
+                .WithOne(i=>i.Group)
+                .HasForeignKey(i=>i.GroupId)
+                .HasPrincipalKey(i=>i.Id)
+                .OnDelete(DeleteBehavior.SetNull);
+
             
         }
         public DbSet<Candidat> Candidates { get; set; }
@@ -32,5 +39,7 @@ namespace Langua.DataContext.Data
         public DbSet<Groups> Groups { get; set; }
         public DbSet<MessageGroup> MessageGroups { get; set; }
         public DbSet<MessageUser> MessageUsers { get; set; }
+        //public DbSet<GroupCandidates> GroupCandidates { get; set; }
+
     }
 }

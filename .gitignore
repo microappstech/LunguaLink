@@ -36,3 +36,8 @@
 /Langua.ModelView/bin/Debug/net8.0
 /Langua.Api/bin/Debug/net8.0
 /Langua.Api/obj
+/Langua.ReComponents
+/Langua.Components/Langua.Components/obj
+/Langua.UIComponenets/obj
+/Langua.UIComponents/bin/Debug/net8.0
+/Langua.UIComponents/obj
