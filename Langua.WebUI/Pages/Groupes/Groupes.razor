@@ -24,7 +24,8 @@
                             <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>AddCandidatToGroup(GroupsContext))" Icon="add" class="text-sm" Text="@L["Add Candidat"]"></RadzenButton>
                         </div>
                     </div>
-                    <RadzenDataGrid @ref="gridCandidate" FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@GroupsContext.Candidats" TItem="Candidat">
+                    <RadzenDataGrid @ref="gridCandidate" 
+                        FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@GroupsContext.Candidats" TItem="Candidat">
                         <Columns>
                             <RadzenDataGridColumn TItem="Candidat" Property="Photo">
                                 <Template Context="Candidat">
@@ -44,6 +45,14 @@
     <Columns>
         <RadzenDataGridColumn TItem="Groups" Property="Name" Title="Name" Width="120px" />
         <RadzenDataGridColumn TItem="Groups" Property="Description" Title="Desciption" Width="200px" />
-        <RadzenDataGridColumn TItem="Groups" Property="NbCandidate" Title="NB Candidates" Filterable="false" FormatString="{0:d}" Width="140px" />
+        <RadzenDataGridColumn TItem="Groups" Property="NbCandidate" Title="NB Candidates" Filterable="false" FormatString="{0:d}" >
+            <Template Context="GroupCon">@GroupCon.Candidats?.Count()</Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Groups" Width="140px">
+            <Template Context="GroupCon">
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(GroupCon))" class="mr-2" />
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(GroupCon))" />
+            </Template>
+        </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>

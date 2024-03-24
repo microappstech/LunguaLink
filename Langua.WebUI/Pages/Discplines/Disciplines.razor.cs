@@ -4,12 +4,14 @@ using Langua.Repositories.Interfaces;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Identity.Client;
 using Radzen;
+using Radzen.Blazor;
 
 namespace Langua.WebUI.Pages.Discplines
 {
     public partial class DisciplinesComponent:BasePage
     {
         [Inject] protected IRepositoryCrudBase<Subject> baseRepository { get; set; }
+        public RadzenDataGrid<Subject> grid0;
         public bool DataReady { get; set; } = false;
         protected IEnumerable<Subject> subjects { get; set; }
         protected override async Task OnInitializedAsync()
@@ -34,18 +36,22 @@ namespace Langua.WebUI.Pages.Discplines
                 if (result.Succeeded)
                 {
                     Notify("Successful Deleted", "The subject Successfully deleted", NotificationSeverity.Success);
+                    await grid0.Reload();
                     dialogService.Close(subject);
                 }
             }
         }
         public async Task Edit(Subject _subject)
         {
+            var result = await dialogService.OpenAsync<EditDiscipline>("Edit the subject", new Dictionary<string, object> { { "Id", _subject.Id } });
+            await grid0.Reload();
 
         }
         public async Task SubmitAdd()
         {
-            var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Discplines.AddDiscpline>("Create New Subject", null);
-            await InvokeAsync(StateHasChanged);
+            var result = await dialogService.OpenAsync<AddDiscpline>("Create New Subject", null);
+
+            await grid0.Reload();
         }
 
     }

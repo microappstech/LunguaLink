@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Primitives;
 using Radzen;
+using Radzen.Blazor;
 //using static Langua.WebUI.Pages.Components.LanguaGrid<dynamic>;
 
 
@@ -19,7 +20,7 @@ namespace Langua.WebUI.Pages.Candidates
     public partial class CandidatesComponent : BasePage
     {
         public IEnumerable<Candidat> candidates { get; set; }
-
+        public RadzenDataGrid<Candidat> grid0;
         [Inject] private IRepositoryCrudBase<Candidat> baseRepository { get; set; }
         protected override Task OnInitializedAsync()
         {
@@ -45,6 +46,11 @@ namespace Langua.WebUI.Pages.Candidates
                 {
                     Notify("Success", "Suppression successfully finished",NotificationSeverity.Success);
                     dialogService.Close();
+                    await grid0.Reload();
+                }
+                else
+                {
+                    Notify("Error", "Something Happened wrong", NotificationSeverity.Error);
                 }
 
             }
@@ -52,12 +58,12 @@ namespace Langua.WebUI.Pages.Candidates
         public async Task Edit(Candidat candidat)
         {
             var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.EditCandidate>("Edit Componenet", new Dictionary<string, object> { { "Id", candidat.Id } });
-            await InvokeAsync(StateHasChanged);
+            await grid0.Reload();
         }
         public async Task Add()
         {
            var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw",  ShowClose = true });
-            StateHasChanged();
+            await grid0.Reload();
         }
     }
 

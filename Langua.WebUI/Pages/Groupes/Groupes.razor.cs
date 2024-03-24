@@ -5,6 +5,7 @@ using Radzen.Blazor;
 using Microsoft.AspNetCore.Components;
 using Langua.Repositories.Interfaces;
 using Microsoft.Extensions.Primitives;
+using System.Security.Principal;
 
 namespace Langua.WebUI.Pages.Groupes
 {
@@ -24,7 +25,7 @@ namespace Langua.WebUI.Pages.Groupes
         public async void Add()
         {
             var result = dialogService.OpenAsync<AddGroup>(L["Create New Group"]);
-            await InvokeAsync(StateHasChanged);
+            await grid.Reload();
         }
         public async Task Delete(Groups group)
         {
@@ -40,17 +41,19 @@ namespace Langua.WebUI.Pages.Groupes
                 {
                     Notify(L["Error"], L["Somtheing worng"],NotificationSeverity.Error);
                 }
+                await grid.Reload();
             }
         }
         public async Task Edit(Groups group)
         {
             var result = await dialogService.OpenAsync<EditGroup>(@L["Edit the group "], new Dictionary<string, object> { { "Id", group.Id } });
-            await InvokeAsync(StateHasChanged);
+            await grid.Reload();
         }
 
         public async Task AddCandidatToGroup(Groups group)
         {
             
+            await gridCandidate.Reload();
         }
 
         protected override Task OnInitializedAsync()
