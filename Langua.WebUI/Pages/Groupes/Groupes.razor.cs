@@ -15,6 +15,7 @@ namespace Langua.WebUI.Pages.Groupes
         public RadzenDataGrid<Groups> grid;
         public RadzenDataGrid<Candidat> gridCandidate;
         [Inject] public IRepositoryCrudBase<Groups> repository { get; set; }
+        [Inject] IGroupCandidateService<GroupCandidates> GrCanService { get; set; }
         public IEnumerable<Groups> Groups { get; set; }
         public IEnumerable<Candidat> Candidats { get; set; }
         public void OnExpand(TreeExpandEventArgs args)
@@ -52,7 +53,7 @@ namespace Langua.WebUI.Pages.Groupes
 
         public async Task AddCandidatToGroup(Groups group)
         {
-            
+            var reult = await dialogService.OpenAsync<AddCandidateToGroup>($"Add new candidate to {group.Name} ", new Dictionary<string, object> { { "groupId", group.Id } });
             await gridCandidate.Reload();
         }
 
@@ -70,6 +71,14 @@ namespace Langua.WebUI.Pages.Groupes
         public void RowRender(RowRenderEventArgs<Groups> args)
         {
 
+        }
+        public void OnExpend(Langua.Models.Groups group)
+        {
+            var result= GrCanService.GetCandidateByGroupId(group.Id);
+            if (result.Succeeded)
+            {
+                var yyy = (IEnumerable<Candidat>)baseService.Apply((IQueryable<IEnumerable<Candidat>>)result.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Subject" } }));
+            }
         }
     }
 }

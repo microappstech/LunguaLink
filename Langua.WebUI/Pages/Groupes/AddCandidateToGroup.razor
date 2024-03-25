@@ -1,48 +1,31 @@
-﻿@* @inherits AddCandidateToGroupComponent
+﻿@using Langua.Models
+ @inherits AddCandidateToGroupComponent
 
 <div class="row">
-    <EditForm Model="@groupe">
-        <div class="row">
+    <EditForm Model="@groupe" OnValidSubmit="@Submit">
+        <div class="row mb-3">
             <div class="col-md-3">
                 <RadzenLabel Text="@L["Group"]"></RadzenLabel>
             </div>
-            <div class="col-md-9">
-                <InputText @bind-Value="@groupe.Name" class="disabled" />
+            <div class="col-md-9 ">
+                <InputText @bind-Value="@groupe.Name" disabled="true" class="w-100"/>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-md-3">
                 <RadzenLabel Text="@L["Candidates"]"></RadzenLabel>
             </div>
             <div class="col-md-9">
-                
+                <RadzenDropDown Data="@Candidates" AllowClear="true" AllowFiltering="true" AllowSelectAll="false" class="w-100"
+                TextProperty="FullName" ValueProperty="Id" Multiple="true" @bind-Value="@SelectedCandidates" />
             </div>
         </div>
         <div class="row ">
-
+            <div class="mx-auto mt-2 text-center">
+                <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
+                <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
+                <button type="button" @onclick="@(()=>dialogService.Close())" class="btn btn-secondary px-5">Close</button>
+            </div>
         </div>
     </EditForm>
 </div>
-
- *@
-  @using Langua.UIComponents;
- @page "/example"
-
-<DropDown Items="AllItems" SelectedItems="SelectedItems" />
- 
-@code{
-    private List<MyItem> AllItems = new List<MyItem>
-    {
-        new MyItem { Id = 1, Name = "Item 1" },
-        new MyItem { Id = 2, Name = "Item 2" },
-        // Add more items as needed
-    };
-
-    private List<MyItem> SelectedItems = new List<MyItem>();
-
-    public class MyItem
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-}

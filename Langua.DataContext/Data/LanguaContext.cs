@@ -39,7 +39,7 @@ namespace Langua.DataContext.Data
         public DbSet<Groups> Groups { get; set; }
         public DbSet<MessageGroup> MessageGroups { get; set; }
         public DbSet<MessageUser> MessageUsers { get; set; }
-        //public DbSet<GroupCandidates> GroupCandidates { get; set; }
+        public DbSet<GroupCandidates> GroupCandidates { get; set; }
 
     }
 }

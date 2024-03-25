@@ -28,7 +28,7 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddScoped<BaseService>();
-
+builder.Services.AddScoped(typeof(IGroupCandidateService<>), typeof(GroupCandidateService<>));
 builder.Services.AddRadzenComponents();
 builder.Services.AddScoped<SecurityService>();
 builder.Services.AddAuthentication(options =>

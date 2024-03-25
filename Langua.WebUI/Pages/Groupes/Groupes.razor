@@ -12,7 +12,7 @@
 
 </div>
 
-<RadzenDataGrid @ref="grid" FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single"
+<RadzenDataGrid @ref="grid" FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" RowExpand="@OnExpend" RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single"
                 Data="@Groups" TItem="Groups">
     <Template Context="GroupsContext">
         <RadzenTabs>
@@ -43,8 +43,8 @@
         </RadzenTabs>
     </Template>
     <Columns>
-        <RadzenDataGridColumn TItem="Groups" Property="Name" Title="Name" Width="120px" />
-        <RadzenDataGridColumn TItem="Groups" Property="Description" Title="Desciption" Width="200px" />
+        <RadzenDataGridColumn TItem="Groups" Property="Name" Title="Name" />
+        <RadzenDataGridColumn TItem="Groups" Property="Description" Title="Desciption"  />
         <RadzenDataGridColumn TItem="Groups" Property="NbCandidate" Title="NB Candidates" Filterable="false" FormatString="{0:d}" >
             <Template Context="GroupCon">@GroupCon.Candidats?.Count()</Template>
         </RadzenDataGridColumn>

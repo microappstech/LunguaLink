@@ -1,36 +1,63 @@
-﻿
+﻿@using System.Linq.Expressions
+
 @typeparam TItem
 
-<div class="dropdown-container">
+<div class="dropdown-container" style="width:30px; padding:10px">
     @foreach (var item in Items)
     {
-        <div class="row">
-            <InputCheckbox @bind:event="@IsSelected(item)"></InputCheckbox>
-            <label for=""></label>
-        </div>
+        <label>
+            <InputCheckbox @bind-Value="@IsItemSelected[item]" /> 
+            @DisplaySelector(item)
+        </label>
     }
+
+    <select >
+        @foreach (var item in Items)
+        {
+            <input type="checkbox" id="@ValueSelector(item)" />
+            <label style="color:darkorange; font-size:30px" for="@ValueSelector(item)">@DisplaySelector(item)</label>
+            @* <option style="width:30px; padding:20px" value="@ValueSelector(item)">@DisplaySelector(item)</option> *@
+        }
+    </select>
+
 </div>
 
 @code {
     [Parameter] public IEnumerable<TItem> Items { get; set; }
-    [Parameter] public IEnumerable<TItem> SelectedItems { get; set; }
+    [Parameter] public IEnumerable<TItem> SelectedValue { get; set; }
+    [Parameter] public Func<TItem, object> DisplayName { get; set; }
+    [Parameter] public Expression<Func<TItem, int>> DisplayValue { get; set; }
 
-    public bool IsSelected(TItem item)
+    public Func<TItem, string> DisplayExpression { get; set; }
+
+    [Parameter] public Func<TItem, string> DisplaySelector { get; set; }
+    [Parameter] public Func<TItem, int> ValueSelector { get; set; }
+
+    public Dictionary<TItem, bool> IsItemSelected { get; set; } = new Dictionary<TItem, bool>();
+
+
+    protected override void OnParametersSet()
     {
-        return SelectedItems.Contains(item) ? true : false;
+        if (Items != null)
+        {
+            foreach (var item in Items)
+            {
+                var value = ValueSelector(item);
+                if (!IsItemSelected.ContainsKey(item))
+                    IsItemSelected[item] = false;
+            }
+        }
+    }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
     }
 
-    private void OnItemSelected(TItem item, bool isSelected)
+    public IEnumerable<TItem> GetSelectedItems()
     {
-        if (isSelected)
-        {
-            SelectedItems = SelectedItems.Append(item);
-        }
-        else
-        {
-            SelectedItems = SelectedItems.Where(i => !i.Equals(item));
-        }
+        return IsItemSelected.Where(kvp => kvp.Value).Select(kvp => kvp.Key);
     }
+
     protected override Task OnInitializedAsync()
     {
         return base.OnInitializedAsync();
