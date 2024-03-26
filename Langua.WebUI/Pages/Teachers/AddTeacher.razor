@@ -20,12 +20,14 @@
         <div class="row d-flex">
             <div class="form-group mb-1 col-md-6">
                 <label for="FullName">@L["Full Name"] :</label>
-                <InputText id="FullName" @bind-Value="teacher.FullName" class="form-control" />
+                <InputText id="FullName" @bind-Value="teacher.FullName" class="form-control" Name="FullName" />
+                <RadzenRequiredValidator Component="FullName" Text="@L["The Filed Is Required"]"/>
             </div>
 
             <div class="form-group mb-1 col-md-6">
                 <label for="Phone">@L["Phone"] :</label>
-                <InputText id="Phone" @bind-Value="teacher.Phone" class="form-control" />
+                <InputText id="Phone" @bind-Value="teacher.Phone" class="form-control" Name="Phone" />
+                <RadzenRequiredValidator Component="Phone" Text="@L["The Filed Is Required"]" />
             </div>
         </div>
 
@@ -35,8 +37,15 @@
         </div>
 
         <div class="form-group mb-1 col-md-6">
-            <label for="CreatedAt">Password:</label>
-            <InputText  id="CreatedAt" @bind-Value="teacher.Password" class="form-control" />
+            <label for="password">Password:</label>
+            <RadzenPassword id="password" @bind-Value="teacher.Password" class="form-control" Name="password" />
+            <RadzenRequiredValidator Component="password" Text="The Password Is Required"></RadzenRequiredValidator>
+        </div>
+        <div class="form-group mb-1 col-md-6">
+            <label for="password">Password:</label>
+            <RadzenPassword id="password" @bind-Value="teacher.ConfirmPassword" class="form-control" Name="ConfirmPassword" />
+            <RadzenRequiredValidator Component="ConfirmPassword" Text="The Password Is Required"></RadzenRequiredValidator>
+            <RadzenCompareValidator Component="ConfirmPassword" Value="teacher.Password" Text="The Password not match" />
         </div>
 
         <div class="mx-auto mt-2 text-center">

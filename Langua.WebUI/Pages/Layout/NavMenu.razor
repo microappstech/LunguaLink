@@ -12,28 +12,29 @@
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
-        <div class="nav-item px-3">
+        <div class="nav-item" style="padding-bottom:0 !important">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <RadzenIcon Icon="dashboard" IconColor="white"  />
                 <span class="px-2">Dashboard</span>
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Candidates">
+        <div class="nav-item" style="padding-bottom:0 !important">
+            <NavLink class="nav-link" href="Candidates" >
                 <RadzenIcon Icon="perm_identity" IconColor="white"/>
                 <span class="px-2">Candidates</span>
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Subjects">
+        <div class="nav-item" style="padding-bottom:0 !important">
+            <NavLink class="nav-link" href="Subjects" >
                 <RadzenIcon Icon="subject" IconColor="white" />
                 <span class="px-2">Subjects</span>
             </NavLink>
         </div>
         
-        <div class="nav-item px-3">
+        <div class="nav-item" style="padding-bottom:0 !important">
+            
             <NavLink class="nav-link" href="Teachers">
                 <RadzenIcon Icon="supervisor_account" IconColor="white" />
                 <span class="px-2" aria-hidden="true">
@@ -42,7 +43,7 @@
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
+        <div class="nav-item" style="padding-bottom:0 !important">
             <NavLink class="nav-link" href="Groups">
                 <RadzenIcon Icon="groups" IconColor="white"/>
                 <span class="px-2" >
@@ -51,7 +52,7 @@
             </NavLink>
         </div>
 
-        <div class="nav-item px-3 d-none">
+        <div class="nav-item d-none">
             <NavLink class="nav-link" href="auth">
                 <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
             </NavLink>
@@ -59,7 +60,7 @@
 
         <AuthorizeView>
             <Authorized>
-                <div class="nav-item px-3 d-none">
+                <div class="nav-item d-none">
                     <NavLink class="nav-link" href="Account/Manage">
                         <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
                     </NavLink>
@@ -75,12 +76,12 @@
                 </div>
             </Authorized>
             <NotAuthorized>
-                <div class="nav-item px-3 d-none">
+                <div class="nav-item d-none">
                     <NavLink class="nav-link" href="Account/Register">
                         <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
                     </NavLink>
                 </div>
-                <div class="nav-item px-3 d-none">
+                <div class="nav-item d-none">
                     <NavLink class="nav-link" href="Account/Login">
                         <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
                     </NavLink>

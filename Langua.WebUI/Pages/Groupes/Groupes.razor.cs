@@ -77,7 +77,8 @@ namespace Langua.WebUI.Pages.Groupes
             var result= GrCanService.GetCandidateByGroupId(group.Id);
             if (result.Succeeded)
             {
-                var yyy = (IEnumerable<Candidat>)baseService.Apply((IQueryable<IEnumerable<Candidat>>)result.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Subject" } }));
+                var Candidates = (IEnumerable<Candidat>)baseService.Apply((IQueryable<Candidat>)result.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Subject" } }));
+                group.Candidats = Candidates.ToList();
             }
         }
     }

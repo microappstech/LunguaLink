@@ -5,6 +5,7 @@ using Langua.Repositories.Interfaces;
 using Langua.DataContext.Data;
 using Radzen;
 using System.Transactions;
+using System.Data.Common;
 
 namespace Langua.WebUI.Pages.Teachers
 {
@@ -47,14 +48,18 @@ namespace Langua.WebUI.Pages.Teachers
                     if (result.Succeeded)
                     {
                         Notify("Success", "Creation Successful Completed", NotificationSeverity.Success);
-                        StateHasChanged();
-                        dialogService.Close(null);
                         scope.Complete();
+                        dialogService.Close(null);
                     }
                     else
                     {
+                        scope.Dispose();
                         Notify("Failed", "Something Wrong", NotificationSeverity.Error);
                     }
+                }
+                else
+                {
+                    scope.Dispose();
                 }
 
             }

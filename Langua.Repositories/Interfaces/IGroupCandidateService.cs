@@ -19,6 +19,6 @@ namespace Langua.Repositories.Interfaces
         /// <param name="candidatsIds"></param>
         /// <returns></returns>
         public Result<GroupCandidates> AddCandidateGroup(Groups group, List<int> candidatsIds);
-        public Result<IEnumerable<Candidat>> GetCandidateByGroupId(int groupId);
+        public Result<IQueryable<Candidat>> GetCandidateByGroupId(int groupId);
     }
 }

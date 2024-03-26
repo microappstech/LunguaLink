@@ -136,17 +136,17 @@ namespace Langua.Repositories.Services
                 return new Result<GroupCandidates>(false,exception:e);
             }
         }
-        public Result<IEnumerable<Candidat>> GetCandidateByGroupId(int groupId)
+        public Result<IQueryable<Candidat>> GetCandidateByGroupId(int groupId)
         {
 
             try
             {
-                var Candidates = context.Candidates.Where(i => i.GroupId == groupId);
-                return new Result<IEnumerable<Candidat>>(true,Data:Candidates);
+                var Candidates = context.Candidates.Where(i => i.GroupId == groupId).AsQueryable();
+                return new Result<IQueryable<Candidat>>(true,Data:Candidates);
             }
             catch (Exception e)
             {
-                return new Result<IEnumerable<Candidat>>(false, exception: e);
+                return new Result<IQueryable<Candidat>>(false, exception: e);
             }
         }
     }
