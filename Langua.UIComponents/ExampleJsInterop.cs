@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Langua.UIComponents
@@ -11,6 +12,7 @@ namespace Langua.UIComponents
 
     public class ExampleJsInterop : IAsyncDisposable
     {
+        
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
         public ExampleJsInterop(IJSRuntime jsRuntime)
