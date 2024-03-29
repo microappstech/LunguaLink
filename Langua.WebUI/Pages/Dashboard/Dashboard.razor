@@ -8,50 +8,58 @@
 <HeadContent>
     <meta name="description" content="Rich dashboard created with the Radzen Blazor Components library.">
 </HeadContent>
-<RadzenText TextStyle="TextStyle.H2" TagName="TagName.H1" Class="rz-pt-8">
-    Blazor GitHub Issues
-</RadzenText>
 
 <RadzenStack Gap="1rem" Style="position: relative">
 
-    <RadzenRow>And 
+    <RadzenRow> 
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-            <RadzenCard Style="position: relative;">
-                <RadzenText TextStyle="TextStyle.H6">Open Issues</RadzenText>
-                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">67</RadzenText>
-                <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
-                    <RadzenColumnSeries Data=@openIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Issues" Fill="var(--rz-success)" />
-                    <RadzenValueAxis Visible="false" />
-                    <RadzenCategoryAxis Visible="false" />
-                    <RadzenColumnOptions Margin="10" />
-                    <RadzenLegend Visible="false" />
-                </RadzenChart>
+            <RadzenCard Style="position: relative; height :100px">
+                <RadzenText TextStyle="TextStyle.H6">Nb Teachers</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbTeacher</RadzenText>
+               @*
+                   <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
+                        <RadzenColumnSeries Data=@openIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Issues" Fill="var(--rz-success)" />
+                        <RadzenValueAxis Visible="false" />
+                        <RadzenCategoryAxis Visible="false" />
+                        <RadzenColumnOptions Margin="10" />
+                        <RadzenLegend Visible="false" />
+                    </RadzenChart> 
+                *@
             </RadzenCard>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-            <RadzenCard Style="position: relative;">
-                <RadzenText TextStyle="TextStyle.H6">Closed Issues</RadzenText>
-                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-danger" Style="position: absolute; right: 1.5rem; top: 1rem;">12</RadzenText>
-                <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
+            <RadzenCard Style="position: relative; height :100px">
+                <RadzenText TextStyle="TextStyle.H6">Nb Candidates</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-danger" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbCandidat</RadzenText>
+                @* <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
                     <RadzenColumnSeries Data=@closedIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Issues" Fill="var(--rz-danger)" />
                     <RadzenValueAxis Visible="false" />
                     <RadzenCategoryAxis Visible="false" />
                     <RadzenColumnOptions Margin="10" />
                     <RadzenLegend Visible="false" />
-                </RadzenChart>
+                </RadzenChart> *@
             </RadzenCard>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-            <RadzenCard Style="position: relative;">
+            <RadzenCard Style="position: relative; height :100px">
+                <RadzenText TextStyle="TextStyle.H6">All Issues</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">86</RadzenText>
+                @*
+                <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
+                <RadzenLineSeries Data=@openIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Open Issues" Smooth="true" Stroke="var(--rz-success)" />
+                <RadzenLineSeries Data=@closedIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Closed Issues" Smooth="true" Stroke="var(--rz-danger)" />
+                <RadzenValueAxis Visible="false" />
+                <RadzenCategoryAxis Visible="false" />
+                <RadzenLegend Visible="false" />
+                </RadzenChart>
+                *@
+            </RadzenCard>
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+            <RadzenCard Style="position: relative; height :100px">
                 <RadzenText TextStyle="TextStyle.H6">All Issues</RadzenText>
                 <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">56</RadzenText>
-                <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
-                    <RadzenLineSeries Data=@openIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Open Issues" Smooth="true" Stroke="var(--rz-success)" />
-                    <RadzenLineSeries Data=@closedIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Closed Issues" Smooth="true" Stroke="var(--rz-danger)" />
-                    <RadzenValueAxis Visible="false" />
-                    <RadzenCategoryAxis Visible="false" />
-                    <RadzenLegend Visible="false" />
-                </RadzenChart>
             </RadzenCard>
         </RadzenColumn>
     </RadzenRow>
