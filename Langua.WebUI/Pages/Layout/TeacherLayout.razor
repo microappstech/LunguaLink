@@ -4,32 +4,31 @@
     <nav>
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Active</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Separated link</a></li>
-                </ul>
+                <a class="nav-link @(activeNavItem=="homeTab"?"active":"")" @onclick="@(()=>NavItemClicked("homeTab"))" aria-current="page" href="/Teacher/Dahsboard">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link @(activeNavItem=="profileTab"?"active":"")" @onclick="@(()=>NavItemClicked("profileTab"))" href="/Teacher/Profile">Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <a class="nav-link @(activeNavItem=="ressourceTab"?"active":"")" @onclick="@(()=>NavItemClicked("ressourceTab"))" href="Teacher/Ressources">Ressources</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(activeNavItem=="studentsTab"?"active":"")" @onclick="@(()=>NavItemClicked("studentsTab"))" href="Teacher/Students">Students</a>                
             </li>
         </ul>
     </nav>
 
     <main>
-
-        <article class="content px-4">
+        <article class="content px-4" style="background-color:white">
             @Body
         </article>
     </main>
 </div>
 
+@code{
+    public string activeNavItem = "homeTab";
+    public void NavItemClicked(string clickedItem)
+    {
+        activeNavItem = clickedItem;
+    }
+}
