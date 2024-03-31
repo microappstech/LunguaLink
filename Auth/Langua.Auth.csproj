@@ -12,7 +12,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Langua.Api\Langua.Api.csproj" />
 	  <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
 	  <ProjectReference Include="..\Langua.ModelView\Langua.ModelView.csproj" />
+	  <ProjectReference Include="..\Langua.Shared\Langua.Shared.csproj" />
 	</ItemGroup>
 </Project>

@@ -23,7 +23,7 @@ namespace Langua.WebUI.Pages.Account.Pages
             if (HttpMethods.IsGet(HttpContext.Request.Method))
             {
                 // Clear the existing external cookie to ensure a clean login process
-                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+                //await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
             }
         }
 

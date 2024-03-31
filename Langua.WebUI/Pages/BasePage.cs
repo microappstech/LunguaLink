@@ -6,6 +6,7 @@ using Microsoft.Extensions.Localization;
 using Langua.Repositories.Interfaces;
 using Radzen;
 using Langua.Auth;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Langua.WebUI.Pages
 {
@@ -17,7 +18,7 @@ namespace Langua.WebUI.Pages
         [Inject] public IStringLocalizer<BasePage> L { get; set; }
         [Inject] protected SecurityService Security { get; set; }
         [Inject] public BaseService baseService { get; set; }
-        
+        [Inject] protected AuthenticationStateProvider authenticationStateProvider { get; set; }
         public virtual async Task<bool?> Confirm(string title, string message , ConfirmOptions confirmOptions = null)
         {
             if(confirmOptions is null)

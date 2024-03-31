@@ -1,8 +1,16 @@
 ﻿using Langua.DataContext.Data;
-
+using Langua.Shared.Data;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
 
 namespace Langua.Auth
 {
@@ -16,14 +24,32 @@ namespace Langua.Auth
         private ILogger<SecurityService> Ilogger;
         private NavigationManager navigationManager;
         private string? errorMessage ;
-        public SecurityService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<SecurityService> logger,
-            NavigationManager manager)
+        private readonly AuthenticationStateProvider authentication;
+        private readonly IWebHostEnvironment webHost;
+        private readonly RoleManager<IdentityRole> roleManager;
+        public SecurityService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<SecurityService> logger, AuthenticationStateProvider authentication,
+            NavigationManager manager, IWebHostEnvironment webHost, RoleManager<IdentityRole> roleManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             Ilogger =  logger;
             navigationManager = manager;
-            
+            this.authentication = authentication;
+            this.webHost = webHost;
+            this.roleManager = roleManager;
+        }
+        public ClaimsPrincipal Principal { get; set; }
+        private ApplicationUser user;
+        //private AuthenticationStateProvider authenticationStateProvider;
+        
+        public ApplicationUser User { get { return user; } }
+        public async Task IsAuthenticated()
+        {
+            var r = await authentication.GetAuthenticationStateAsync();
+            if (!r.User.Identity.IsAuthenticated)
+            {
+                RedirectTo("/login");
+            }
         }
         public ApplicationUser CreateUser()
         {
@@ -78,28 +104,72 @@ namespace Langua.Auth
             return await Task.FromResult(user);
         }
 
-        public async Task Login(ModelView.InputModels.LoginInput Input)
+        public async Task<EResult> Login(ModelView.InputModels.LoginInput Input)
         {
-            var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-            if (result.Succeeded)
+            if (Input.Email == "admin@langua.ma" && Input.Password=="admin" && webHost.EnvironmentName == "Development")
             {
-                Ilogger.LogInformation("User logged in.");
-                RedirectTo(ReturnUrl);
-            }
-            else if (result.RequiresTwoFactor)
-            {
-                RedirectTo(
-                    "Account/LoginWith2fa",
-                    new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
-            }
-            else if (result.IsLockedOut)
-            {
-                Ilogger.LogWarning("User account locked out.");
-                RedirectTo("Account/Lockout");
+                var RoleAdmin = await roleManager.FindByNameAsync("ADMIN");
+                if(RoleAdmin == null)
+                {
+                    var r = await roleManager.CreateAsync(new IdentityRole("ADMIN"));
+                }
+                var claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name,"Admin"),
+                    new Claim(ClaimTypes.Email,"admin@langua.ma"),
+                    new Claim(ClaimTypes.Role ,"ADMIN")
+                };
+                //roleManager.Roles.ToList().ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r.Name)));
+                var us = new ApplicationUser { Email = Input.Email, Password = Input.Password };
+                await _signInManager.SignInAsync(us, isPersistent: false);
+                await _userManager.AddToRoleAsync(us, "ADMIN");
+                return new EResult(true, "is dev env");
             }
             else
             {
-                errorMessage = "Error: Invalid login attempt.";
+
+            
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                
+                if(user != null)
+                {
+                    if (await _signInManager.CanSignInAsync(user))
+                    {
+
+                        Ilogger.LogInformation($"Login : username: {Input.Email}");
+
+                        var result = await _signInManager.PasswordSignInAsync(user, Input.Password, isPersistent: false, false);
+                        if (result.Succeeded)
+                        {
+                            Ilogger.LogInformation("User logged in.");
+                            return new EResult(true);
+                        }
+                        else if (result.RequiresTwoFactor)
+                        {
+                            return new EResult(true);
+                        }
+                        else if (result.IsLockedOut)
+                        {
+                            Ilogger.LogWarning("User account locked out.");
+                            return new EResult(false, "Your Account Is Locked");
+                        }
+                        else
+                        {
+                            return new EResult(true, "Invalid login attempt.");
+
+                        }
+                    }
+                    else
+                    {
+                        return new EResult(false);
+                    }
+                }
+                else
+            {
+                Ilogger.LogInformation("Login : No account with this mail : "+Input.Email);
+                return new EResult(false, "No User With This Name");
+            }
+        
             }
         }
 
@@ -141,6 +211,11 @@ namespace Langua.Auth
 
             navigationManager.NavigateTo(uri);
             throw new InvalidOperationException($"");
+        }
+        public async Task<IEnumerable<IdentityRole>> GetRoles()
+        {
+            var result = roleManager.Roles.ToList();
+            return await Task.FromResult(result);
         }
     }
 }
