@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,8 +12,9 @@ namespace Langua.WebUI.Pages.Account.Pages
 
         [CascadingParameter]
         private HttpContext HttpContext { get; set; } = default!;
+        protected EditContext? EditLogin;
 
-        [SupplyParameterFromForm]
+        //[SupplyParameterFromForm]
         private LoginModel Input { get; set; } = new();
 
         [SupplyParameterFromQuery]

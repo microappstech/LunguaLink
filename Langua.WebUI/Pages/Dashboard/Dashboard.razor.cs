@@ -26,7 +26,7 @@ namespace Langua.WebUI.Pages.Dashboard
         protected override async Task OnInitializedAsync()
         {
             
-            //Security.IsAuthenticated();
+            await Security.IsAuthenticated();
             openIssuesByDate = new List<IssueGroup>()
             {
                 new IssueGroup { Count=12,Week=new DateTime(2020,12,01) },

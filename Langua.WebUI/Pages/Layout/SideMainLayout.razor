@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+@using Langua.Repositories.Services
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -7,7 +7,14 @@
 
     <main>
         <div class="top-row px-4 text-white">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            
+        <AuthorizeView>
+            <Authorized>
+                    <NavLink class="nav-link  text-white" href="Account/Manage">
+                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>Hi @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@"))));
+                </NavLink>
+            </Authorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">

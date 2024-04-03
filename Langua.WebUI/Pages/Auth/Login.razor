@@ -1,13 +1,16 @@
 ﻿@page "/Login"
 @layout MainLayout
 @inherits LoginComponent
-
+@* @rendermode InteractiveServer *@
 
 <PageTitle>Langua | Log in</PageTitle>
+
 <section class="vh-100">
     <div class="container-fluid h-custom">
         <div class="row mx-auto text-center">
             <h1 style="color:#3181e6;">Login to your account</h1>
+            <h1 class="text-muted">Render @(OperatingSystem.IsBrowser() ? "Wasm" : "Server")</h1>
+
         </div>
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-lg-6 col-xl-5">
@@ -15,7 +18,9 @@
                      class="img-fluid" alt="Sample image">
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login" class="p-12 md:p-24">
+                <EditForm Model="Input" method="post" OnValidSubmit="LoginUser"  FormName="login" class="p-12 md:p-24">
+                   
+                       
                     <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start d-none">
                         <p class="lead fw-normal mb-0 me-3">Sign in with</p>
                         <button type="button" class="btn btn-primary btn-floating mx-1">
@@ -33,16 +38,16 @@
 
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <InputText @bind-Value="Input.Email" type="email" id="form3Example3" class="form-control form-control-lg"
-                               placeholder="Enter a valid email address" />
+                         <InputText @bind-Value="Input.Email" Name="Email" type="email" id="form3Example3" class="form-control form-control-lg"
+                               placeholder="Enter a valid email address" /> 
                         <ValidationMessage For="() => Input.Email" class="text-danger" />
-                        <label class="form-label" for="form3Example3">Email address</label>
+                        <label class="form-label" for="form3Example3">Email address</label>                        
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-3">
-                        <InputText type="password" @bind-Value="Input.Password" id="form3Example4" class="form-control form-control-lg"
-                               placeholder="Enter password" />
+                        <InputText type="password" Name="password" @bind-Value="Input.Password" id="form3Example4" class="form-control form-control-lg"
+                        placeholder="Enter password" />
                                <ValidationMessage For="()=>Input.Password"/>
                         <label class="form-label" for="form3Example4">Password</label>
                     </div>
@@ -59,16 +64,15 @@
                     </div>
 
                     <div class="text-center text-lg-start mt-4 pt-2">
-                        <button type="submit" class="btn btn-primary btn-lg"
+                         <button type="submit" class="btn btn-primary btn-lg"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;">
                             Login
-                        </button>
+                        </button> 
                         <p class="small fw-bold mt-2 pt-1 mb-0">
                             Don't have an account? <a href="/Register"
                                                       class="link-danger">Register</a>
                         </p>
                     </div>
-
                 </EditForm>
             </div>
         </div>
