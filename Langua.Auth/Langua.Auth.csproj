@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
+    <ProjectReference Include="..\Langua.Models\Langua.Models.csproj" />
+    <ProjectReference Include="..\Langua.ModelView\Langua.ModelView.csproj" />
+    <ProjectReference Include="..\Langua.Repositories\Langua.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>
