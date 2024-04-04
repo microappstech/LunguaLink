@@ -45,3 +45,5 @@
 /Langua.DAL/bin/Debug/net8.0
 /Langua.DAL/bin/Debug/net8.0
 /Langua.DAL/obj
+/BlazorApp2/*
+/BlazorApp2/BlazorApp2/obj/Debug/net8.0/BlazorApp2.AssemblyInfo.cs

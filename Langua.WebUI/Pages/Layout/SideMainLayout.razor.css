@@ -1,3 +1,7 @@
+ul.rz-profile-menu{
+    background-color:transparent !important;
+    border :none !important;
+}
 .page {
     position: relative;
     display: flex;
@@ -95,3 +99,7 @@ main {
         right: 0.75rem;
         top: 0.5rem;
     }
+.rz-profile-menu {
+    background-color: transparent !important;
+    border : none !important;
+}

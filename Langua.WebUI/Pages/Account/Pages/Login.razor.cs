@@ -14,7 +14,7 @@ namespace Langua.WebUI.Pages.Account.Pages
         private HttpContext HttpContext { get; set; } = default!;
         protected EditContext? EditLogin;
 
-        //[SupplyParameterFromForm]
+        [SupplyParameterFromForm]
         private LoginModel Input { get; set; } = new();
 
         [SupplyParameterFromQuery]
@@ -58,11 +58,11 @@ namespace Langua.WebUI.Pages.Account.Pages
 
         private sealed class LoginModel
         {
-            [Required]
+            [Required(ErrorMessage = "Please Fill The Field")]
             [EmailAddress]
             public string Email { get; set; } = "";
 
-            [Required]
+            [Required(ErrorMessage ="Please Fill The Field")]
             [DataType(DataType.Password)]
             public string Password { get; set; } = "";
 

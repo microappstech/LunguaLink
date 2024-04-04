@@ -3,6 +3,7 @@ using Langua.DataContext.Data;
 using Langua.ModelView.InputModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
@@ -17,6 +18,8 @@ namespace Langua.WebUI.Pages.Auth
         public string errorMessage { get; set; }
         [SupplyParameterFromForm]
         public LoginInput Input { get; set; } = new();
+
+        public EditContext? EditLogin;
         protected override async Task OnInitializedAsync()
         {
             if (this.HttpContext is not null)
@@ -30,12 +33,6 @@ namespace Langua.WebUI.Pages.Auth
         }
         public async Task LoginUser()
         {
-            //var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-            //if (result.Succeeded)
-            //{
-
-            //    Navigation.NavigateTo("/", true);
-            //}
             var result = await Security.Login(Input);
             if (result.IsSucced())
             {

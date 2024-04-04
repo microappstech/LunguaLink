@@ -27,10 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Web", "Langua.Web\La
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Web.Client", "Langua.Web\Langua.Web.Client\Langua.Web.Client.csproj", "{5B17463F-1CD4-4327-AB49-409543229056}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp2", "BlazorApp2\BlazorApp2\BlazorApp2.csproj", "{B62E5001-CB5E-4B70-8CDD-C5C42EE98EEC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp2.Client", "BlazorApp2\BlazorApp2.Client\BlazorApp2.Client.csproj", "{A72A802C-8F1E-423B-A6D2-A213712C46D0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,14 +81,6 @@ Global
 		{5B17463F-1CD4-4327-AB49-409543229056}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B17463F-1CD4-4327-AB49-409543229056}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B17463F-1CD4-4327-AB49-409543229056}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B62E5001-CB5E-4B70-8CDD-C5C42EE98EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B62E5001-CB5E-4B70-8CDD-C5C42EE98EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B62E5001-CB5E-4B70-8CDD-C5C42EE98EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B62E5001-CB5E-4B70-8CDD-C5C42EE98EEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A72A802C-8F1E-423B-A6D2-A213712C46D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A72A802C-8F1E-423B-A6D2-A213712C46D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A72A802C-8F1E-423B-A6D2-A213712C46D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A72A802C-8F1E-423B-A6D2-A213712C46D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

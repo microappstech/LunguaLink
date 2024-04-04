@@ -7,12 +7,26 @@
 
     <main>
         <div class="top-row px-4 text-white">
-            
-        <AuthorizeView>
+            <AuthorizeView>
             <Authorized>
-                    <NavLink class="nav-link  text-white" href="Account/Manage">
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>Hi @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@"))));
-                </NavLink>
+                <NavLink class="nav-link  text-white" href="Account/Manage">
+                    <RadzenIcon Icon="profile" />
+                    <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>Hi @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@"))));
+                </NavLink> 
+                <div class="rz-p-12 rz-text-align-center" style="">
+                    <RadzenProfileMenu >
+                        <Template>
+                            <RadzenGravatar Email="@context.User.Identity?.Name"></RadzenGravatar>
+                        </Template>
+                        <ChildContent>
+                            <RadzenProfileMenuItem Text="Buttons" Path="buttons" Icon="account_circle"></RadzenProfileMenuItem>
+                            <RadzenProfileMenuItem Text="Menu" Path="menu" Icon="line_weight"></RadzenProfileMenuItem>
+                            <RadzenProfileMenuItem Text="FileInput" Path="fileinput" Icon="attach_file"></RadzenProfileMenuItem>
+                            <RadzenProfileMenuItem Text="Dialog" Path="dialog" Icon="perm_media"></RadzenProfileMenuItem>
+                            <RadzenProfileMenuItem Text="Notification" Path="notification" Icon="announcement"></RadzenProfileMenuItem>
+                        </ChildContent>
+                    </RadzenProfileMenu>
+                </div>
             </Authorized>
             </AuthorizeView>
         </div>

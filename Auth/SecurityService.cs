@@ -48,7 +48,7 @@ namespace Langua.Auth
             var r = await authentication.GetAuthenticationStateAsync();
             if (!r.User.Identity.IsAuthenticated)
             {
-                RedirectTo("/Account/login");
+                RedirectTo("/login");
             }
         }
         public ApplicationUser CreateUser()
