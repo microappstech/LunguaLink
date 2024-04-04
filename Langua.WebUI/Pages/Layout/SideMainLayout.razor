@@ -19,9 +19,7 @@
                             <RadzenGravatar Email="@context.User.Identity?.Name"></RadzenGravatar>
                         </Template>
                         <ChildContent>
-                            <RadzenProfileMenuItem Text="Buttons" Path="buttons" Icon="account_circle"></RadzenProfileMenuItem>
-                            <RadzenProfileMenuItem Text="Menu" Path="menu" Icon="line_weight"></RadzenProfileMenuItem>
-                            <RadzenProfileMenuItem Text="FileInput" Path="fileinput" Icon="attach_file"></RadzenProfileMenuItem>
+                                <RadzenProfileMenuItem Text="Logout" Path="/Auth/Logout" Icon="lougout"></RadzenProfileMenuItem>
                             <RadzenProfileMenuItem Text="Dialog" Path="dialog" Icon="perm_media"></RadzenProfileMenuItem>
                             <RadzenProfileMenuItem Text="Notification" Path="notification" Icon="announcement"></RadzenProfileMenuItem>
                         </ChildContent>
@@ -36,7 +34,6 @@
         </article>
     </main>
 </div>
-
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>

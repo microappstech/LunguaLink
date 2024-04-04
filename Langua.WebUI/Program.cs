@@ -8,6 +8,7 @@ using Radzen;
 using Langua.Repositories.Interfaces;
 using Langua.Repositories.Services;
 using Langua.Auth;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,10 @@ builder.Services.AddLocalization();
 builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddControllers()
+    .AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Auth")));
+    //.AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Auth.Controllers")));
+
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
@@ -80,9 +85,12 @@ app.UseAuthorization();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>()
+app.MapRazorComponents<App>()  
+    
     .AddInteractiveServerRenderMode();
 
+app.MapControllers();
+app.UseMvc();
 
 //app.MapAdditionalIdentityEndpoints();
 
