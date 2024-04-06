@@ -1,0 +1,122 @@
+﻿@implements IDisposable
+
+@inject NavigationManager NavigationManager
+
+<div class="top-row ps-3 navbar bg-red-500">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white" href="">Lingua Link</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <div class="nav-item" style="padding-bottom:0 !important">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <RadzenIcon Icon="dashboard" IconColor="white"  />
+                <span class="px-2">Dashboard</span>
+            </NavLink>
+        </div>
+
+        <div class="nav-item" style="padding-bottom:0 !important">
+            <NavLink class="nav-link" href="Candidates" >
+                <RadzenIcon Icon="perm_identity" IconColor="white"/>
+                <span class="px-2">Candidates</span>
+            </NavLink>
+        </div>
+
+        <div class="nav-item" style="padding-bottom:0 !important">
+            <NavLink class="nav-link" href="Subjects" >
+                <RadzenIcon Icon="subject" IconColor="white" />
+                <span class="px-2">Subjects</span>
+            </NavLink>
+        </div>
+        
+        <div class="nav-item" style="padding-bottom:0 !important">
+            
+            <NavLink class="nav-link" href="Teachers">
+                <RadzenIcon Icon="supervisor_account" IconColor="white" />
+                <span class="px-2" aria-hidden="true">
+                    Teachers
+                </span> 
+            </NavLink>
+        </div>
+        <div class="nav-item" style="padding-bottom:0 !important">
+            <NavLink class="nav-link" href="roles">
+                <RadzenIcon Icon="supervisor_account" IconColor="white" />
+                <span class="px-2" aria-hidden="true">
+                    Roles
+                </span>
+            </NavLink>
+        </div>
+
+        <div class="nav-item" style="padding-bottom:0 !important">
+            <NavLink class="nav-link" href="Groups">
+                <RadzenIcon Icon="groups" IconColor="white"/>
+                <span class="px-2" >
+                    Groups
+                </span>
+            </NavLink>
+        </div>
+
+        <div class="nav-item d-none">
+            <NavLink class="nav-link" href="auth">
+                <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
+            </NavLink>
+        </div>
+
+        <AuthorizeView>
+            <Authorized>
+                <div class="nav-item d-none">
+                    <NavLink class="nav-link" href="Account/Manage">
+                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3 d-none">
+                    <form action="Account/Logout" method="post">
+                        <AntiforgeryToken />
+                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                        <button type="submit" class="nav-link">
+                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+                        </button>
+                    </form>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="nav-item d-none">
+                    <NavLink class="nav-link" href="Account/Register">
+                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
+                    </NavLink>
+                </div>
+                <div class="nav-item d-none">
+                    <NavLink class="nav-link" href="Account/Login">
+                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
+                    </NavLink>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    </nav>
+</div>
+
+@code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
+
