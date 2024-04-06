@@ -4,18 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-Langua.Web-90e305ac-eea4-433f-8ac8-4141cb77ca7e</UserSecretsId>
+    <UserSecretsId>aspnet-Langua.Web-ff787476-8bab-4f24-87cb-82b70fefdf53</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Langua.Auth\Langua.Auth.csproj" />
-    <ProjectReference Include="..\..\Langua.DAL\Langua.DAL.csproj" />
-    <ProjectReference Include="..\..\Langua.DataContext\Langua.DataContext.csproj" />
-    <ProjectReference Include="..\..\Langua.Models\Langua.Models.csproj" />
-    <ProjectReference Include="..\..\Langua.ModelView\Langua.ModelView.csproj" />
-    <ProjectReference Include="..\..\Langua.Repositories\Langua.Repositories.csproj" />
-    <ProjectReference Include="..\..\Langua.Shared\Langua.Shared.csproj" />
-    <ProjectReference Include="..\..\Langua.UIComponents\Langua.UIComponents.csproj" />
     <ProjectReference Include="..\Langua.Web.Client\Langua.Web.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.3" />
