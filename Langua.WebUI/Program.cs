@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Radzen;
 using Langua.Repositories.Interfaces;
 using Langua.Repositories.Services;
-using Langua.Auth;
+using Langua.Account;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,10 +24,11 @@ builder.Services.AddLocalization();
 builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+Assembly AuthAssembl = Assembly.Load(new AssemblyName("Langua.Account"));
 builder.Services.AddControllers()
-    .AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Auth")));
-    //.AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Auth.Controllers")));
-
+    .AddApplicationPart(AuthAssembl);
+//.AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Auth.Controllers")));
+builder.Services.AddControllers();
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
@@ -80,15 +81,15 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();   
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseStaticFiles();
 app.UseAntiforgery();
+app.UseStaticFiles();
 
 app.MapRazorComponents<App>()  
     
     .AddInteractiveServerRenderMode();
-
 app.MapControllers();
 
 //app.MapAdditionalIdentityEndpoints();

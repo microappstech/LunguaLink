@@ -1,4 +1,4 @@
-﻿using Langua.Auth;
+﻿using Langua.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -29,7 +29,6 @@ namespace Langua.WebUI.Pages.Auth
         [HttpPost("login")]
         public async Task<IActionResult> Login(string Email, string Password)//, string redirectUrl)
         {
-
             string userName = Email;
             string redirectUrl = "/";
 
@@ -70,5 +69,9 @@ namespace Langua.WebUI.Pages.Auth
                 return Redirect($"~/Login?error={error}");
             }
         }
-}
+        public async Task Test()
+        {
+            Console.WriteLine("Hello wourld");
+        }
+    }
 }

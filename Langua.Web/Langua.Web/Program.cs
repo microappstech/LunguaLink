@@ -54,7 +54,7 @@ else
 }
 
 app.UseHttpsRedirection();
-
+app.UseAntiforgery();
 app.UseStaticFiles();
 app.UseAntiforgery();
 

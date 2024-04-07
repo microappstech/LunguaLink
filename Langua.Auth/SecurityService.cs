@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
-namespace Langua.Auth
+namespace Langua.Account
 {
     public class SecurityService
     {
@@ -215,6 +215,7 @@ namespace Langua.Auth
         public async Task Logut()
         {
             await _signInManager.SignOutAsync();
+            RedirectTo("/login");
         }
     }
 }

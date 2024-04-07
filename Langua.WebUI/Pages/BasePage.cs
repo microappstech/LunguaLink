@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
 using Langua.Repositories.Interfaces;
 using Radzen;
-using Langua.Auth;
+using Langua.Account;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Langua.WebUI.Pages

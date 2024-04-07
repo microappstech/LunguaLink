@@ -1,4 +1,4 @@
-using Langua.Auth;
+using Langua.Account;
 using Langua.DataContext.Data;
 using Langua.ModelView.InputModels;
 using Microsoft.AspNetCore.Authentication;

@@ -21,11 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.UIComponents", "Lang
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.DAL", "Langua.DAL\Langua.DAL.csproj", "{C275DDA6-9832-462C-97E0-AF190665D3D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Auth", "Langua.Auth\Langua.Auth.csproj", "{67EB3147-0F3D-43AE-ABE3-1D01F200508E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Web", "Langua.Web\Langua.Web\Langua.Web.csproj", "{967B08E7-3522-4E41-AADC-723086D3FDF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Web", "Langua.Web\Langua.Web\Langua.Web.csproj", "{967B08E7-3522-4E41-AADC-723086D3FDF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Web.Client", "Langua.Web\Langua.Web.Client\Langua.Web.Client.csproj", "{76D23825-91A4-4F00-999C-DFF30DFACFB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Web.Client", "Langua.Web\Langua.Web.Client\Langua.Web.Client.csproj", "{76D23825-91A4-4F00-999C-DFF30DFACFB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Account", "Langua.Auth\Langua.Account.csproj", "{9C170CAC-281F-4991-9BC8-D8CEF66442A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,10 +69,18 @@ Global
 		{C275DDA6-9832-462C-97E0-AF190665D3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C275DDA6-9832-462C-97E0-AF190665D3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C275DDA6-9832-462C-97E0-AF190665D3D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67EB3147-0F3D-43AE-ABE3-1D01F200508E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67EB3147-0F3D-43AE-ABE3-1D01F200508E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67EB3147-0F3D-43AE-ABE3-1D01F200508E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67EB3147-0F3D-43AE-ABE3-1D01F200508E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{967B08E7-3522-4E41-AADC-723086D3FDF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{967B08E7-3522-4E41-AADC-723086D3FDF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{967B08E7-3522-4E41-AADC-723086D3FDF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{967B08E7-3522-4E41-AADC-723086D3FDF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76D23825-91A4-4F00-999C-DFF30DFACFB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76D23825-91A4-4F00-999C-DFF30DFACFB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76D23825-91A4-4F00-999C-DFF30DFACFB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76D23825-91A4-4F00-999C-DFF30DFACFB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C170CAC-281F-4991-9BC8-D8CEF66442A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C170CAC-281F-4991-9BC8-D8CEF66442A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C170CAC-281F-4991-9BC8-D8CEF66442A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C170CAC-281F-4991-9BC8-D8CEF66442A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,27 +8,34 @@
     <main>
         <div class="top-row px-4 text-white">
             <AuthorizeView>
-            <Authorized>
-                <NavLink class="nav-link  text-white" href="Account/Manage">
-                    <RadzenIcon Icon="profile" />
-                    <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>Hi @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@"))));
-                </NavLink> 
-                <div class="rz-p-12 rz-text-align-center" style="">
-                    <RadzenProfileMenu >
-                        <Template>
-                            <RadzenGravatar Email="@context.User.Identity?.Name"></RadzenGravatar>
-                        </Template>
-                        <ChildContent>
-                                <RadzenProfileMenuItem Text="Logout" Path="/Auth/Logout" Icon="lougout"></RadzenProfileMenuItem>
-                            <RadzenProfileMenuItem Text="Dialog" Path="dialog" Icon="perm_media"></RadzenProfileMenuItem>
-                            <RadzenProfileMenuItem Text="Notification" Path="notification" Icon="announcement"></RadzenProfileMenuItem>
-                        </ChildContent>
-                    </RadzenProfileMenu>
-                </div>
-            </Authorized>
+                <Authorized>
+                    <NavLink class="nav-link  text-white" href="Account/Manage">
+                        <RadzenIcon Icon="profile" />
+                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>Hi @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@"))));
+                    </NavLink> 
+                    <div class="rz-p-12 rz-text-align-center" style="">
+                        <RadzenProfileMenu >
+                            <Template>
+                                <RadzenGravatar Email="@context.User.Identity?.Name"></RadzenGravatar>
+                            </Template>
+                            <ChildContent>
+                                <form action="api/Auth/Logout" method="post">
+                                    <AntiforgeryToken />
+                                    <button type="submit" class="nav-link">
+                                        <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+                                    </button>
+                                </form>
+                                <RadzenProfileMenuItem Icon="logout">
+                                </RadzenProfileMenuItem>
+                                <RadzenProfileMenuItem Text="Dialog" Path="dialog" Icon="perm_media"></RadzenProfileMenuItem>
+                                <RadzenProfileMenuItem Text="Notification" Path="notification" Icon="announcement"></RadzenProfileMenuItem>
+                            </ChildContent>
+                        </RadzenProfileMenu>
+                    </div>
+                </Authorized>
             </AuthorizeView>
         </div>
-
+        <a href="/Home/Test">Tset Your Self</a>
         <article class="content px-4">
             @Body
         </article>
