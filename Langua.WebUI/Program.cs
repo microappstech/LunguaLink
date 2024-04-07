@@ -90,7 +90,6 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.MapControllers();
-app.UseMvc();
 
 //app.MapAdditionalIdentityEndpoints();
 

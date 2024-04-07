@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.DAL", "Langua.DAL\La
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Auth", "Langua.Auth\Langua.Auth.csproj", "{67EB3147-0F3D-43AE-ABE3-1D01F200508E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Web", "Langua.Web\Langua.Web\Langua.Web.csproj", "{967B08E7-3522-4E41-AADC-723086D3FDF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Web.Client", "Langua.Web\Langua.Web.Client\Langua.Web.Client.csproj", "{76D23825-91A4-4F00-999C-DFF30DFACFB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
