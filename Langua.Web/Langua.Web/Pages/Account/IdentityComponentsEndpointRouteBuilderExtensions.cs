@@ -1,5 +1,6 @@
-using Langua.Web.Components.Account.Pages;
-using Langua.Web.Components.Account.Pages.Manage;
+
+using Langua.Web.Pages.Account.Pages;
+using Langua.Web.Pages.Account.Pages.Manage;
 using Langua.Web.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;

@@ -2,6 +2,7 @@ using Langua.Web.Client.Pages;
 using Langua.Web.Components;
 using Langua.Web.Components.Account;
 using Langua.Web.Data;
+using Langua.Web.Pages;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
