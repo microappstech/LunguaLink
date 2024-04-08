@@ -11,10 +11,17 @@ namespace Langua.Account.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpPost("Logout")]
-        public async Task Logout()
+        private readonly SecurityService _securityService;
+        
+        public AuthController( SecurityService security )
         {
-            Console.WriteLine("Loogin out");
+            _securityService = security;
+        }
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _securityService.Logut();
+            return Redirect("/login");
         }
 
         [HttpGet("Test")]

@@ -68,3 +68,5 @@
 /Langua.Shared/bin/Release/net8.0
 /Langua.UIComponents/bin/Release/net8.0
 /Langua.WebUI/bin/Release/net8.0
+/Langua.WebUI.Client/bin/Debug/net8.0
+/Langua.WebUI.Client/obj

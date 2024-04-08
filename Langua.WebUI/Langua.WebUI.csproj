@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="Pages\Resource.fr.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
@@ -23,6 +27,10 @@
     <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
     <ProjectReference Include="..\Langua.Repositories\Langua.Repositories.csproj" />
     <ProjectReference Include="..\Langua.UIComponents\Langua.UIComponents.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Pages\Resource.fr.resx" />
   </ItemGroup>
 
 </Project>

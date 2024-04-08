@@ -9,11 +9,11 @@
         <div class="top-row px-4 text-white">
             <AuthorizeView>
                 <Authorized>
-                    <NavLink class="nav-link  text-white" href="Account/Manage">
+                    <NavLink class="nav-link " href="Account/Manage" style="color:rebeccapurple;">
                         <RadzenIcon Icon="profile" />
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span>Hi @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@"))));
+                        <span class="bi bi-person-fill-nav-menu text-bold" aria-hidden="true"></span>Hi @( context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@")))
                     </NavLink> 
-                    <div class="rz-p-12 rz-text-align-center" style="">
+                    <div class="rz-p-2 rz-text-align-center" style="">
                         <RadzenProfileMenu >
                             <Template>
                                 <RadzenGravatar Email="@context.User.Identity?.Name"></RadzenGravatar>
@@ -21,21 +21,17 @@
                             <ChildContent>
                                 <form action="api/Auth/Logout" method="post">
                                     <AntiforgeryToken />
-                                    <button type="submit" class="nav-link">
-                                        <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+                                    <button type="submit" class="nav-link mx-auto" style="background-color: Transparent; border:none; ">
+                                        <RadzenProfileMenuItem Icon="logout" class="mx-auto" Text="Logout" Style="width:100;">
+                                        </RadzenProfileMenuItem>
                                     </button>
                                 </form>
-                                <RadzenProfileMenuItem Icon="logout">
-                                </RadzenProfileMenuItem>
-                                <RadzenProfileMenuItem Text="Dialog" Path="dialog" Icon="perm_media"></RadzenProfileMenuItem>
-                                <RadzenProfileMenuItem Text="Notification" Path="notification" Icon="announcement"></RadzenProfileMenuItem>
                             </ChildContent>
                         </RadzenProfileMenu>
                     </div>
                 </Authorized>
             </AuthorizeView>
         </div>
-        <a href="/Home/Test">Tset Your Self</a>
         <article class="content px-4">
             @Body
         </article>
