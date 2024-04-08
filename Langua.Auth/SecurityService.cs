@@ -215,7 +215,6 @@ namespace Langua.Account
         public async Task Logut()
         {
             await _signInManager.SignOutAsync();
-            RedirectTo("/login");
         }
     }
 }

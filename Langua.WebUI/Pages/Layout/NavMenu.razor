@@ -1,5 +1,5 @@
 ﻿@implements IDisposable
-
+@inject Microsoft.Extensions.Localization.IStringLocalizer<BasePage> L
 @inject NavigationManager NavigationManager
 
 <div class="top-row ps-3 navbar bg-red-500">
@@ -15,20 +15,13 @@
         <div class="nav-item" style="padding-bottom:0 !important">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <RadzenIcon Icon="dashboard" IconColor="white"  />
-                <span class="px-2">Dashboard</span>
+                <span class="px-2">@L["Dashboard"]</span>
             </NavLink>
         </div>
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="api/Auth/Test">
-                <RadzenIcon Icon="Logout" IconColor="white" />
-                <span class="px-2">Test</span>
-            </NavLink>
-        </div>
-
         <div class="nav-item" style="padding-bottom:0 !important">
             <NavLink class="nav-link" href="Candidates" >
                 <RadzenIcon Icon="perm_identity" IconColor="white"/>
-                <span class="px-2">Candidates</span>
+                <span class="px-2">@L["Candidates"]</span>
             </NavLink>
         </div>
 
