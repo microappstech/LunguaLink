@@ -14,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
+
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
@@ -22,12 +24,11 @@ builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 builder.Services.AddLocalization();
 builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-Assembly AuthAssembl = Assembly.Load(new AssemblyName("Langua.Account"));
+
+
 builder.Services.AddControllers()
-    .AddApplicationPart(AuthAssembl);
-//.AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Auth.Controllers")));
+    .AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Account")));
+
 builder.Services.AddControllers();
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
@@ -71,6 +72,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseWebAssemblyDebugging();
     app.UseMigrationsEndPoint();
 }
 else
@@ -88,8 +90,9 @@ app.UseAntiforgery();
 app.UseStaticFiles();
 
 app.MapRazorComponents<App>()  
-    
-    .AddInteractiveServerRenderMode();
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(Langua.WebUI.Client._Imports).Assembly);
 app.MapControllers();
 
 //app.MapAdditionalIdentityEndpoints();
