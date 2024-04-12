@@ -1,6 +1,8 @@
 ﻿using Langua.Api;
 using Langua.Api.Shared.ApiHelper;
 using Langua.DataContext.Data;
+using Langua.ModelView.InputModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -37,14 +39,17 @@ namespace Langua.Account.Controllers
         {
 
         }
+        //public async Task<ApiResponse> Login(string Username, string Password)
         [HttpPost("Login")]
-        public async Task<ApiResponse> Login(string Username, string Password)
+        [AllowAnonymous]
+        public async Task<ApiResponse> Login([FromBody] LoginInput loginInput)
+        
         {
-            string username = Username;
-            string password = Password;
+            string username = loginInput.Email;
+            string password = loginInput.Password;
             try
             {
-                var user = await userManager.FindByEmailAsync(username);
+                ApplicationUser user = await userManager.FindByEmailAsync(username);
                 if(user is null) 
                 {
                     return new ApiResponse 
@@ -66,9 +71,9 @@ namespace Langua.Account.Controllers
                 {
                     var claims = new Claim[]
                     {
-                        new Claim ("sub",user.UserName),
-                        new Claim ("given_name",user.UserName.Substring(0,user.UserName.IndexOf("@"))),
-                        new Claim ("EmailAddress",user.Email)
+                        new Claim (ClaimTypes.Email,user.UserName),
+                        new Claim (ClaimTypes.NameIdentifier,user.Id),
+                        new Claim (ClaimTypes.Name,user.FullName)
                     };
                     var token = _apiHelper.GenerateToken(claims);
                     Response.Cookies.Append("token", token);
@@ -79,7 +84,7 @@ namespace Langua.Account.Controllers
                             token
                         },
                         Success = true,
-                        Message = ""
+                        Message = "Successed"
                     };
                 }
                 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using static Langua.DAL.Sp.SqlProcedure;
 
@@ -38,12 +39,24 @@ namespace Langua.Api.ApiControllers
         {
             try
             {
-                var user = ((ClaimsIdentity)User.Identity);
+                var userid = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var userName = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email);
                 var paramss = new DynamicParameters();
-                paramss.Add("@UserId", "e8935b0d-5c91-40db-8b68-b93688e2fd31");
-                var Re = dataAccess.LoadData<Groups, DynamicParameters>(sp["LoadCandidateGroup"].ToString()!, paramss);
-                return Ok(Re.Result);
+                if (!string.IsNullOrEmpty(userid))
+                {
+                    paramss.Add("@UserId", userid);
+                    var Re = dataAccess.LoadData<Groups, DynamicParameters>(sp["LoadCandidateGroup"].ToString()!, paramss);
+                    return Ok(Re.Result);
+                }
+                else
+                {
+                    return BadRequest(
+                        new ApiResponse
+                        {
+                            Success = false,
+                            Message = "Something wrong"
+                        });
+                }
             }
             catch(Exception ex)
             {

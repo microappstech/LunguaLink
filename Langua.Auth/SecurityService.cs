@@ -66,6 +66,7 @@ namespace Langua.Account
             user.Password = ApplicationUser.Password;
             user.NormalizedUserName = ApplicationUser.NormalizedUserName;
             user.PhoneNumber = ApplicationUser.PhoneNumber;
+            
             //await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
             //var emailStore = GetEmailStore();
             //await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
