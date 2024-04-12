@@ -1,0 +1,11 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+GET https://localhost:44317/api/Global/GetGroup
+
+###
+POST  https://localhost:44317/api/Auth/login
+Content-Type: application/json
+
+{
+  "Username": "Hamza@gmail.com",
+  "Password":"454455"
+}

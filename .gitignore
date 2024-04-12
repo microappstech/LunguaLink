@@ -70,3 +70,5 @@
 /Langua.WebUI/bin/Release/net8.0
 /Langua.WebUI.Client/bin/Debug/net8.0
 /Langua.WebUI.Client/obj
+/Langua.Api.Shared/bin/Debug/net8.0
+/Langua.Api.Shared/obj

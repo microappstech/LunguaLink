@@ -216,5 +216,15 @@ namespace Langua.Account
         {
             await _signInManager.SignOutAsync();
         }
+
+        public async Task<ApplicationUser> GetById(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is not null)
+            {
+                return user;
+            }
+            return null;
+        }
     }
 }

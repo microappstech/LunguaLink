@@ -9,6 +9,12 @@ using Langua.Repositories.Interfaces;
 using Langua.Repositories.Services;
 using Langua.Account;
 using System.Reflection;
+using Langua.DAL;
+using Microsoft.IdentityModel.Tokens;
+
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Langua.Api.Shared.ApiHelper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +28,11 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>(serviceProvider =>
+{
+    return new SqlDataAccess(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 builder.Services.AddLocalization();
 builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
 
@@ -38,13 +49,32 @@ builder.Services.AddScoped<BaseService>();
 builder.Services.AddScoped(typeof(IGroupCandidateService<>), typeof(GroupCandidateService<>));
 builder.Services.AddRadzenComponents();
 builder.Services.AddScoped<SecurityService>();
+builder.Services.AddScoped<ApiHelper>();
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
         options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
+
+        //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(opts =>
+    {
+        byte[] SigninKey = Encoding.ASCII.GetBytes(builder.Configuration["AuthSettings:Key"]);
+        opts.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            
+            ValidIssuer = builder.Configuration["AuthSettings:Issuer"],
+            ValidAudience = builder.Configuration["AuthSettings:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(SigninKey)
+        };
     })
     .AddIdentityCookies();
+builder.Services.AddAuthorization();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -58,7 +88,7 @@ builder.Services.AddDbContext<LanguaContext>(options =>
 });
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+builder.Services.AddSwaggerGen();
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -83,17 +113,25 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseRouting();   
+app.UseRouting();
+//app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
 app.UseStaticFiles();
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Blazor API V1");
+});
 
 app.MapRazorComponents<App>()  
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(Langua.WebUI.Client._Imports).Assembly);
 app.MapControllers();
+//
+//app.MapIdentityApi<ApplicationUser>();
 
 //app.MapAdditionalIdentityEndpoints();
 

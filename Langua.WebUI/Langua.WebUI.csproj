@@ -21,9 +21,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Radzen.Blazor" Version="4.28.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Langua.Api\Langua.ApiControllers.csproj" />
     <ProjectReference Include="..\Langua.Auth\Langua.Account.csproj" />
     <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
     <ProjectReference Include="..\Langua.Repositories\Langua.Repositories.csproj" />
