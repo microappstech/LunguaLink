@@ -1,21 +1,53 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page p-2">
-    <nav>
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link @(activeNavItem=="homeTab"?"active":"")" @onclick="@(()=>NavItemClicked("homeTab"))" aria-current="page" href="/Teacher/Dahsboard">Home</a>
+    <nav class="d-flex">
+        <ul class="nav nav-tabs w-100">
+            <li>
+                <h2 class="px-4" style="color:purple; font-weight:bold;">Langua Link</h2>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(activeNavItem=="profileTab"?"active":"")" @onclick="@(()=>NavItemClicked("profileTab"))" href="/Teacher/Profile">Profile</a>
+                <a class="nav-link h-100 @(activeNavItem=="homeTab"?"active":"")" @onclick="@(()=>NavItemClicked("homeTab"))" aria-current="page" href="/Teacher/Dahsboard">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(activeNavItem=="ressourceTab"?"active":"")" @onclick="@(()=>NavItemClicked("ressourceTab"))" href="Teacher/Ressources">Ressources</a>
+                <a class="nav-link h-100 @(activeNavItem=="profileTab"?"active":"")" @onclick="@(()=>NavItemClicked("profileTab"))" href="/Teacher/Profile">Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(activeNavItem=="studentsTab"?"active":"")" @onclick="@(()=>NavItemClicked("studentsTab"))" href="Teacher/Students">Students</a>                
+                <a class="nav-link h-100 @(activeNavItem=="ressourceTab"?"active":"")" @onclick="@(()=>NavItemClicked("ressourceTab"))" href="Teacher/Ressources">Ressources</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link h-100 @(activeNavItem=="studentsTab"?"active":"")" @onclick="@(()=>NavItemClicked("studentsTab"))" href="Teacher/Students">Students</a>                
+            </li>
+            <li style="float:right">
+                
             </li>
         </ul>
+        <div style="margin-right:3%;" class="row text-white " >      
+            <AuthorizeView>
+                <Authorized>
+                    <NavLink class="nav-link col-8" href="Account/Manage" style="color:purple; font-weight:bold; width:auto;">
+                        <RadzenIcon Icon="profile" />
+                        <span class="bi bi-person-fill-nav-menu text-bold" aria-hidden="true"></span>Hi @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@")))
+                    </NavLink>
+                    <div class=" rz-text-align-center col-3" style="">
+                        <RadzenProfileMenu>
+                            <Template>
+                                <RadzenGravatar  Email="@context.User.Identity?.Name" Style=""></RadzenGravatar>
+                            </Template>
+                            <ChildContent>
+                                <form action="api/Auth/Logout" method="post">
+                                    <AntiforgeryToken />
+                                    <button type="submit" class="nav-link mx-auto" style="background-color: Transparent; border:none; ">
+                                        <RadzenProfileMenuItem Icon="logout" class="mx-auto" Text="Logout" Style="width:60;">
+                                        </RadzenProfileMenuItem>
+                                    </button>
+                                </form>
+                            </ChildContent>
+                        </RadzenProfileMenu>
+                    </div>
+                </Authorized>
+            </AuthorizeView>
+        </div>
     </nav>
 
     <main>

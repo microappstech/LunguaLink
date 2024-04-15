@@ -36,7 +36,7 @@ namespace Langua.WebUI.Pages.Auth
             var result = await Security.Login(Input);
             if (result.IsSucced())
             {
-                Navigation.NavigateTo("/", true);
+                Navigation.NavigateTo("/Teacher/Dahsboard", true);
             }
             else
             {
