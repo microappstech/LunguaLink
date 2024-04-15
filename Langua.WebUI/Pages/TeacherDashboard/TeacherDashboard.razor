@@ -1,6 +1,7 @@
 ﻿@page "/Teacher/Dahsboard"
 @layout TeacherLayout
-@inherits BasePage
+
+@inherits TeacherDashboardComponent
 <PageTitle>Dashboard Teacher</PageTitle>
 <link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css" rel="stylesheet" media="screen">
 <RadzenContent>
@@ -25,7 +26,7 @@
                                     <div class="col-8 text-center">
                                         <RadzenLabel Text="35" Style="color:darkblue; font-size: 30px;" />
                                       <br />
-                                        <RadzenLabel Text="Students" Style="color:darkblue; font-size:20px;" />
+                                        <RadzenLabel Text="Canddiats" Style="color:darkblue; font-size:20px;" />
                                    </div>
                                </RadzenCard>
                             </div>
@@ -78,10 +79,31 @@
                             </div>
                         </section>
 
-                        <div class="jumbotron jumbotron-fluid rounded bg-white border-0 shadow-sm border-left py-4">
-                            <div class="container">
-                                <h4 style="color:purple;" class=" mb-2 fw-bold">Top Users</h4>
-                                <p class="lead text-muted">Simple Admin Dashboard with Bootstrap.</p>
+                        <div class="jumbotron jumbotron-fluid rounded bg-white border-0 shadow-sm border-left py-5 row">
+                            <div class="container col-7">
+                                <h4 style="color:purple;" class=" mb-3 fw-bold">Top Users</h4>
+                                <RadzenDataGrid Data="Candidats">
+                                    <Columns>
+                                        <RadzenDataGridColumn TItem="Candidat" Property="FullName" Title="@L["Full Name"]">
+                                            <Template Context="CandContext">
+                                                <img src="@CandContext.Photo" width="30" height="30px" style="border-radius:50%;" />
+                                                <label>@CandContext.FullName</label>
+                                            </Template>
+                                        </RadzenDataGridColumn>
+                                        <RadzenDataGridColumn TItem="Candidat" Property="Subject.Name" Title="@L["Subject"]" />
+                                        <RadzenDataGridColumn TItem="Candidat" Property="Group.Name" Title="@L["Group"]" />
+                                    </Columns>
+                                </RadzenDataGrid>
+                            </div>
+                            
+                            <div class="container col-5">
+                                <h4 style="color:purple;" class=" mb-3 fw-bold">Your Subjects</h4>
+                                <RadzenDataGrid Data="Candidats">
+                                    <Columns>
+                                        <RadzenDataGridColumn TItem="Candidat" Property="Subject.Name" Title="@L["Subject"]" />
+                                        <RadzenDataGridColumn TItem="Candidat" Property="Group.Name" Title="@L["Group"]" />
+                                    </Columns>
+                                </RadzenDataGrid>
                             </div>
                         </div>
                     </main>

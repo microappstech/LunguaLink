@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Langua.DataContext.Data;
+using Langua.Models;
 
 namespace Langua.Repositories.Services
 {
@@ -38,6 +39,7 @@ namespace Langua.Repositories.Services
             }
             return items;
         }
+
 
         public async Task<int> NBItems<T>() where T : class
         {
