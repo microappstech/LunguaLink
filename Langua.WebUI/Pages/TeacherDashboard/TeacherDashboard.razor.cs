@@ -10,9 +10,9 @@ namespace Langua.WebUI.Pages.TeacherDashboard
 {
     public partial class TeacherDashboardComponent:BasePage
     {
-        [Inject] public IRepositoryCrudBase<Candidat> CandidateService { get; set; }
+        [Inject] public IRepositoryCrudBase<GroupCandidates> CandidateService { get; set; }
         [Inject] private BaseService baseService { get; set; }
-        public IEnumerable<Candidat> Candidats { get; set; }
+        public IEnumerable<GroupCandidates> Candidats { get; set; }
         public bool DataReady {  get; set; }
         protected override async Task OnInitializedAsync()
         {
@@ -21,7 +21,7 @@ namespace Langua.WebUI.Pages.TeacherDashboard
             {
                 //Candidats = resultToCandidates.Value;
                 //baseService.Apply((IQueryable<Candidat>)Candidats, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
-                Candidats = (IEnumerable<Candidat>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
+                Candidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
                 DataReady = true;
             }
         }

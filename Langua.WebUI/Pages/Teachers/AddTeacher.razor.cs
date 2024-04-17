@@ -37,31 +37,27 @@ namespace Langua.WebUI.Pages.Teachers
                 NormalizedUserName = teacher.FullName,
                 PhoneNumber = teacher.Phone
             };
-            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
+            //using (var scope = new TransactionScope(Options))
+            //{
 
-                var user = await Security.RegisterUser(_user);
-                if (user is not null)
+            var user = await Security.RegisterUser(_user);
+            if (user is not null)
+            {
+                teacher.UserId = user.Id;
+                var result = _repository.Add(teacher);
+                if (result.Succeeded)
                 {
-                    teacher.UserId = user.Id;
-                    var result = _repository.Add(teacher);
-                    if (result.Succeeded)
-                    {
-                        Notify("Success", "Creation Successful Completed", NotificationSeverity.Success);
-                        scope.Complete();
-                        dialogService.Close(null);
-                    }
-                    else
-                    {
-                        scope.Dispose();
-                        Notify("Failed", "Something Wrong", NotificationSeverity.Error);
-                    }
+                    Notify("Success", "Creation Successful Completed", NotificationSeverity.Success);
+                    dialogService.Close(null);
                 }
                 else
                 {
-                    scope.Dispose();
+                    Notify("Failed", "Something Wrong", NotificationSeverity.Error);
                 }
-
+            }
+            else
+            {
+            Notify(L["Failed"], "Something wrong", NotificationSeverity.Error);
             }
         }
         public void Close()

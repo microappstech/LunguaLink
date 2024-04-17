@@ -12,15 +12,19 @@ namespace Langua.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string UserId { get; set; }
-        public string FullName { get; set; }
-        [DataType(DataType.EmailAddress)] public string Email { get; set; }
-        [DataType(DataType.PhoneNumber)] public string Phone { get; set; }
+        public string? UserId { get; set; }
+        public string? FullName { get; set; }
+        //[DataType(DataType.EmailAddress)] 
+        public string? Email { get; set; }
+        //[DataType(DataType.PhoneNumber)]
+        public string? Phone { get; set; }
         [NotMapped]
-        [DataType(DataType.Password)]
+        //[DataType(DataType.Password)]
         public string Password { get; set; }
-        [NotMapped] [DataType(DataType.Password)] public string ConfirmPassword { get; set; }
-        public string Photo { get;set; }
+        [NotMapped]
+        // [DataType(DataType.Password)] 
+        public string? ConfirmPassword { get; set; }
+        public string? Photo { get;set; }
         public DateTime CreatedAt { get; set; }
     }
 }

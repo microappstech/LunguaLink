@@ -14,7 +14,7 @@ namespace Langua.WebUI.Pages
     {
         [Inject]public NavigationManager Navigation { get; set; }
         [Inject]  public DialogService dialogService { get; set; }
-        [Inject]public NotificationService notificationService { get; set; }
+        [Inject] public NotificationService notificationService { get; set; }
         [Inject] public IStringLocalizer<BasePage> L { get; set; }
         [Inject] protected SecurityService Security { get; set; }
         [Inject] public BaseService baseService { get; set; }

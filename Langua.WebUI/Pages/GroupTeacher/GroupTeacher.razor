@@ -1,0 +1,28 @@
+﻿@page "/Group-Teacher"
+@layout SideMainLayout
+@inherits GroupTeacherComponent
+
+
+<div class="row py-3">
+    <div class="col-md-9">
+        <h3>@L["Subjects"]</h3>
+    </div>
+    <div class="col-md-3 ">
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>SubmitAdd())" Style="background:purple;" Icon="add" class="text-sm" Text="@L["Add New Subject"]"></RadzenButton>
+    </div>
+
+</div>
+<RadzenContent>
+    
+    <RadzenDataGrid @ref="@grid" Data="GroupTeachers" TItem="Models.GroupTeacher" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" >
+        <Columns>
+            <RadzenDataGridColumn TItem="Models.GroupTeacher" Title="@L["Teacher"]" Property="Teacher.FullName" >
+                <Template Context="context">
+                    <img src="@context.Teacher?.Photo" alt="@context.Group?.Name" width="50"/>
+                    <label>@context.Teacher?.FullName</label>
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Models.GroupTeacher" Title="@L["Group"]" Property="Group.Name" />
+        </Columns>
+    </RadzenDataGrid>
+</RadzenContent>

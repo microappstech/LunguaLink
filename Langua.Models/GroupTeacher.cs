@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace Langua.Models
 {
-    public class Subject
+    public class GroupTeacher
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Photo { get; set; }
+        public Groups Group { get; set; }
+        public int GroupId { get; set; }
+        public Teacher Teacher { get; set; }
+        public int TeacherId { get; set; }
     }
 }

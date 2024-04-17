@@ -31,6 +31,9 @@ namespace Langua.DataContext.Data
 
             
         }
+
+
+
         public DbSet<Candidat> Candidates { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Manager> Managers { get; set; }
@@ -40,6 +43,7 @@ namespace Langua.DataContext.Data
         public DbSet<MessageGroup> MessageGroups { get; set; }
         public DbSet<MessageUser> MessageUsers { get; set; }
         public DbSet<GroupCandidates> GroupCandidates { get; set; }
+        public DbSet<GroupTeacher> GroupTeachers { get; set; }
 
     }
 }

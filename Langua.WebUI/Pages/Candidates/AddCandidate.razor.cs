@@ -36,24 +36,37 @@ namespace Langua.WebUI.Pages.Candidates
                 NormalizedUserName = candidate.FullName,
                 PhoneNumber = candidate.Phone,
             };
-            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
-
-                var user = await Security.RegisterUser(_user);
-                if (user is not null)
+            //using (var scope = new TransactionScope(TransactionScopeOption.Suppress))
+            //{
+                try
                 {
-                    candidate.UserId = user.Id;
-                    var result = _repository.Add(candidate);
-                    if (result.Succeeded)
+                    var user = await Security.RegisterUser(_user);
+                    if (user is not null)
                     {
-                        notificationService.Notify(NotificationSeverity.Success, "Creation Successful Completed");
-                        StateHasChanged();
-                        dialogService.Close(null);
+                        candidate.UserId = user.Id;
+                        var result = _repository.Add(candidate);
+                        if (result.Succeeded)
+                        {
+                            notificationService.Notify(NotificationSeverity.Success, "Creation Successful Completed");
+                            StateHasChanged();
+                            dialogService.Close(null);
+                            
+                        }
+                        else
+                        {
+                            Notify(L["Failed"], L["Something wrong"],NotificationSeverity.Error);
+                        }
                     }
+                    else
+                    {
+                        Notify(L["Failed"], L["Something wrong"],NotificationSeverity.Error);
+                    }
+                }catch(Exception ex)
+                {
+
                 }
-                scope.Complete();
                 
-            }
+            //}
         }
         public void Close()
         {

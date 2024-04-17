@@ -4,10 +4,11 @@
 <PageTitle>Add Candidate</PageTitle>
 <div class="px-2">
 
-    <EditForm Model="@teacher" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator />
+    @* <EditForm Model="@teacher" OnValidSubmit="@HandleValidSubmit"> *@
+        <RadzenTemplateForm Data="@teacher" TItem="Teacher" Submit="HandleValidSubmit">
+@*         <DataAnnotationsValidator />
         <ValidationSummary />
-
+ *@
         <div class="row">
             <div class="form-group mb-1 col-md-6">
                 <label for="Photo">@L["Photo"] :</label>
@@ -20,41 +21,44 @@
         <div class="row d-flex">
             <div class="form-group mb-1 col-md-6">
                 <label for="FullName">@L["Full Name"] :</label>
-                <InputText id="FullName" @bind-Value="teacher.FullName" class="form-control" Name="FullName" />
-                <RadzenRequiredValidator Component="FullName" Text="@L["The Filed Is Required"]"/>
+                <RadzenTextBox id="FullName" @bind-Value="teacher.FullName" class="form-control" Name="FullName"  />
+                <RadzenRequiredValidator Component="FullName" Text="@L["The Filed is Required"]"/>
             </div>
 
             <div class="form-group mb-1 col-md-6">
                 <label for="Phone">@L["Phone"] :</label>
-                <InputText id="Phone" @bind-Value="teacher.Phone" class="form-control" Name="Phone" />
-                <RadzenRequiredValidator Component="Phone" Text="@L["The Filed Is Required"]" />
+                <RadzenTextBox id="Phone" @bind-Value="teacher.Phone" class="form-control" Name="Phone" />
+                <RadzenRequiredValidator Component="Phone" Text="@L["The Filed is Required"]" />
             </div>
         </div>
 
         <div class="form-group mb-1">
             <label for="Email">@L["Email"] :</label>
-            <InputText id="Email" @bind-Value="teacher.Email" class="form-control" />
+            <RadzenTextBox Name="Email" id="Email" @bind-Value="teacher.Email" class="form-control" AutoComplete="false" />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" />
         </div>
-
-        <div class="form-group mb-1 col-md-6">
-            <label for="password">Password:</label>
-            <RadzenPassword id="password" @bind-Value="teacher.Password" class="form-control" Name="password" />
-            <RadzenRequiredValidator Component="password" Text="The Password Is Required"></RadzenRequiredValidator>
-        </div>
-        <div class="form-group mb-1 col-md-6">
-            <label for="password">Password:</label>
-            <RadzenPassword id="password" @bind-Value="teacher.ConfirmPassword" class="form-control" Name="ConfirmPassword" />
-            <RadzenRequiredValidator Component="ConfirmPassword" Text="The Password Is Required"></RadzenRequiredValidator>
-            <RadzenCompareValidator Component="ConfirmPassword" Value="teacher.Password" Text="The Password not match" />
+        <div class="row ">
+            <div class="form-group mb-1 col-md-6">
+                <label for="password">Password:</label>
+                <RadzenPassword id="password" @bind-Value="teacher.Password" class="form-control" Name="password" AutoComplete="false" />
+                <RadzenRequiredValidator Component="password" Text="The Password Is Required"></RadzenRequiredValidator>
+            </div>
+            <div class="form-group mb-1 col-md-6">
+                <label for="password">@L["Confirm Password"]:</label>
+                <RadzenPassword id="password" @bind-Value="teacher.ConfirmPassword" class="form-control" Name="ConfirmPassword" AutoComplete="false" />
+                <RadzenRequiredValidator Component="ConfirmPassword" Text="@L["The field is required"]"></RadzenRequiredValidator>
+                <RadzenCompareValidator Component="ConfirmPassword" Value="teacher.Password" Text="@L["The Password not match"]" />
+            </div>
         </div>
 
         <div class="mx-auto mt-2 text-center">
-            <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
-            <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
-            <button type="button" @onclick="@(()=>Close())" class="btn btn-secondary px-5">Close</button>
-
+            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="@L["Save"]" ButtonStyle="ButtonStyle.Primary" class="px-5">
+            </RadzenButton>
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="close" style="margin-left: 1rem" Text="@L["Cancel"]" Click="@(()=>Close())" class="px-5">
+            </RadzenButton>
+            <RadzenButton ButtonType="ButtonType.Reset" ButtonStyle="ButtonStyle.Danger" style="margin-left: 1rem" Icon="reset" Text="@L["Reset"]" class="px-5" />
         </div>
-    </EditForm>
+    </RadzenTemplateForm>
 
 </div>
 
