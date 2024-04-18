@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Langua.DataContext.Data;
 using Langua.Models;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Langua.Repositories.Services
 {
@@ -40,7 +42,13 @@ namespace Langua.Repositories.Services
             return items;
         }
 
-
+        public async Task<T?> GetEntiteByUserId<T>(string userid,Expression<Func<T, bool>> expression) where T : class
+        {
+            PropertyInfo property = typeof(T).GetProperty("UserId");
+            var resultt = _context.Set<T>().AsQueryable();
+            var result = _context.Set<T>().AsEnumerable().Where(e=>property.GetValue(e).ToString() == userid).FirstOrDefault();
+            return await Task.FromResult(result);
+        }
         public async Task<int> NBItems<T>() where T : class
         {
             var count = await _context.Set<T>().CountAsync();

@@ -8,6 +8,7 @@ namespace Langua.DataContext.Data
     {
         public string FullName { get; set; }
         [NotMapped] public string Password { get; set; }
+        [NotMapped] public IList<string> Roles { get; set; }
     }
 
 }

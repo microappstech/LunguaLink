@@ -2,6 +2,7 @@ using Langua.Models;
 using Langua.Repositories.Interfaces;
 using Langua.Repositories.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Radzen;
@@ -24,9 +25,13 @@ namespace Langua.WebUI.Pages.TeacherDashboard
             await Security.IsAuthenticatedWidthRedirect();
             await Security.InitializeAsync();
             var teacher = await baseService.GetEntiteByUserId<Teacher>(Security.User.Id, t => t.UserId == Security.User.Id);
+            if(teacher == null)
+            {
+                Navigation.NavigateToLogin("/login");
+            }
             var resultToCandidates = GroupCandidateService.GetAll();
             var resultGroups = GroupTeacherService.GetByExpression(x=>x.TeacherId == teacher.Id);
-            if(resultToCandidates.Succeeded)
+            if(resultToCandidates.Succeeded && resultGroups.Succeeded)
             {
                 groupCandidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
             }

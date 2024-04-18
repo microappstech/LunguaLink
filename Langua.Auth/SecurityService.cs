@@ -18,7 +18,7 @@ namespace Langua.Account
         private IEnumerable<IdentityError> identityErrors;
         private ILogger<SecurityService> Ilogger;
         private NavigationManager navigationManager;
-        private string? errorMessage;
+
         private readonly AuthenticationStateProvider authentication;
         private readonly IWebHostEnvironment webHost;
         private readonly RoleManager<IdentityRole> roleManager;
@@ -35,10 +35,28 @@ namespace Langua.Account
         }
         public ClaimsPrincipal Principal { get; set; }
         private ApplicationUser user;
-        //private AuthenticationStateProvider authenticationStateProvider;
 
         public ApplicationUser User { get { return user; } }
-        public async Task IsAuthenticated()
+        public async Task<bool> InitializeAsync()
+        {
+            var logged = await authentication.GetAuthenticationStateAsync();
+            if(logged.User?.Identity?.Name != null && user == null)
+            {
+                Principal = logged.User;
+                var us = await _userManager.FindByNameAsync(logged.User.Identity.Name);
+                if(us is not null)
+                {
+                    user = us;
+                    user.Roles = await _userManager.GetRolesAsync(us);
+                }
+            }
+            return logged.User.Identity.IsAuthenticated;
+        }
+        public  bool IsAuthenticated()
+        {
+            return Principal !=null ? Principal.Identity.IsAuthenticated :false;
+        }
+        public async Task IsAuthenticatedWidthRedirect()
         {
             var r = await authentication.GetAuthenticationStateAsync();
             if (!r.User.Identity.IsAuthenticated)
@@ -125,18 +143,19 @@ namespace Langua.Account
             {
 
 
-                var user = await _userManager.FindByEmailAsync(Input.Email);
+                var us = await _userManager.FindByEmailAsync(Input.Email);
 
-                if (user != null)
+                if (us != null)
                 {
-                    if (await _signInManager.CanSignInAsync(user))
+                    if (await _signInManager.CanSignInAsync(us))
                     {
 
                         Ilogger.LogInformation($"Login : username: {Input.Email}");
 
-                        var result = await _signInManager.PasswordSignInAsync(user, Input.Password, isPersistent: false, false);
+                        var result = await _signInManager.PasswordSignInAsync(us, Input.Password, isPersistent: false, false);
                         if (result.Succeeded)
                         {
+                            user = us;
                             Ilogger.LogInformation("User logged in.");
                             return new EResult(true);
                         }

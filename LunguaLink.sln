@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Account", "Langua.Au
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.WebUI.Client", "Langua.WebUI.Client\Langua.WebUI.Client.csproj", "{2E7A56C4-78F2-40CD-8CAF-41795188689C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Api.Shared", "Langua.Api.Shared\Langua.Api.Shared.csproj", "{9F9E5F86-FC1F-4875-89FE-6899B86CEEFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Api.Shared", "Langua.Api.Shared\Langua.Api.Shared.csproj", "{9F9E5F86-FC1F-4875-89FE-6899B86CEEFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

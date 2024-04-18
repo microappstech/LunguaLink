@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace Langua.Repositories.Interfaces
         Result<T> Update(T entity);
         Result<T> Delete(T entity);
         Result<IQueryable<T>> GetAll();
+        Result<IQueryable<T>> GetByExpression(Expression<Func<T, bool>> expression);
+        //public List<T> GetList(Expression<Func<T, bool>> predicate);
 
     }
 }

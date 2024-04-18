@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -148,6 +149,11 @@ namespace Langua.Repositories.Services
             {
                 return new Result<IQueryable<Candidat>>(false, exception: e);
             }
+        }
+
+        public Result<IQueryable<T>> GetByExpression(Expression<Func<T, bool>> expression)
+        {
+            throw new NotImplementedException();
         }
     }
 }
