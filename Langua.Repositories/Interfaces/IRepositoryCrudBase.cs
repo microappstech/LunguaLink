@@ -15,7 +15,7 @@ namespace Langua.Repositories.Interfaces
         Result<T> Update(T entity);
         Result<T> Delete(T entity);
         Result<IQueryable<T>> GetAll();
-        Result<IQueryable<T>> GetByExpression(Expression<Func<T, bool>> expression);
+        Result<IQueryable<T>> GetByExpression(string property , string value);
         //public List<T> GetList(Expression<Func<T, bool>> predicate);
 
     }

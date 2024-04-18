@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,10 +59,11 @@ namespace Langua.Repositories.Services
             }
         }
 
-        public Result<IQueryable<T>> GetByExpression(Expression<Func<T, bool>> expression)
+        public Result<IQueryable<T>> GetByExpression(string prop, string value)
         {
+            PropertyInfo property = typeof(T).GetProperty(prop);
             var result = _context.Set<T>().AsQueryable();
-            result = result.Where(expression.Compile()).AsQueryable();
+            result = result.Where(x=> property.GetValue(prop).ToString()==value);
             return new Result<IQueryable<T>> (true,result);
         }
 

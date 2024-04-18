@@ -30,7 +30,7 @@ namespace Langua.WebUI.Pages.TeacherDashboard
                 Navigation.NavigateToLogin("/login");
             }
             var resultToCandidates = GroupCandidateService.GetAll();
-            var resultGroups = GroupTeacherService.GetByExpression(x=>x.TeacherId == teacher.Id);
+            var resultGroups = GroupTeacherService.GetByExpression("TeacherId", teacher.Id);
             if(resultToCandidates.Succeeded && resultGroups.Succeeded)
             {
                 groupCandidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
