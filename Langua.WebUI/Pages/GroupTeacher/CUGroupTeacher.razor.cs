@@ -8,7 +8,7 @@ namespace Langua.WebUI.Pages.GroupTeacher
 {
     public partial class CUGroupTeacherComponent:BasePage
     {
-        [Parameter] public string? EntId { get; set; }
+        [Parameter] public dynamic? EntId { get; set; }
         [Inject] BaseService baseService { get; set; }
         [Inject] IRepositoryCrudBase<Models.GroupTeacher> repository { get; set; }
         [Inject] IRepositoryCrudBase<Groups> groupRepository { get; set; }
@@ -27,13 +27,14 @@ namespace Langua.WebUI.Pages.GroupTeacher
                 Groups = GResult.Value;
                 Teachers = Treasult.Value;
             }
-            if(string.IsNullOrWhiteSpace(EntId))
+            bool converted = int.TryParse(EntId, out int GroupTeacherId);
+            if (!converted)
             {
                 groupTeacher = new Models.GroupTeacher();
             }
             else
             {
-                var result = repository.GetById(int.Parse(EntId)) ;
+                var result = repository.GetById(GroupTeacherId) ;
                 if(result.Succeeded)
                 {
                     groupTeacher = result.Value;

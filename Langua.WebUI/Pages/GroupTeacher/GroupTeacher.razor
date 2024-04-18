@@ -1,11 +1,11 @@
 ﻿@page "/Group-Teacher"
 @layout SideMainLayout
 @inherits GroupTeacherComponent
-
+<PageTitle>@L["LanguaLink"] | @L["Group-Teacher"]</PageTitle>
 
 <div class="row py-3">
     <div class="col-md-9">
-        <h3>@L["Subjects"]</h3>
+        <h3>@L["Group/Teache"]</h3>
     </div>
     <div class="col-md-3 ">
         <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>SubmitAdd())" Style="background:purple;" Icon="add" class="text-sm" Text="@L["Add New Subject"]"></RadzenButton>
@@ -23,6 +23,12 @@
                 </Template>
             </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="Models.GroupTeacher" Title="@L["Group"]" Property="Group.Name" />
+            <RadzenDataGridColumn TItem="Models.GroupTeacher" Width="120px">
+                <Template Context="context">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(context))"  class="mr-2" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(context))"  />
+                </Template>
+            </RadzenDataGridColumn>
         </Columns>
     </RadzenDataGrid>
 </RadzenContent>

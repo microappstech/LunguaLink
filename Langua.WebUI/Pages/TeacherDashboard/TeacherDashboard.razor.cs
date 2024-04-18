@@ -10,19 +10,25 @@ namespace Langua.WebUI.Pages.TeacherDashboard
 {
     public partial class TeacherDashboardComponent:BasePage
     {
-        [Inject] public IRepositoryCrudBase<GroupCandidates> CandidateService { get; set; }
-        [Inject] private BaseService baseService { get; set; }
-        public IEnumerable<GroupCandidates> Candidats { get; set; }
+        [Inject] public IRepositoryCrudBase<GroupCandidates>? GroupCandidateService { get; set; }
+
+        [Inject] public IRepositoryCrudBase<Models.GroupTeacher>? GroupTeacherService { get; set; }
+        public IEnumerable<GroupCandidates>? groupCandidats { get; set; }
+        public IEnumerable<Models.GroupTeacher>? groupTeachers { get; set; }
+        public Teacher? Teacher { get; set; }
         public bool DataReady {  get; set; }
+        public int NbRessource, NbGroups, NbCandidates;
+
         protected override async Task OnInitializedAsync()
         {
-            var resultToCandidates = CandidateService.GetAll();
+            await Security.IsAuthenticatedWidthRedirect();
+            await Security.InitializeAsync();
+            var teacher = await baseService.GetEntiteByUserId<Teacher>(Security.User.Id, t => t.UserId == Security.User.Id);
+            var resultToCandidates = GroupCandidateService.GetAll();
+            var resultGroups = GroupTeacherService.GetByExpression(x=>x.TeacherId == teacher.Id);
             if(resultToCandidates.Succeeded)
             {
-                //Candidats = resultToCandidates.Value;
-                //baseService.Apply((IQueryable<Candidat>)Candidats, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
-                Candidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
-                DataReady = true;
+                groupCandidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
             }
         }
     }

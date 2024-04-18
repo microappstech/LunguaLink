@@ -11,6 +11,7 @@ namespace Langua.WebUI.Pages.Dashboard
         public IEnumerable<Teacher> Teachers { get; set; }
         public int NbTeacher;
         public int NbCandidat;
+        public int NbGroups;
 
         [Inject] public BaseService baseService { get; set; }
 
@@ -26,7 +27,7 @@ namespace Langua.WebUI.Pages.Dashboard
         protected override async Task OnInitializedAsync()
         {
             
-            await Security.IsAuthenticated();
+            await Security.IsAuthenticatedWidthRedirect();
             openIssuesByDate = new List<IssueGroup>()
             {
                 new IssueGroup { Count=12,Week=new DateTime(2020,12,01) },
@@ -50,6 +51,7 @@ namespace Langua.WebUI.Pages.Dashboard
             NbTeacher = await baseService.NBItems<Teacher>();
             NbCandidat = await baseService.NBItems<Candidat>();
 
+            NbGroups = await baseService.NBItems<Groups>(); 
         }
     }
 }

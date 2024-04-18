@@ -26,7 +26,7 @@
                                     <div class="col-8 text-center">
                                         <RadzenLabel Text="35" Style="color:darkblue; font-size: 30px;" />
                                       <br />
-                                        <RadzenLabel Text="Canddiats" Style="color:darkblue; font-size:20px;" />
+                                        <RadzenLabel Text="@L["Canddiats"]" Style="color:darkblue; font-size:20px;" />
                                    </div>
                                </RadzenCard>
                             </div>
@@ -40,7 +40,7 @@
                                         <label style="color:green; font-size: 30px;" >3</label>
                                         <br />
                                         <label style="color:green; font-size:20px;" >
-                                            Students    
+                                            @L["Ressources"]
                                         </label>
                                     </div>
                                 </RadzenCard>
@@ -56,7 +56,7 @@
                                         <label style="color:orangered; font-size: 30px;">10</label>
                                         <br />
                                         <label style="color:orangered; font-size:20px;">
-                                            Students
+                                            @L["Groups"]
                                         </label>
                                     </div>
                                 </RadzenCard>
@@ -82,7 +82,7 @@
                         <div class="jumbotron jumbotron-fluid rounded bg-white border-0 shadow-sm border-left py-5 row">
                             <div class="container col-7">
                                 <h4 style="color:purple;" class=" mb-3 fw-bold">Top Users</h4>
-                                <RadzenDataGrid Data="Candidats">
+                                <RadzenDataGrid Data="groupCandidats">
                                     <Columns>
                                         <RadzenDataGridColumn TItem="Candidat" Property="FullName" Title="@L["Full Name"]">
                                             <Template Context="CandContext">
@@ -98,7 +98,7 @@
                             
                             <div class="container col-5">
                                 <h4 style="color:purple;" class=" mb-3 fw-bold">Your Subjects</h4>
-                                <RadzenDataGrid Data="Candidats">
+                                <RadzenDataGrid Data="groupCandidats">
                                     <Columns>
                                         <RadzenDataGridColumn TItem="Candidat" Property="Subject.Name" Title="@L["Subject"]" />
                                         <RadzenDataGridColumn TItem="Candidat" Property="Group.Name" Title="@L["Group"]" />
