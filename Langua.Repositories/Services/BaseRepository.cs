@@ -1,4 +1,6 @@
-﻿using Langua.DataContext.Data;
+﻿
+using System.Linq.Dynamic.Core;
+using Langua.DataContext.Data;
 using Langua.Repositories.Interfaces;
 using Langua.Shared.Data;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +14,30 @@ using System.Threading.Tasks;
 
 namespace Langua.Repositories.Services
 {
-    public class BaseRepositoryCrud<T> :  IRepositoryCrudBase<T> where T : class
+    public class BaseRepositoryCrud<T> : IRepositoryCrudBase<T> where T : class
     {
         private readonly LanguaContext _context;
         public BaseRepositoryCrud(LanguaContext context)
         {
             _context = context;
+        }
+        void Main()
+        {
+            // Define a list of integers
+            List<int> numbers = new List<int> { 1, 2, 3, 4, 5 };
+
+            // Define the dynamic query expression
+            string expression = "x => x > 3";
+
+            // Execute the dynamic query using the Dynamic LINQ library
+            IEnumerable<int> results = numbers.AsQueryable().Where(expression);
+
+            // Output the results
+            Console.WriteLine("Numbers greater than 3:");
+            foreach (int number in results)
+            {
+                Console.WriteLine(number);
+            }
         }
         public Result<T> Add(T entity)
         {
@@ -55,16 +75,29 @@ namespace Langua.Repositories.Services
                 return new Result<IQueryable<T>>(true, result);
             }catch(Exception ex)
             {
-                return new Result<IQueryable<T>>(false, null);
+                return new Result<IQueryable<T>>(false, null, Error:ex.Message);
             }
         }
 
-        public Result<IQueryable<T>> GetByExpression(string prop, string value)
+        public Result<IQueryable<T>> GetByExpression(string expression)
         {
-            PropertyInfo property = typeof(T).GetProperty(prop);
-            var result = _context.Set<T>().AsQueryable();
-            result = result.Where(x=> property.GetValue(prop).ToString()==value);
-            return new Result<IQueryable<T>> (true,result);
+            try
+            {
+
+                ParameterExpression paramType = Expression.Parameter(typeof(T), expression);
+                ParameterExpression paramExpr = Expression.Parameter(typeof(T));
+                var arrProp = expression.Split('.').ToList();
+                var result = _context.Set<T>().AsQueryable().Where(expression);
+
+
+                //var predicate = System.Linq.Dynamic.DynamicExpression.ParseLambda();
+                //var result = _context.Set<T>().AsQueryable();
+                //result = result.ToList().Where(expressionWithValue);
+                return new Result<IQueryable<T>>(true, result);
+            }catch(Exception ex)
+            {
+                return new Result<IQueryable<T>>(false, null,ex.Message);
+            }
         }
 
         public Result<T> GetById(int id)

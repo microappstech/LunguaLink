@@ -30,10 +30,15 @@ namespace Langua.WebUI.Pages.TeacherDashboard
                 Navigation.NavigateToLogin("/login");
             }
             var resultToCandidates = GroupCandidateService.GetAll();
-            var resultGroups = GroupTeacherService.GetByExpression("TeacherId", teacher.Id);
+            var resultGroups = GroupTeacherService.GetByExpression($"TeacherId=={teacher.Id.ToString()}");
             if(resultToCandidates.Succeeded && resultGroups.Succeeded)
             {
+                List<int> GroupTeacherIds = resultGroups.Value.Select(i=>i.GroupId).ToList();
                 groupCandidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
+                groupCandidats = groupCandidats.Where(i=>GroupTeacherIds.Contains(i.GroupId)).ToList();
+                NbCandidates = groupCandidats.Where(i=>GroupTeacherIds.Contains(i.GroupId)).ToList().Count;
+                NbGroups = resultGroups.Value.Count();
+
             }
         }
     }

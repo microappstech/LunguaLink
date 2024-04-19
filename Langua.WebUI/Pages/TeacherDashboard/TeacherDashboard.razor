@@ -84,14 +84,16 @@
                                 <h4 style="color:purple;" class=" mb-3 fw-bold">Top Users</h4>
                                 <RadzenDataGrid Data="groupCandidats">
                                     <Columns>
-                                        <RadzenDataGridColumn TItem="Candidat" Property="FullName" Title="@L["Full Name"]">
-                                            <Template Context="CandContext">
-                                                <img src="@CandContext.Photo" width="30" height="30px" style="border-radius:50%;" />
-                                                <label>@CandContext.FullName</label>
+                                        <RadzenDataGridColumn TItem="GroupCandidates" Property="Group.Name" Title="@L["Group Name"]">
+                                            <Template Context="GrContext">
+                                                <label>@GrContext.Group.Name</label>
                                             </Template>
                                         </RadzenDataGridColumn>
-                                        <RadzenDataGridColumn TItem="Candidat" Property="Subject.Name" Title="@L["Subject"]" />
-                                        <RadzenDataGridColumn TItem="Candidat" Property="Group.Name" Title="@L["Group"]" />
+                                        <RadzenDataGridColumn TItem="GroupCandidates" Property="Group.Name" Title="@L["Nb Candidates"]" >
+                                            <Template Context="GrContext">
+                                                <label>@GrContext.</label>
+                                            </Template>
+                                        </RadzenDataGridColumn>
                                     </Columns>
                                 </RadzenDataGrid>
                             </div>

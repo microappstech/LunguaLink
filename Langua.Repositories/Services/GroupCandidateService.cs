@@ -151,7 +151,7 @@ namespace Langua.Repositories.Services
             }
         }
 
-        public Result<IQueryable<T>> GetByExpression(Expression<Func<T, bool>> expression)
+        public Result<IQueryable<T>> GetByExpression(string expressionWithValue)
         {
             throw new NotImplementedException();
         }

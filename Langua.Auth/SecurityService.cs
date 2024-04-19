@@ -135,7 +135,8 @@ namespace Langua.Account
                 };
                 //roleManager.Roles.ToList().ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r.Name)));
                 var us = new ApplicationUser { Email = Input.Email, Password = Input.Password };
-                await _signInManager.SignInAsync(us, isPersistent: false);
+                //await _signInManager.SignInAsync(us, isPersistent: false);
+                await _signInManager.SignInWithClaimsAsync(us, isPersistent: false, additionalClaims:claims) ;
                 await _userManager.AddToRoleAsync(us, "ADMIN");
                 return new EResult(true, "is dev env");
             }
@@ -152,7 +153,7 @@ namespace Langua.Account
 
                         Ilogger.LogInformation($"Login : username: {Input.Email}");
 
-                        var result = await _signInManager.PasswordSignInAsync(us, Input.Password, isPersistent: false, false);
+                        SignInResult? result = await _signInManager.PasswordSignInAsync(us, Input.Password, isPersistent: false, false);
                         if (result.Succeeded)
                         {
                             user = us;
@@ -161,7 +162,7 @@ namespace Langua.Account
                         }
                         else if (result.RequiresTwoFactor)
                         {
-                            return new EResult(true);
+                            return new EResult(false, "You need to confirm your login using two factor");
                         }
                         else if (result.IsLockedOut)
                         {
@@ -170,7 +171,7 @@ namespace Langua.Account
                         }
                         else
                         {
-                            return new EResult(true, "Invalid login attempt.");
+                            return new EResult(false, "Invalid login attempt.");
 
                         }
                     }
