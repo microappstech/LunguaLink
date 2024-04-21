@@ -28,8 +28,10 @@ namespace Langua.DataContext.Data
                 .HasForeignKey(i=>i.GroupId)
                 .HasPrincipalKey(i=>i.Id)
                 .OnDelete(DeleteBehavior.SetNull);
-
-            
+            builder.Entity<Teacher>()
+                .ToTable(tb => tb.UseSqlOutputClause());
+            builder.Entity<Teacher>()
+                .ToTable(tb => tb.HasTrigger("delete_user_on_teacher_deleted"));
         }
 
 
