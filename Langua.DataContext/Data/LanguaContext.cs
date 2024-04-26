@@ -32,6 +32,10 @@ namespace Langua.DataContext.Data
                 .ToTable(tb => tb.UseSqlOutputClause());
             builder.Entity<Teacher>()
                 .ToTable(tb => tb.HasTrigger("delete_user_on_teacher_deleted"));
+            builder.Entity<Candidat>()
+                .ToTable(tb => tb.HasTrigger("delete_user_on_candidate_deleted"));
+
+            
         }
 
 

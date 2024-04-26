@@ -4,6 +4,7 @@ using Langua.DataContext.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Langua.DataContext.Migrations
 {
     [DbContext(typeof(LanguaContext))]
-    partial class LanguaContextModelSnapshot : ModelSnapshot
+    [Migration("20240424200152_remove Groupcnad")]
+    partial class removeGroupcnad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,29 +108,6 @@ namespace Langua.DataContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("Langua.Models.GroupCandidates", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CandidatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CandidatId");
-
-                    b.HasIndex("GroupId");
-
-                    b.ToTable("GroupCandidates");
                 });
 
             modelBuilder.Entity("Langua.Models.GroupTeacher", b =>
@@ -358,25 +338,6 @@ namespace Langua.DataContext.Migrations
                     b.Navigation("Group");
 
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("Langua.Models.GroupCandidates", b =>
-                {
-                    b.HasOne("Langua.Models.Candidat", "Candidat")
-                        .WithMany()
-                        .HasForeignKey("CandidatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Langua.Models.Groups", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Candidat");
-
-                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("Langua.Models.GroupTeacher", b =>

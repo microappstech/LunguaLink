@@ -4,6 +4,7 @@ using Langua.DataContext.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Langua.DataContext.Migrations
 {
     [DbContext(typeof(LanguaContext))]
-    partial class LanguaContextModelSnapshot : ModelSnapshot
+    [Migration("20240424200403_add Groupcnad")]
+    partial class addGroupcnad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,6 +119,9 @@ namespace Langua.DataContext.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CandidatId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CandidateId")
                         .HasColumnType("int");
 
                     b.Property<int>("GroupId")
