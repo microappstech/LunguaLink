@@ -6,8 +6,8 @@
 @using Microsoft.AspNetCore.Authorization
 @layout SideMainLayout
 
-@attribute [Authorize]
-@* @attribute [Authorize(Roles = "ADMIN")] *@
+
+ @attribute [Authorize(Roles = "ADMIN")] 
 <PageTitle>LanguaLink| @L["Admin Dashboard"]</PageTitle>
 <HeadContent>
     <meta name="description" content="Rich dashboard created with the Radzen Blazor Components library.">
