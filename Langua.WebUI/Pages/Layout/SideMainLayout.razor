@@ -20,7 +20,7 @@
                         <span class="bi bi-person-fill-nav-menu text-bold" aria-hidden="true"></span>Hi @( context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@")))
                     </NavLink> 
                     <div class="rz-p-2 rz-text-align-center" style="">
-                        <RadzenProfileMenu >
+                        <RadzenProfileMenu Style="background-color: Transparent; border:none;">
                             <Template>
                                 <RadzenGravatar Email="@context.User.Identity?.Name"></RadzenGravatar>
                             </Template>

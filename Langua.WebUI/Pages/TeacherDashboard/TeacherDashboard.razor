@@ -1,7 +1,9 @@
 ﻿@page "/Teacher/Dahsboard"
+@page "/Teacher/"
 @layout TeacherLayout
-
+@using Microsoft.AspNetCore.Authorization
 @inherits TeacherDashboardComponent
+@attribute [Authorize(Roles="TEACHER")]
 <PageTitle>Dashboard Teacher</PageTitle>
 <link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css" rel="stylesheet" media="screen">
 <RadzenContent>
@@ -24,7 +26,7 @@
                                       </RadzenIcon>
                                    </div>
                                     <div class="col-8 text-center">
-                                        <RadzenLabel Text="35" Style="color:darkblue; font-size: 30px;" />
+                                        <RadzenLabel Text="@NbCandidates.ToString()" Style="color:darkblue; font-size: 30px;" />
                                       <br />
                                         <RadzenLabel Text="@L["Canddiats"]" Style="color:darkblue; font-size:20px;" />
                                    </div>
@@ -37,7 +39,7 @@
                                         </RadzenIcon>
                                     </div>
                                     <div class="col-8 text-center">
-                                        <label style="color:green; font-size: 30px;" >3</label>
+                                        <label style="color:green; font-size: 30px;" >@NbRessource</label>
                                         <br />
                                         <label style="color:green; font-size:20px;" >
                                             @L["Ressources"]
@@ -53,7 +55,7 @@
                                         </RadzenIcon>
                                     </div>
                                     <div class="col-8 text-center">
-                                        <label style="color:orangered; font-size: 30px;">10</label>
+                                        <label style="color:orangered; font-size: 30px;">@NbGroups</label>
                                         <br />
                                         <label style="color:orangered; font-size:20px;">
                                             @L["Groups"]

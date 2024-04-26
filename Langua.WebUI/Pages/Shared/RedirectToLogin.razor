@@ -1,0 +1,6 @@
+﻿@inject NavigationManager navigation;
+@code{
+    protected override async Task OnInitializedAsync(){
+        navigation.NavigateTo($"/Login?returnUrl={Uri.EscapeDataString(navigation.Uri)}", true);
+    }
+}

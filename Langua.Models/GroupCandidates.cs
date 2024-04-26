@@ -13,7 +13,8 @@ namespace Langua.Models
         public int Id { get; set; }
         public int GroupId { get; set; }
         public Groups Group { get; set; }
-        public int CandidateId {get;set;}
+        
+        public int CandidatId {get;set;}
         public Candidat Candidat { get; set; }  
     }
 }

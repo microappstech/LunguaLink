@@ -44,6 +44,7 @@ namespace Langua.WebUI.Pages.Teachers
             if (user is not null)
             {
                 teacher.UserId = user.Id;
+                var r = await Security.AddRoleToUser(user, "TEACHER");
                 var result = _repository.Add(teacher);
                 if (result.Succeeded)
                 {

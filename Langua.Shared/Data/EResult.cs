@@ -22,4 +22,12 @@ namespace Langua.Shared.Data
             return Success;
         }
     }
+    public class LResult : EResult
+    {
+        public string RedirectUrl { get; set; }
+        public LResult(bool succ, string msg = "", List<string> ers = null ,string uri = ""):base(succ,msg,ers)
+        {
+            RedirectUrl = uri;
+        }
+    }
 }

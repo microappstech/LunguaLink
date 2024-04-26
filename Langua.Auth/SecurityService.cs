@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using System.Linq.Expressions;
 
 namespace Langua.Account
 {
@@ -18,7 +19,7 @@ namespace Langua.Account
         private IEnumerable<IdentityError> identityErrors;
         private ILogger<SecurityService> Ilogger;
         private NavigationManager navigationManager;
-
+        
         private readonly AuthenticationStateProvider authentication;
         private readonly IWebHostEnvironment webHost;
         private readonly RoleManager<IdentityRole> roleManager;
@@ -84,41 +85,39 @@ namespace Langua.Account
             user.Password = ApplicationUser.Password;
             user.NormalizedUserName = ApplicationUser.NormalizedUserName;
             user.PhoneNumber = ApplicationUser.PhoneNumber;
-            
-            //await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-            //var emailStore = GetEmailStore();
-            //await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
             var result = await _userManager.CreateAsync(user, ApplicationUser.Password);
-
             if (!result.Succeeded)
             {
                 identityErrors = result.Errors;
                 return null;
             }
-
             Ilogger.LogInformation($"User created a new account with password. on : {DateTime.Now}");
-
-            //var userId = await _userManager.GetUserIdAsync(user);
-            #region Cancel
-            //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            //var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-            //NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-            //new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
-
-            //await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
-
-            //if (UserManager.Options.SignIn.RequireConfirmedAccount)
-            //{
-            //    RedirectManager.RedirectTo(
-            //        "Account/RegisterConfirmation",
-            //        new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
-            //}
-            #endregion Cancel
             return await Task.FromResult(user);
         }
-
-        public async Task<EResult> Login(ModelView.InputModels.LoginInput Input)
+        public async Task<(bool,string)> CreateRole(string roleName)
+        {
+            
+            var roleTask = await roleManager.CreateAsync(new IdentityRole { Name = roleName });
+            if (roleTask.Succeeded)
+                return (true, "");
+            return (false, "something wrong try again");
+        }
+        public async Task<bool> AddRoleToUser(ApplicationUser us, string role)
+        {
+            var existRole = await roleManager.RoleExistsAsync(role);
+            try
+            {
+                if(!existRole)
+                    await CreateRole(role);
+                var result = await _userManager.AddToRoleAsync(us, role);
+                return result.Succeeded;
+            }
+            catch 
+            {
+                return false;
+            }
+        }
+        public async Task<LResult> Login(ModelView.InputModels.LoginInput Input)
         {
             if (Input.Email == "admin@langua.ma" && Input.Password == "admin" && webHost.EnvironmentName == "Development")
             {
@@ -133,67 +132,64 @@ namespace Langua.Account
                     new Claim(ClaimTypes.Email,"admin@langua.ma"),
                     new Claim(ClaimTypes.Role ,"ADMIN")
                 };
-                //roleManager.Roles.ToList().ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r.Name)));
-                var us = new ApplicationUser { Email = Input.Email, Password = Input.Password };
-                //await _signInManager.SignInAsync(us, isPersistent: false);
-                await _signInManager.SignInWithClaimsAsync(us, isPersistent: false, additionalClaims:claims) ;
-                await _userManager.AddToRoleAsync(us, "ADMIN");
-                return new EResult(true, "is dev env");
+                var us = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Password = Input.Password };
+                await _signInManager.SignInWithClaimsAsync(new ApplicationUser { UserName = Input.Email, Email = Input.Email }, isPersistent: false, claims);
+                return new LResult(true, "is dev env",uri:"/");
             }
             else
             {
-
-
                 var us = await _userManager.FindByEmailAsync(Input.Email);
-
                 if (us != null)
                 {
-                    if (await _signInManager.CanSignInAsync(us))
+                    Ilogger.LogInformation($"Login : username: {Input.Email}");
+                    SignInResult? result = await _signInManager.PasswordSignInAsync(us, Input.Password, isPersistent: false, false);
+                    if (result.Succeeded)
                     {
-
-                        Ilogger.LogInformation($"Login : username: {Input.Email}");
-
-                        SignInResult? result = await _signInManager.PasswordSignInAsync(us, Input.Password, isPersistent: false, false);
-                        if (result.Succeeded)
-                        {
-                            user = us;
-                            Ilogger.LogInformation("User logged in.");
-                            return new EResult(true);
-                        }
-                        else if (result.RequiresTwoFactor)
-                        {
-                            return new EResult(false, "You need to confirm your login using two factor");
-                        }
-                        else if (result.IsLockedOut)
-                        {
-                            Ilogger.LogWarning("User account locked out.");
-                            return new EResult(false, "Your Account Is Locked");
-                        }
-                        else
-                        {
-                            return new EResult(false, "Invalid login attempt.");
-
-                        }
+                        Ilogger.LogInformation("User logged in.");
+                        LResult loginResult = new LResult(true) { };
+                        user = us;
+                        var roles = await _userManager.GetRolesAsync(user);
+                        user.Roles = roles;
+                        if (roles.Contains("ADMIN"))
+                            return new LResult(true, uri: "/");
+                        if (roles.Contains("TEACHER"))
+                            return new LResult(true, uri: "/Teacher");
+                        if (roles.Contains("MANAGER"))
+                            return new LResult(true, uri: "/Manager");
+                        return new LResult(true, uri: "NotFound");
+                    }
+                    else if (result.RequiresTwoFactor)
+                    {
+                        return new LResult(false, "You need to confirm your login using two factor");
+                    }
+                    else if (result.IsLockedOut)
+                    {
+                        Ilogger.LogWarning("User account locked out.");
+                        return new LResult(false, "Your Account Is Locked");
                     }
                     else
                     {
-                        return new EResult(false);
+                        return new LResult(false, "Invalid login attempt.");
                     }
                 }
                 else
                 {
                     Ilogger.LogInformation("Login : No account with this mail : " + Input.Email);
-                    return new EResult(false, "No User With This Name");
+                    return new LResult(false, "No User With This Name");
                 }
 
             }
         }
 
-
+        public async Task<bool> IsInRole(string role)
+        {
+            var existRole = User.Roles.Contains(role);
+            return await Task.FromResult(existRole);
+        }
 
         public void RedirectToLogin()
         {
-            var uriWithoutQuery = navigationManager.ToAbsoluteUri("/Account/Login").GetLeftPart(UriPartial.Path);
+            var uriWithoutQuery = navigationManager.ToAbsoluteUri("/Login").GetLeftPart(UriPartial.Path);
 
             RedirectTo("/");
         }

@@ -39,7 +39,7 @@ namespace Langua.Repositories.Services
                 var GrCands = new List<GroupCandidates>() { };
                 foreach (var candidatId in candidatsIds)
                 {
-                    var GrCand = new GroupCandidates() { CandidateId = candidatId, GroupId = group.Id };
+                    var GrCand = new GroupCandidates() { CandidatId = candidatId, GroupId = group.Id };
                     context.GroupCandidates.Add(GrCand);
                     GrCands.Add(GrCand);
                 }
@@ -56,7 +56,7 @@ namespace Langua.Repositories.Services
         {
             try
             {
-                var IsExist = context.GroupCandidates.Where(i=>i.GroupId==group.Id && i.CandidateId == candidat.Id).Any();
+                var IsExist = context.GroupCandidates.Where(i=>i.GroupId==group.Id && i.CandidatId == candidat.Id).Any();
                 if (IsExist)
                 {
                     return new Result<GroupCandidates>(true);

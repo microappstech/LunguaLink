@@ -24,6 +24,7 @@ namespace Langua.WebUI.Pages.TeacherDashboard
         {
             await Security.IsAuthenticatedWidthRedirect();
             await Security.InitializeAsync();
+            var r = await Security.IsInRole("ADMIN");
             var teacher = await baseService.GetEntiteByUserId<Teacher>(Security.User.Id, t => t.UserId == Security.User.Id);
             if(teacher == null)
             {
@@ -31,10 +32,10 @@ namespace Langua.WebUI.Pages.TeacherDashboard
             }
             var resultToCandidates = GroupCandidateService.GetAll();
             var resultGroups = GroupTeacherService.GetByExpression($"TeacherId=={teacher.Id.ToString()}");
-            if(resultToCandidates.Succeeded && resultGroups.Succeeded)
+            if(resultToCandidates.Succeeded && resultGroups.Succeeded && resultToCandidates.Value.Count()>0 && resultGroups.Value.Count()>0)
             {
                 List<int> GroupTeacherIds = resultGroups.Value.Select(i=>i.GroupId).ToList();
-                groupCandidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Subject,Group") } }));
+                groupCandidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Group") } }));
                 groupCandidats = groupCandidats.Where(i=>GroupTeacherIds.Contains(i.GroupId)).ToList();
                 NbCandidates = groupCandidats.Where(i=>GroupTeacherIds.Contains(i.GroupId)).ToList().Count;
                 NbGroups = resultGroups.Value.Count();

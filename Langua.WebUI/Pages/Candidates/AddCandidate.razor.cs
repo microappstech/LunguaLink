@@ -41,8 +41,10 @@ namespace Langua.WebUI.Pages.Candidates
                 try
                 {
                     var user = await Security.RegisterUser(_user);
-                    if (user is not null)
-                    {
+
+                if (user is not null)
+                {
+                    var r = await Security.AddRoleToUser(user, "CANDIDATE");
                         candidate.UserId = user.Id;
                         var result = _repository.Add(candidate);
                         if (result.Succeeded)
