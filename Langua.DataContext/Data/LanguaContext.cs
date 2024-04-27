@@ -50,6 +50,6 @@ namespace Langua.DataContext.Data
         public DbSet<MessageUser> MessageUsers { get; set; }
         public DbSet<GroupCandidates> GroupCandidates { get; set; }
         public DbSet<GroupTeacher> GroupTeachers { get; set; }
-
+        public DbSet<Session> Sessions { get; set; }
     }
 }

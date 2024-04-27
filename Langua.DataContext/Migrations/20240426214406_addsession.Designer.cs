@@ -4,6 +4,7 @@ using Langua.DataContext.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Langua.DataContext.Migrations
 {
     [DbContext(typeof(LanguaContext))]
-    partial class LanguaContextModelSnapshot : ModelSnapshot
+    [Migration("20240426214406_addsession")]
+    partial class addsession
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,38 +284,6 @@ namespace Langua.DataContext.Migrations
                     b.ToTable("MessageUsers");
                 });
 
-            modelBuilder.Entity("Langua.Models.Session", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("End")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Start")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("Sessions");
-                });
-
             modelBuilder.Entity("Langua.Models.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -450,25 +421,6 @@ namespace Langua.DataContext.Migrations
                     b.HasOne("Langua.Models.Groups", null)
                         .WithMany("GroupeMessages")
                         .HasForeignKey("GroupsId");
-                });
-
-            modelBuilder.Entity("Langua.Models.Session", b =>
-                {
-                    b.HasOne("Langua.Models.Groups", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Langua.Models.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Group");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("Langua.Models.Candidat", b =>
