@@ -11,8 +11,7 @@
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item" style="padding-bottom:0 !important">
+    <nav class="flex-column">        <div class="nav-item" style="padding-bottom:0 !important">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <RadzenIcon Icon="dashboard" IconColor="white"  />
                 <span class="px-2">@L["Dashboard"]</span>
@@ -63,6 +62,14 @@
                 <RadzenIcon Icon="group" IconColor="purple" />
                 <span class="px-2">
                     @L["Group/Teacher"]
+                </span>
+            </NavLink>
+        </div>
+        <div class="nav-item" style="padding-bottom:0 !important">
+            <NavLink class="nav-link" href="Sessions">
+                <RadzenIcon Icon="group" IconColor="purple" />
+                <span class="px-2">
+                    @L["Sessions"]
                 </span>
             </NavLink>
         </div>

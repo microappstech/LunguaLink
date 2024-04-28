@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Langua.Api.Shared.ApiHelper;
+using Langua.WebUI.Client.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,7 @@ builder.Services.AddScoped(typeof(IGroupCandidateService<>), typeof(GroupCandida
 builder.Services.AddRadzenComponents();
 builder.Services.AddScoped<SecurityService>();
 builder.Services.AddScoped<ApiHelper>();
+builder.Services.AddHttpClient();
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
@@ -75,11 +77,10 @@ builder.Services.AddAuthentication(options =>
     })
     .AddIdentityCookies();
 builder.Services.AddAuthorization();
-
+builder.Services.AddScoped<LanguaService>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-
     options.UseSqlServer(connectionString);
 });
 builder.Services.AddDbContext<LanguaContext>(options =>
@@ -87,6 +88,10 @@ builder.Services.AddDbContext<LanguaContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+
+
+
+builder.Services.AddScoped<LangClientService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddSwaggerGen();
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)

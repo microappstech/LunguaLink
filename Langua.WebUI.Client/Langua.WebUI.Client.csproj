@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -9,10 +9,17 @@
   <ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.3" />
+	  <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.4" />
+	  <PackageReference Include="Radzen.Blazor" Version="4.30.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <!--<ProjectReference Include="..\Langua.Auth\Langua.Account.csproj" />-->
+    <ProjectReference Include="..\Langua.Models\Langua.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Layout\" />
   </ItemGroup>
 
 </Project>
