@@ -17,10 +17,11 @@
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
+
     <RadzenRow>
-        <RadzenColumn SizeMD=6>
+        <RadzenColumn SizeMD=7>
             <RadzenCard style="height: 100%">
-                <RadzenDataGrid @ref="grid0" ColumnWidth="200px" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+                <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
                                 Data="@sessions" LoadData="@Grid0LoadData" Count="@count" TItem="Models.Session" RowSelect="@EditRow">
                     <Columns>
                         <RadzenDataGridColumn TItem="Models.Session" Property="Id" Title="Id">
@@ -49,7 +50,7 @@
             </RadzenCard>
 
         </RadzenColumn>
-        <RadzenColumn SizeMD=6>
+        <RadzenColumn SizeMD=5>
             <RadzenCard style="height: 100%;margin-top:0px;">
                 <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Session</RadzenAlert>
                 <RadzenTemplateForm TItem="Models.Session" Data="@session" Visible="@(session != null)" Submit="@FormSubmit">
@@ -107,6 +108,8 @@
             </RadzenCard>
         </RadzenColumn>
     </RadzenRow>
+
+
 </RadzenStack>
 
 

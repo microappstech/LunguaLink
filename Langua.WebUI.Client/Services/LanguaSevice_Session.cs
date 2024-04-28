@@ -33,7 +33,7 @@ namespace Langua.WebUI.Client.Services
 
             OnGetSessions(httpRequestMessage);
 
-            var response = new HttpResponseMessage(); //await httpClient.SendAsync(httpRequestMessage);
+            var response = await httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ODataServiceResult<Langua.Models.Session>>(response);
         }
@@ -50,7 +50,7 @@ namespace Langua.WebUI.Client.Services
 
             OnCreateSession(httpRequestMessage);
 
-            var response = new HttpResponseMessage();// await httpClient.SendAsync(httpRequestMessage);
+            var response = await httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<Models.Session>(response);
         }
@@ -64,8 +64,7 @@ namespace Langua.WebUI.Client.Services
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
             OnDeleteSession(httpRequestMessage);
-            return null;
-            //return await httpClient.SendAsync(httpRequestMessage);
+            return await httpClient.SendAsync(httpRequestMessage);
         }
 
         partial void OnGetSessionById(HttpRequestMessage requestMessage);
@@ -80,7 +79,7 @@ namespace Langua.WebUI.Client.Services
 
             OnGetSessionById(httpRequestMessage);
 
-            var response = new HttpResponseMessage();// await httpClient.SendAsync(httpRequestMessage);
+            var response = await httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<Models.Session>(response);
         }
@@ -99,7 +98,7 @@ namespace Langua.WebUI.Client.Services
 
             OnUpdateSession(httpRequestMessage);
 
-            return null;//return await httpClient.SendAsync(httpRequestMessage);
+            return await httpClient.SendAsync(httpRequestMessage);
         }
 
         public async Task<ODataServiceResult<Models.Groups>> GetGroups(Query query)
@@ -113,7 +112,7 @@ namespace Langua.WebUI.Client.Services
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter: filter, top: top, skip: skip, orderby: orderby, expand: expand, select: select, count: count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = new HttpResponseMessage();//await httpClient.SendAsync(httpRequestMessage);
+            var response = await httpClient.SendAsync(httpRequestMessage);
             return await HttpResponseMessageExtensions.ReadAsync<ODataServiceResult<Models.Groups>>(response);
         }
 
@@ -128,7 +127,7 @@ namespace Langua.WebUI.Client.Services
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter: filter, top: top, skip: skip, orderby: orderby, expand: expand, select: select, count: count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = new HttpResponseMessage(); //await httpClient.SendAsync(httpRequestMessage);
+            var response = await httpClient.SendAsync(httpRequestMessage);
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Models.Teacher>>(response);
         }
 

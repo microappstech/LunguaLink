@@ -30,9 +30,12 @@ namespace Langua.WebUI.Client.Pages.Sessions
         protected RadzenDataGrid<Models.Session> grid0;
         protected int count;
         protected bool isEdit = true;
-        
 
-        
+        protected override async Task OnInitializedAsync()
+        {
+            session = new Models.Session();
+        }
+
         protected async Task Grid0LoadData(LoadDataArgs args)
         {
             try

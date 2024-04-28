@@ -9,16 +9,16 @@ namespace Langua.WebUI.Client.Services
 {
     public partial class LangClientService
     {
-        [Inject] public NavigationManager navigationManager {  get; set; }
-        [Inject] public Uri baseUri { get; set; }
-        //private readonly NavigationManager navigationManager;
-        //private readonly HttpClient httpClient;
-        //private readonly Uri baseUri;
-        public LangClientService()//NavigationManager navigation,Uri uri)
+        //[Inject] public NavigationManager navigationManager {  get; set; }
+        //[Inject] public Uri baseUri { get; set; }
+        private readonly Uri baseUri;
+        private readonly HttpClient httpClient;
+        private readonly NavigationManager navigationManager;
+        public LangClientService(HttpClient httpClient, NavigationManager navigationManager, Uri uri)
         {
-           // navigationManager = navigation;
-          //  httpClient = http;
-         //   baseUri = uri;
+            this.httpClient = httpClient;
+            this.navigationManager = navigationManager;
+            baseUri = uri;
         }
 
 
