@@ -14,11 +14,11 @@ namespace Langua.WebUI.Client.Services
         private readonly Uri baseUri;
         private readonly HttpClient httpClient;
         private readonly NavigationManager navigationManager;
-        public LangClientService(HttpClient httpClient, NavigationManager navigationManager, Uri uri)
+        public LangClientService(HttpClient httpClient, NavigationManager navigationManager, IConfiguration configuration)
         {
             this.httpClient = httpClient;
             this.navigationManager = navigationManager;
-            baseUri = uri;
+            this.baseUri = new Uri($"{navigationManager.BaseUri}odata/LanguaDb/");
         }
 
 

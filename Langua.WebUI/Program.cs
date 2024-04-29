@@ -101,7 +101,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 //builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
-
+//builder.Services.AddSingleton<Uri>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
