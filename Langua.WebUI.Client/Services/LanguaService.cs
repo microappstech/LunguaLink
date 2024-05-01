@@ -18,7 +18,7 @@ namespace Langua.WebUI.Client.Services
         {
             this.httpClient = httpClient;
             this.navigationManager = navigationManager;
-            this.baseUri = new Uri($"{navigationManager.BaseUri}odata/LanguaDb/");
+            this.baseUri = new Uri($"{navigationManager.BaseUri}odata/Langua/");
         }
 
 

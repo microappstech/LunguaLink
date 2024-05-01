@@ -13,7 +13,7 @@ namespace Langua.Models
         [NotMapped]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("@odata.etag")]
-        public string ETag
+        public string? ETag
         {
             get;
             set;

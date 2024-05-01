@@ -19,12 +19,12 @@ namespace Langua.WebUI.Client.Services
 
         partial void OnGetSessions(HttpRequestMessage requestMessage);
 
-        public async Task<ODataServiceResult<Models.Session>> GetSessions(Query query)
+        public async Task<IEnumerable<Models.Session>> GetSessions(Query query)
         {
             return await GetSessions(filter: $"{query.Filter}", orderby: $"{query.OrderBy}", top: query.Top, skip: query.Skip, count: query.Top != null && query.Skip != null);
         }
 
-        public async Task<ODataServiceResult<Models.Session>> GetSessions(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<IEnumerable<Models.Session>> GetSessions(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"Sessions");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter: filter, top: top, skip: skip, orderby: orderby, expand: expand, select: select, count: count);
@@ -35,7 +35,7 @@ namespace Langua.WebUI.Client.Services
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ODataServiceResult<Langua.Models.Session>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<IEnumerable<Langua.Models.Session>>(response);
         }
 
         partial void OnCreateSession(HttpRequestMessage requestMessage);
@@ -101,34 +101,38 @@ namespace Langua.WebUI.Client.Services
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        public async Task<ODataServiceResult<Models.Groups>> GetGroups(Query query)
+        public async Task<IEnumerable<Models.Groups>> GetGroups(Query query)
         {
             return await GetGroups(filter: $"{query.Filter}", orderby: $"{query.OrderBy}", top: query.Top, skip: query.Skip, count: query.Top != null && query.Skip != null);
         }
 
-        public async Task<ODataServiceResult<Models.Groups>> GetGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<IEnumerable<Models.Groups>> GetGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"Groups");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter: filter, top: top, skip: skip, orderby: orderby, expand: expand, select: select, count: count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
             var response = await httpClient.SendAsync(httpRequestMessage);
-            return await HttpResponseMessageExtensions.ReadAsync<ODataServiceResult<Models.Groups>>(response);
+            var re = await HttpResponseMessageExtensions.ReadAsync<IEnumerable<Models.Groups>>(response);
+            return re;
+            //return await HttpResponseMessageExtensions.ReadAsync<ODataServiceResult<Models.Groups>>(response);
         }
 
-        public async Task<Radzen.ODataServiceResult<Models.Teacher>> GetTeachers(Query query)
+        public async Task<IEnumerable<Models.Teacher>> GetTeachers(Query query)
         {
             return await GetTeachers(filter: $"{query.Filter}", orderby: $"{query.OrderBy}", top: query.Top, skip: query.Skip, count: query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<Models.Teacher>> GetTeachers(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<IEnumerable<Models.Teacher>> GetTeachers(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"Teachers");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter: filter, top: top, skip: skip, orderby: orderby, expand: expand, select: select, count: count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
             var response = await httpClient.SendAsync(httpRequestMessage);
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Models.Teacher>>(response);
+            var r = await Radzen.HttpResponseMessageExtensions.ReadAsync<IEnumerable<Models.Teacher>>(response);
+            return r;
+            //return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Models.Teacher>>(response);
         }
 
     }

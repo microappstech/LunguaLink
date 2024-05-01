@@ -30,7 +30,8 @@ namespace Langua.WebUI.Client.Pages.Sessions
         protected RadzenDataGrid<Models.Session> grid0;
         protected int count;
         protected bool isEdit = true;
-
+        protected bool addCliecked = false;
+        protected bool EditClicked = false;
         protected override async Task OnInitializedAsync()
         {
             session = new Models.Session();
@@ -41,8 +42,9 @@ namespace Langua.WebUI.Client.Pages.Sessions
             try
             {
                 var result = await LangClientService.GetSessions(filter: $"{args.Filter}", expand: "Group,Teacher", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null);
-                sessions = result.Value.AsODataEnumerable();
-                count = result.Count;
+                
+                sessions = result;
+                count = result.Count();
             }
             catch (Exception ex)
             {
@@ -52,14 +54,21 @@ namespace Langua.WebUI.Client.Pages.Sessions
 
         protected async Task AddButtonClick(MouseEventArgs args)
         {
-            //await DialogService.OpenAsync<AddSession>("Add Session", null);
-            await grid0.Reload();
+            addCliecked = true;
+            
         }
 
         protected async Task EditRow(Models.Session args)
         {
-            //await DialogService.OpenAsync<EditSession>("Edit Session", new Dictionary<string, object> { { "Id", args.Id } });
-            await grid0.Reload();
+            try
+            {
+                EditClicked = true;
+                //var _session = await LangClientService.GetSessionById(id: args.Id);
+                session = args;
+            }catch(Exception ex)
+            {
+                Notify("Failed", "Enable to edit this session", NotificationSeverity.Error);
+            }
         }
 
         protected async Task GridDeleteButtonClick(MouseEventArgs args, Models.Session session)
@@ -93,9 +102,11 @@ namespace Langua.WebUI.Client.Pages.Sessions
         {
             try
             {
-                var result = await LangClientService.GetGroups(top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null, filter: $"contains(Name, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')", orderby: $"{args.OrderBy}");
-                groupsForGroupId = result.Value.AsODataEnumerable();
-                groupsForGroupIdCount = result.Count;
+                var filter = $"contains(Name, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')";
+                //var result = await LangClientService.GetGroups(top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null, filter: $"contains(Name, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')", orderby: $"{args.OrderBy}");
+                var result = await LangClientService.GetGroups();
+                groupsForGroupId = result;
+                groupsForGroupIdCount = result.Count();
 
             }
             catch (System.Exception ex)
@@ -110,9 +121,9 @@ namespace Langua.WebUI.Client.Pages.Sessions
         {
             try
             {
-                var result = await LangClientService.GetTeachers(top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null, filter: $"contains(UserId, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')", orderby: $"{args.OrderBy}");
-                teachersForTeacherId = result.Value.AsODataEnumerable();
-                teachersForTeacherIdCount = result.Count;
+                var result = await LangClientService.GetTeachers(top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null, filter: /*$"contains(UserId, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')",*/ null, orderby: $"{args.OrderBy}");
+                teachersForTeacherId = result;
+                teachersForTeacherIdCount = result.Count();
 
             }
             catch (System.Exception ex)
@@ -124,8 +135,12 @@ namespace Langua.WebUI.Client.Pages.Sessions
         {
             try
             {
+
+                isEdit = session.Id != 0;
                 dynamic result = isEdit ? await LangClientService.UpdateSession(id: session.Id, session) : await LangClientService.CreateSession(session);
-                dialogService.Close(session);
+                EditClicked = false;
+                addCliecked = false;
+                await grid0.Reload();
             }
             catch (Exception ex)
             {

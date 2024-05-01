@@ -16,6 +16,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Langua.Api.Shared.ApiHelper;
 using Langua.WebUI.Client.Services;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,14 @@ builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseReposito
 
 
 builder.Services.AddControllers()
+    .AddOData(optio =>
+    {
+        var odataBuilder = new ODataConventionModelBuilder();
+        optio.AddRouteComponents("odata/langua", odataBuilder.GetEdmModel())
+        .Select()
+        .Filter().Expand().OrderBy().SetMaxTop(null)
+        .Count();
+    })
     .AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Account")));
 
 builder.Services.AddControllers();

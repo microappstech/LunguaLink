@@ -19,7 +19,7 @@
     </RadzenRow>
 
     <RadzenRow>
-        <RadzenColumn SizeMD=7>
+        <RadzenColumn SizeMD=@((addCliecked || EditClicked)?7:12)>
             <RadzenCard style="height: 100%">
                 <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
                                 Data="@sessions" LoadData="@Grid0LoadData" Count="@count" TItem="Models.Session" RowSelect="@EditRow">
@@ -50,7 +50,7 @@
             </RadzenCard>
 
         </RadzenColumn>
-        <RadzenColumn SizeMD=5>
+        <RadzenColumn SizeMD=@((addCliecked || EditClicked)?5:0) Visible=@(addCliecked || EditClicked)>
             <RadzenCard style="height: 100%;margin-top:0px;">
                 <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Session</RadzenAlert>
                 <RadzenTemplateForm TItem="Models.Session" Data="@session" Visible="@(session != null)" Submit="@FormSubmit">
@@ -77,7 +77,7 @@
                             <RadzenLabel Text="Teacher" Component="Teacher" style="width: 100%" />
                         </RadzenColumn>
                         <RadzenColumn SizeMD="9">
-                            <RadzenDropDown Data="@teachersForTeacherId" TextProperty="UserId" ValueProperty="Id" AllowClear=true
+                            <RadzenDropDown Data="@teachersForTeacherId" TextProperty="FullName" ValueProperty="Id" AllowClear=true
                                             Placeholder="Choose Teacher" style="display: block; width: 100%" @bind-Value="@session.TeacherId" Name="TeacherId"
                                             Count=@teachersForTeacherIdCount LoadData=@teachersForTeacherIdLoadData />
                         </RadzenColumn>
@@ -87,7 +87,7 @@
                             <RadzenLabel Text="Start" Component="Start" style="width: 100%" />
                         </RadzenColumn>
                         <RadzenColumn SizeMD="9">
-                            <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@session.Start" Name="Start" />
+                            <RadzenDatePicker DateFormat="MM/dd/yyyy HH:mm" style="display: block; width: 100%" @bind-Value="@session.Start" Name="Start" ShowTime="true" />
                             <RadzenRequiredValidator Component="Start" Text="Start is required" />
                         </RadzenColumn>
                     </RadzenRow>
@@ -96,7 +96,8 @@
                             <RadzenLabel Text="End" Component="End" style="width: 100%" />
                         </RadzenColumn>
                         <RadzenColumn SizeMD="9">
-                            <RadzenDatePicker DateFormat="MM/dd/yyyy" style="display: block; width: 100%" @bind-Value="@session.End" Name="End" />
+                            
+                            <RadzenDatePicker DateFormat="HH:mm" style="display: block; width: 100%" @bind-Value="@session.End" Name="End" ShowTime="true"/>
                             <RadzenRequiredValidator Component="End" Text="End is required" />
                         </RadzenColumn>
                     </RadzenRow>
