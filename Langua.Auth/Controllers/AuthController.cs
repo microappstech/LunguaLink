@@ -73,8 +73,9 @@ namespace Langua.Account.Controllers
                     {
                         new Claim (ClaimTypes.Email,user.UserName),
                         new Claim (ClaimTypes.NameIdentifier,user.Id),
-                        new Claim (ClaimTypes.Name,user.FullName)
                     };
+                    if (user.FullName is not null)
+                        claims.Append(new Claim(ClaimTypes.Name, user.FullName));
                     var token = _apiHelper.GenerateToken(claims);
                     Response.Cookies.Append("token", token);
                     return new ApiResponse<object>

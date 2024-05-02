@@ -1,10 +1,14 @@
 ﻿@page "/sessions"
 @using Microsoft.AspNetCore.Authorization
 
+<style>
+    .rz-datepicker-header{
+        display:none;
+    }
+</style>
 @inherits SessionsComponent
 
 @attribute [Authorize]
-
 <PageTitle>Sessions</PageTitle>
 <RadzenStack>
     <RadzenRow AlignItems="AlignItems.Center">
@@ -87,7 +91,7 @@
                             <RadzenLabel Text="Start" Component="Start" style="width: 100%" />
                         </RadzenColumn>
                         <RadzenColumn SizeMD="9">
-                            <RadzenDatePicker DateFormat="MM/dd/yyyy HH:mm" style="display: block; width: 100%" @bind-Value="@session.Start" Name="Start" ShowTime="true" />
+                            <RadzenDatePicker DateFormat="dd/MM/yyyy HH:mm" style="display: block; width: 100%" @bind-Value="@session.Start" Name="Start" ShowTime="true" />
                             <RadzenRequiredValidator Component="Start" Text="Start is required" />
                         </RadzenColumn>
                     </RadzenRow>
@@ -97,7 +101,7 @@
                         </RadzenColumn>
                         <RadzenColumn SizeMD="9">
                             
-                            <RadzenDatePicker DateFormat="HH:mm" style="display: block; width: 100%" @bind-Value="@session.End" Name="End" ShowTime="true"/>
+                            <RadzenDatePicker YearRange="0" id="duree" ShowCalendarWeek="false" class="HideDate" ShowDays="false" DateFormat="HH:mm" style="display: block; width: 100%" @bind-Value="@session.End" Name="End" ShowTime="true"/>
                             <RadzenRequiredValidator Component="End" Text="End is required" />
                         </RadzenColumn>
                     </RadzenRow>

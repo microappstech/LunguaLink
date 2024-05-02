@@ -88,17 +88,19 @@ namespace Langua.WebUI.Client.Services
 
         public async Task<HttpResponseMessage> UpdateSession(int id = default(int), Models.Session session = default(Models.Session))
         {
-            var uri = new Uri(baseUri, $"Sessions({id})");
+            var uri = new Uri(baseUri, $"Update?Id={id}");
+            //var postUri = new Uri( $"https://localhost:44317/api/Global/Update?Id={id}");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
-            httpRequestMessage.Headers.Add("If-Match", session.ETag);
+            //httpRequestMessage.Headers.Add("If-Match", session.ETag);
 
             httpRequestMessage.Content = new StringContent(ODataJsonSerializer.Serialize(session), Encoding.UTF8, "application/json");
 
             OnUpdateSession(httpRequestMessage);
-
-            return await httpClient.SendAsync(httpRequestMessage);
+            //var r = await httpClient.PostAsync(postUri, httpRequestMessage.Content);
+            var response = await httpClient.SendAsync(httpRequestMessage);
+            return response;
         }
 
         public async Task<IEnumerable<Models.Groups>> GetGroups(Query query)

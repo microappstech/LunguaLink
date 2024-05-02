@@ -54,6 +54,9 @@ namespace Langua.WebUI.Client.Pages.Sessions
 
         protected async Task AddButtonClick(MouseEventArgs args)
         {
+            isEdit = false;
+            EditClicked = false;
+            session = new Models.Session();
             addCliecked = true;
             
         }
@@ -135,7 +138,14 @@ namespace Langua.WebUI.Client.Pages.Sessions
         {
             try
             {
-
+                if(session.End.TimeOfDay<session.Start.TimeOfDay)
+                {
+                    Notify("Wrong Time Session", "Please enter a correct durre for session", NotificationSeverity.Warning);
+                    return;
+                }
+                TimeSpan duree = new TimeSpan(session.End.Hour, session.End.Minute,session.End.Second);
+                var r = session.End.TimeOfDay-session.Start.TimeOfDay;
+                session.End = session.Start.AddHours(duree.Hours - session.Start.Hour).AddMinutes(duree.Minutes);
                 isEdit = session.Id != 0;
                 dynamic result = isEdit ? await LangClientService.UpdateSession(id: session.Id, session) : await LangClientService.CreateSession(session);
                 EditClicked = false;

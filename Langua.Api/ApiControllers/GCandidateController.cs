@@ -63,5 +63,12 @@ namespace Langua.Api.ApiControllers
                 return BadRequest($"BadRequest GetGroup : {ex.Message} ");
             }
         }
+
+        [HttpPost("Update")]
+        public async Task<IActionResult> Update(int Id)
+        {
+
+            return Ok();
+        }
     }
 }

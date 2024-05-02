@@ -20,7 +20,7 @@ using Langua.Models;
 namespace Langua.Api.ApiControllers
 {
     [Route("odata/Langua/Sessions")]
-    public partial class SessionsController : ODataController
+    public partial class SessionsController : ControllerBase
     {
         private LanguaContext context;
 
@@ -139,19 +139,21 @@ namespace Langua.Api.ApiControllers
             }
         }
 
-        [HttpPatch("/odata/Langua/Sessions(Id={Id})")]
+        [HttpPost("/odata/Langua/Session/Update")]
+        [HttpPatch("/odata/Langua/Update")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchSession(int key, [FromBody]Delta<Session> patch)
+        public IActionResult PatchSession(int Id, [FromBody]Delta<Session> patch)
         {
             try
             {
-                if(!ModelState.IsValid)
+                //Delta<Session> patch = new Delta<Session>();
+                if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
 
                 var items = this.context.Sessions
-                    .Where(i => i.Id == key)
+                    .Where(i => i.Id == Id)
                     .AsQueryable();
 
                 //items = Data.EntityPatch.ApplyTo<Session>(Request, items);
@@ -168,7 +170,7 @@ namespace Langua.Api.ApiControllers
                 this.context.Sessions.Update(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.Sessions.Where(i => i.Id == key);
+                var itemToReturn = this.context.Sessions.Where(i => i.Id == Id);
                 Request.QueryString = Request.QueryString.Add("$expand", "Group,Teacher");
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
