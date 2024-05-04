@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 
 namespace Langua.WebUI.Client.Services
-{
+{ 
     public partial class LangClientService
     {
         //[Inject] public NavigationManager navigationManager {  get; set; }

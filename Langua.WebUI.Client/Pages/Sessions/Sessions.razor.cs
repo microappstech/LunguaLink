@@ -92,15 +92,15 @@ namespace Langua.WebUI.Client.Pages.Sessions
             }
         }
         protected bool errorVisible;
-        protected Models.Session session;
+        protected Models.Session? session;
 
-        protected IEnumerable<Models.Groups> groupsForGroupId;
+        protected IEnumerable<Models.Groups>? groupsForGroupId;
 
-        protected IEnumerable<Models.Teacher> teachersForTeacherId;
+        protected IEnumerable<Models.Teacher>? teachersForTeacherId;
 
 
         protected int groupsForGroupIdCount;
-        protected Models.Groups groupsForGroupIdValue;
+        protected Models.Groups? groupsForGroupIdValue;
         protected async Task groupsForGroupIdLoadData(LoadDataArgs args)
         {
             try

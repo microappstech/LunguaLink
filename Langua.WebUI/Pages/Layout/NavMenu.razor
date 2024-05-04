@@ -1,7 +1,7 @@
 ﻿@implements IDisposable
-@inject Microsoft.Extensions.Localization.IStringLocalizer<BasePage> L
-@inject NavigationManager NavigationManager
 
+@inject NavigationManager NavigationManager
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Langua.WebUI.Client.Pages.BasePageClient> L
 <div class="top-row ps-3 navbar bg-red-500">
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="">Lingua Link</a>
@@ -73,6 +73,15 @@
                 </span>
             </NavLink>
         </div>
+        <div class="nav-item" style="padding-bottom:0 !important">
+            <NavLink class="nav-link" href="Schedelur">
+                <RadzenIcon Icon="group" IconColor="purple" />
+                <span class="px-2">
+                    @L["Schedelur"]
+                </span>
+            </NavLink>
+        </div>
+
 
         <div class="nav-item d-none">
             <NavLink class="nav-link" href="auth">

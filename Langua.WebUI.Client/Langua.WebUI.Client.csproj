@@ -16,6 +16,7 @@
   <ItemGroup>
     <!--<ProjectReference Include="..\Langua.Auth\Langua.Account.csproj" />-->
     <ProjectReference Include="..\Langua.Models\Langua.Models.csproj" />
+    <ProjectReference Include="..\Langua.Shared\Langua.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,7 +11,7 @@ namespace Langua.WebUI.Client.Pages
 
         [Inject] protected NavigationManager? navigationManager { get; set; }
 
-        [Inject] protected DialogService? dialogService { get; set; }
+        [Inject] protected DialogService dialogService { get; set; } = null;
 
         [Inject] protected TooltipService? tooltipService { get; set; }
 
@@ -20,6 +20,7 @@ namespace Langua.WebUI.Client.Pages
         [Inject] protected NotificationService? notificationService { get; set; }
 
         [Inject] public LangClientService? LangClientService { get; set; }
+        [Inject] public Microsoft.Extensions.Localization.IStringLocalizer<BasePageClient> L { get; set; }
 
         public virtual void Notify(string title, string message,NotificationSeverity notification = NotificationSeverity.Success, double Time=4000)
         {

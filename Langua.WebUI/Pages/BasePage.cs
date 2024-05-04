@@ -7,19 +7,19 @@ using Langua.Repositories.Interfaces;
 using Radzen;
 using Langua.Account;
 using Microsoft.AspNetCore.Components.Authorization;
+using Langua.WebUI.Client.Pages;
 
 namespace Langua.WebUI.Pages
 {
-    public partial class BasePage : ComponentBase
+    public partial class BasePage : BasePageClient
     {
-        [Inject]public NavigationManager Navigation { get; set; }
-        [Inject]  public DialogService dialogService { get; set; }
-        [Inject] public NotificationService notificationService { get; set; }
-        [Inject] public IStringLocalizer<BasePage> L { get; set; }
-        [Inject] protected SecurityService Security { get; set; }
-        [Inject] public BaseService baseService { get; set; }
-        [Inject] protected AuthenticationStateProvider authenticationStateProvider { get; set; }
-        public virtual async Task<bool?> Confirm(string title, string message , ConfirmOptions confirmOptions = null)
+        [Inject]public NavigationManager? Navigation { get; set; }
+        
+        //[Inject] Microsoft.Extensions.Localization.IStringLocalizer<Langua.WebUI.Client.Pages.BasePageClient>? L { get; set; }
+        [Inject] protected SecurityService? Security { get; set; }
+        [Inject] public BaseService? baseService { get; set; }
+        [Inject] protected AuthenticationStateProvider? authenticationStateProvider { get; set; }
+        public virtual async Task<bool?> Confirm(string title, string message , ConfirmOptions confirmOptions = default(ConfirmOptions))
         {
             if(confirmOptions is null)
             {
