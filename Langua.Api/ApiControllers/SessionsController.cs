@@ -142,7 +142,7 @@ namespace Langua.Api.ApiControllers
         [HttpPost("/odata/Langua/Session/Update")]
         [HttpPatch("/odata/Langua/Update")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchSession(int Id, [FromBody]Delta<Session> patch)
+        public IActionResult PatchSession(int Id, [FromBody]Session patch)
         {
             try
             {
@@ -152,22 +152,21 @@ namespace Langua.Api.ApiControllers
                     return BadRequest(ModelState);
                 }
 
-                var items = this.context.Sessions
-                    .Where(i => i.Id == Id)
-                    .AsQueryable();
+                //var items = this.context.Sessions
+                //    .Where(i => i.Id == Id)
+                //    .AsQueryable();
 
                 //items = Data.EntityPatch.ApplyTo<Session>(Request, items);
 
-                var item = items.FirstOrDefault();
+                //var item = items.FirstOrDefault();
 
-                if (item == null)
-                {
-                    return StatusCode((int)HttpStatusCode.PreconditionFailed);
-                }
-                patch.Patch(item);
-
-                this.OnSessionUpdated(item);
-                this.context.Sessions.Update(item);
+                //if (item == null)
+                //{
+                //    return StatusCode((int)HttpStatusCode.PreconditionFailed);
+                //}
+                //patch.Patch(item);
+                
+                this.context.Sessions.Update(patch);
                 this.context.SaveChanges();
 
                 var itemToReturn = this.context.Sessions.Where(i => i.Id == Id);

@@ -143,9 +143,7 @@ namespace Langua.WebUI.Client.Pages.Sessions
                     Notify("Wrong Time Session", "Please enter a correct durre for session", NotificationSeverity.Warning);
                     return;
                 }
-                TimeSpan duree = new TimeSpan(session.End.Hour, session.End.Minute,session.End.Second);
-                var r = session.End.TimeOfDay-session.Start.TimeOfDay;
-                session.End = session.Start.AddHours(duree.Hours - session.Start.Hour).AddMinutes(duree.Minutes);
+                session.End = session.Start + (session.End.TimeOfDay - session.Start.TimeOfDay);
                 isEdit = session.Id != 0;
                 dynamic result = isEdit ? await LangClientService.UpdateSession(id: session.Id, session) : await LangClientService.CreateSession(session);
                 EditClicked = false;
