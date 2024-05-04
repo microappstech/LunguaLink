@@ -26,3 +26,8 @@ Authorization: Bearer {{jwt}}
   Start : DateTime.Now,
   End : DateTime.Now
 }
+
+###
+GET {{url}}/odata/Langua/Sessions?$filter name eq 'Francais'
+#filter=name eq 'ddd'
+# GET {{url}}/odata/Langua/Sessions?$filter=name eq 'Anglais'

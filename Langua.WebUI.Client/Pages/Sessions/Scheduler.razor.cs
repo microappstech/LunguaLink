@@ -31,12 +31,12 @@ namespace Langua.WebUI.Client.Pages.Sessions
             switch (ScheFor)
             {
                 case SchedelurFor.TeacherSched:
-                    var sched = await LangClientService!.GetSessions(filter: $"TeacherId eq '{selectedTeacher}'");
-                    Sessions = sched;
+                    var sched = await LangClientService!.GetSessions(); //(filter: $"TeacherId eq '{selectedTeacher}'");
+                    Sessions = sched.Where(i=>i.TeacherId == selectedTeacher);
                     break;
                 case SchedelurFor.GroupSched:
-                    var sessions = await LangClientService!.GetSessions(filter: $"GroupId eq '{selectedGroup}'");
-                    Sessions = sessions;
+                    var sessions = await LangClientService!.GetSessions(); //(filter: $"GroupId eq '{selectedGroup}'");
+                    Sessions = sessions.Where(s=> s.GroupId == selectedGroup);
                     break;
             }
         }
@@ -47,7 +47,10 @@ namespace Langua.WebUI.Client.Pages.Sessions
             Teachers = teachers.ToList();
             Groups = groups.ToList();
 
-            
+            var sessions = await LangClientService!.GetSessions();
+            Sessions = sessions;
+
+
         }
         public SchedelurFor ScheFor { get; set; }
         public void ShedelurChanged()

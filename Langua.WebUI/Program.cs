@@ -45,8 +45,9 @@ builder.Services.AddControllers()
     {
         var odataBuilder = new ODataConventionModelBuilder();
         optio.AddRouteComponents("odata/langua", odataBuilder.GetEdmModel())
+        .Filter()
         .Select()
-        .Filter().Expand().OrderBy().SetMaxTop(null)
+        .Expand().OrderBy().SetMaxTop(null)
         .Count();
     })
     .AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Account")));
