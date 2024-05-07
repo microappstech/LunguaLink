@@ -62,6 +62,7 @@ builder.Services.AddScoped(typeof(IGroupCandidateService<>), typeof(GroupCandida
 builder.Services.AddRadzenComponents();
 builder.Services.AddScoped<SecurityService>();
 builder.Services.AddScoped<ApiHelper>();
+builder.Services.AddScoped<IMailService,MailService>();
 builder.Services.AddHttpClient();
 builder.Services.AddAuthentication(options =>
     {

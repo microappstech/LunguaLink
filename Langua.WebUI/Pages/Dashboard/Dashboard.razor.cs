@@ -53,5 +53,9 @@ namespace Langua.WebUI.Pages.Dashboard
 
             NbGroups = await baseService.NBItems<Groups>(); 
         }
+        public async Task SendMailToCandidate()
+        {
+            mailService.SendMail("Test Subject", "body Mail ", "Hamzamouddakur@gmail.com", "Hamza");
+        }
     }
 }

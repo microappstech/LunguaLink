@@ -19,6 +19,7 @@ namespace Langua.WebUI.Pages
         [Inject] protected SecurityService? Security { get; set; }
         [Inject] public BaseService? baseService { get; set; }
         [Inject] protected AuthenticationStateProvider? authenticationStateProvider { get; set; }
+        [Inject] protected IMailService mailService { get; set; }
         public virtual async Task<bool?> Confirm(string title, string message , ConfirmOptions confirmOptions = default(ConfirmOptions))
         {
             if(confirmOptions is null)

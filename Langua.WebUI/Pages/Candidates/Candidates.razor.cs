@@ -20,8 +20,15 @@ namespace Langua.WebUI.Pages.Candidates
     public partial class CandidatesComponent : BasePage
     {
         public IEnumerable<Candidat> candidates { get; set; }
-        public RadzenDataGrid<Candidat> grid0;
+        public List<Candidat> fcandidates { get; set; }
+        public RadzenDataGrid<Candidat>? grid0;
         [Inject] private IRepositoryCrudBase<Candidat> baseRepository { get; set; }
+        public void filter(string s, string on)
+        {
+            fcandidates = candidates.Where(i=>i.FullName == s).ToList();
+            if (string.IsNullOrEmpty(s))
+                fcandidates = candidates.ToList();
+        }
         protected override Task OnInitializedAsync()
         {
 
@@ -34,6 +41,7 @@ namespace Langua.WebUI.Pages.Candidates
 
             baseService.Apply(candidatesResult.Value, queryCollection);
             candidates = (IEnumerable<Candidat>)baseService.Apply(candidatesResult.Value, queryCollection);
+            fcandidates = candidates.ToList();
             return base.OnInitializedAsync();
         }
         public async Task Delete(Candidat candidat)
