@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Langua.WebUI.Client\Pages\Sessions\SessionForm.razor.cs" Link="AddSession.razor.cs" />
     <Compile Include="..\Langua.WebUI.Client\Pages\Sessions\Scheduler.razor.cs" Link="Scheduler.razor.cs" />
   </ItemGroup>
 

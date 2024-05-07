@@ -26,8 +26,8 @@ namespace Langua.WebUI.Client.Pages.Sessions
     {
         
 
-        protected IEnumerable<Models.Session> sessions;
-        protected RadzenDataGrid<Models.Session> grid0;
+        protected IEnumerable<Models.Session>? sessions;
+        protected RadzenDataGrid<Models.Session>? grid0;
         protected int count;
         protected bool isEdit = true;
         protected bool addCliecked = false;

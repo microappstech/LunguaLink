@@ -71,7 +71,7 @@ namespace Langua.WebUI.Client.Services
 
         public async Task<Models.Session> GetSessionById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Sessions({id})");
+            var uri = new Uri(baseUri, $"Sessions(Id={id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter: null, top: null, skip: null, orderby: null, expand: expand, select: null, count: null);
 

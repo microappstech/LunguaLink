@@ -16,14 +16,14 @@
         </RadzenRadioButtonList>
     </RadzenColumn>
     <RadzenColumn SizeMD="6">
-        <RadzenDropDown Data="@Teachers" TValue="int" @bind-Value="selectedTeacher" Change="SelectChanged" TextProperty="FullName" ValueProperty="Id" Visible=@(SchedelurFor.TeacherSched == ScheFor)  Style="width:100%"/>
+        <RadzenDropDown Data="@Teachers" TValue="int" @bind-Value="selectedTeacher" Change="SelectChanged" TextProperty="FullName" ValueProperty="Id" Visible=@(SchedelurFor.TeacherSched == ScheFor)  Style="width:100%" />
         <RadzenDropDown Data="@Groups" Change="SelectChanged" @bind-Value="selectedGroup" TextProperty="Name" ValueProperty="Id" Visible=@(SchedelurFor.GroupSched == ScheFor) Style="width:100%" />
     </RadzenColumn>
 </RadzenRow>
-<RadzenScheduler @ref=@scheduler
+<RadzenScheduler @ref=@scheduler 
     SlotRender=@OnSlotRender style="height: 768px;" TItem="Langua.Models.Session" 
 Data=@Sessions StartProperty="Start" EndProperty="End" 
-    TextProperty="Name" SelectedIndex="2" SlotSelect=@OnSlotSelect 
+    TextProperty="Name" SelectedIndex="1" SlotSelect=@OnSlotSelect 
     AppointmentSelect=@OnSessionSelect AppointmentRender=@OnSessionRender
                  AppointmentMove=@OnSessionMove>
 

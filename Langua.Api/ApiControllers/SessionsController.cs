@@ -47,14 +47,15 @@ namespace Langua.Api.ApiControllers
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         [HttpGet("/odata/Langua/Sessions(Id={Id})")]
         //[HttpGet("/odata/Langua/Sessions({Id})")]
-        public SingleResult<Session> GetSession(int key)
+        //public SingleResult<Session> GetSession(int Id)
+        public Session GetSession(int Id)
         {
-            var items = this.context.Sessions.Where(i => i.Id == key);
-            var result = SingleResult.Create(items);
+            var items = this.context.Sessions.Where(i => i.Id == Id).FirstOrDefault();
+            //var result = SingleResult.Create(items);
 
-            OnSessionGet(ref result);
+            //OnSessionGet(ref result);
 
-            return result;
+            return items;
         }
         partial void OnSessionDeleted(Session item);
         partial void OnAfterSessionDeleted(Session item);
