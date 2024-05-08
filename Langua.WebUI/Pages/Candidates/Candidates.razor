@@ -13,7 +13,7 @@
 
 </div>
 <RadzenContent>
-    <RadzenDataGrid @ref="grid0" Data="candidates" TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
+    <RadzenDataGrid @ref="grid0" LoadData="loadData" Data=candidates TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
         <Columns>
             <RadzenDataGridColumn Property="FullName" FilterValue="fullName" Title="@L["Full Name"]" TItem="Candidat">
                 <FilterTemplate >

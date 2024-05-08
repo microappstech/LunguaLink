@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Primitives;
 using Radzen;
 using Radzen.Blazor;
+using System.Linq.Dynamic.Core;
+using System.Globalization;
 //using static Langua.WebUI.Pages.Components.LanguaGrid<dynamic>;
 
 
@@ -19,7 +21,7 @@ namespace Langua.WebUI.Pages.Candidates
 
     public partial class CandidatesComponent : BasePage
     {
-        public IEnumerable<Candidat> candidates { get; set; }
+        public IQueryable<Candidat> candidates { get; set; }
         public List<Candidat> fcandidates { get; set; }
         public RadzenDataGrid<Candidat>? grid0;
         [Inject] private IRepositoryCrudBase<Candidat> baseRepository { get; set; }
@@ -29,19 +31,39 @@ namespace Langua.WebUI.Pages.Candidates
             if (string.IsNullOrEmpty(s))
                 fcandidates = candidates.ToList();
         }
-        protected override Task OnInitializedAsync()
+        public async Task loadData(LoadDataArgs args)
         {
-
             var candidatesResult = baseRepository.GetAll();
-            
-            IQueryCollection queryCollection = 
+
+            IQueryCollection queryCollection =
                 new QueryCollection(
                     new Dictionary<string, StringValues> { { "include", new StringValues("Subject") } }
                     );
+            
 
-            baseService.Apply(candidatesResult.Value, queryCollection);
-            candidates = (IEnumerable<Candidat>)baseService.Apply(candidatesResult.Value, queryCollection);
-            fcandidates = candidates.ToList();
+            baseService!.Apply(candidatesResult.Value, queryCollection);
+            candidates = (IQueryable<Candidat>)baseService.Apply(candidatesResult.Value, queryCollection);
+            if(!string.IsNullOrEmpty(args.Filter))
+                fcandidates = candidates.AsQueryable().Where(args.Filter).ToList();
+        }
+        string RemoveDiacritics(string text)
+        {
+            string formD = text.Normalize(NormalizationForm.FormD);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char ch in formD)
+            {
+                UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(ch);
+                if (uc != UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(ch);
+                }
+            }
+
+            return sb.ToString().Normalize(NormalizationForm.FormC);
+        }
+        protected override Task OnInitializedAsync()
+        {
             return base.OnInitializedAsync();
         }
         public async Task Delete(Candidat candidat)
