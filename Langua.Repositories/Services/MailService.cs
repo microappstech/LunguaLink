@@ -49,5 +49,45 @@ namespace Langua.Repositories.Services
                 return false;
             }
         }
+        public bool SendMails(string subject, string body, Dictionary<string, string> ToName_Mails) 
+        {
+            try
+            {
+                var smtpSettings = configuration.GetSection("MailSettings");
+                foreach(var recipient in ToName_Mails)
+                {
+                    using(MimeMessage emailMsg = new MimeMessage())
+                    {
+                        emailMsg.From.Add(new MailboxAddress(smtpSettings["SenderName"], smtpSettings["SenderEmail"]));
+                        emailMsg.To.Add(new MailboxAddress(recipient.Key, recipient.Value));
+                        emailMsg.Subject = subject;
+                        emailMsg.Body = new TextPart("plain")
+                        {
+                            Text = body,
+                        };
+
+                        using (var smtpclient = new SmtpClient())
+                        {
+
+                            smtpclient.Connect(smtpSettings["Server"], int.Parse(smtpSettings["Port"]), false);
+                            smtpclient.Authenticate(smtpSettings["Username"], smtpSettings["Password"]);
+                            smtpclient.Send(emailMsg);
+                            smtpclient.Disconnect(true);
+                        }
+                        emailMsg.Dispose();
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool SendVerificationCode(string Mail, string Name, string code_verification)
+        {
+            var sendMail = SendMail("Email verification", $"Hello {Name}, this code verification for your applicant in Langua Link : {code_verification}", Mail, Name);
+            return sendMail;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using Langua.Models;
 using Langua.Repositories.Services;
+using Langua.Repositories.Services.Validation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
@@ -56,6 +57,19 @@ namespace Langua.WebUI.Pages.Dashboard
         public async Task SendMailToCandidate()
         {
             mailService.SendMail("Test Subject", "body Mail ", "Hamzamouddakur@gmail.com", "Hamza");
+            Validation validate = new Validation();
+            List<string> mails = new List<string>
+            {
+                "oneblack342@gmail.com",
+                "oneblsdQSDack342@gmail.com",
+                "hamzamouddakur@gmail.com",
+                "sdfgsdgfgqsdjhjhqsdgjh@gmail.com",
+                
+            };
+            foreach (var item in mails)
+            {
+                validate.ValidateMail(item);
+            }
         }
     }
 }

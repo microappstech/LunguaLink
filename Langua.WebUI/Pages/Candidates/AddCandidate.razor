@@ -1,12 +1,16 @@
 ﻿@page "/AddCandidate"
 @using Langua.Models
+
 @inherits AddCandidateComponent
 <PageTitle>Add Candidate</PageTitle>
 <div class="px-2">
 
     <EditForm Model="@candidate" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+        <div  class="text-danger">
+            
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+        </div>
 
         <div class="row">
             <div class="form-group mb-1 col-md-6">
@@ -32,6 +36,8 @@
         <div class="form-group mb-1">
             <label for="Email">@L["Email"] :</label>
             <InputText id="Email" @bind-Value="candidate.Email" class="form-control" />
+            @if(!string.IsNullOrEmpty(ErrorMail))
+                {<label class="text-danger">@ErrorMail</label>}
         </div>
 
         <div class="row">

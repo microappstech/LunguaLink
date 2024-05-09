@@ -13,22 +13,27 @@ namespace Langua.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        public string FullName { get; set; }
-        public string UserId { get; set; }
+        public string? FullName { get; set; }
+        public string? UserId { get; set; }
         [Required]
-        public string Photo { get; set; }
+        public string? Photo { get; set; }
         [Required]
-        public string Phone { get; set; }
+        [Phone(ErrorMessage ="Please enter a valid Phone number")]
+        [MinLength(10, ErrorMessage ="Phone number is not valid")]
+        [MaxLength(14)]
+        public string? Phone { get; set; }
         [Required]
-        public string Email { get; set; }
+        [EmailAddress(ErrorMessage = "Please enter a valid email")]
+        public string? Email { get; set; }
         
         [Required] 
         [NotMapped] 
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-        public Subject Subject { get; set; }
+        [DataType(DataType.Password, ErrorMessage ="Please enter a strong password")]
+        [MinLength(8)]
+        public string? Password { get; set; }
+        public Subject? Subject { get; set; }
         public int SubjectId { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public bool IsConnected { get; set; }
         public List<MessageGroup> MessageGroups { get; set; }
         public Groups? Group { get; set; }

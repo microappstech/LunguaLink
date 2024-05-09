@@ -16,6 +16,7 @@ namespace Langua.WebUI.Pages.Candidates
         protected Candidat candidate { get; set; }
         public IEnumerable<Subject> subjects { get; set; }
         public bool DataReady { get; set; }
+        public string ErrorMail { get; set; }
         protected override async Task OnInitializedAsync()
         {
             candidate = new Candidat();
@@ -26,8 +27,17 @@ namespace Langua.WebUI.Pages.Candidates
             }
             
         }
+
         protected async Task HandleValidSubmit()
         {
+
+            ErrorMail = "";
+            if (!string.IsNullOrEmpty(candidate.Email) && !candidate.Email.Contains("@gmail.com"))
+            {
+                ErrorMail = "Email Should be account google";
+                return;
+            }
+            var verification_code = candidate.Email.Count().ToString() + DateTime.Now.Day.ToString();
             ApplicationUser _user = new ApplicationUser()
             {
                 Email = candidate.Email,
@@ -35,6 +45,9 @@ namespace Langua.WebUI.Pages.Candidates
                 Password = candidate.Password,
                 NormalizedUserName = candidate.FullName,
                 PhoneNumber = candidate.Phone,
+                EmailConfirmed = false,
+                Code= verification_code,
+
             };
             //using (var scope = new TransactionScope(TransactionScopeOption.Suppress))
             //{
@@ -44,6 +57,7 @@ namespace Langua.WebUI.Pages.Candidates
 
                 if (user is not null)
                 {
+                    var sendVerifyMail = mailService.SendVerificationCode(candidate.Email,candidate.FullName,verification_code);
                     var r = await Security.AddRoleToUser(user, "CANDIDATE");
                         candidate.UserId = user.Id;
                         var result = _repository.Add(candidate);
