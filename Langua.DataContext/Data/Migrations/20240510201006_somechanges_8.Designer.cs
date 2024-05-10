@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Langua.DataContext.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240422190518_Added Data Seeding")]
-    partial class AddedDataSeeding
+    [Migration("20240510201006_somechanges_8")]
+    partial class somechanges_8
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,13 +25,16 @@ namespace Langua.DataContext.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Langua.DataContext.Data.ApplicationUser", b =>
+            modelBuilder.Entity("Langua.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -93,6 +96,142 @@ namespace Langua.DataContext.Data.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("Langua.Models.Candidat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsConnected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
+
+                    b.Property<string>("Photo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("Candidat");
+                });
+
+            modelBuilder.Entity("Langua.Models.Groups", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("Langua.Models.MessageGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CandidatId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GroupsId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SendAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidatId");
+
+                    b.HasIndex("GroupsId");
+
+                    b.ToTable("MessageGroup");
+                });
+
+            modelBuilder.Entity("Langua.Models.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Photo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subject");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -117,27 +256,7 @@ namespace Langua.DataContext.Data.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ccdc6a90-dd12-4481-b365-5996bfae957a",
-                            Name = "ADMIN",
-                            NormalizedName = "Admin"
-                        },
-                        new
-                        {
-                            Id = "05d7087c-6ad5-4b9a-b77b-9e647386c5fd",
-                            Name = "TEACHER",
-                            NormalizedName = "Teacher"
-                        },
-                        new
-                        {
-                            Id = "90564021-90e1-4b69-996f-515512d124bf",
-                            Name = "MANAGER",
-                            NormalizedName = "Manager"
-                        });
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -246,6 +365,40 @@ namespace Langua.DataContext.Data.Migrations
                     b.ToTable("UserToken", (string)null);
                 });
 
+            modelBuilder.Entity("Langua.Models.Candidat", b =>
+                {
+                    b.HasOne("Langua.Models.Groups", "Group")
+                        .WithMany("Candidats")
+                        .HasForeignKey("GroupId");
+
+                    b.HasOne("Langua.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Langua.Models.ApplicationUser", "User")
+                        .WithOne("Candidate")
+                        .HasForeignKey("Langua.Models.Candidat", "UserId");
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Langua.Models.MessageGroup", b =>
+                {
+                    b.HasOne("Langua.Models.Candidat", null)
+                        .WithMany("MessageGroups")
+                        .HasForeignKey("CandidatId");
+
+                    b.HasOne("Langua.Models.Groups", null)
+                        .WithMany("GroupeMessages")
+                        .HasForeignKey("GroupsId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -257,7 +410,7 @@ namespace Langua.DataContext.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Langua.DataContext.Data.ApplicationUser", null)
+                    b.HasOne("Langua.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -266,7 +419,7 @@ namespace Langua.DataContext.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Langua.DataContext.Data.ApplicationUser", null)
+                    b.HasOne("Langua.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -281,7 +434,7 @@ namespace Langua.DataContext.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Langua.DataContext.Data.ApplicationUser", null)
+                    b.HasOne("Langua.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -290,11 +443,28 @@ namespace Langua.DataContext.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Langua.DataContext.Data.ApplicationUser", null)
+                    b.HasOne("Langua.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Langua.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Candidate");
+                });
+
+            modelBuilder.Entity("Langua.Models.Candidat", b =>
+                {
+                    b.Navigation("MessageGroups");
+                });
+
+            modelBuilder.Entity("Langua.Models.Groups", b =>
+                {
+                    b.Navigation("Candidats");
+
+                    b.Navigation("GroupeMessages");
                 });
 #pragma warning restore 612, 618
         }

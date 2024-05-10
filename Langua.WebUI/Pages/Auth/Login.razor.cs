@@ -4,6 +4,8 @@ using Langua.ModelView.InputModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Langua.Models;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 

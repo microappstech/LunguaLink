@@ -38,6 +38,8 @@ namespace Langua.Models
         public List<MessageGroup> MessageGroups { get; set; }
         public Groups? Group { get; set; }
         public int? GroupId { get; set; }
+        public ApplicationUser User { get; set; }
+        [NotMapped] public bool ConfirmedMail { get; set; }
         
     }
 }

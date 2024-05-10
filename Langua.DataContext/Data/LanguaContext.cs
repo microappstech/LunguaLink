@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +19,8 @@ namespace Langua.DataContext.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+
             builder.Entity<Department>()
                 .HasOne(i => i.Manager)
                 .WithOne(i => i.Department)
@@ -35,7 +39,16 @@ namespace Langua.DataContext.Data
             builder.Entity<Candidat>()
                 .ToTable(tb => tb.HasTrigger("delete_user_on_candidate_deleted"));
 
-            
+
+
+
+            builder.Entity<ApplicationUser>().ToTable("Users");
+            builder.Entity<Candidat>()
+        .HasOne(c => c.User)
+        .WithOne(u => u.Candidate)
+        .HasForeignKey<Candidat>(c => c.UserId);
+
+
         }
 
 

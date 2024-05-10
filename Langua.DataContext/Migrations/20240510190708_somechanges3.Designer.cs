@@ -4,6 +4,7 @@ using Langua.DataContext.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Langua.DataContext.Migrations
 {
     [DbContext(typeof(LanguaContext))]
-    partial class LanguaContextModelSnapshot : ModelSnapshot
+    [Migration("20240510190708_somechanges3")]
+    partial class somechanges3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +31,9 @@ namespace Langua.DataContext.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CandidatId")
                         .HasColumnType("int");
 
                     b.Property<string>("Code")
@@ -77,7 +83,7 @@ namespace Langua.DataContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("ApplicationUser");
                 });
 
             modelBuilder.Entity("Langua.Models.Candidat", b =>

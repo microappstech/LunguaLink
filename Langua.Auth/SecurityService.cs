@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using System.Linq.Expressions;
+using Langua.Models;
 
 namespace Langua.Account
 {

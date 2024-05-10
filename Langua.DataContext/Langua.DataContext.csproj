@@ -27,8 +27,4 @@
 	  <ProjectReference Include="..\Langua.Models\Langua.Models.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Data\NewFolder\" />
-	</ItemGroup>
-
 </Project>

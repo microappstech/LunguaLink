@@ -13,10 +13,10 @@ namespace Langua.WebUI.Pages.Candidates
         [Inject] private IRepositoryCrudBase<Candidat> _repository { get; set; }
         [Inject] private IRepositoryCrudBase<Subject> _repositorySubjects { get; set; }
 
-        protected Candidat candidate { get; set; }
+        protected Candidat? candidate { get; set; }
         public IEnumerable<Subject> subjects { get; set; }
         public bool DataReady { get; set; }
-        public string ErrorMail { get; set; }
+        public string? ErrorMail { get; set; }
         protected override async Task OnInitializedAsync()
         {
             candidate = new Candidat();
@@ -32,12 +32,12 @@ namespace Langua.WebUI.Pages.Candidates
         {
 
             ErrorMail = "";
-            if (!string.IsNullOrEmpty(candidate.Email) && !candidate.Email.Contains("@gmail.com"))
+            if (!string.IsNullOrEmpty(candidate?.Email) && !candidate.Email.Contains("@gmail.com"))
             {
                 ErrorMail = "Email Should be account google";
                 return;
             }
-            var verification_code = candidate.Email.Count().ToString() + DateTime.Now.Day.ToString();
+            var verification_code = candidate?.Email?.Count().ToString() + DateTime.Now.Day.ToString();
             ApplicationUser _user = new ApplicationUser()
             {
                 Email = candidate.Email,
@@ -53,7 +53,7 @@ namespace Langua.WebUI.Pages.Candidates
             //{
                 try
                 {
-                    var user = await Security.RegisterUser(_user);
+                    var user = await Security!.RegisterUser(_user);
 
                 if (user is not null)
                 {

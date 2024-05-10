@@ -4,6 +4,8 @@ using Langua.DataContext.Data;
 using Langua.ModelView.InputModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Langua.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

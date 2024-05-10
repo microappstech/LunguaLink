@@ -11,7 +11,7 @@ using Langua.Account;
 using System.Reflection;
 using Langua.DAL;
 using Microsoft.IdentityModel.Tokens;
-
+using Langua.Models;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Langua.Api.Shared.ApiHelper;

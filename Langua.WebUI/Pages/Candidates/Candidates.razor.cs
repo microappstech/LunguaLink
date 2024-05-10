@@ -37,14 +37,21 @@ namespace Langua.WebUI.Pages.Candidates
 
             IQueryCollection queryCollection =
                 new QueryCollection(
-                    new Dictionary<string, StringValues> { { "include", new StringValues("Subject") } }
+                    new Dictionary<string, StringValues> { { "include", new StringValues("Subject,User") } }
                     );
             
 
             baseService!.Apply(candidatesResult.Value, queryCollection);
             candidates = (IQueryable<Candidat>)baseService.Apply(candidatesResult.Value, queryCollection);
-            if(!string.IsNullOrEmpty(args.Filter))
+            //foreach (var candidate in candidates)
+            //{
+            //    var user =await Security.GetById(candidate.UserId);
+            //    candidate.ConfirmedMail = user.EmailConfirmed;
+            //}
+            if (!string.IsNullOrEmpty(args.Filter))
                 fcandidates = candidates.AsQueryable().Where(args.Filter).ToList();
+
+
         }
         string RemoveDiacritics(string text)
         {
