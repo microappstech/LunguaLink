@@ -9,6 +9,7 @@ namespace Langua.Models
         public string? FullName { get; set; }
         public string? Code { get; set; }
         public Candidat? Candidate { get; set; }
+        public Teacher? Teacher { get; set; }
         [NotMapped] public string Password { get; set; }
         [NotMapped] public IList<string> Roles { get; set; }
     }

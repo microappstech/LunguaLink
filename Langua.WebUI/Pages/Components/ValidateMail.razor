@@ -1,0 +1,60 @@
+﻿@inherits BasePage
+@using Langua.ModelView.InputModels
+@using Langua.Repositories.Interfaces
+<RadzenTemplateForm Data="@confirmMail" Submit="@((ConfirmEmail args) => { Submit(args); })">
+    <RadzenCard>
+        <RadzenRow class="mb-3">
+            <RadzenColumn Size="3">
+                <RadzenLabel Text="@L["Email"]"></RadzenLabel>
+            </RadzenColumn>
+            <RadzenColumn Size="9">
+                <RadzenTextBox class="w-100" @bind-Value="confirmMail.Email" Disabled="true" />
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow class="mb-3">
+            <RadzenColumn Size="3">
+                <RadzenLabel Text="@L["Code"]"></RadzenLabel>
+            </RadzenColumn>
+            <RadzenColumn Size="9">
+                <RadzenTextBox @oninput="@((args)=>VerificationCodeChanged(args.Value.ToString()))" class="w-100" @bind-Value="confirmMail.CodeVerification" />
+                <RadzenLabel class="text-danger" Text="@Error" Visible="@(!string.IsNullOrEmpty(Error))"/>
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow>
+            <RadzenButton Disabled="@(DisabledBtn)" class="w-50 mx-auto" ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Submit" Text="@L["Validate"]"/>
+        </RadzenRow>
+    </RadzenCard>
+</RadzenTemplateForm>
+
+@code{
+    [Inject] private IMailService _mailService { get; set; }
+    [Parameter] public string Email { get; set; }
+    public string Error { get; set; }
+    public bool DisabledBtn { get; set; } = true;
+    private ConfirmEmail confirmMail { get; set; }
+    protected override Task OnInitializedAsync()
+    {
+        confirmMail = new ConfirmEmail()
+        {
+            Email = this.Email
+        };
+        return base.OnInitializedAsync();
+    }
+    protected void VerificationCodeChanged(string value)
+    {
+        // DisabledBtn = ((!string.IsNullOrEmpty(confirmMail.CodeVerification) && confirmMail.CodeVerification.Count() != 4)) &&!( int.TryParse(confirmMail.CodeVerification, out int value));
+        DisabledBtn = !(!string.IsNullOrEmpty(value) && value.Length == 4 && int.TryParse(value, out int code));
+    }
+    protected async Task Submit(ConfirmEmail args)
+    {
+        var result = await Security.ConfirmMail(args, confirmMail.CodeVerification);
+        if (!result)
+        {
+            Error = L["The code verification is not valid"];
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+        await InvokeAsync(StateHasChanged);
+        dialogService.Close(true);
+    }
+}

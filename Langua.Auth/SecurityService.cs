@@ -78,22 +78,27 @@ namespace Langua.Account
                     $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor.");
             }
         }
-        public async Task<ApplicationUser> RegisterUser(ApplicationUser ApplicationUser)
+        public async Task<Result<ApplicationUser>> RegisterUser(ApplicationUser ApplicationUser)
         {
+            var mailTaken = await _userManager.FindByEmailAsync(ApplicationUser.Email);
+            if (mailTaken is not null)
+                return new Result<ApplicationUser>(false, null, "Mail already taken");
             var user = CreateUser();
             user.Email = ApplicationUser.Email;
             user.UserName = ApplicationUser.Email;
             user.Password = ApplicationUser.Password;
             user.NormalizedUserName = ApplicationUser.NormalizedUserName;
             user.PhoneNumber = ApplicationUser.PhoneNumber;
+            user.Code = ApplicationUser.Code;
+            user.EmailConfirmed = false;
             var result = await _userManager.CreateAsync(user, ApplicationUser.Password);
             if (!result.Succeeded)
             {
                 identityErrors = result.Errors;
-                return null;
+                return new Result<ApplicationUser>(false,null,"Something wrong");
             }
             Ilogger.LogInformation($"User created a new account with password. on : {DateTime.Now}");
-            return await Task.FromResult(user);
+            return new Result<ApplicationUser>(true,user);
         }
         public async Task<(bool,string)> CreateRole(string roleName)
         {
@@ -243,6 +248,27 @@ namespace Langua.Account
                 return user;
             }
             return null;
+        }
+        public async Task<bool> ConfirmMail(Langua.ModelView.InputModels.ConfirmEmail cnfEmail, string code)
+        {
+            var user = await _userManager.FindByEmailAsync(cnfEmail.Email);
+            if (user == null || user is null)
+            {
+                return await Task.FromResult(false);
+            }
+            if (user.EmailConfirmed)
+            {
+                return await Task.FromResult(false);
+            }
+            if (user.Code != code)
+            {
+                return await Task.FromResult(false);
+            }
+            user.EmailConfirmed = true;
+            user.Code = string.Empty;
+            var result = _userManager.UpdateAsync(user);
+            return await Task.FromResult(true);
+
         }
     }
 }

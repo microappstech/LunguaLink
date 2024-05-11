@@ -14,6 +14,7 @@ namespace Langua.WebUI.Pages.Teachers
         [Inject] private IRepositoryCrudBase<Teacher> _repository { get; set; }
         [Inject] private IRepositoryCrudBase<Subject> _repositorySubjects { get; set; }
 
+        public List<string> Errors { get; set; } = new();
         protected Teacher teacher { get; set; }
         public IEnumerable<Subject> subjects { get; set; }
         public bool DataReady { get; set; }
@@ -40,11 +41,11 @@ namespace Langua.WebUI.Pages.Teachers
             //using (var scope = new TransactionScope(Options))
             //{
 
-            var user = await Security.RegisterUser(_user);
-            if (user is not null)
+            var TaskUser = await Security.RegisterUser(_user);
+            if (TaskUser.Succeeded)
             {
-                teacher.UserId = user.Id;
-                var r = await Security.AddRoleToUser(user, "TEACHER");
+                teacher.UserId = TaskUser.Value.Id;
+                var r = await Security.AddRoleToUser(TaskUser.Value, "TEACHER");
                 var result = _repository.Add(teacher);
                 if (result.Succeeded)
                 {
@@ -58,7 +59,7 @@ namespace Langua.WebUI.Pages.Teachers
             }
             else
             {
-            Notify(L["Failed"], "Something wrong", NotificationSeverity.Error);
+                Errors.Add(TaskUser.Error);
             }
         }
         public void Close()

@@ -31,6 +31,11 @@ namespace Langua.WebUI.Pages.Candidates
             if (string.IsNullOrEmpty(s))
                 fcandidates = candidates.ToList();
         }
+        protected void CellRender(DataGridCellRenderEventArgs<Candidat> args)
+        {
+            args.Attributes.Add("style", $"background-color:{(args.Data.User?.EmailConfirmed == true ? "" : "#f7b064")}");
+            args.Attributes.Add("Disabled", $"{(args.Data.User?.EmailConfirmed != true ? "true" : "false")}");
+        }
         public async Task loadData(LoadDataArgs args)
         {
             var candidatesResult = baseRepository.GetAll();
@@ -72,6 +77,10 @@ namespace Langua.WebUI.Pages.Candidates
         protected override Task OnInitializedAsync()
         {
             return base.OnInitializedAsync();
+        }
+        public async Task ConfirmMail(Candidat args)
+        {
+            var result = await dialogService.OpenAsync<ValidateMail>("Confirm you email", new Dictionary<string, object> { { "Email", args.Email } });
         }
         public async Task Delete(Candidat candidat)
         {

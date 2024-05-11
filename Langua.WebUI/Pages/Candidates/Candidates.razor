@@ -13,7 +13,7 @@
 
 </div>
 <RadzenContent>
-    <RadzenDataGrid @ref="grid0" RowRender="RowRender" LoadData="loadData" Data=candidates TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
+    <RadzenDataGrid @ref="grid0"  CellRender="CellRender" LoadData="loadData" Data=candidates TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
        
         <Columns>
             <RadzenDataGridColumn Property="FullName" FilterValue="fullName" Title="@L["Full Name"]" TItem="Candidat">
@@ -31,10 +31,11 @@
             <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Candidat" />
             <RadzenDataGridColumn Property="Subject.Name" Title="@L["Subject"]" TItem="Candidat" />
 
-            <RadzenDataGridColumn TItem="Candidat" Width="140px">
+            <RadzenDataGridColumn TItem="Candidat" Width="220px">
                 <Template Context="ConCandidate">
-                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConCandidate))" @onclick:stopPropagation="true" class="mr-2" />
+                    <RadzenButton Disabled="@(ConCandidate.User?.EmailConfirmed!=true)" ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConCandidate))" @onclick:stopPropagation="true" class="mr-2" />
                     <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConCandidate))" @onclick:stopPropagation="true" />
+                    <RadzenButton Visible="@(ConCandidate.User?.EmailConfirmed!=true)" ButtonStyle="ButtonStyle.Success" Text="Confirm Mail" Size="ButtonSize.Medium" Click="@((args) =>ConfirmMail(ConCandidate))" @onclick:stopPropagation="true" />
 
                 </Template>
             </RadzenDataGridColumn>
@@ -44,8 +45,7 @@
 </RadzenContent>
 @code{
     string fullName;
-    void RowRender(RowRenderEventArgs<Candidat> args)
-    {
-        // args.Attributes.Add("style", $"background-color: {(args.Data.Id ? "bold" : "normal")};");
-    }
+   
+   
+
 }

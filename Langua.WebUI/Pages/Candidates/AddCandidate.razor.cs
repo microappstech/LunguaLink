@@ -17,6 +17,7 @@ namespace Langua.WebUI.Pages.Candidates
         public IEnumerable<Subject> subjects { get; set; }
         public bool DataReady { get; set; }
         public string? ErrorMail { get; set; }
+        public List<string> Errors { get; set; } = new ();
         protected override async Task OnInitializedAsync()
         {
             candidate = new Candidat();
@@ -53,13 +54,13 @@ namespace Langua.WebUI.Pages.Candidates
             //{
                 try
                 {
-                    var user = await Security!.RegisterUser(_user);
+                    var taskResult = await Security!.RegisterUser(_user);
 
-                if (user is not null)
-                {
-                    var sendVerifyMail = mailService.SendVerificationCode(candidate.Email,candidate.FullName,verification_code);
-                    var r = await Security.AddRoleToUser(user, "CANDIDATE");
-                        candidate.UserId = user.Id;
+                    if (taskResult.Succeeded)
+                    {
+                        var sendVerifyMail = mailService.SendVerificationCode(candidate.Email,candidate.FullName,verification_code);
+                        var r = await Security.AddRoleToUser(taskResult.Value, "CANDIDATE");
+                        candidate.UserId = taskResult.Value.Id;
                         var result = _repository.Add(candidate);
                         if (result.Succeeded)
                         {
@@ -75,11 +76,12 @@ namespace Langua.WebUI.Pages.Candidates
                     }
                     else
                     {
-                        Notify(L["Failed"], L["Something wrong"],NotificationSeverity.Error);
+                        Errors.Add(taskResult.Error);
                     }
+
                 }catch(Exception ex)
                 {
-
+                
                 }
                 
             //}

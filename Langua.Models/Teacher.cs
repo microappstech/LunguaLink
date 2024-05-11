@@ -26,5 +26,6 @@ namespace Langua.Models
         public string? ConfirmPassword { get; set; }
         public string? Photo { get;set; }
         public DateTime CreatedAt { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

@@ -10,6 +10,16 @@
             
             <DataAnnotationsValidator />
             <ValidationSummary />
+            @if (Errors.Count() > 0)
+            {
+                <ul>
+
+                    @foreach (var error in Errors)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            }
         </div>
 
         <div class="row">
