@@ -59,7 +59,7 @@ namespace Langua.WebUI.Client.Services
 
         public async Task<HttpResponseMessage> DeleteSession(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Sessions({id})");
+            var uri = new Uri(baseUri, $"Sessions(Id={id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 

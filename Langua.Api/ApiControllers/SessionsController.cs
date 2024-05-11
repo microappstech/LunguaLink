@@ -16,6 +16,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Langua.DataContext.Data;
 using Langua.Models;
+using Langua.Repositories.Interfaces;
+using Langua.Repositories.Services;
+using Microsoft.AspNetCore.Routing.Matching;
 
 namespace Langua.Api.ApiControllers
 {
@@ -23,10 +26,13 @@ namespace Langua.Api.ApiControllers
     public partial class SessionsController : ControllerBase
     {
         private LanguaContext context;
-
-        public SessionsController(LanguaContext context)
+        private IMailService mailService;
+        private LanguaService languaService;
+        public SessionsController(LanguaContext context,IMailService mail,LanguaService languaService)
         {
             this.context = context;
+            this.mailService = mail;
+            this.languaService = languaService;
         }
 
     
@@ -61,7 +67,7 @@ namespace Langua.Api.ApiControllers
         partial void OnAfterSessionDeleted(Session item);
 
         [HttpDelete("/odata/Langua/Sessions(Id={Id})")]
-        public IActionResult DeleteSession(int key)
+        public IActionResult DeleteSession(int Id)
         {
             try
             {
@@ -72,8 +78,10 @@ namespace Langua.Api.ApiControllers
 
 
                 var items = this.context.Sessions
-                    .Where(i => i.Id == key)
+                    .Where(i => i.Id == Id)
                     .AsQueryable();
+
+
 
                 //items = Data.EntityPatch.ApplyTo<Session>(Request, items);
 
@@ -85,6 +93,13 @@ namespace Langua.Api.ApiControllers
                 }
                 this.OnSessionDeleted(item);
                 this.context.Sessions.Remove(item);
+                var Candidates = this.context.Candidates.Where(c => c.GroupId == item.GroupId);
+                Dictionary<string, string> candidatesEmail = new();
+                foreach (var cand in Candidates)
+                {
+                    candidatesEmail.Add(cand.FullName, cand!.Email);
+                }
+                var SendMailToCands = mailService.SendMails("Session canceled", @$"Admin langua annulled session <h3>{item.Name}</h3> ", candidatesEmail);
                 this.context.SaveChanges();
                 this.OnAfterSessionDeleted(item);
 
@@ -201,11 +216,20 @@ namespace Langua.Api.ApiControllers
                 }
 
                 this.OnSessionCreated(item);
-                this.context.Sessions.Add(item);
+                var Candidates = context.Candidates.Where(c => c.GroupId == item.GroupId);
+                
+                Dictionary<string,string> candidatesEmail = new ();
+                foreach (var cand in Candidates)
+                {
+                    candidatesEmail.Add(cand.FullName, cand!.Email);
+                }
+                var SendMailToCands = mailService.SendMails("New Session Created", @$"Admin langua create a new session <h3>{item.Name}</h3> in {item.Start.ToShortDateString()} from {item.Start.TimeOfDay } to {item.End.TimeOfDay}
+                            . <br/> Don't forget to present to the session", candidatesEmail); 
+                if(SendMailToCands)
+                    this.context.Sessions.Add(item);
+                
                 this.context.SaveChanges();
-
                 var itemToReturn = this.context.Sessions.Where(i => i.Id == item.Id);
-
                 Request.QueryString = Request.QueryString.Add("$expand", "Group,Teacher");
 
                 this.OnAfterSessionCreated(item);
