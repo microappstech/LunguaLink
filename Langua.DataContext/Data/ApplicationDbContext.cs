@@ -13,21 +13,6 @@ namespace Langua.DataContext.Data
 
             base.OnModelCreating(builder);
             builder.Entity<ApplicationUser>().ToTable("Users");
-            //builder.Entity<IdentityRole>().ToTable("Roles").HasData(new IdentityRole
-            //{
-            //    Name = "ADMIN",
-            //    NormalizedName = "Admin"
-            //},
-            //        new IdentityRole
-            //        {
-            //            Name = "TEACHER",
-            //            NormalizedName = "Teacher"
-            //        },
-            //        new IdentityRole
-            //        {
-            //            Name = "MANAGER",
-            //            NormalizedName = "Manager"
-            //        });
             builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("UserRoleClaim");
             builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");

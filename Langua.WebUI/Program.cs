@@ -147,10 +147,9 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(Langua.WebUI.Client._Imports).Assembly);
 app.MapControllers();
-
+//await Seeding.Initialize(app.Services.CreateScope().ServiceProvider);
 //
 //app.MapIdentityApi<ApplicationUser>();
 
 //app.MapAdditionalIdentityEndpoints();
-
 app.Run();
