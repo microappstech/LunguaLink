@@ -56,7 +56,8 @@ namespace Langua.Api.ApiControllers
         //public SingleResult<Session> GetSession(int Id)
         public Session GetSession(int Id)
         {
-            var items = this.context.Sessions.Where(i => i.Id == Id).FirstOrDefault();
+            var items = this.context.Sessions.Where(i => i.Id == Id).Include(s=>s.Group).ThenInclude(s=>s.Candidats).FirstOrDefault();
+            
             //var result = SingleResult.Create(items);
 
             //OnSessionGet(ref result);

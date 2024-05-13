@@ -1,0 +1,36 @@
+
+@url = http://localhost:81 
+@jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJUZWFjaGVyMUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjY5NTQxYWNkLWUzMGYtNDZmYS05OGJkLTFhNTc5Yzk5NjRhMSIsImV4cCI6MTcxNDc2NzMxNiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0OTAwIiwiYXVkIjoiQVBJIn0.4A0zaFwze3P8Dxc8kZAJDv69U0Xl7MkrSwxAiECso64
+@jwtiis = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJvbmVibGFjazM0MkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImE2OGVkNDZjLTM2MDItNGIwOC04ZTdjLTg1MDEyZTI4MzYwNCIsImV4cCI6MTcxNTU1ODk3NiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0OTAwIiwiYXVkIjoiQVBJIn0.1mKdlX6iETH9qva8xZopHhZkvq-wqfep0KQZNdSPNnM
+
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+GET {{url}}/api/Global/GetGroup
+Content-Type: application/json
+Authorization: Bearer {{jwtiis}}
+
+###
+POST  {{url}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "email": "oneblack342@gmail.com ",
+  "Password":"Candidate1@123"
+}
+
+###
+POST {{url}}/odata/Langua/Session/Update?Id=1
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{ 
+  "Name" : "Test",
+  "GroupId" : 1,
+  "TeacheriD":1,
+  Start : DateTime.Now,
+  End : DateTime.Now
+}
+
+###
+GET {{url}}/odata/Langua/Sessions?$filter name eq 'Francais'
+#filter=name eq 'ddd'
+# GET {{url}}/odata/Langua/Sessions?$filter=name eq 'Anglais'

@@ -18,7 +18,7 @@ namespace Langua.DAL.Sp
                 gr.Name AS Name,
                 gr.Description AS Description
                 FROM Groups gr INNER JOIN  GroupCandidates gc ON gr.Id = gc.GroupId
-                INNER JOIN Candidates c ON c.Id = gc.CandidateId WHERE c.UserId = @UserId
+                INNER JOIN Candidates c ON c.Id = gc.CandidatId WHERE c.UserId = @UserId
                 """;
         }
 

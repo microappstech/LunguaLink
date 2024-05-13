@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Langua.Shared\Langua.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Layout\" />
-  </ItemGroup>
-
 </Project>

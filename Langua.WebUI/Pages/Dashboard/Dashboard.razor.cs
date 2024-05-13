@@ -54,22 +54,5 @@ namespace Langua.WebUI.Pages.Dashboard
 
             NbGroups = await baseService.NBItems<Groups>(); 
         }
-        public async Task SendMailToCandidate()
-        {
-            mailService.SendMail("Test Subject", "body Mail ", "Hamzamouddakur@gmail.com", "Hamza");
-            Validation validate = new Validation();
-            List<string> mails = new List<string>
-            {
-                "oneblack342@gmail.com",
-                "oneblsdQSDack342@gmail.com",
-                "hamzamouddakur@gmail.com",
-                "sdfgsdgfgqsdjhjhqsdgjh@gmail.com",
-                
-            };
-            foreach (var item in mails)
-            {
-                validate.ValidateMail(item);
-            }
-        }
     }
 }
