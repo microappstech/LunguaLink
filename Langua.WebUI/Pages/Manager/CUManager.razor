@@ -1,0 +1,71 @@
+﻿@page "/UCManager"
+@inherits BasePage
+
+
+<EditForm Model="@Manager" OnValidSubmit="@HandleValidSubmit" class="my-2">
+    <div class="text-danger">
+      @*   <DataAnnotationsValidator />
+        <ValidationSummary /> *@
+        @if (Errors.Count() > 0)
+        {
+            <ul>
+
+                @foreach (var error in Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        }
+    </div>
+
+
+    <div class="row">
+        <div class="form-group mb-1 col-md-6">
+            <label for="Photo">@L["Photo"] :</label>
+            <InputFile id="teacher" OnChange="@loadImage" class="form-control" />
+        </div>
+        <div class="col-md-5">
+            <img src="" />
+        </div>
+    </div> 
+    <div class="row d-flex">
+        <div class="form-group mb-1 col-md-6">
+            <label for="FullName">@L["Full Name"] :</label>
+            <RadzenTextBox id="FullName" @bind-Value="Manager.FullName" class="form-control" Name="Full_Name" />
+            @* <RadzenRequiredValidator Component="Full_Name" Text="@L["The Filed is Required"]" /> *@
+        </div>
+
+        <div class="form-group mb-1 col-md-6">
+            <label for="Phone">@L["Phone"] :</label>
+            <RadzenTextBox id="Phone" @bind-Value="Manager.Phone" class="form-control" Name="Phone" />
+            @* <RadzenRequiredValidator Component="Phone" Text="@L["The Filed is Required"]" /> *@
+        </div>
+    </div>
+
+    <div class="form-group mb-1">
+        <label for="Email">@L["Email"] :</label>
+        <RadzenTextBox Name="Email" id="Email" @bind-Value="Manager.Email" class="form-control" AutoComplete="false" />
+        @* <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" /> *@
+    </div> 
+    
+    <div class="row ">
+        <div class="form-group mb-1 col-md-6">
+            <label for="password">Password:</label>
+            <RadzenPassword id="password" @bind-Value="Manager.Password" class="form-control" Name="password" AutoComplete="false" />
+            @* <RadzenRequiredValidator Component="password" Text="The Password Is Required"></RadzenRequiredValidator> *@
+        </div>
+        <div class="form-group mb-1 col-md-6">
+            <label for="password">@L["Confirm Password"]:</label>
+            <RadzenPassword id="password" @bind-Value="Manager.ConfirmPassword" class="form-control" Name="ConfirmPassword" AutoComplete="false" />
+            @* <RadzenRequiredValidator Component="ConfirmPassword" Text="@L["The field is required"]"></RadzenRequiredValidator> *@
+            @* <RadzenCompareValidator Component="ConfirmPassword" Value="Manager.Password" Text="@L["The Password not match"]" />  *@
+        </div>
+    </div>
+    <div class="mx-auto mt-2 text-center">
+        <button type="submit" style="background-color:purple !important;" class="btn btn-primary px-5 mx-3">Submit</button>
+        <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
+        <button type="button" @onclick="@(()=>dialogService.Close())" class="btn btn-secondary px-5">Close</button>
+
+    </div>
+</EditForm>
+
