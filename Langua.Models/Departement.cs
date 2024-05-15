@@ -13,7 +13,7 @@ namespace Langua.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
-        public string ManagerName { get; set; }
+        //public string ManagerName { get; set; }
         public Manager Manager { get; set; }
         public int ManagerId { get; set; }
         public DateTime CreatedAt { get; set; }

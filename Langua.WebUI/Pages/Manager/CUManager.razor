@@ -42,12 +42,24 @@
         </div>
     </div>
 
-    <div class="form-group mb-1">
-        <label for="Email">@L["Email"] :</label>
-        <RadzenTextBox Name="Email" id="Email" @bind-Value="Manager.Email" class="form-control" AutoComplete="false" />
-        @* <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" /> *@
+    <div class="form-group row mb-1">
+        <div class="col-3">
+            <label for="Email">@L["Email"] :</label>
+        </div>
+        <div class="col-9 ">
+            <RadzenTextBox Name="Email" id="Email" @bind-Value="Manager.Email" class="form-control w-100" Style="width:100%" AutoComplete="false" />
+        </div>
     </div> 
-    
+
+    <div class="form-group row mb-1">
+        <div class="col-3">
+            <label for="Email">@L["Departement"] :</label>
+        </div>
+        <div class="col-9">
+            <RadzenDropDown Data="Departements" ValueProperty="Id" class="w-100" TextProperty="Name" @bind-Value="Manager.DepartmentId" />
+        </div>
+    </div>
+
     <div class="row ">
         <div class="form-group mb-1 col-md-6">
             <label for="password">Password:</label>
@@ -60,6 +72,7 @@
             @* <RadzenRequiredValidator Component="ConfirmPassword" Text="@L["The field is required"]"></RadzenRequiredValidator> *@
             @* <RadzenCompareValidator Component="ConfirmPassword" Value="Manager.Password" Text="@L["The Password not match"]" />  *@
         </div>
+
     </div>
     <div class="mx-auto mt-2 text-center">
         <button type="submit" style="background-color:purple !important;" class="btn btn-primary px-5 mx-3">Submit</button>

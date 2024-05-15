@@ -1,0 +1,37 @@
+﻿@page "/Session/{SessionId}"
+@layout TeacherLayout
+@inherits RoomComponent
+
+
+
+@if (Session == null)
+{
+    <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />    
+}
+else
+{
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Start" Wrap="FlexWrap.Wrap">
+        <RadzenRow class="mx-auto text-primary my-5 ">
+            <RadzenColumn Size="12" Style="text-align:center">
+                <RadzenHeading Size="H1" Text="@Session.Name" class="text-primary" />
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow Style="text-align:center">
+            @foreach(var present in Session.Group.Candidats)
+            {
+                <RadzenColumn SizeLG="3" SizeMD="4" SizeSM="6">
+                    <RadzenCard Style="padding:0; ">
+                        <RadzenStack Orientation="Orientation.Vertical" Gap="4px">
+                            AlignItems
+                            <RadzenImage Path="meet.png" />
+                        </RadzenStack>
+                    </RadzenCard>
+                </RadzenColumn>
+
+            }
+       
+        </RadzenRow>
+    </RadzenStack>
+
+
+}

@@ -4,6 +4,7 @@ using Langua.WebUI.Pages.Components;
 using Langua.WebUI.Pages.Teachers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Transactions;
 
 namespace Langua.WebUI.Pages.Manager
 {
@@ -11,16 +12,23 @@ namespace Langua.WebUI.Pages.Manager
     {
         [Parameter] public bool IsEdit { get; set; }
         [Inject] IRepositoryCrudBase<Models.Manager>? crudRepository { get; set; }
-        public Models.Manager Manager { get; set; }
+        [Inject] IRepositoryCrudBase<Models.Department>? DepRepository { get; set; }
+        public Models.Manager? Manager { get; set; }
         [Parameter] public string? Id { get; set; }
-
+        public IEnumerable<Department>?  Departements { get; set; }
         public List<string> Errors { get; set; } = new();
+        public bool DataReady { get; set; }
         protected override Task OnInitializedAsync()
         {
             Errors = new List<string>();
+            var ResultDep = DepRepository!.GetAll();
+            if (ResultDep.Succeeded)
+            {
+                Departements = ResultDep.Value;
+            }
             if(IsEdit)
             {
-                var resultM = crudRepository.GetById(int.Parse(Id));
+                var resultM = crudRepository!.GetById(int.Parse(Id!));
                 if(resultM.Succeeded)
                 {
                     Manager = resultM.Value;
@@ -45,7 +53,7 @@ namespace Langua.WebUI.Pages.Manager
         {
             if(await dialogService.Confirm("Confirmation suppression","Are you sure you want to delete this manager") == true)
             {
-                var result = crudRepository.Delete(args);
+                var result = crudRepository!.Delete(args);
                 if (result.Succeeded)
                 {
                     Notify("success", "Suppression successful completed");
@@ -60,11 +68,15 @@ namespace Langua.WebUI.Pages.Manager
             byte[] bytes = memoryStream.ToArray();
             string base64 = Convert.ToBase64String(bytes);
 
-            Manager.Photo = "data:image/png;base64," + base64;
+            Manager!.Photo = "data:image/png;base64," + base64;
         }
         public async Task HandleValidSubmit()
         {
             Errors = new();
+            {
+
+            }
+            
             if (Manager.Id == 0 && !IsEdit)
             {
                 ApplicationUser _user = new ApplicationUser()
@@ -75,23 +87,25 @@ namespace Langua.WebUI.Pages.Manager
                     NormalizedUserName = Manager.FullName,
                     PhoneNumber = Manager.Phone
                 };
-                //using (var scope = new TransactionScope(Options))
+                //using (TransactionScope Scope = new TransactionScope(TransactionScopeOption.RequiresNew))
                 //{
-
-                var TaskUser = await Security.RegisterUser(_user);
-                if (TaskUser.Succeeded)
-                {
-                    var result = crudRepository.Add(Manager);
-                    if (result.Succeeded)
+                    var TaskUser = await Security.RegisterUser(_user);
+                    if (TaskUser.Succeeded)
                     {
-                         Notify("Success", "Item created successfully", Radzen.NotificationSeverity.Success);
-                         dialogService.Close();
+                        var result = crudRepository.Add(Manager);
+                        if (result.Succeeded)
+                        {
+                             Notify("Success", "Item created successfully", Radzen.NotificationSeverity.Success);
+                             dialogService.Close();
+                        }
+                        else
+                        {
+                            Errors.Add(result.Error);
+                            return;
+                        }
+                        //Scope.Complete();' 
                     }
-                    else
-                    {
-                        Errors.Add(result.Error);
-                    }
-                }
+                //}
             }
             else
             {

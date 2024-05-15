@@ -94,8 +94,8 @@ namespace Langua.Account
             var result = await _userManager.CreateAsync(user, ApplicationUser.Password);
             if (!result.Succeeded)
             {
-                identityErrors = result.Errors;
-                return new Result<ApplicationUser>(false,null,"Something wrong");
+                //identityErrors = result.Errors
+                return new Result<ApplicationUser>(false,null,Errors:identityErrors.Select(i=>i.Description).ToList());
             }
             Ilogger.LogInformation($"User created a new account with password. on : {DateTime.Now}");
             return new Result<ApplicationUser>(true,user);
