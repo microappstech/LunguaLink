@@ -59,21 +59,33 @@
             <RadzenDropDown Data="Departements" ValueProperty="Id" class="w-100" TextProperty="Name" @bind-Value="Manager.DepartmentId" />
         </div>
     </div>
-
-    <div class="row ">
-        <div class="form-group mb-1 col-md-6">
-            <label for="password">Password:</label>
-            <RadzenPassword id="password" @bind-Value="Manager.Password" class="form-control" Name="password" AutoComplete="false" />
-            @* <RadzenRequiredValidator Component="password" Text="The Password Is Required"></RadzenRequiredValidator> *@
+    @* <div class="form-group row my-3 ">
+        <div class="col-3">
+            @L["Change password"]
         </div>
-        <div class="form-group mb-1 col-md-6">
-            <label for="password">@L["Confirm Password"]:</label>
-            <RadzenPassword id="password" @bind-Value="Manager.ConfirmPassword" class="form-control" Name="ConfirmPassword" AutoComplete="false" />
-            @* <RadzenRequiredValidator Component="ConfirmPassword" Text="@L["The field is required"]"></RadzenRequiredValidator> *@
-            @* <RadzenCompareValidator Component="ConfirmPassword" Value="Manager.Password" Text="@L["The Password not match"]" />  *@
-        </div>
+        <div class="col-9">
 
+            <RadzenRadioButtonList @bind-Value="ChangePassword">
+                <Items>
+                    <RadzenRadioButtonListItem Value="true" Text="@L["Yes"]" />
+                    <RadzenRadioButtonListItem Value="false" Text="@L["No"]" />
+                </Items>
+            </RadzenRadioButtonList>
+        </div>
     </div>
+    @if (IsEdit && ChangePassword)
+    {
+        <div class="row ">
+            <div class="form-group mb-1 col-md-6">
+                <label for="password">Password:</label>
+                <RadzenPassword id="password" @bind-Value="Manager.Password" class="form-control" Name="password" AutoComplete="false" />
+            <div class="form-group mb-1 col-md-6">
+                <label for="password">@L["Confirm Password"]:</label>
+                <RadzenPassword id="password" @bind-Value="Manager.ConfirmPassword" class="form-control" Name="ConfirmPassword" AutoComplete="false" />
+            </div>
+        </div>
+
+    } *@
     <div class="mx-auto mt-2 text-center">
         <button type="submit" style="background-color:purple !important;" class="btn btn-primary px-5 mx-3">Submit</button>
         <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>

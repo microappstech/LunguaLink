@@ -21,9 +21,10 @@ namespace Langua.WebUI.Pages.Candidates
 
     public partial class CandidatesComponent : BasePage
     {
-        public IQueryable<Candidat> candidates { get; set; }
+        public IEnumerable<Candidat> candidates { get; set; }
         public List<Candidat> fcandidates { get; set; }
         public RadzenDataGrid<Candidat>? grid0;
+
         [Inject] private IRepositoryCrudBase<Candidat> baseRepository { get; set; }
         public void filter(string s, string on)
         {
@@ -46,13 +47,8 @@ namespace Langua.WebUI.Pages.Candidates
                     );
             
 
-            baseService!.Apply(candidatesResult.Value, queryCollection);
-            candidates = (IQueryable<Candidat>)baseService.Apply(candidatesResult.Value, queryCollection);
-            //foreach (var candidate in candidates)
-            //{
-            //    var user =await Security.GetById(candidate.UserId);
-            //    candidate.ConfirmedMail = user.EmailConfirmed;
-            //}
+           var resul = await  baseService!.Apply<Models.Candidat>(candidatesResult.Value, queryCollection);
+            candidates = (IEnumerable<Models.Candidat>)resul;
             if (!string.IsNullOrEmpty(args.Filter))
                 fcandidates = candidates.AsQueryable().Where(args.Filter).ToList();
 

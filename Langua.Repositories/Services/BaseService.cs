@@ -21,7 +21,7 @@ namespace Langua.Repositories.Services
         {
             _context = context;
         }
-        public IQueryable Apply<T>(IQueryable<T> items, IQueryCollection query = null) where T : class
+        public async Task<IQueryable> Apply<T>(IQueryable<T> items, IQueryCollection query = null) where T : class
         {
             if (query is not null)
             {
@@ -40,7 +40,7 @@ namespace Langua.Repositories.Services
                 }
 
             }
-            return items;
+            return await Task.FromResult(items);
         }
 
         public async Task<T?> GetEntiteByUserId<T>(string userid,Expression<Func<T, bool>> expression) where T : class

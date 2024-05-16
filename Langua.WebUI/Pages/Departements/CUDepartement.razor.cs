@@ -10,7 +10,7 @@ namespace Langua.WebUI.Pages.Departements
         [Parameter] public bool IsEdit { get; set; }
         [Inject] IRepositoryCrudBase<Models.Department>? crudRepository { get; set; }
         public Models.Department? Department { get; set; }
-        [Parameter] public string? Id { get; set; }
+        [Parameter] public int? Id { get; set; }
         public List<string> Errors { get; set; } = new();
         protected override Task OnInitializedAsync()
         {
@@ -20,7 +20,7 @@ namespace Langua.WebUI.Pages.Departements
             }
             else
             {
-                var result = crudRepository!.GetById(int.Parse(Id!));
+                var result = crudRepository!.GetById((int)(Id!));
                 Department = result.Value;
             }
             return base.OnInitializedAsync();

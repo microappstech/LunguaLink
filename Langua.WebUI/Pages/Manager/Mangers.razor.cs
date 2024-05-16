@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Primitives;
 using Radzen;
 using Radzen.Blazor;
+using System.Linq.Dynamic.Core;
 
 namespace Langua.WebUI.Pages.Managers
 {
@@ -14,14 +15,15 @@ namespace Langua.WebUI.Pages.Managers
         public IEnumerable<Models.Manager>? Managers { get; set; }
         public RadzenDataGrid<Models.Manager>? grid0;
         [Inject] private IRepositoryCrudBase<Models.Manager>? baseRepository { get; set; }
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             var ManagersResult = baseRepository!.GetAll();
             if (ManagersResult.Succeeded)
             {
-                Managers = ManagersResult.Value;
+               var result = await baseService.Apply<Models.Manager>(ManagersResult.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Department" } }));
+                Managers = (IEnumerable<Models.Manager>)result;
             }
-            return base.OnInitializedAsync();
+            await InvokeAsync(StateHasChanged);
         }
         public async Task Delete(Models.Manager mng)
         {
@@ -39,12 +41,12 @@ namespace Langua.WebUI.Pages.Managers
         }
         public async Task Edit(Models.Manager mng)
         {
-            var result = await dialogService.OpenAsync<CUManager>("Edit the manager", new Dictionary<string, object> { { "Id", mng.Id } }, new DialogOptions { Width = "50vw", ShowClose = true });
+            var result = await dialogService.OpenAsync<CUManager>("Edit the manager", new Dictionary<string, object> { { "Id", mng.Id },{ "IsEdit",true } }, new DialogOptions { Width = "50vw", ShowClose = true });
             await grid0!.Reload();
         }
         public async Task Add()
         {
-            var result = await dialogService.OpenAsync<CUManager>("Add new manager", null, new DialogOptions { Width = "50vw", ShowClose = true });
+            var result = await dialogService.OpenAsync<CUManager>("Add new manager", new Dictionary<string, object> { { "IsEdit",false} }, new DialogOptions { Width = "50vw", ShowClose = true });
             await grid0!.Reload();
         }
     }

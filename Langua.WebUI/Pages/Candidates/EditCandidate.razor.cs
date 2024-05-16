@@ -14,6 +14,7 @@ namespace Langua.WebUI.Pages.Candidates
         [Inject] private IRepositoryCrudBase<Candidat> _repository { get; set; }
         public bool Changepass { get; set; }
 
+        public bool ChangePassword { get; set; }
         protected Candidat candidate { get; set; }
         public bool DataReady { get; set; }
         protected override async Task OnInitializedAsync()

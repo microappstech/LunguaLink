@@ -14,10 +14,16 @@ namespace Langua.WebUI.Pages.Manager
         [Inject] IRepositoryCrudBase<Models.Manager>? crudRepository { get; set; }
         [Inject] IRepositoryCrudBase<Models.Department>? DepRepository { get; set; }
         public Models.Manager? Manager { get; set; }
-        [Parameter] public string? Id { get; set; }
+        [Parameter] public int? Id { get; set; }
         public IEnumerable<Department>?  Departements { get; set; }
         public List<string> Errors { get; set; } = new();
         public bool DataReady { get; set; }
+        public bool ChangePassword { get; set; }
+        
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+        }
         protected override Task OnInitializedAsync()
         {
             Errors = new List<string>();
@@ -26,9 +32,9 @@ namespace Langua.WebUI.Pages.Manager
             {
                 Departements = ResultDep.Value;
             }
-            if(IsEdit)
+            if(IsEdit || Id != null)
             {
-                var resultM = crudRepository!.GetById(int.Parse(Id!));
+                var resultM = crudRepository!.GetById((int)Id!);
                 if(resultM.Succeeded)
                 {
                     Manager = resultM.Value;

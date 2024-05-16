@@ -33,14 +33,29 @@
             <label for="Email">@L["Email"] :</label>
             <InputText id="Email" @bind-Value="candidate.Email" class="form-control" />
         </div>
+@* 
+        <div class="form-group row mb-1">
+            <div class="col-3">
+                @L["Change password"]
+            </div>
+            <div class="col-9">
+
+                <RadzenRadioButtonList @bind-Value="Changepass">
+                    <Items>
+                        <RadzenRadioButtonListItem Value="true" Text="@L["Yes"]" />
+                        <RadzenRadioButtonListItem Value="false" Text="@L["No"]" />
+                    </Items>
+                </RadzenRadioButtonList>
+            </div>
+        </div>
         @if (Changepass)
         {
             <div class="form-group mb-1 col-md-6">
                 <label for="CreatedAt">Password:</label>
                 <InputText id="CreatedAt" @bind-Value="candidate.Password" class="form-control" />
             </div>
-        }
 
+        } *@
         <div class="mx-auto mt-2 text-center">
             <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
             <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
