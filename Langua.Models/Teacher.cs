@@ -20,7 +20,7 @@ namespace Langua.Models
         public string? Phone { get; set; }
         [NotMapped]
         //[DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
         [NotMapped]
         // [DataType(DataType.Password)] 
         public string? ConfirmPassword { get; set; }

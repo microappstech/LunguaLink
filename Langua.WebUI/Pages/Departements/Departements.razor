@@ -14,7 +14,7 @@
         <Columns>
             <RadzenDataGridColumn Property="Name" Title="@L["Name"]" TItem="Department" />
             <RadzenDataGridColumn Property="Location" Title="@L["Localisation"]" TItem="Department" />
-            @* <RadzenDataGridColumn Property="ManagerName" Title="@L["Manger"]" TItem="Department" /> *@
+            <RadzenDataGridColumn Property="Manager.FullName" Title="@L["Manger"]" TItem="Department" />
             <RadzenDataGridColumn TItem="Department" Width="120px">
                 <Template Context="SubContext">
                     <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(SubContext))" class="mr-2" />

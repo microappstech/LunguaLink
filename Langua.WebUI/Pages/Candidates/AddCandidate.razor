@@ -25,33 +25,25 @@
         <div class="row">
             <div class="form-group mb-1 col-md-6">
                 <label for="Photo">@L["Photo"] :</label>
-                <InputFile id="Photo" OnChange="@loadImage" class="form-control" />
+                <RadzenFileInput id="Photo" @bind-Value="@candidate.Photo" class="form-control" />
             </div>
-            <div class="col-md-5">
-                <img src="" />
-            </div>
-        </div>
-        <div class="row d-flex">
-            <div class="form-group mb-1 col-md-6">
-                <label for="FullName">@L["Full Name"] :</label>
-                <InputText id="FullName" @bind-Value="candidate.FullName" class="form-control" />
-            </div>
-
-            <div class="form-group mb-1 col-md-6">
-                <label for="Phone">@L["Phone"] :</label>
-                <InputText id="Phone" @bind-Value="candidate.Phone" class="form-control" />
+            <div class="col-md-6 my-auto">
+                <div class="form-group my-auto">
+                    <label for="FullName">@L["Full Name"] :</label>
+                    <InputText id="FullName" @bind-Value="candidate.FullName" class="form-control" />
+                </div>
             </div>
         </div>
 
-        <div class="form-group mb-1">
+        <div class="form-group mb-2">
             <label for="Email">@L["Email"] :</label>
-            <InputText id="Email" @bind-Value="candidate.Email" class="form-control" />
+            <RadzenTextBox id="Email" @bind-Value="@candidate.Email" @oninput="@((args)=>ValidateEmail(args.Value.ToString()))" class="form-control" />
             @if(!string.IsNullOrEmpty(ErrorMail))
                 {<label class="text-danger">@ErrorMail</label>}
         </div>
 
         <div class="row">
-            <div class="form-group mb-1 col-md-6">
+            <div class="form-group mb-2 col-md-6">
                 <label for="SubjectId">@L["Subject"] :</label>
                 <InputSelect id="SubjectId" TValue="int"  @bind-Value="candidate.SubjectId" class="form-control">
                     @if(subjects is null)
@@ -65,10 +57,10 @@
                 </InputSelect>
             </div>
 
-            <div class="form-group mb-1 col-md-6">
-                <label for="CreatedAt">Password:</label>
-                <InputText id="CreatedAt" @bind-Value="candidate.Password" class="form-control" />
-            </div>
+            <div class="form-group mb-2 col-md-6">
+                <label for="Phone">@L["Phone"] :</label>
+                <InputText id="Phone" @bind-Value="candidate.Phone" class="form-control" />
+            </div>  
         </div>
         <div class="mx-auto mt-2 text-center">
             <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>

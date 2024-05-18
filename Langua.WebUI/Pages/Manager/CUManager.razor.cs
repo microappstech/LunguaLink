@@ -27,11 +27,6 @@ namespace Langua.WebUI.Pages.Manager
         protected override Task OnInitializedAsync()
         {
             Errors = new List<string>();
-            var ResultDep = DepRepository!.GetAll();
-            if (ResultDep.Succeeded)
-            {
-                Departements = ResultDep.Value;
-            }
             if(IsEdit || Id != null)
             {
                 var resultM = crudRepository!.GetById((int)Id!);
@@ -52,6 +47,13 @@ namespace Langua.WebUI.Pages.Manager
                     ConfirmPassword="",
                     Email=""
                 };
+            }
+            var ResultDep = DepRepository!.GetAll();
+            if (ResultDep.Succeeded)
+            {
+                Departements = ResultDep.Value.Where(d => d.Manager == null  
+                || (d.Manager !=null && d.Manager.Id == Manager.Id)).ToList();
+                
             }
             return base.OnInitializedAsync();
         }

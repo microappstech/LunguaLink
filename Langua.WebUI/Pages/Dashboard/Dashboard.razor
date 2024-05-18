@@ -33,32 +33,30 @@
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
             <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6">Nb Candidates</RadzenText>
+                <RadzenText TextStyle="TextStyle.H6">@L["NB Candidates"]</RadzenText>
                 <RadzenText TextStyle="TextStyle.H2" Class="rz-color-danger" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbCandidat</RadzenText>
                 
             </RadzenCard>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
             <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6">NB Groups</RadzenText>
-                    <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbGroups</RadzenText>
-                @*
-                <RadzenChart Style="width: 100%; height: 120px; margin-bottom: -30px;">
-                <RadzenLineSeries Data=@openIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Open Issues" Smooth="true" Stroke="var(--rz-success)" />
-                <RadzenLineSeries Data=@closedIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Closed Issues" Smooth="true" Stroke="var(--rz-danger)" />
-                <RadzenValueAxis Visible="false" />
-                <RadzenCategoryAxis Visible="false" />
-                <RadzenLegend Visible="false" />
-                </RadzenChart>
-                *@
+                <RadzenText TextStyle="TextStyle.H6">@L["NB Groups"]</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbGroups</RadzenText>
             </RadzenCard>
             </RadzenColumn>
 
 
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
             <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6">All Issues</RadzenText>
-                <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">56</RadzenText>
+                <RadzenText TextStyle="TextStyle.H6">@L["NB Managers"]</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbManagers</RadzenText>
+            </RadzenCard>
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+            <RadzenCard Style="position: relative; height :100px">
+                <RadzenText TextStyle="TextStyle.H6">@L["NB Departements"]</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbDepartements</RadzenText>
             </RadzenCard>
         </RadzenColumn>
     </RadzenRow>

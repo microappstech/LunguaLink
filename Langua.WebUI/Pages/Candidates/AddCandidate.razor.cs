@@ -28,17 +28,25 @@ namespace Langua.WebUI.Pages.Candidates
             }
             
         }
-
+        public void ValidateEmail(string email)
+        {
+            ErrorMail = string.Empty;
+            if (!string.IsNullOrEmpty(email) && email.ToLower().Contains("@gmail.com")==false) 
+            {
+                ErrorMail = L["Email Should be account google"];
+            }
+        }
         protected async Task HandleValidSubmit()
         {
 
             ErrorMail = "";
             if (!string.IsNullOrEmpty(candidate?.Email) && !candidate.Email.Contains("@gmail.com"))
             {
-                ErrorMail = "Email Should be account google";
+                ErrorMail = L["Email Should be account google"];
                 return;
             }
             var verification_code = candidate?.Email?.Count().ToString() + DateTime.Now.Day.ToString();
+            candidate.Password = candidate.Email.Substring(0, candidate.Email.IndexOf("@") - 1) + "_" + DateTime.Now.Day;
             ApplicationUser _user = new ApplicationUser()
             {
                 Email = candidate.Email,

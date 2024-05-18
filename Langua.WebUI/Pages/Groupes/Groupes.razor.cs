@@ -62,7 +62,7 @@ namespace Langua.WebUI.Pages.Groupes
             var GResult = repository.GetAll();
             if (GResult.Succeeded)
             {
-                Groups = (IEnumerable<Groups>)baseService.Apply(GResult.Value, 
+                var r = baseService.Apply(GResult.Value, 
                     new QueryCollection(new Dictionary<string, StringValues> { { "include", "GroupeMessages,Candidats" } })
                     );
             }

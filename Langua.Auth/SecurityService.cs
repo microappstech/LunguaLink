@@ -118,17 +118,20 @@ namespace Langua.Account
         }
         public async Task<bool> AddRoleToUser(ApplicationUser us, string role)
         {
-            var existRole = await roleManager.RoleExistsAsync(role);
-            try
+            using (var scope = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled))
             {
-                if(!existRole)
-                    await CreateRole(role);
-                var result = await _userManager.AddToRoleAsync(us, role);
-                return result.Succeeded;
-            }
-            catch 
-            {
-                return false;
+                var existRole = await roleManager.RoleExistsAsync(role);
+                try
+                {
+                    if(!existRole)
+                        await CreateRole(role);
+                    var result = await _userManager.AddToRoleAsync(us, role);
+                    return result.Succeeded;
+                }
+                catch 
+                {
+                    return false;
+                }
             }
         }
 

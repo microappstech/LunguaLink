@@ -34,22 +34,22 @@
                     </div>
 
                     <!-- Email input -->
-                    <div class="form-outline mb-4">
+                    <div class="form-outline mb-5">
                          <InputText @bind-Value="Input.Email" type="email" id="form3Example3" class="form-control form-control-lg"
                                placeholder="Enter a valid email address" /> 
                         <ValidationMessage For="() => Input.Email" class="text-danger" />
-                        <label class="form-label" for="form3Example3">Email address</label>                        
+                        @* <label class="form-label" for="form3Example3">Email address</label>                         *@
                     </div>
 
                     <!-- Password input -->
-                    <div class="form-outline mb-3">
+                    <div class="form-outline my-4">
                         <InputText type="password" @bind-Value="Input.Password" id="form3Example4" class="form-control form-control-lg"
                         placeholder="Enter password" />
                                <ValidationMessage For="()=>Input.Password"/>
-                        <label class="form-label" for="form3Example4">Password</label>
+                        @* <label class="form-label" for="form3Example4">Password</label> *@
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center">
+                    @* <div class="d-flex justify-content-between align-items-center">
                         <!-- Checkbox -->
                         <div class="form-check mb-0">
                             <InputCheckbox @bind-Value="Input.RememberMe"  class="form-check-input me-2" id="form2Example3" />
@@ -58,17 +58,17 @@
                             </label>
                         </div>
                         <a href="#!" class="text-body">Forgot password?</a>
-                    </div>
+                    </div> *@
 
                     <div class="text-center text-lg-start mt-4 pt-2">
                          <button type="submit" class="btn px-5  btn-lg"
                                 style="color:white; background-color:purple;">
                             Login
                         </button> 
-                        <p class="small fw-bold mt-2 pt-1 mb-0">
-                            Don't have an account? <a href="/Register"
-                                                      class="link-danger">Register</a>
-                        </p>
+                        <h3 class="fw-bold mt-2 pt-1 mb-0 mx-auto text-center">
+                            <div>Want to see a demo</div>
+                           <a href="/Contact" class="link-danger">Request a demo</a>
+                        </h3>
                     </div>
                 </EditForm>
             </div>

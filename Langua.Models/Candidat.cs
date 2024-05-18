@@ -15,7 +15,7 @@ namespace Langua.Models
         [Required]
         public string? FullName { get; set; }
         public string? UserId { get; set; }
-        [Required]
+        //[Required]
         public string? Photo { get; set; }
         [Required]
         [Phone(ErrorMessage ="Please enter a valid Phone number")]
@@ -26,7 +26,7 @@ namespace Langua.Models
         [EmailAddress(ErrorMessage = "Please enter a valid email")]
         public string? Email { get; set; }
         
-        [Required] 
+        //[Required] 
         [NotMapped] 
         [DataType(DataType.Password, ErrorMessage ="Please enter a strong password")]
         [MinLength(8)]
