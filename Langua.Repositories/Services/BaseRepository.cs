@@ -21,29 +21,17 @@ namespace Langua.Repositories.Services
         {
             _context = context;
         }
-        void Main()
-        {
-            // Define a list of integers
-            List<int> numbers = new List<int> { 1, 2, 3, 4, 5 };
-
-            // Define the dynamic query expression
-            string expression = "x => x > 3";
-
-            // Execute the dynamic query using the Dynamic LINQ library
-            IEnumerable<int> results = numbers.AsQueryable().Where(expression);
-
-            // Output the results
-            Console.WriteLine("Numbers greater than 3:");
-            foreach (int number in results)
-            {
-                Console.WriteLine(number);
-            }
-        }
+        public void Reload() => _context.ChangeTracker.Entries().ToList().ForEach(e => {
+            if (e is not null)
+                e.State = EntityState.Detached;
+        });
+        public void Reset() => _context.ChangeTracker.Entries().Where(e => e.Entity != null).ToList().ForEach(e => e.State = EntityState.Detached);
         public Result<T> Add(T entity)
         {
             try
             {
-                _context.Set<T>().Add(entity);
+                Reset();
+                _context.Add(entity);
                 _context.SaveChanges();
                 return new Result<T>(true,entity);
             }

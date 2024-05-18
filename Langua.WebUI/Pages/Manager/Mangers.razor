@@ -16,7 +16,7 @@
 <RadzenContent>
     <RadzenDataGrid Data="Managers" TItem="Models.Manager" AllowSorting="true" @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
         <Columns>
-            <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Teacher" >
+            <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Manager" >
                 <Template Context="CanContext">
                     <div>
                         <img src="@CanContext.Photo" width="50" />
@@ -25,7 +25,7 @@
                 </Template>
             </RadzenDataGridColumn>
             <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Manager" />
-            <RadzenDataGridColumn Property="Department.Name" Title="@L["Phone"]" TItem="Manager" />
+            <RadzenDataGridColumn Property="Department.Name" Title="@L["Departement"]" TItem="Manager" />
             <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Manager" />
 
             <RadzenDataGridColumn TItem="Manager" Width="120px">

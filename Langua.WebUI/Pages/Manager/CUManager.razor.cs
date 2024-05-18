@@ -77,53 +77,67 @@ namespace Langua.WebUI.Pages.Manager
             Manager!.Photo = "data:image/png;base64," + base64;
         }
         public async Task HandleValidSubmit()
-        {
-            Errors = new();
             {
-
-            }
-            
-            if (Manager.Id == 0 && !IsEdit)
+            using (var scope = new TransactionScope(TransactionScopeOption.Suppress, TransactionScopeAsyncFlowOption.Enabled))
             {
-                ApplicationUser _user = new ApplicationUser()
+                try
                 {
-                    Email = Manager.Email,
-                    UserName = Manager.Email,
-                    Password = Manager.Password,
-                    NormalizedUserName = Manager.FullName,
-                    PhoneNumber = Manager.Phone
-                };
-                //using (TransactionScope Scope = new TransactionScope(TransactionScopeOption.RequiresNew))
-                //{
-                    var TaskUser = await Security.RegisterUser(_user);
-                    if (TaskUser.Succeeded)
+                    Errors = new();
+            
+                    if (Manager.Id == 0 && !IsEdit)
                     {
-                        var result = crudRepository.Add(Manager);
+                        Manager.Password = Manager.Email.Substring(0, Manager.Email.IndexOf("@")-1)+"_"+DateTime.Now.Day;
+                        ApplicationUser _user = new ApplicationUser()
+                        {
+                            Email = Manager.Email,
+                            UserName = Manager.Email,
+                            Password = Manager.Password,
+                            NormalizedUserName = Manager.FullName,
+                            PhoneNumber = Manager.Phone
+                        };
+                        var TaskUser = await Security.RegisterUser(_user);
+                        if (TaskUser.Succeeded)
+                        {
+                            var result = crudRepository.Add(Manager);
+                            if (result.Succeeded)
+                            {
+                                Notify("Success", "Item created successfully", Radzen.NotificationSeverity.Success);
+                                scope.Complete();
+                                //scope.Dispose();
+                                dialogService.Close();
+                            }
+                            else
+                            {
+                                Errors.Add(result.Error);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            Errors.Add(TaskUser.Error);
+                        }
+                    }
+                    else
+                    {
+                        var result = crudRepository.Update(Manager);
                         if (result.Succeeded)
                         {
-                             Notify("Success", "Item created successfully", Radzen.NotificationSeverity.Success);
-                             dialogService.Close();
+                            Notify("Success", "Item updated successfully", Radzen.NotificationSeverity.Success);
+                            scope.Complete();
+                            scope.Dispose();
+                            dialogService.Close();
+
                         }
                         else
                         {
                             Errors.Add(result.Error);
-                            return;
                         }
-                        //Scope.Complete();' 
                     }
-                //}
-            }
-            else
-            {
-                var result = crudRepository.Update(Manager);
-                if (result.Succeeded)
-                {
-                    Notify("Success", "Item updated successfully", Radzen.NotificationSeverity.Success);
-                    dialogService.Close();
+                    scope.Dispose();
                 }
-                else
+                catch(Exception ex)
                 {
-                    Errors.Add(result.Error);
+                    Notify("Error", "Somethinf went wrong! Please try again",Radzen.NotificationSeverity.Error);
                 }
             }
         }

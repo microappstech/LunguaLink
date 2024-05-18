@@ -19,7 +19,7 @@
     </div>
 
 
-    <div class="row">
+    <div class="row my-2">
         <div class="form-group mb-1 col-md-6">
             <label for="Photo">@L["Photo"] :</label>
             <InputFile id="teacher" OnChange="@loadImage" class="form-control" />
@@ -28,21 +28,19 @@
             <img src="" />
         </div>
     </div> 
-    <div class="row d-flex">
+    <div class="row d-flex my-2">
         <div class="form-group mb-1 col-md-6">
             <label for="FullName">@L["Full Name"] :</label>
             <RadzenTextBox id="FullName" @bind-Value="Manager.FullName" class="form-control" Name="Full_Name" />
-            @* <RadzenRequiredValidator Component="Full_Name" Text="@L["The Filed is Required"]" /> *@
         </div>
 
-        <div class="form-group mb-1 col-md-6">
+        <div class="form-group col-md-6">
             <label for="Phone">@L["Phone"] :</label>
             <RadzenTextBox id="Phone" @bind-Value="Manager.Phone" class="form-control" Name="Phone" />
-            @* <RadzenRequiredValidator Component="Phone" Text="@L["The Filed is Required"]" /> *@
         </div>
     </div>
 
-    <div class="form-group row mb-1">
+    <div class="form-group row my-2">
         <div class="col-3">
             <label for="Email">@L["Email"] :</label>
         </div>
@@ -51,7 +49,7 @@
         </div>
     </div> 
 
-    <div class="form-group row mb-1">
+    <div class="form-group row my-2">
         <div class="col-3">
             <label for="Email">@L["Departement"] :</label>
         </div>

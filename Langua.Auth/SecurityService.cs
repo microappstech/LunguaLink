@@ -8,14 +8,16 @@ using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using System.Linq.Expressions;
 using Langua.Models;
+using System.Transactions;
 
 namespace Langua.Account
 {
     public class SecurityService
     {
-        [SupplyParameterFromQuery]
+        [SupplyParameterFromQuery]    
         private string? ReturnUrl { get; set; }
         private readonly UserManager<ApplicationUser> _userManager;
+        private ApplicationDbContext _userContext;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private IEnumerable<IdentityError> identityErrors;
         private ILogger<SecurityService> Ilogger;
@@ -25,8 +27,9 @@ namespace Langua.Account
         private readonly IWebHostEnvironment webHost;
         private readonly RoleManager<IdentityRole> roleManager;
         public SecurityService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<SecurityService> logger, AuthenticationStateProvider authentication,
-            NavigationManager manager, IWebHostEnvironment webHost, RoleManager<IdentityRole> roleManager)
+            NavigationManager manager, IWebHostEnvironment webHost, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
+            _userContext = context;
             _signInManager = signInManager;
             _userManager = userManager;
             Ilogger = logger;
@@ -80,25 +83,30 @@ namespace Langua.Account
         }
         public async Task<Result<ApplicationUser>> RegisterUser(ApplicationUser ApplicationUser)
         {
-            var mailTaken = await _userManager.FindByEmailAsync(ApplicationUser.Email);
-            if (mailTaken is not null)
-                return new Result<ApplicationUser>(false, null, "Mail already taken");
-            var user = CreateUser();
-            user.Email = ApplicationUser.Email;
-            user.UserName = ApplicationUser.Email;
-            user.Password = ApplicationUser.Password;
-            user.NormalizedUserName = ApplicationUser.NormalizedUserName;
-            user.PhoneNumber = ApplicationUser.PhoneNumber;
-            user.Code = ApplicationUser.Code;
-            user.EmailConfirmed = false;
-            var result = await _userManager.CreateAsync(user, ApplicationUser.Password);
-            if (!result.Succeeded)
+            using (var UserScop = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled))
             {
-                //identityErrors = result.Errors
-                return new Result<ApplicationUser>(false,null,Errors:identityErrors.Select(i=>i.Description).ToList());
+                var mailTaken = await _userManager.FindByEmailAsync(ApplicationUser.Email);
+                if (mailTaken is not null)
+                    return new Result<ApplicationUser>(false, null, "Mail already taken");
+                var user = CreateUser();
+                user.Email = ApplicationUser.Email;
+                user.UserName = ApplicationUser.Email;
+                user.Password = ApplicationUser.Password;
+                user.NormalizedUserName = ApplicationUser.NormalizedUserName;
+                user.PhoneNumber = ApplicationUser.PhoneNumber;
+                user.Code = ApplicationUser.Code;
+                user.EmailConfirmed = false;
+                var result = await _userManager.CreateAsync(user, ApplicationUser.Password);
+                if (!result.Succeeded)
+                {
+                    //identityErrors = result.Errors
+                    return new Result<ApplicationUser>(false,null,Errors:identityErrors.Select(i=>i.Description).ToList());
+                }
+                Ilogger.LogInformation($"User created a new account with password. on : {DateTime.Now}");
+                UserScop.Complete();
+                return new Result<ApplicationUser>(true,user);
+
             }
-            Ilogger.LogInformation($"User created a new account with password. on : {DateTime.Now}");
-            return new Result<ApplicationUser>(true,user);
         }
         public async Task<(bool,string)> CreateRole(string roleName)
         {
