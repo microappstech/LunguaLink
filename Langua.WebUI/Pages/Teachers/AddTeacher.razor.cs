@@ -33,7 +33,7 @@ namespace Langua.WebUI.Pages.Teachers
         }
         protected async Task HandleValidSubmit()
         {
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(TransactionScopeOption.Suppress))
             {
                 try
                 {

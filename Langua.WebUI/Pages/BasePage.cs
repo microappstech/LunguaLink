@@ -8,13 +8,15 @@ using Radzen;
 using Langua.Account;
 using Microsoft.AspNetCore.Components.Authorization;
 using Langua.WebUI.Client.Pages;
+using Radzen.Blazor;
 
 namespace Langua.WebUI.Pages
 {
     public partial class BasePage : BasePageClient
     {
         [Inject]public NavigationManager? Navigation { get; set; }
-        
+        public RadzenProgressBarCircular loading;
+        public bool IsStuck { get; set; } = true;
         //[Inject] Microsoft.Extensions.Localization.IStringLocalizer<Langua.WebUI.Client.Pages.BasePageClient>? L { get; set; }
         [Inject] protected SecurityService? Security { get; set; }
         [Inject] public BaseService? baseService { get; set; }

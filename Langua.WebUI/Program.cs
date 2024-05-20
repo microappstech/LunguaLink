@@ -69,6 +69,7 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
         options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
+        
 
         //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -106,7 +107,12 @@ builder.Services.AddDbContext<LanguaContext>(options =>
 builder.Services.AddScoped<LangClientService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddSwaggerGen();
-builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentityCore<ApplicationUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+})
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()

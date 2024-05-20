@@ -79,8 +79,8 @@ namespace Langua.WebUI.Pages.Manager
             Manager!.Photo = "data:image/png;base64," + base64;
         }
         public async Task HandleValidSubmit()
-            {
-            using (var scope = new TransactionScope(TransactionScopeOption.Suppress, TransactionScopeAsyncFlowOption.Enabled))
+        {
+            using (var scope = new TransactionScope(TransactionScopeOption.Suppress, TimeSpan.FromMinutes(3), TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
@@ -97,15 +97,14 @@ namespace Langua.WebUI.Pages.Manager
                             NormalizedUserName = Manager.FullName,
                             PhoneNumber = Manager.Phone
                         };
-                        var TaskUser = await Security.RegisterUser(_user);
+                        var TaskUser = await Security!.RegisterUser(_user);
                         if (TaskUser.Succeeded)
                         {
-                            var result = crudRepository.Add(Manager);
+                            var role = Security!.AddRoleToUser(TaskUser.Value, "MANAGER");//.ConfigureAwait(false);
+                            var result = crudRepository!.Add(Manager);
                             if (result.Succeeded)
                             {
                                 Notify("Success", "Item created successfully", Radzen.NotificationSeverity.Success);
-                                scope.Complete();
-                                //scope.Dispose();
                                 dialogService.Close();
                             }
                             else
@@ -125,8 +124,7 @@ namespace Langua.WebUI.Pages.Manager
                         if (result.Succeeded)
                         {
                             Notify("Success", "Item updated successfully", Radzen.NotificationSeverity.Success);
-                            scope.Complete();
-                            scope.Dispose();
+                            
                             dialogService.Close();
 
                         }
@@ -135,9 +133,10 @@ namespace Langua.WebUI.Pages.Manager
                             Errors.Add(result.Error);
                         }
                     }
-                    scope.Dispose();
+                    scope.Complete();
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Notify("Error", "Somethinf went wrong! Please try again",Radzen.NotificationSeverity.Error);
                 }

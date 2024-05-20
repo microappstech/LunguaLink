@@ -104,6 +104,7 @@ namespace Langua.Account
                 }
                 Ilogger.LogInformation($"User created a new account with password. on : {DateTime.Now}");
                 UserScop.Complete();
+                UserScop.Dispose();
                 return new Result<ApplicationUser>(true,user);
 
             }
@@ -118,17 +119,18 @@ namespace Langua.Account
         }
         public async Task<bool> AddRoleToUser(ApplicationUser us, string role)
         {
-            using (var scope = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled))
+            using (var scopeRole = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromMinutes(3), TransactionScopeAsyncFlowOption.Enabled))
             {
-                var existRole = await roleManager.RoleExistsAsync(role);
+                //var existRole = await roleManager.RoleExistsAsync(role);
                 try
                 {
-                    if(!existRole)
-                        await CreateRole(role);
+                    //if(!existRole)
+                    //    await CreateRole(role);
                     var result = await _userManager.AddToRoleAsync(us, role);
+                    scopeRole.Complete();
                     return result.Succeeded;
                 }
-                catch 
+                catch(Exception ex)
                 {
                     return false;
                 }
