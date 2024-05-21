@@ -10,18 +10,18 @@ namespace Langua.WebUI.Pages.Candidates
 {
     public partial class AddCandidateComponent : BasePage
     {
-        [Inject] private IRepositoryCrudBase<Candidat> _repository { get; set; }
-        [Inject] private IRepositoryCrudBase<Subject> _repositorySubjects { get; set; }
+        [Inject] private IRepositoryCrudBase<Candidat>? _repository { get; set; }
+        [Inject] private IRepositoryCrudBase<Subject>? _repositorySubjects { get; set; }
 
         protected Candidat? candidate { get; set; }
-        public IEnumerable<Subject> subjects { get; set; }
+        public IEnumerable<Subject>? subjects { get; set; }
         public bool DataReady { get; set; }
         public string? ErrorMail { get; set; }
         public List<string> Errors { get; set; } = new ();
         protected override async Task OnInitializedAsync()
         {
             candidate = new Candidat();
-            var SubjectResult = _repositorySubjects.GetAll();
+            var SubjectResult = _repositorySubjects!.GetAll();
             if (SubjectResult.Succeeded)
             {
                 subjects = SubjectResult.Value;
@@ -58,8 +58,9 @@ namespace Langua.WebUI.Pages.Candidates
                 Code= verification_code,
 
             };
-            //using (var scope = new TransactionScope(TransactionScopeOption.Suppress))
-            //{
+
+            using (var scope = new TransactionScope(TransactionScopeOption.Suppress, TimeSpan.FromMinutes(3), TransactionScopeAsyncFlowOption.Enabled))
+            {
                 try
                 {
                     var taskResult = await Security!.RegisterUser(_user);
@@ -92,7 +93,7 @@ namespace Langua.WebUI.Pages.Candidates
                 
                 }
                 
-            //}
+            }
         }
         public void Close()
         {

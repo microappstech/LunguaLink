@@ -77,6 +77,7 @@ namespace Langua.WebUI.Pages.Candidates
         public async Task ConfirmMail(Candidat args)
         {
             var result = await dialogService.OpenAsync<ValidateMail>("Confirm you email", new Dictionary<string, object> { { "Email", args.Email } });
+            await grid0!.Reload();
         }
         public async Task Delete(Candidat candidat)
         {
@@ -88,7 +89,8 @@ namespace Langua.WebUI.Pages.Candidates
                 {
                     Notify("Success", "Suppression successfully finished",NotificationSeverity.Success);
                     dialogService.Close();
-                    await grid0.Reload();
+                    await grid0!.Reload();
+
                 }
                 else
                 {
@@ -100,12 +102,12 @@ namespace Langua.WebUI.Pages.Candidates
         public async Task Edit(Candidat candidat)
         {
             var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.EditCandidate>("Edit Componenet", new Dictionary<string, object> { { "Id", candidat.Id } });
-            await grid0.Reload();
+            await grid0!.Reload();
         }
         public async Task Add()
         {
            var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw",  ShowClose = true });
-            await grid0.Reload();
+            await grid0!.Reload();
         }
     }
 

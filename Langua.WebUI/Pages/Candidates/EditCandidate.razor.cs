@@ -29,7 +29,8 @@ namespace Langua.WebUI.Pages.Candidates
         }
         protected async Task HandleValidSubmit()
         {
-            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+
+            using (var scope = new TransactionScope(TransactionScopeOption.Suppress, TimeSpan.FromMinutes(3), TransactionScopeAsyncFlowOption.Enabled))
             {
                 var result = _repository.Update(candidate);
                 if (result.Succeeded)
