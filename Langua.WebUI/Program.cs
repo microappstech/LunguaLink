@@ -18,6 +18,7 @@ using Langua.Api.Shared.ApiHelper;
 using Langua.WebUI.Client.Services;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
+using Langua.ApiControllers.LanguaHub;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -102,7 +103,7 @@ builder.Services.AddDbContext<LanguaContext>(options =>
 });
 
 
-
+builder.Services.AddSignalR();
 
 builder.Services.AddScoped<LangClientService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -153,6 +154,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(Langua.WebUI.Client._Imports).Assembly);
 app.MapControllers();
+app.MapHub<ChatHub>(ChatHub.ChatGroupEndPoint);
 //await Seeding.Initialize(app.Services.CreateScope().ServiceProvider);
 //
 //app.MapIdentityApi<ApplicationUser>();

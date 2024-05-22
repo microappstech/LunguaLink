@@ -35,7 +35,6 @@
     <ProjectReference Include="..\Langua.Auth\Langua.Account.csproj" />
     <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
     <ProjectReference Include="..\Langua.Repositories\Langua.Repositories.csproj" />
-    <ProjectReference Include="..\Langua.UIComponents\Langua.UIComponents.csproj" />
     <ProjectReference Include="..\Langua.WebUI.Client\Langua.WebUI.Client.csproj" />
   </ItemGroup>
 

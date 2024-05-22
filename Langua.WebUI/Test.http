@@ -33,3 +33,13 @@ Authorization: Bearer {{jwt}}
 GET {{url}}/odata/Langua/Sessions?$filter name eq 'Francais'
 #filter=name eq 'ddd'
 # GET {{url}}/odata/Langua/Sessions?$filter=name eq 'Anglais'
+
+###
+POST {{url}}/api/ChatGroup/SendeMessage?FromUserId=cf413dca-375d-46ed-b483-6f5f69337ff2&groupId=2&Message=Hellowourld
+Content-Type: application/json
+
+{
+  "FromUserId":"cf413dca-375d-46ed-b483-6f5f69337ff2",
+  "groupId":3,
+  "Message":H"ello Father"
+}

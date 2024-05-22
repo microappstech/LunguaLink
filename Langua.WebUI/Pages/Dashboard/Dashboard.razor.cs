@@ -1,13 +1,16 @@
 using Langua.Models;
 using Langua.Repositories.Services;
 using Langua.Repositories.Services.Validation;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Langua.WebUI.Pages.Dashboard
 {
     public partial class DashboardComponent:BasePage
     {
+        private HubConnection _chatGroupHub;
         public IEnumerable<Candidat>? Candidates { get; set; }
         public IEnumerable<Teacher> ?Teachers { get; set; }
         public int NbTeacher;
@@ -33,6 +36,21 @@ namespace Langua.WebUI.Pages.Dashboard
             NbDepartements = await baseService.NBItems<Department>();
             NbManagers = await baseService.NBItems<Models.Manager>();
 
+            _chatGroupHub = new HubConnectionBuilder()
+                .WithUrl(Navigation!.ToAbsoluteUri(ApiControllers.LanguaHub.ChatHub.ChatGroupEndPoint))
+                .WithAutomaticReconnect()
+                .Build();
+            _chatGroupHub.On<string, string, string>("SendMessageToGroup", async (GroupId, FromUserId, Message) =>
+            {
+                Notify("New Message", Message, Radzen.NotificationSeverity.Info, 50000);
+            });
+            try
+            {
+                await _chatGroupHub.StartAsync();
+            }catch(Exception ex)
+            {
+                Notify("Error start connection", ex.Message, Radzen.NotificationSeverity.Error, 50000);
+            }
         }
     }
 }

@@ -1,0 +1,66 @@
+﻿@page "/chatgroup/{chatgroupId}"
+@inject NavigationManager NavigationManager
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Langua.WebUI.Client.Pages.BasePageClient> L
+
+<RadzenContentContainer>
+        <RadzenRow widt>
+            <RadzenColumn Size="3" Orientation="Orientation.Vertical" class="bg-white" Style="">
+                <RadzenStack AlignItems="AlignItems.Center">
+                    <RadzenHeading Size="H1" class="rz-display-flex text-primary pt-1" Text="Your Groups"></RadzenHeading>
+                </RadzenStack>
+                
+          
+                <div class="nav-scrollable" >                    
+                    @for (var i = 0; i < 5; i++)
+                {
+                    <RadzenLink Path="@($"chatgroup/{i}")">
+                        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Style="border:1px solid lightgray;" Class="rz-p-4">
+                                <RadzenImage Path="https://hamza-mouddakir.tech/img/hero/1.jpg" Style="width: 50px; height: 50px; border-radius: 50%;" />
+                                <RadzenStack Gap="4">
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex ">Employee</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1"><b>Hamza Mouddakir</b></RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex ">Company</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1"><b>Devtrust</b></RadzenText>
+                                </RadzenStack>
+                            </RadzenStack>
+                        </RadzenLink>
+                        }
+                    </div>
+            </RadzenColumn>
+            <RadzenColumn Size="9" Orientation="Orientation.Vertical" class="bfg-white p-3" Style="overflow:scroll">
+                <RadzenStack AlignItems="AlignItems.Center">
+                    <RadzenHeading Size="H1" class="rz-display-flex text-primary pt-1" Text="Group francais A1(17)"></RadzenHeading>
+                </RadzenStack>
+
+            <RadzenCard Variant="Variant.Flat" Style="height:600px; border:0.2px solid #c1c1c1;">
+                <RadzenStack Orientation="Orientation.Vertical" Style="width:100%">
+                    <RadzenStack Style="height:80%">
+                        <MessageComponent Message="@r" Date="@DateTime.Now" />
+                        <MessageComponent Message="Craft extends Bootstrap Colors  system with extra variants to cover its own design system build on top of the Boostrap Standards. The extended theme color SASS variables are defined" Date="@DateTime.Now" />
+                    </RadzenStack>
+                    <RadzenStack Style="width:100%" Orientation="Orientation.Horizontal" AlignItems="AlignItems.End">
+                        <RadzenTextArea @bind-Value="@Message" Style="width:100%" />
+                        <RadzenStack Orientation="Orientation.Horizontal">
+                            <RadzenButton Icon="upload" class="px-3" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" />
+                            <RadzenButton Icon="send" class="px-3" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" />
+                        </RadzenStack>
+                    </RadzenStack>
+                </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
+        </RadzenRow>
+</RadzenContentContainer>
+
+@code{
+    [Parameter]
+    public string chatgroupId {get;set;}
+    public string Message { get; set; }
+    public string r { get; set; } = "The alert component can be used to highlight certain parts of your page for higher content, The alert component can be used to highlight certain parts of your page for higher content visibility.";
+    protected override Task OnParametersSetAsync()
+    {
+        return base.OnParametersSetAsync();
+    }
+    protected override async Task OnInitializedAsync(){
+
+    }
+}

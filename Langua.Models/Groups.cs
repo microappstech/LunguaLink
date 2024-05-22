@@ -22,6 +22,7 @@ namespace Langua.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public string Photo { get; set; }
         [Required] public string Name { get; set; }
         public string Description { get; set; }
         #nullable enable
