@@ -1,49 +1,70 @@
-﻿@page "/chatgroup/{chatgroupId}"
+﻿@page "/chatgroup/{chatgroupId?}"
+@page "/chatgroup"
 @inject NavigationManager NavigationManager
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Langua.WebUI.Client.Pages.BasePageClient> L
+<style>
+    .NavLikChat{
+        text-underline: none;
+        underline: none;
+        text-decoration:none
+    }
 
+    .activeLink{
+        background: purple;
+
+    }
+
+        .activeLink .rz-text-body1, .activeLink .rz-text-overline {
+            color:white;
+        }
+</style>
 <RadzenContentContainer>
-        <RadzenRow widt>
+        <RadzenRow >
             <RadzenColumn Size="3" Orientation="Orientation.Vertical" class="bg-white" Style="">
                 <RadzenStack AlignItems="AlignItems.Center">
                     <RadzenHeading Size="H1" class="rz-display-flex text-primary pt-1" Text="Your Groups"></RadzenHeading>
                 </RadzenStack>
                 
           
-                <div class="nav-scrollable" >                    
-                    @for (var i = 0; i < 5; i++)
+                <div class="nav-scrollable" style="position:sticky; height:650px; overflow:scroll" >                    
+                @for(int i=0;i<5;i++)
                 {
-                    <RadzenLink Path="@($"chatgroup/{i}")">
+                    <div class="@( chatgroupId==i.ToString() ?$"activeLink":"") text-white">
+                    <RadzenLink class="NavLikChat" Path="@($"chatgroup/{i}")" >
                         <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Style="border:1px solid lightgray;" Class="rz-p-4">
-                                <RadzenImage Path="https://hamza-mouddakir.tech/img/hero/1.jpg" Style="width: 50px; height: 50px; border-radius: 50%;" />
-                                <RadzenStack Gap="4">
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex ">Employee</RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1"><b>Hamza Mouddakir</b></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex ">Company</RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1"><b>Devtrust</b></RadzenText>
-                                </RadzenStack>
+                            <RadzenImage Path="https://hamza-mouddakir.tech/img/hero/1.jpg" Style="width: 50px; height: 50px; border-radius: 50%;" />
+                            <RadzenStack Gap="4">
+                                <RadzenText TextStyle="TextStyle.Body1" class=""><b>French Group @i</b></RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex">Candidates : @((i * (i + 2)))</RadzenText>
                             </RadzenStack>
-                        </RadzenLink>
-                        }
+                        </RadzenStack>
+                    </RadzenLink>
                     </div>
+                    }
+                </div>
             </RadzenColumn>
             <RadzenColumn Size="9" Orientation="Orientation.Vertical" class="bfg-white p-3" Style="overflow:scroll">
                 <RadzenStack AlignItems="AlignItems.Center">
                     <RadzenHeading Size="H1" class="rz-display-flex text-primary pt-1" Text="Group francais A1(17)"></RadzenHeading>
                 </RadzenStack>
 
-            <RadzenCard Variant="Variant.Flat" Style="height:600px; border:0.2px solid #c1c1c1;">
+            <RadzenCard Variant="Variant.Flat" Style="height:600px; border:0.2px solid #c1c1c1;" class="position-relative">
                 <RadzenStack Orientation="Orientation.Vertical" Style="width:100%">
-                    <RadzenStack Style="height:80%">
-                        <MessageComponent Message="@r" Date="@DateTime.Now" />
+                    <RadzenStack Style="height:80%" @ref="ChatBox">
+                        @foreach(var MessageItem in messageGroups)
+                        {
+                            <MessageComponent Message="@MessageItem.Content" Date="@MessageItem.SendAt" />
+                        }
                         <MessageComponent Message="Craft extends Bootstrap Colors  system with extra variants to cover its own design system build on top of the Boostrap Standards. The extended theme color SASS variables are defined" Date="@DateTime.Now" />
                     </RadzenStack>
-                    <RadzenStack Style="width:100%" Orientation="Orientation.Horizontal" AlignItems="AlignItems.End">
-                        <RadzenTextArea @bind-Value="@Message" Style="width:100%" />
-                        <RadzenStack Orientation="Orientation.Horizontal">
-                            <RadzenButton Icon="upload" class="px-3" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" />
-                            <RadzenButton Icon="send" class="px-3" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" />
-                        </RadzenStack>
+                </RadzenStack>
+                <RadzenStack Style="width:90%" class="position-absolute bottom-0 mb-3 " Orientation="Orientation.Horizontal" AlignItems="AlignItems.End">
+                    <RadzenTextArea @bind-Value="@Message" Style="width:90%" />
+                    <RadzenStack Orientation="Orientation.Vertical" Gap="2px">
+                        <RadzenUpload  @ref="upload" Auto="false" Multiple="true" ChooseText="" Url="upload/multiple" Change=@(args => OnChange(args, "Manual Upload")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})"
+                                      Progress=@(args => OnProgress(args, "Manual Upload"))  Icon="upload" />
+                            @* <RadzenButton Text="Upload" Click=@(args => upload.Upload()) class="d-block mt-4" /> *@
+                        <RadzenButton Icon="send" class="p-0" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Small" Click="SendMessage" />
                     </RadzenStack>
                 </RadzenStack>
                 </RadzenCard>
@@ -55,12 +76,61 @@
     [Parameter]
     public string chatgroupId {get;set;}
     public string Message { get; set; }
+    public List<MessageGroup> messageGroups { get; set; }
+    public RadzenStack ChatBox;
+
+    RadzenUpload upload;
+    public bool UploadVisible { get; set; }
+
+    int progress;
     public string r { get; set; } = "The alert component can be used to highlight certain parts of your page for higher content, The alert component can be used to highlight certain parts of your page for higher content visibility.";
     protected override Task OnParametersSetAsync()
     {
         return base.OnParametersSetAsync();
     }
-    protected override async Task OnInitializedAsync(){
+    protected override async Task OnInitializedAsync()
+    {
+        messageGroups = new List<MessageGroup>()
+        {
+            new MessageGroup {Id=1, GroupId=1,Content="Hi Teacher, i hope you are doing well",SenderId="2", SendAt = DateTime.Now},
+            new MessageGroup {Id=2, GroupId = 1, Content = "Hi Hone, how can i help you", SenderId = "3", SendAt = DateTime.Now.AddMinutes(20) },
+            new MessageGroup {Id=3, GroupId = 1, Content = "I'm just asking you if you can share the pdf that we were reading yesterday at classe", SenderId = "2", SendAt = DateTime.Now.AddMinutes(26) },
+            new MessageGroup {Id=4, GroupId = 1, Content = "Okey, i will send it when i'm home", SenderId = "3", SendAt = DateTime.Now.AddMinutes(40) },
+        };
+    }
+    void OnChange(UploadChangeEventArgs args, string name)
+    {
+        foreach (var file in args.Files)
+        {
 
+        }
+
+    }
+
+    void OnProgress(UploadProgressArgs args, string name)
+    {
+
+        if (args.Progress == 100)
+        {
+            foreach (var file in args.Files)
+            {
+                UploadVisible = false;
+            }
+        }
+    }
+    public async Task SendMessage()
+    {
+        MessageGroup mg = new MessageGroup()
+            {
+                Id = messageGroups.Count(),
+                Content = Message,
+                SenderId = "hkkhkjq",
+                SendAt = DateTime.Now,
+                GroupId = 2
+        };
+            messageGroups.Add(mg);
+        Message = string.Empty;
+        await InvokeAsync(StateHasChanged);
+        StateHasChanged();
     }
 }
