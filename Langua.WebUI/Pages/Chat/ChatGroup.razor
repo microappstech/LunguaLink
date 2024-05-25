@@ -19,7 +19,7 @@
         }
 </style>
 <RadzenContentContainer>
-        <RadzenRow >
+        <RadzenRow Visible="false">
             <RadzenColumn Size="3" Orientation="Orientation.Vertical" class="bg-white" Style="">
                 <RadzenStack AlignItems="AlignItems.Center">
                     <RadzenHeading Size="H1" class="rz-display-flex text-primary pt-1" Text="Your Groups"></RadzenHeading>
@@ -70,34 +70,110 @@
                 </RadzenCard>
             </RadzenColumn>
         </RadzenRow>
+        <RadzenRow>
+            <RadzenSplitter Orientation="Orientation.Vertical" style="height: 100vh; border: 1px solid rgba(0,0,0,.08);">
+               
+                <RadzenSplitterPane>
+                    <RadzenSplitter Collapse=@OnCollapseDisabled Resize=@OnResizeDisabled>
+                        <RadzenSplitterPane Size="25%">
+
+                            <RadzenColumn Size="3" Orientation="Orientation.Vertical" class="bg-white" Style="900px; overflow:scroll">
+                                <RadzenStack AlignItems="AlignItems.Center">
+                                    <RadzenHeading Size="H1" class="rz-display-flex text-primary pt-1" Text="Your Groups"></RadzenHeading>
+                                </RadzenStack>
+
+                                <div class="nav-scrollable" style="position:sticky; height:650px; overflow:scroll">
+                                    @foreach (var group in Groups)
+                                    {
+                                        <div class="@( chatgroupId==group.Id.ToString() ?$"activeLink":"") text-white">
+                                        <RadzenLink class="NavLikChat" Path="@($"chatgroup/{group.Id.ToString()}")">
+                                            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Style="border:1px solid lightgray;" Class="rz-p-4">
+                                                <RadzenImage Path="@(string.IsNullOrEmpty(group.Photo)?"school.png":group.Photo)" Style="width: 50px; height: 50px; border-radius: 50%;" />
+                                                <RadzenStack Gap="4">
+                                                    <RadzenText TextStyle="TextStyle.Body1" class=""><b>@group.Name</b></RadzenText>
+                                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex">Candidates : @group.Candidats.Count()</RadzenText>
+                                                </RadzenStack>
+                                            </RadzenStack>
+                                        </RadzenLink>
+                                        </div>
+                                    }
+                                </div>
+                            </RadzenColumn>
+                        </RadzenSplitterPane>
+                        <RadzenSplitterPane Size="75%" >
+                            <RadzenColumn Size="9" Orientation="Orientation.Vertical" class="bfg-white p-3" Style="overflow:scroll; height:100%;" >
+                                <RadzenStack AlignItems="AlignItems.Center">
+                                    <RadzenHeading Size="H1" class="rz-display-flex text-primary pt-1" Text="Group francais A1(17)"></RadzenHeading>
+                                </RadzenStack>
+
+                                <RadzenCard Variant="Variant.Flat" Style="height:80vh; border:0.2px solid #c1c1c1;" class="position-relative">
+                                    <RadzenStack Orientation="Orientation.Vertical" class="ParentStack" Style="height:100%; ">
+                                        <RadzenStack Orientation="Orientation.Vertical" Style="width:100%; overflow:scroll;">
+                                            <RadzenStack class="py-3" Style="height:85%; overflow-y:scroll" @ref="ChatBox">
+                                            @if (messageGroups is null || (messageGroups is not null && messageGroups.Count()<1))
+                                            {
+                                                <RadzenHeading Size="H2" Text="@L["No Messages Exists"]" class="text-primary mx-auto"/>
+                                            }else{
+                                                @foreach (var MessageItem in messageGroups)
+                                                {
+                                                    <MessageComponent MessageGroup="MessageItem" Message="@MessageItem.Content" Date="@MessageItem.SendAt" />
+                                                }
+                                            }
+                                            </RadzenStack>
+                                        </RadzenStack>
+                                        <RadzenStack  Style="width:90%" class="position-absolute bottom-0 mb-3 " Orientation="Orientation.Horizontal" AlignItems="AlignItems.End">
+                                            <RadzenTextArea @bind-Value="@Message" Style="width:90%" />
+                                            <RadzenStack Orientation="Orientation.Vertical" Gap="2px">
+                                                <RadzenUpload @ref="upload" Auto="false" Multiple="true" ChooseText="" Url="upload/multiple" Change=@(args => OnChange(args, "Manual Upload")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})"
+                                                              Progress=@(args => OnProgress(args, "Manual Upload")) Icon="upload" />
+                                                @* <RadzenButton Text="Upload" Click=@(args => upload.Upload()) class="d-block mt-4" /> *@
+                                                <RadzenButton Icon="send" class="p-0" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Small" Click="SendMessage" />
+                                            </RadzenStack>
+                                        </RadzenStack>
+                                    </RadzenStack>
+                                </RadzenCard>
+                            </RadzenColumn>
+                        </RadzenSplitterPane>
+                    </RadzenSplitter>
+                </RadzenSplitterPane>
+            </RadzenSplitter>
+
+        </RadzenRow>
 </RadzenContentContainer>
 
 @code{
     [Parameter]
     public string chatgroupId {get;set;}
+    [Inject] public Langua.Repositories.Interfaces.IRepositoryCrudBase<MessageGroup> repositoryMessageGroup { get; set; }
+    [Inject] public Langua.Repositories.Interfaces.IRepositoryCrudBase<Groups> repositoryGroup { get; set; }
+
+    [Inject] public Langua.Repositories.Services.BaseService baseService { get; set; }
     public string Message { get; set; }
-    public List<MessageGroup> messageGroups { get; set; }
+    public IEnumerable<MessageGroup> messageGroups { get; set; }
+    public IEnumerable<Groups> Groups { get; set; }
     public RadzenStack ChatBox;
+    public bool DataReady { get; set; }
 
     RadzenUpload upload;
     public bool UploadVisible { get; set; }
 
     int progress;
     public string r { get; set; } = "The alert component can be used to highlight certain parts of your page for higher content, The alert component can be used to highlight certain parts of your page for higher content visibility.";
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        return base.OnParametersSetAsync();
+        await GetMessagesForGroup();
     }
     protected override async Task OnInitializedAsync()
     {
-        messageGroups = new List<MessageGroup>()
+        var GroupResult = repositoryGroup.GetAll();
+        if (GroupResult.Succeeded)
         {
-            new MessageGroup {Id=1, GroupId=1,Content="Hi Teacher, i hope you are doing well",SenderId="2", SendAt = DateTime.Now},
-            new MessageGroup {Id=2, GroupId = 1, Content = "Hi Hone, how can i help you", SenderId = "3", SendAt = DateTime.Now.AddMinutes(20) },
-            new MessageGroup {Id=3, GroupId = 1, Content = "I'm just asking you if you can share the pdf that we were reading yesterday at classe", SenderId = "2", SendAt = DateTime.Now.AddMinutes(26) },
-            new MessageGroup {Id=4, GroupId = 1, Content = "Okey, i will send it when i'm home", SenderId = "3", SendAt = DateTime.Now.AddMinutes(40) },
-        };
+            var ResultIncluded = await baseService.Apply(GroupResult.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "GroupeMessages,Candidats" } }));
+            Groups = (IEnumerable<Models.Groups>)ResultIncluded;
+            DataReady = true;
+        }
     }
+    
     void OnChange(UploadChangeEventArgs args, string name)
     {
         foreach (var file in args.Files)
@@ -118,6 +194,52 @@
             }
         }
     }
+    
+
+
+
+
+    void OnCollapse(RadzenSplitterEventArgs args)
+    {
+        
+    }
+
+    void OnExpand(RadzenSplitterEventArgs args)
+    {
+
+    }
+
+    void OnResize(RadzenSplitterResizeEventArgs args)
+    {
+
+    }
+
+    void OnCollapseDisabled(RadzenSplitterEventArgs args)
+    {
+
+    }
+
+    void OnResizeDisabled(RadzenSplitterResizeEventArgs args)
+    {
+     
+    }
+
+
+    #region Methodes
+    public async Task GetMessagesForGroup()
+    {
+        if (!string.IsNullOrEmpty(chatgroupId))
+        {
+            var GrMsgResult = repositoryMessageGroup.GetByExpression($"GroupId=={chatgroupId}");
+            if (GrMsgResult.Succeeded)
+            {
+                await baseService.Apply(GrMsgResult.Value, new QueryCollection(new Dictionary<string, StringValues>() { { "include", "User" } }));
+                messageGroups = GrMsgResult.Value.ToList();
+                DataReady = true;
+            }
+        }
+    }
+   
     public async Task SendMessage()
     {
         MessageGroup mg = new MessageGroup()
@@ -127,10 +249,14 @@
                 SenderId = "hkkhkjq",
                 SendAt = DateTime.Now,
                 GroupId = 2
-        };
-            messageGroups.Add(mg);
-        Message = string.Empty;
-        await InvokeAsync(StateHasChanged);
-        StateHasChanged();
+            };
+        var SendMsgResult = repositoryMessageGroup.Add(mg);
+        if (SendMsgResult.Succeeded)
+        {
+            await InvokeAsync(StateHasChanged);
+            StateHasChanged();
+        }        
     }
+    
+    #endregion
 }

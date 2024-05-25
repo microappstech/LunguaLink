@@ -18,6 +18,12 @@
             </div>
             <div class="col-md-8 col-lg-5 col-xl-4 mt-5 offset-xl-1">
                 <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" EditContext="EditLogin" FormName="login" class="p-12 md:p-24">
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <li class="text-danger">
+                            @errorMessage
+                        </li>
+                    }
                     <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start d-none">
                         <p class="lead fw-normal mb-0 me-3">Sign in with</p>
                         <button type="button" class="btn btn-primary btn-floating mx-1">

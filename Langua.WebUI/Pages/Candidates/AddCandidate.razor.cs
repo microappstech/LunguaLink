@@ -54,6 +54,7 @@ namespace Langua.WebUI.Pages.Candidates
                 Password = candidate.Password,
                 NormalizedUserName = candidate.FullName,
                 PhoneNumber = candidate.Phone,
+                FullName = candidate.FullName,
                 EmailConfirmed = false,
                 Code= verification_code,
 

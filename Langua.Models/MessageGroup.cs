@@ -13,5 +13,9 @@ namespace Langua.Models
         public int Id { get; set; }
         public int GroupId { get; set; }
         public byte[]? ContentMessage { get; set; }
+        public Models.ApplicationUser User { get; set; }
+
+        [NotMapped] public string Color { get; set;}
+        [NotMapped] public bool SuccessSended { get; set; }
     }
 }

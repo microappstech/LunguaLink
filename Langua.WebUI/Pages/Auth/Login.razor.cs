@@ -35,6 +35,7 @@ namespace Langua.WebUI.Pages.Auth
         }
         public async Task LoginUser()
         {
+            
             var result = await Security.Login(Input);
             if (result.IsSucced())
             {
@@ -42,6 +43,7 @@ namespace Langua.WebUI.Pages.Auth
             }
             else
             {
+                errorMessage = "Login failed check your mail and your password, or contact your Manager";
                 Notify("Login Failed", "result.Message", Radzen.NotificationSeverity.Error);
             }
         }

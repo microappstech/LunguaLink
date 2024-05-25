@@ -162,6 +162,8 @@ namespace Langua.Account
                 if (us != null)
                 {
                     Ilogger.LogInformation($"Login : username: {Input.Email}");
+                    //var resul = await _userManager.RemovePasswordAsync(us);
+                    //var r = await _userManager.AddPasswordAsync(us,Input.Password);
                     SignInResult? result = await _signInManager.PasswordSignInAsync(us, Input.Password, isPersistent: false, false);
                     if (result.Succeeded)
                     {

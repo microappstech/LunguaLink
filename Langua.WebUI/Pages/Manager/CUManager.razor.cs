@@ -95,7 +95,8 @@ namespace Langua.WebUI.Pages.Manager
                             UserName = Manager.Email,
                             Password = Manager.Password,
                             NormalizedUserName = Manager.FullName,
-                            PhoneNumber = Manager.Phone
+                            PhoneNumber = Manager.Phone,
+                            FullName= Manager.FullName,
                         };
                         var TaskUser = await Security!.RegisterUser(_user);
                         if (TaskUser.Succeeded)

@@ -150,7 +150,7 @@ namespace Langua.Repositories.Services
                 return new Result<IQueryable<Candidat>>(false, exception: e);
             }
         }
-
+        [Obsolete("Dont use this function")]
         public Result<IQueryable<T>> GetByExpression(string expressionWithValue)
         {
             throw new NotImplementedException();

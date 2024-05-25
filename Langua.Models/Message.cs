@@ -10,7 +10,7 @@ namespace Langua.Models
 {
     public abstract class BaseMessage
     {
-        [Required] public string SenderId { get; set; }
+        [Required] public string? SenderId { get; set; }
         [Required] public string Content { get; set; }
         public DateTime SendAt { get; set; }
 

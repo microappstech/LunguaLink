@@ -41,6 +41,7 @@ namespace Langua.WebUI.Pages.Teachers
                     ApplicationUser _user = new ApplicationUser()
                     {
                         Email = teacher.Email,
+                        FullName=teacher.FullName,
                         UserName = teacher.Email,
                         Password = teacher.Password,
                         NormalizedUserName = teacher.FullName,
