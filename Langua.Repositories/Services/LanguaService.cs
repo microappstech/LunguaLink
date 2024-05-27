@@ -13,14 +13,17 @@ namespace Langua.Repositories.Services
 {
     public partial class LanguaService
     {
-        private LanguaContext _context;
+        private readonly LanguaContext _context;
         private readonly NavigationManager navigationManager;
         private readonly Uri baseUri;
-        public LanguaService(LanguaContext languacontext, NavigationManager navigation,Uri uri)
+
+        private IRepositoryCrudBase<Session> repositorySession;
+        public LanguaService(LanguaContext languacontext, NavigationManager navigation,Uri uri, IRepositoryCrudBase<Session> crudBase)
         {
             _context = languacontext;
             navigationManager = navigation;
             baseUri = uri;
+            this.repositorySession = crudBase;
         }
 
 

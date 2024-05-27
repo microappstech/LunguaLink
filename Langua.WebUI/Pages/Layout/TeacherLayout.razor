@@ -1,13 +1,16 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page p-2">
-    <nav class="d-flex">
-        <ul class="nav nav-tabs w-100">
+<div class="page">
+    <nav class="row">
+        <ul class="nav nav-tabs  col-md-9">
             <li>
                 <h2 class="px-4" style="color:purple; font-weight:bold;">Langua Link</h2>
             </li>
             <li class="nav-item">
                 <a class="nav-link h-100 @(activeNavItem=="homeTab"?"active":"")" @onclick="@(()=>NavItemClicked("homeTab"))" aria-current="page" href="/Teacher/Dahsboard">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link h-100 @(activeNavItem=="chatgroupTab"?"active":"")" @onclick="@(()=>NavItemClicked("chatgroupTab"))" href="Teacher/chatgroup">Groups Chat</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link h-100 @(activeNavItem=="profileTab"?"active":"")" @onclick="@(()=>NavItemClicked("profileTab"))" href="/Teacher/Profile">Profile</a>
@@ -16,13 +19,13 @@
                 <a class="nav-link h-100 @(activeNavItem=="ressourceTab"?"active":"")" @onclick="@(()=>NavItemClicked("ressourceTab"))" href="Teacher/Ressources">Ressources</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link h-100 @(activeNavItem=="studentsTab"?"active":"")" @onclick="@(()=>NavItemClicked("studentsTab"))" href="Teacher/Students">Students</a>                
+                <a class="nav-link h-100 @(activeNavItem=="studentsTab"?"active":"")" @onclick="@(()=>NavItemClicked("studentsTab"))" href="Teacher/Students">Students</a>
             </li>
             <li style="float:right">
                 
             </li>
         </ul>
-        <div style="margin-right:3%;" class="row text-white " >      
+        <div style="" class="row text-white col-md-3" >      
             <AuthorizeView>
                 <Authorized>
                     <NavLink class="nav-link col-8" href="Account/Manage" style="color:purple; font-weight:bold; width:auto;">

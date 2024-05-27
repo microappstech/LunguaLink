@@ -11,5 +11,9 @@ namespace Langua.WebUI.Pages.Layout
         {
             await security.Logut();
         }
+        protected override async Task OnInitializedAsync()
+        {
+            
+        }
     }
 }

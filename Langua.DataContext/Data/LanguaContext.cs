@@ -1,4 +1,6 @@
 ﻿using Langua.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,15 +12,25 @@ using System.Threading.Tasks;
 
 namespace Langua.DataContext.Data
 {
-    public class LanguaContext : DbContext
+    public class LanguaContext(DbContextOptions<Langua.DataContext.Data.LanguaContext> options) : IdentityDbContext<ApplicationUser>(options)
+    //public class LanguaContext : DbContext
     {
 
-        public LanguaContext(DbContextOptions<LanguaContext> dbContextOptions):base(dbContextOptions)
-        {            
-        }
+        //public LanguaContext(DbContextOptions<LanguaContext> dbContextOptions):base(dbContextOptions)
+        //{            
+        //}
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            base.OnModelCreating(builder);
+            builder.Entity<ApplicationUser>().ToTable("Users");
+            builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+            builder.Entity<IdentityRoleClaim<string>>().ToTable("UserRoleClaim");
+            builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");
+            builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin");
+            builder.Entity<IdentityUserToken<string>>().ToTable("UserToken");
 
 
             builder.Entity<Department>()

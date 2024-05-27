@@ -93,7 +93,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<LanguaService>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
@@ -115,7 +115,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     options.Password.RequireUppercase = false;
 })
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddEntityFrameworkStores<Langua.DataContext.Data.LanguaContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
 

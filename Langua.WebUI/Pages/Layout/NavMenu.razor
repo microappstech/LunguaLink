@@ -2,149 +2,159 @@
 
 @inject NavigationManager NavigationManager
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Langua.WebUI.Client.Pages.BasePageClient> L
-<div class="top-row ps-3 navbar bg-red-500">
-    <div class="container-fluid">
-        <a class="navbar-brand text-white" href="">Lingua Link</a>
+
+
+
+@if (Visible)
+{
+    <div class="top-row ps-3 navbar bg-red-500">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="">Lingua Link</a>
+        </div>
     </div>
-</div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+    <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <RadzenIcon Icon="dashboard" IconColor="white"  />
-                <span class="px-2">@L["Dashboard"]</span>
-            </NavLink>
-        </div>
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="Departements">
-                <RadzenIcon Icon="school" IconColor="white"/>
-                <span class="px-2">@L["Departements"]</span>
-            </NavLink>
-        </div>
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="Managers">
-                <RadzenIcon Icon="perm_identity" IconColor="white" />
-                <span class="px-2">@L["Managers"]</span>
-            </NavLink>
-        </div>
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="Candidates">
-                <RadzenIcon Icon="perm_identity" IconColor="white" />
-                <span class="px-2">@L["Candidates"]</span>
-            </NavLink>
-        </div>
+    <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+        <nav class="flex-column">
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <RadzenIcon Icon="dashboard" IconColor="white" />
+                    <span class="px-2">@L["Dashboard"]</span>
+                </NavLink>
+            </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Departements">
+                    <RadzenIcon Icon="school" IconColor="white" />
+                    <span class="px-2">@L["Departements"]</span>
+                </NavLink>
+            </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Managers">
+                    <RadzenIcon Icon="perm_identity" IconColor="white" />
+                    <span class="px-2">@L["Managers"]</span>
+                </NavLink>
+            </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Candidates">
+                    <RadzenIcon Icon="perm_identity" IconColor="white" />
+                    <span class="px-2">@L["Candidates"]</span>
+                </NavLink>
+            </div>
 
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="Subjects" >
-                <RadzenIcon Icon="subject" IconColor="white" />
-                <span class="px-2">Subjects</span>
-            </NavLink>
-        </div>
-        
-        <div class="nav-item" style="padding-bottom:0 !important">
-            
-            <NavLink class="nav-link" href="Teachers">
-                <RadzenIcon Icon="supervisor_account" IconColor="white" />
-                <span class="px-2" aria-hidden="true">
-                    @L["Teachers"]
-                </span> 
-            </NavLink>
-        </div>
-        @* <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="roles">
-                <RadzenIcon Icon="supervisor_account" IconColor="white" />
-                <span class="px-2" aria-hidden="true">
-                    @L["Roles"]
-                </span>
-            </NavLink>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Subjects">
+                    <RadzenIcon Icon="subject" IconColor="white" />
+                    <span class="px-2">Subjects</span>
+                </NavLink>
+            </div>
+
+            <div class="nav-item" style="padding-bottom:0 !important">
+
+                <NavLink class="nav-link" href="Teachers">
+                    <RadzenIcon Icon="supervisor_account" IconColor="white" />
+                    <span class="px-2" aria-hidden="true">
+                        @L["Teachers"]
+                    </span>
+                </NavLink>
+            </div>
+            @* <div class="nav-item" style="padding-bottom:0 !important">
+        <NavLink class="nav-link" href="roles">
+        <RadzenIcon Icon="supervisor_account" IconColor="white" />
+        <span class="px-2" aria-hidden="true">
+        @L["Roles"]
+        </span>
+        </NavLink>
         </div> *@
 
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="Groups">
-                <RadzenIcon Icon="groups" IconColor="white"/>
-                <span class="px-2" >
-                    @L["Groups"]
-                </span>
-            </NavLink>
-        </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Groups">
+                    <RadzenIcon Icon="groups" IconColor="white" />
+                    <span class="px-2">
+                        @L["Groups"]
+                    </span>
+                </NavLink>
+            </div>
 
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="chatgroup">
-                <RadzenIcon Icon="chat" IconColor="white" />
-                <span class="px-2">
-                    @L["Chat Groups"]
-                </span>
-            </NavLink>
-        </div>
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="Group-Teacher">
-                <RadzenIcon Icon="group" IconColor="white" />
-                <span class="px-2">
-                    @L["Group/Teacher"]
-                </span>
-            </NavLink>
-        </div>
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="Sessions">
-                <RadzenIcon Icon="event" IconColor="white" />
-                <span class="px-2">
-                    @L["Sessions"]
-                </span>
-            </NavLink>
-        </div>
-        <div class="nav-item" style="padding-bottom:0 !important">
-            <NavLink class="nav-link" href="Schedelur">
-                <RadzenIcon Icon="calendar_month" IconColor="white" />
-                <span class="px-2">
-                    @L["Schedelur"]
-                </span>
-            </NavLink>
-        </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="chatgroup">
+                    <RadzenIcon Icon="chat" IconColor="white" />
+                    <span class="px-2">
+                        @L["Chat Groups"]
+                    </span>
+                </NavLink>
+            </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Group-Teacher">
+                    <RadzenIcon Icon="group" IconColor="white" />
+                    <span class="px-2">
+                        @L["Group/Teacher"]
+                    </span>
+                </NavLink>
+            </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Sessions">
+                    <RadzenIcon Icon="event" IconColor="white" />
+                    <span class="px-2">
+                        @L["Sessions"]
+                    </span>
+                </NavLink>
+            </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Schedelur">
+                    <RadzenIcon Icon="calendar_month" IconColor="white" />
+                    <span class="px-2">
+                        @L["Schedelur"]
+                    </span>
+                </NavLink>
+            </div>
 
 
-        <div class="nav-item d-none">
-            <NavLink class="nav-link" href="auth">
-                <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
-            </NavLink>
-        </div>
+            <div class="nav-item d-none">
+                <NavLink class="nav-link" href="auth">
+                    <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
+                </NavLink>
+            </div>
 
-        <AuthorizeView>
-            <Authorized>
-                <div class="nav-item d-none">
-                    <NavLink class="nav-link" href="Account/Manage">
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3 d-none">
-                    <form action="Account/Logout" method="post">
-                        <AntiforgeryToken />
-                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                        <button type="submit" class="nav-link">
-                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
-                        </button>
-                    </form>
-                </div>
-            </Authorized>
-            <NotAuthorized>
-                <div class="nav-item d-none">
-                    <NavLink class="nav-link" href="Register">
-                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
-                    </NavLink>
-                </div>
-                <div class="nav-item d-none">
-                    <NavLink class="nav-link" href="Login">
-                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
-                    </NavLink>
-                </div>
-            </NotAuthorized>
-        </AuthorizeView>
-    </nav>
-</div>
+            <AuthorizeView>
+                <Authorized>
+                    <div class="nav-item d-none">
+                        <NavLink class="nav-link" href="Account/Manage">
+                            <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3 d-none">
+                        <form action="Account/Logout" method="post">
+                            <AntiforgeryToken />
+                            <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                            <button type="submit" class="nav-link">
+                                <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+                            </button>
+                        </form>
+                    </div>
+                </Authorized>
+                <NotAuthorized>
+                    <div class="nav-item d-none">
+                        <NavLink class="nav-link" href="Register">
+                            <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
+                        </NavLink>
+                    </div>
+                    <div class="nav-item d-none">
+                        <NavLink class="nav-link" href="Login">
+                            <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
+                        </NavLink>
+                    </div>
+                </NotAuthorized>
+            </AuthorizeView>
+        </nav>
+    </div>
+
+}
+
 
 @code {
     private string? currentUrl;
+    [Parameter] public bool Visible { get; set; } = true;
 
     protected override void OnInitialized()
     {

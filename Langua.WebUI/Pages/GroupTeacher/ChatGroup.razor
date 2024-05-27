@@ -1,8 +1,10 @@
-﻿@page "/chatgroup/{chatgroupId?}"
-@page "/chatgroup"
+﻿@page "/teacher/chatgroup/{chatgroupId?}"
+@page "/teacher/chatgroup"
 @inject NavigationManager NavigationManager
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Langua.WebUI.Client.Pages.BasePageClient> L
 @inherits BasePage;
+@layout TeacherLayout
+
 <style>
     .NavLikChat{
         text-underline: none;
@@ -20,57 +22,6 @@
         }
 </style>
 <RadzenContentContainer>
-        <RadzenRow Visible="false">
-            <RadzenColumn Size="3" Orientation="Orientation.Vertical" class="bg-white" Style="">
-                <RadzenStack AlignItems="AlignItems.Center">
-                    <RadzenHeading Size="H1" class="rz-display-flex text-primary pt-1" Text="Your Groups"></RadzenHeading>
-                </RadzenStack>
-                
-          
-                <div class="nav-scrollable" style="position:sticky; height:650px; overflow:scroll" >                    
-                @for(int i=0;i<5;i++)
-                {
-                    <div class="@( chatgroupId==i.ToString() ?$"activeLink":"") text-white">
-                    <RadzenLink class="NavLikChat" Path="@($"chatgroup/{i}")" >
-                        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Style="border:1px solid lightgray;" Class="rz-p-4">
-                            <RadzenImage Path="https://hamza-mouddakir.tech/img/hero/1.jpg" Style="width: 50px; height: 50px; border-radius: 50%;" />
-                            <RadzenStack Gap="4">
-                                <RadzenText TextStyle="TextStyle.Body1" class=""><b>French Group @i</b></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex">Candidates : @((i * (i + 2)))</RadzenText>
-                            </RadzenStack>
-                        </RadzenStack>
-                    </RadzenLink>
-                    </div>
-                    }
-                </div>
-            </RadzenColumn>
-            <RadzenColumn Size="9" Orientation="Orientation.Vertical" class="bfg-white p-3" Style="overflow:scroll">
-                <RadzenStack AlignItems="AlignItems.Center">
-                    <RadzenHeading Size="H1" class="rz-display-flex text-primary pt-1" Text="Group francais A1(17)"></RadzenHeading>
-                </RadzenStack>
-
-            <RadzenCard Variant="Variant.Flat" Style="height:600px; border:0.2px solid #c1c1c1;" class="position-relative">
-                <RadzenStack Orientation="Orientation.Vertical" Style="width:100%">
-                    <RadzenStack Style="height:80%" @ref="ChatBox">
-                        @foreach(var MessageItem in messageGroups)
-                        {
-                            <MessageComponent Message="@MessageItem.Content" Date="@MessageItem.SendAt" />
-                        }
-                        <MessageComponent Message="Craft extends Bootstrap Colors  system with extra variants to cover its own design system build on top of the Boostrap Standards. The extended theme color SASS variables are defined" Date="@DateTime.Now" />
-                    </RadzenStack>
-                </RadzenStack>
-                <RadzenStack Style="width:90%" class="position-absolute bottom-0 mb-3 " Orientation="Orientation.Horizontal" AlignItems="AlignItems.End">
-                    <RadzenTextArea @bind-Value="@Message" Style="width:90%" />
-                    <RadzenStack Orientation="Orientation.Vertical" Gap="2px">
-                        <RadzenUpload  @ref="upload" Auto="false" Multiple="true" ChooseText="" Url="upload/multiple" Change=@(args => OnChange(args, "Manual Upload")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})"
-                                      Progress=@(args => OnProgress(args, "Manual Upload"))  Icon="upload" />
-                            @* <RadzenButton Text="Upload" Click=@(args => upload.Upload()) class="d-block mt-4" /> *@
-                        <RadzenButton Icon="send" class="p-0" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Small" Click="SendMessage" />
-                    </RadzenStack>
-                </RadzenStack>
-                </RadzenCard>
-            </RadzenColumn>
-        </RadzenRow>
         <RadzenRow>
             <RadzenSplitter Orientation="Orientation.Vertical" style="height: 100vh; border: 1px solid rgba(0,0,0,.08);">
                
@@ -84,24 +35,21 @@
                                 </RadzenStack>
 
                                 <div class="nav-scrollable" style="position:sticky; height:650px; overflow:scroll">
-                                @if(Groups is not null)
-                                {
                                     @foreach (var group in Groups)
                                     {
                                         <div class="@( chatgroupId==group.Id.ToString() ?$"activeLink":"") text-white">
-                                            <RadzenLink class="NavLikChat" Path="@($"chatgroup/{group.Id.ToString()}")">
-                                                <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Style="border:1px solid lightgray;" Class="rz-p-4">
-                                                    <RadzenImage Path="@(string.IsNullOrEmpty(group.Photo)?"school.png":group.Photo)" Style="width: 50px; height: 50px; border-radius: 50%;" />
-                                                    <RadzenStack Gap="4">
-                                                        <RadzenText TextStyle="TextStyle.Body1" class=""><b>@group.Name</b></RadzenText>
-                                                        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex">Candidates : @group.Candidats.Count()</RadzenText>
-                                                    </RadzenStack>
+                                        <RadzenLink class="NavLikChat" Path="@($"chatgroup/{group.Id.ToString()}")">
+                                            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Style="border:1px solid lightgray;" Class="rz-p-4">
+                                                <RadzenImage Path="@(string.IsNullOrEmpty(group.Photo)?"school.png":group.Photo)" Style="width: 50px; height: 50px; border-radius: 50%;" />
+                                                <RadzenStack Gap="4">
+                                                    <RadzenText TextStyle="TextStyle.Body1" class=""><b>@group.Name</b></RadzenText>
+                                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex">Candidates : @group.Candidats.Count()</RadzenText>
                                                 </RadzenStack>
-                                            </RadzenLink>
+                                            </RadzenStack>
+                                        </RadzenLink>
                                         </div>
                                     }
-                                }
-                            </div>
+                                </div>
                             </RadzenColumn>
                         </RadzenSplitterPane>
                         <RadzenSplitterPane Size="75%" >
@@ -152,31 +100,47 @@
     [Inject] public Langua.Repositories.Interfaces.IRepositoryCrudBase<Groups> repositoryGroup { get; set; }
     [Inject] public Langua.Account.SecurityService Security { get; set; }
     [Inject] public Langua.Repositories.Services.BaseService baseService { get; set; }
+    [Inject] public IEnumerable<Models.GroupTeacher> groupTeachers { get; set; }
     public string Message { get; set; }
     public IEnumerable<MessageGroup> messageGroups { get; set; }
+    public Teacher Teacher { get; set; }
     public IEnumerable<Groups> Groups { get; set; }
     public RadzenStack ChatBox;
     public bool DataReady { get; set; }
-
+    public bool IsFistRender { get; set; }
     RadzenUpload upload;
     public bool UploadVisible { get; set; }
 
     int progress;
-    public string r { get; set; } = "The alert component can be used to highlight certain parts of your page for higher content, The alert component can be used to highlight certain parts of your page for higher content visibility.";
     protected override async Task OnParametersSetAsync()
     {
+        if (!IsFistRender)
+        {
+            IsFistRender = true;
+        }
         await GetMessagesForGroup();
     }
+
     protected override async Task OnInitializedAsync()
     {
-        await Security.InitializeAsync();
+
+        Groups = new List<Groups>();
+        messageGroups = new List<MessageGroup>();
         await Security.IsAuthenticatedWidthRedirect();
-        var GroupResult = repositoryGroup.GetAll();
-        if (GroupResult.Succeeded)
+        var resultTeacher = await LanguaService.GetTeacherById(Security.User.Id);
+        if (resultTeacher.Succeeded)
         {
-            var ResultIncluded = await baseService.Apply(GroupResult.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "GroupeMessages,Candidats" } }));
-            Groups = (IEnumerable<Models.Groups>)ResultIncluded;
-            DataReady = true;
+            Teacher = resultTeacher.Value;
+            var GRTeachers = await LanguaService.GetGroupByTeacher(Teacher.Id);
+            if (GRTeachers.Succeeded)
+            {
+                groupTeachers = GRTeachers.Value;
+                Groups = groupTeachers.Select(i => i.Group); 
+                var ResultIncluded = await baseService.Apply(Groups.AsQueryable(), new QueryCollection(new Dictionary<string, StringValues> { { "include", "GroupeMessages,Candidats" } }));
+                Groups = (IEnumerable<Models.Groups>)ResultIncluded;
+                DataReady = true;
+            }
+
         }
     }
 

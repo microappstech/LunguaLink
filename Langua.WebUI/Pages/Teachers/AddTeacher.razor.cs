@@ -37,7 +37,7 @@ namespace Langua.WebUI.Pages.Teachers
             {
                 try
                 {
-                    teacher!.Password = teacher.Email.Substring(0, teacher!.Email!.IndexOf("@") - 1) + "_" + DateTime.Now.Day;
+                    teacher!.Password = teacher.Email.Substring(0, teacher!.Email!.IndexOf("@")) + "_" + DateTime.Now.Day;
                     ApplicationUser _user = new ApplicationUser()
                     {
                         Email = teacher.Email,

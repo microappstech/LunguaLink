@@ -25,11 +25,9 @@ namespace Langua.Repositories.Services
     public partial class LanguaService
     {
         #region oldservice
-        private IRepositoryCrudBase<Session> repositorySession;
-        public LanguaService(IRepositoryCrudBase<Session> crudBase)
-        {
-            this.repositorySession = crudBase;
-        }
+        //public LanguaService(IRepositoryCrudBase<Session> crudBase)
+        //{
+        //}
         public async Task<IQueryable<Session>> GetAll()
         {
             var items = Context.Sessions.AsQueryable();

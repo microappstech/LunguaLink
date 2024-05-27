@@ -72,11 +72,13 @@ namespace Langua.Repositories.Services
                 return new Result<IQueryable<T>>(false, null, ex.Message);
             }
         }
-
+        SemaphoreSlim SemaphoreSlimCount = new SemaphoreSlim(1);
         public async Task<int> NBItems<T>() where T : class
         {
+            await SemaphoreSlimCount.WaitAsync();
             var count = await _context.Set<T>().CountAsync();
-            return count;
+            SemaphoreSlimCount.Release();
+            return await Task.FromResult(count);
         }
     }
 }

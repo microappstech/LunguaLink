@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Langua.DataContext.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(Langua.DataContext.Data.LanguaContext))]
     [Migration("20240510192959_somechanges_è")]
     partial class somechanges_è
     {

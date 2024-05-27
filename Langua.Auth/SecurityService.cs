@@ -17,7 +17,7 @@ namespace Langua.Account
         [SupplyParameterFromQuery]    
         private string? ReturnUrl { get; set; }
         private readonly UserManager<ApplicationUser> _userManager;
-        private ApplicationDbContext _userContext;
+        private Langua.DataContext.Data.LanguaContext _userContext;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private IEnumerable<IdentityError> identityErrors;
         private ILogger<SecurityService> Ilogger;
@@ -27,7 +27,7 @@ namespace Langua.Account
         private readonly IWebHostEnvironment webHost;
         private readonly RoleManager<IdentityRole> roleManager;
         public SecurityService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<SecurityService> logger, AuthenticationStateProvider authentication,
-            NavigationManager manager, IWebHostEnvironment webHost, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
+            NavigationManager manager, IWebHostEnvironment webHost, RoleManager<IdentityRole> roleManager, Langua.DataContext.Data.LanguaContext context)
         {
             _userContext = context;
             _signInManager = signInManager;
@@ -42,8 +42,10 @@ namespace Langua.Account
         private ApplicationUser user;
 
         public ApplicationUser User { get { return user; } }
+        SemaphoreSlim semaphoreSlimIntiSecurity = new SemaphoreSlim(1);
         public async Task<bool> InitializeAsync()
         {
+            //await semaphoreSlimIntiSecurity.WaitAsync();
             var logged = await authentication.GetAuthenticationStateAsync();
             if(logged.User?.Identity?.Name != null && user == null)
             {
@@ -55,6 +57,7 @@ namespace Langua.Account
                     user.Roles = await _userManager.GetRolesAsync(us);
                 }
             }
+            //semaphoreSlimIntiSecurity.Release();
             return logged.User.Identity.IsAuthenticated;
         }
         public  bool IsAuthenticated()
@@ -83,8 +86,8 @@ namespace Langua.Account
         }
         public async Task<Result<ApplicationUser>> RegisterUser(ApplicationUser ApplicationUser)
         {
-            using (var UserScop = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled))
-            {
+            //using (var UserScop = new TransactionScope( TransactionScopeAsyncFlowOption.Enabled))
+            //{
                 var mailTaken = await _userManager.FindByEmailAsync(ApplicationUser.Email);
                 if (mailTaken is not null)
                     return new Result<ApplicationUser>(false, null, "Mail already taken");
@@ -103,11 +106,10 @@ namespace Langua.Account
                     return new Result<ApplicationUser>(false,null,Errors:identityErrors.Select(i=>i.Description).ToList());
                 }
                 Ilogger.LogInformation($"User created a new account with password. on : {DateTime.Now}");
-                UserScop.Complete();
-                UserScop.Dispose();
+                //UserScop.Complete();
                 return new Result<ApplicationUser>(true,user);
 
-            }
+            //}
         }
         public async Task<(bool,string)> CreateRole(string roleName)
         {
@@ -119,22 +121,22 @@ namespace Langua.Account
         }
         public async Task<bool> AddRoleToUser(ApplicationUser us, string role)
         {
-            using (var scopeRole = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromMinutes(3), TransactionScopeAsyncFlowOption.Enabled))
-            {
+            //using (var scopeRole = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromMinutes(3), TransactionScopeAsyncFlowOption.Enabled))
+            //{
                 //var existRole = await roleManager.RoleExistsAsync(role);
                 try
                 {
                     //if(!existRole)
                     //    await CreateRole(role);
                     var result = await _userManager.AddToRoleAsync(us, role);
-                    scopeRole.Complete();
+                    //scopeRole.Complete();
                     return result.Succeeded;
                 }
                 catch(Exception ex)
                 {
                     return false;
                 }
-            }
+            //}
         }
 
         public async Task<LResult> Login(ModelView.InputModels.LoginInput Input)

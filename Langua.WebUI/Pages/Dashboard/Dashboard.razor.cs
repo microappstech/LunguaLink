@@ -28,13 +28,13 @@ namespace Langua.WebUI.Pages.Dashboard
         }
         protected override async Task OnInitializedAsync()
         {
-            
-            await Security!.IsAuthenticatedWidthRedirect();
+            await Security.InitializeAsync();
+            await Security.IsAuthenticatedWidthRedirect();
             NbTeacher = await baseService!.NBItems<Teacher>();
-            NbCandidat = await baseService.NBItems<Candidat>();
-            NbGroups = await baseService.NBItems<Groups>(); 
-            NbDepartements = await baseService.NBItems<Department>();
-            NbManagers = await baseService.NBItems<Models.Manager>();
+            //NbCandidat = await baseService.NBItems<Candidat>();
+            //NbGroups = await baseService.NBItems<Groups>(); 
+            //NbDepartements = await baseService.NBItems<Department>();
+            //NbManagers = await baseService.NBItems<Models.Manager>();
 
             _chatGroupHub = new HubConnectionBuilder()
                 .WithUrl(Navigation!.ToAbsoluteUri(ApiControllers.LanguaHub.ChatHub.ChatGroupEndPoint))
