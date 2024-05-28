@@ -18,12 +18,11 @@ namespace Langua.Repositories.Services
         private readonly Uri baseUri;
 
         private IRepositoryCrudBase<Session> repositorySession;
-        public LanguaService(LanguaContext languacontext, NavigationManager navigation,Uri uri, IRepositoryCrudBase<Session> crudBase)
+        public LanguaService(LanguaContext languacontext, NavigationManager navigation)
         {
             _context = languacontext;
             navigationManager = navigation;
-            baseUri = uri;
-            this.repositorySession = crudBase;
+            //this.repositorySession = crudBase;
         }
 
 

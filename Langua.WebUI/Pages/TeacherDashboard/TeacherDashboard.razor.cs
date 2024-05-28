@@ -32,13 +32,17 @@ namespace Langua.WebUI.Pages.TeacherDashboard
             }
             var resultToCandidates = GroupCandidateService.GetAll();
             var resultGroups = GroupTeacherService.GetByExpression($"TeacherId=={teacher.Id.ToString()}");
-            if(resultToCandidates.Succeeded && resultGroups.Succeeded && resultToCandidates.Value.Count()>0 && resultGroups.Value.Count()>0)
+            if (resultGroups.Succeeded && resultGroups.Value.Count() > 0)
             {
-                List<int> GroupTeacherIds = resultGroups.Value.Select(i=>i.GroupId).ToList();
+                List<int> GroupTeacherIds = resultGroups.Value.Select(i => i.GroupId).ToList();
+                NbGroups = resultGroups.Value.Count();
+            if (resultToCandidates.Succeeded && resultToCandidates.Value.Count() > 0)
+            {
                 groupCandidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Group") } }));
                 groupCandidats = groupCandidats.Where(i=>GroupTeacherIds.Contains(i.GroupId)).ToList();
                 NbCandidates = groupCandidats.Where(i=>GroupTeacherIds.Contains(i.GroupId)).ToList().Count;
-                NbGroups = resultGroups.Value.Count();
+            }
+
 
             }
         }
