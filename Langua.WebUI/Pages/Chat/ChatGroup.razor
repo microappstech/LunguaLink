@@ -239,8 +239,8 @@
             var GrMsgResult = repositoryMessageGroup.GetByExpression($"GroupId=={chatgroupId}");
             if (GrMsgResult.Succeeded)
             {
-                await baseService.Apply(GrMsgResult.Value, new QueryCollection(new Dictionary<string, StringValues>() { { "include", "User" } }));
-                messageGroups = GrMsgResult.Value.ToList();
+                var Invcludeed = await baseService.Apply(GrMsgResult.Value, new QueryCollection(new Dictionary<string, StringValues>() { { "include", "User" } }));
+                messageGroups = (IEnumerable<MessageGroup>)Invcludeed;
                 DataReady = true;
             }
         }

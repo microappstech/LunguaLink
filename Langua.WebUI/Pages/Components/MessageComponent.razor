@@ -15,7 +15,7 @@
         }
         else
         {
-            <h5 style="color:purple; border:1px solid gray; background:white; border-radius:50%; width:30px; height:30px; text-align:center">@(string.IsNullOrEmpty(MessageGroup.User?.FullName) ? "#" : MessageGroup.User?.FullName?.Substring(0, 1))</h5>
+            <h5 style="color:purple; border:1px solid gray; background:white; border-radius:50%; width:30px; height:30px; text-align:center">@(string.IsNullOrEmpty(MessageGroup.User?.Email) ? "#" : MessageGroup.User?.Email?.Substring(0, 1))</h5>
         }
    </span>
     <div class=" text-primary pe-0 pe-sm-10 px-3 w-100 ">

@@ -21,7 +21,7 @@ namespace Langua.Repositories.Services
         {
             _context = context;
         }
-        public async Task<IQueryable> Apply<T>(IQueryable<T> items, IQueryCollection query = null) where T : class
+        public async Task<IQueryable<T>> Apply<T>(IQueryable<T> items, IQueryCollection query = null) where T : class
         {
             if (query is not null)
             {

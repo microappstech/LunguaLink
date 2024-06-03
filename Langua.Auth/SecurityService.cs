@@ -123,10 +123,10 @@ namespace Langua.Account
         {
             //using (var scopeRole = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromMinutes(3), TransactionScopeAsyncFlowOption.Enabled))
             //{
-                //var existRole = await roleManager.RoleExistsAsync(role);
-                try
+            //var existRole = await roleManager.RoleExistsAsync(role);
+            try
                 {
-                    //if(!existRole)
+                    //if (!existRole)
                     //    await CreateRole(role);
                     var result = await _userManager.AddToRoleAsync(us, role);
                     //scopeRole.Complete();

@@ -14,7 +14,7 @@
                 <div class="mx-auto w-100">
                     <!-- top nav -->
                     <nav class="w-100 d-flex px-auto py-2 mb-4 shadow-sm mx-auto text-center fw-bold text-danger">
-                        <label class="text-center mx-auto"> @L["Langua Page is securized and internal platform for tablishement and instuties"]</label>
+                        <label class="text-center mx-auto text-primary d-none"> @L["Langua Page is securized and internal platform for tablishement and instuties"]</label>
                     </nav>
                     <!-- main content -->
                     <main class="container-fluid">
@@ -28,26 +28,11 @@
                                     <div class="col-8 text-center">
                                         <RadzenLabel Text="@NbCandidates.ToString()" Style="color:darkblue; font-size: 30px;" />
                                       <br />
-                                        <RadzenLabel Text="@L["Canddiats"]" Style="color:darkblue; font-size:20px;" />
+                                        <RadzenLabel Text="@L["Candidats"]" Style="color:darkblue; font-size:20px;" />
                                    </div>
                                </RadzenCard>
                             </div>
-                            <div class="col-md-4 col-lg-3">
-                                <RadzenCard class="row py-2  mx-1">
-                                    <div class="col-3 my-auto">
-                                        <RadzenIcon Icon="class" class="text-white" style="background-color: green; border-radius: 4px; font-size:40px; height:40px; width :40px;">
-                                        </RadzenIcon>
-                                    </div>
-                                    <div class="col-8 text-center">
-                                        <label style="color:green; font-size: 30px;" >@NbRessource</label>
-                                        <br />
-                                        <label style="color:green; font-size:20px;" >
-                                            @L["Ressources"]
-                                        </label>
-                                    </div>
-                                </RadzenCard>
-                            </div>
-
+                            
                             <div class="col-md-4 col-lg-3">
                                 <RadzenCard class="row py-2  mx-1">
                                     <div class="col-3 my-auto">
@@ -63,7 +48,6 @@
                                     </div>
                                 </RadzenCard>
                             </div>
-
                             <div class="col-md-4 col-lg-3">
                                 <RadzenCard class="row py-2  mx-1">
                                     <div class="col-3 my-auto">
@@ -71,7 +55,7 @@
                                         </RadzenIcon>
                                     </div>
                                     <div class="col-8 text-center">
-                                        <label style="color:rebeccapurple; font-size: 30px;">36</label>
+                                        <label style="color:rebeccapurple; font-size: 30px;">@NbCandidates</label>
                                         <br />
                                         <label style="color:rebeccapurple; font-size:20px;">
                                             Students
@@ -79,33 +63,47 @@
                                     </div>
                                 </RadzenCard>
                             </div>
+
+                            <div class="col-md-4 col-lg-3">
+                                <RadzenCard class="row py-2  mx-1">
+                                    <div class="col-3 my-auto">
+                                        <RadzenIcon Icon="class" class="text-white" style="background-color: green; border-radius: 4px; font-size:40px; height:40px; width :40px;">
+                                        </RadzenIcon>
+                                    </div>
+                                    <div class="col-8 text-center">
+                                        <label style="color:green; font-size: 30px;">@NbRessource</label>
+                                        <br />
+                                        <label style="color:green; font-size:20px;">
+                                            @L["Ressources"]
+                                        </label>
+                                    </div>
+                                </RadzenCard>
+                            </div>
+
+
                         </section>
 
                         <div class="jumbotron jumbotron-fluid rounded bg-white border-0 shadow-sm border-left py-5 row">
                             <div class="container col-7">
-                                <h4 style="color:purple;" class=" mb-3 fw-bold">Top Users</h4>
-                                <RadzenDataGrid Data="groupCandidats">
+                                <h4 style="color:purple;" class=" mb-3 fw-bold">@L["Candidats"]</h4>
+                                <RadzenDataGrid Data="Candidats" EmptyText="No Data Exist" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+                                        FilterMode="FilterMode.Simple" AllowSorting="true">
                                     <Columns>
-                                        <RadzenDataGridColumn TItem="GroupCandidates" Property="Group.Name" Title="@L["Group Name"]">
-                                            <Template Context="GrContext">
-                                                <label>@GrContext.Group.Name</label>
-                                            </Template>
+                                        <RadzenDataGridColumn TItem="Candidat" Property="FullName" Filterable="true" Title="@L["Candidat Name"]">
                                         </RadzenDataGridColumn>
-                                        <RadzenDataGridColumn TItem="GroupCandidates" Property="Group.Name" Title="@L["Nb Candidates"]" >
-                                            <Template Context="GrContext">
-                                                <label>@GrContext.</label>
-                                            </Template>
+                                        <RadzenDataGridColumn TItem="Candidat" Property="Group.Name" Title="@L["Group Name"]" >
                                         </RadzenDataGridColumn>
                                     </Columns>
                                 </RadzenDataGrid>
                             </div>
                             
                             <div class="container col-5">
-                                <h4 style="color:purple;" class=" mb-3 fw-bold">Your Subjects</h4>
-                                <RadzenDataGrid Data="groupCandidats">
+                                <h4 style="color:purple;" class=" mb-3 fw-bold">Groups</h4>
+                                <RadzenDataGrid Data="groupTeachers">
                                     <Columns>
-                                        <RadzenDataGridColumn TItem="Candidat" Property="Subject.Name" Title="@L["Subject"]" />
-                                        <RadzenDataGridColumn TItem="Candidat" Property="Group.Name" Title="@L["Group"]" />
+                                        <RadzenDataGridColumn TItem="GroupTeacher" Property="Group.Name" Title="@L["Group"]" />
+                                        <RadzenDataGridColumn TItem="GroupTeacher" Property="Subject.Name" Title="@L["Subject"]" />
+                                        
                                     </Columns>
                                 </RadzenDataGrid>
                             </div>

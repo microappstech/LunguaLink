@@ -85,7 +85,7 @@ namespace Langua.WebUI.Pages.Candidates
                         }
                     }
                     else
-                    {
+                      {
                         Errors.Add(taskResult.Error);
                     }
 

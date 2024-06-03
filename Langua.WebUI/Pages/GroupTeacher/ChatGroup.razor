@@ -38,7 +38,7 @@
                                     @foreach (var group in Groups)
                                     {
                                         <div class="@( chatgroupId==group.Id.ToString() ?$"activeLink":"") text-white">
-                                        <RadzenLink class="NavLikChat" Path="@($"chatgroup/{group.Id.ToString()}")">
+                                        <RadzenLink class="NavLikChat" Path="@($"teacher/chatgroup/{group.Id.ToString()}")">
                                             <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Style="border:1px solid lightgray;" Class="rz-p-4">
                                                 <RadzenImage Path="@(string.IsNullOrEmpty(group.Photo)?"school.png":group.Photo)" Style="width: 50px; height: 50px; border-radius: 50%;" />
                                                 <RadzenStack Gap="4">
@@ -100,7 +100,7 @@
     [Inject] public Langua.Repositories.Interfaces.IRepositoryCrudBase<Groups> repositoryGroup { get; set; }
     [Inject] public Langua.Account.SecurityService Security { get; set; }
     [Inject] public Langua.Repositories.Services.BaseService baseService { get; set; }
-    [Inject] public IEnumerable<Models.GroupTeacher> groupTeachers { get; set; }
+    public IEnumerable<Models.GroupTeacher> groupTeachers { get; set; }
     public string Message { get; set; }
     public IEnumerable<MessageGroup> messageGroups { get; set; }
     public Teacher Teacher { get; set; }
@@ -136,7 +136,7 @@
             {
                 groupTeachers = GRTeachers.Value;
                 Groups = groupTeachers.Select(i => i.Group); 
-                
+
                 var ResultIncluded = await baseService.Apply(Groups.AsQueryable(), new QueryCollection(new Dictionary<string, StringValues> { { "include", "GroupeMessages,Candidats" } }));
                 Groups = (IEnumerable<Models.Groups>)ResultIncluded;
                 DataReady = true;
@@ -194,7 +194,10 @@
     {
 
     }
+    public async Task GetMessagesByGroup(int groupId)
+    {
 
+    }
 
     #region Methodes
     public async Task GetMessagesForGroup()
@@ -213,20 +216,30 @@
 
     public async Task SendMessage()
     {
-        MessageGroup mg = new MessageGroup()
-            {
-                Id = messageGroups.Count(),
-                Content = Message,
-                SenderId = Security.User.Id,
-                SendAt = DateTime.Now,
-                GroupId = 2
-            };
-        var SendMsgResult = repositoryMessageGroup.Add(mg);
-        if (SendMsgResult.Succeeded)
+        try
         {
-            await InvokeAsync(StateHasChanged);
-            StateHasChanged();
-        }        
+            if (string.IsNullOrEmpty(chatgroupId))
+                return;
+
+            MessageGroup mg = new MessageGroup()
+                {
+                    Id = messageGroups.Count(),
+                    Content = Message,
+                    SenderId = Security.User.Id,
+                    SendAt = DateTime.Now,
+                    GroupId = int.Parse(chatgroupId)
+                };
+            var SendMsgResult = repositoryMessageGroup.Add(mg);
+            if (SendMsgResult.Succeeded)
+            {
+                await GetMessagesForGroup();
+                await InvokeAsync(StateHasChanged);
+                StateHasChanged();
+            }
+        }catch(Exception ex)
+        {
+            Notify("Error", ex.Message,NotificationSeverity.Error,500000);
+        }    
     }
     
     #endregion

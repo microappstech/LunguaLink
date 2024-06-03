@@ -80,7 +80,7 @@ namespace Langua.WebUI.Client.Pages.Sessions
 
         protected async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
         {
-            var data = await dialogService.OpenAsync<SessionForm>(L["Add session"], new Dictionary<string, object>
+            var data = await dialogService.OpenAsync<FormSession>(L["Add session"], new Dictionary<string, object>
             {
                 { "IsForGroup", ScheFor == SchedelurFor.GroupSched },
                 { "GroupOrTeacherId", (ScheFor == SchedelurFor.GroupSched ? selectedGroup:selectedTeacher) },
@@ -92,7 +92,7 @@ namespace Langua.WebUI.Client.Pages.Sessions
 
         protected async Task OnSessionSelect(SchedulerAppointmentSelectEventArgs<Session> args)
         {
-            var data = await dialogService.OpenAsync<SessionForm>(L["EditSession session"], new Dictionary<string, object>{{"SessionId",args.Data.Id }, { "IsForGroup", ScheFor == SchedelurFor.GroupSched }, { "GroupOrTeacherId", (ScheFor == SchedelurFor.GroupSched ? selectedGroup : selectedTeacher) } });
+            var data = await dialogService.OpenAsync<FormSession>(L["EditSession session"], new Dictionary<string, object>{{"SessionId",args.Data.Id }, { "IsForGroup", ScheFor == SchedelurFor.GroupSched }, { "GroupOrTeacherId", (ScheFor == SchedelurFor.GroupSched ? selectedGroup : selectedTeacher) } });
             await scheduler.Reload();
         }
 

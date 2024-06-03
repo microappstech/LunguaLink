@@ -106,7 +106,7 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task Add()
         {
-           var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw",  ShowClose = true });
+           var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw",  ShowClose = true, Draggable=true });
             await grid0!.Reload();
         }
     }

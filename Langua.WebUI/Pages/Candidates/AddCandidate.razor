@@ -50,10 +50,13 @@
                     {
                         <option value="">None</option>
                     }
-                    @foreach (Subject subject in subjects)
+                    else
                     {
-                        <option value="@subject.Id">@subject.Name (ID: @subject.Id)</option>
-                    }
+                        @foreach (Subject subject in subjects)
+                        {
+                            <option value="@subject.Id">@subject.Name (ID: @subject.Id)</option>
+                        }
+                    }                  
                 </InputSelect>
             </div>
 

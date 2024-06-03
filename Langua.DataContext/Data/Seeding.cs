@@ -20,7 +20,7 @@ namespace Langua.DataContext.Data
                 var roleM = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
 
-                List<string> Roles = new List<string>() { "ADMIN", "TEACHER", "MANAGER", "MANAGERETAB" };
+                List<string> Roles = new List<string>() { "ADMIN", "TEACHER", "MANAGER", "MANAGERETAB","CANDIDATE" };
 
                 foreach (var role in Roles)
                 {

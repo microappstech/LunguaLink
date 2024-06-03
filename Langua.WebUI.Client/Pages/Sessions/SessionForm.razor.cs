@@ -5,7 +5,7 @@ using Radzen;
 
 namespace Langua.WebUI.Client.Pages.Sessions
 {
-    public partial class AddSessionComponent:BasePageClient
+    public partial class FormSession:BasePageClient
     {
         [Parameter] public int SessionId { get; set; }
         [Parameter] public int GroupOrTeacherId { get; set; }

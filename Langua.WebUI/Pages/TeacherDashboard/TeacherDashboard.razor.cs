@@ -1,6 +1,7 @@
 using Langua.Models;
 using Langua.Repositories.Interfaces;
 using Langua.Repositories.Services;
+using Langua.Shared.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +15,10 @@ namespace Langua.WebUI.Pages.TeacherDashboard
         [Inject] public IRepositoryCrudBase<GroupCandidates>? GroupCandidateService { get; set; }
 
         [Inject] public IRepositoryCrudBase<Models.GroupTeacher>? GroupTeacherService { get; set; }
-        public IEnumerable<GroupCandidates>? groupCandidats { get; set; }
+        
+        public IEnumerable<Groups>? Groups { get; set; }
+        public IEnumerable<Candidat>? Candidats { get; set; }
+
         public IEnumerable<Models.GroupTeacher>? groupTeachers { get; set; }
         public Teacher? Teacher { get; set; }
         public bool DataReady {  get; set; }
@@ -30,17 +34,23 @@ namespace Langua.WebUI.Pages.TeacherDashboard
             {
                 Navigation.NavigateToLogin("/login");
             }
-            var resultToCandidates = GroupCandidateService.GetAll();
+
             var resultGroups = GroupTeacherService.GetByExpression($"TeacherId=={teacher.Id.ToString()}");
             if (resultGroups.Succeeded && resultGroups.Value.Count() > 0)
             {
-                List<int> GroupTeacherIds = resultGroups.Value.Select(i => i.GroupId).ToList();
                 NbGroups = resultGroups.Value.Count();
-            if (resultToCandidates.Succeeded && resultToCandidates.Value.Count() > 0)
+                List<int> GroupTeacherIds = resultGroups.Value.Select(i => i.GroupId).ToList();
+                await baseService.Apply(resultGroups.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Subject,Group" } }));
+                groupTeachers = resultGroups.Value;
+
+                Result<IQueryable<Candidat>>? resultCandidates = await LanguaService.GetCandidateForGroups(GroupTeacherIds);
+            if (resultCandidates.Succeeded && resultCandidates.Value.Count() > 0 && GroupTeacherIds is not null)
             {
-                groupCandidats = (IEnumerable<GroupCandidates>)baseService.Apply(resultToCandidates.Value, new QueryCollection(new Dictionary<string, Microsoft.Extensions.Primitives.StringValues> { { "include", new StringValues("Group") } }));
-                groupCandidats = groupCandidats.Where(i=>GroupTeacherIds.Contains(i.GroupId)).ToList();
-                NbCandidates = groupCandidats.Where(i=>GroupTeacherIds.Contains(i.GroupId)).ToList().Count;
+                var included = await baseService.Apply(resultCandidates.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", new StringValues("Group,Subject") } }));
+                Candidats = included;
+                Candidats = Candidats.Where(i=> GroupTeacherIds.Contains((int)i.GroupId));
+                if(Candidats is not null) 
+                    NbCandidates = Candidats.Where(i=>GroupTeacherIds.Contains((int)i.GroupId)).ToList().Count;
             }
 
 
