@@ -9,6 +9,7 @@
   <ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.3" />
+	  <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.4" />
 	  <PackageReference Include="Radzen.Blazor" Version="4.30.2" />
   </ItemGroup>
@@ -17,6 +18,27 @@
     <!--<ProjectReference Include="..\Langua.Auth\Langua.Account.csproj" />-->
     <ProjectReference Include="..\Langua.Models\Langua.Models.csproj" />
     <ProjectReference Include="..\Langua.Shared\Langua.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="LocalRessources\LanguaResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LanguaResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="LocalRessources\LanguaResource.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LocalRessources\LanguaResource.fr-FR.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="LocalRessources\LanguaResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LanguaResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

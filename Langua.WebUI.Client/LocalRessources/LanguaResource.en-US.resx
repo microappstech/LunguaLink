@@ -117,16 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Email" xml:space="preserve">
-    <value>Courriel</value>
-  </data>
-  <data name="Full Name" xml:space="preserve">
-    <value>Nom Complete</value>
-  </data>
-  <data name="Phone" xml:space="preserve">
-    <value>Téléphone</value>
-  </data>
-  <data name="Subject" xml:space="preserve">
-    <value>Matière</value>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Welcome to Langua Link</value>
   </data>
 </root>

@@ -61,6 +61,7 @@ builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddScoped<BaseService>();
 builder.Services.AddScoped(typeof(IGroupCandidateService<>), typeof(GroupCandidateService<>));
 builder.Services.AddRadzenComponents();
+builder.Services.AddLocalization();
 builder.Services.AddScoped<SecurityService>();
 builder.Services.AddScoped<ApiHelper>();
 builder.Services.AddScoped<IMailService,MailService>();
@@ -144,6 +145,12 @@ app.UseAuthorization();
 app.UseAntiforgery();
 app.UseStaticFiles();
 app.UseSwagger();
+app.UseRequestLocalization(option =>
+{
+    option.SetDefaultCulture("fr-FR");
+    option.AddSupportedCultures(new[] { "fr-FR", "en-US" });
+    option.AddSupportedUICultures(new[] { "fr-FR", "en-US" });
+});
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Blazor API V1");
@@ -155,7 +162,7 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(Langua.WebUI.Client._Imports).Assembly);
 app.MapControllers();
 app.MapHub<ChatHub>(ChatHub.ChatGroupEndPoint);
-//await Seeding.Initialize(app.Services.CreateScope().ServiceProvider);
+await Seeding.Initialize(app.Services.CreateScope().ServiceProvider);
 //
 //app.MapIdentityApi<ApplicationUser>();
 
