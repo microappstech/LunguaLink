@@ -1,4 +1,24 @@
 ﻿@page "/Teacher/Ressources"
 @layout TeacherLayout
+@inherits BasePageClient 
 
-<h1>Ressources</h1>
+<RadzenStack>
+    <RadzenRow class="my-2">
+        <RadzenColumn Size="4">
+            <RadzenText Text="@L["Contenus"]" TextStyle="TextStyle.DisplayH4" />
+        </RadzenColumn>
+        <RadzenColumn Size="6"></RadzenColumn>
+        <RadzenColumn Size="2" class="my-2">
+            <RadzenButton Click="RddRessource" Icon="add" Text="@L["Add"]" />
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code{
+    public async Task RddRessource(){
+        var result = await dialogService.OpenAsync<CURessource>(L["Add Contenu"], null);
+    }
+    protected override async Task OnInitializedAsync(){
+
+    }
+}

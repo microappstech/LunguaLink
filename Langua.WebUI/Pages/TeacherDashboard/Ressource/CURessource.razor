@@ -1,0 +1,86 @@
+﻿@page "/c"
+@inherits BasePageClient
+<RadzenStack>
+    <EditForm Model="Ressource" OnInvalidSubmit="Submit" EditContext="editContext">
+        <RadzenRow class="my-2">
+            <RadzenColumn Size="4">
+
+                @L["Contenu Type"] :
+            </RadzenColumn>
+            <RadzenColumn Size="8">
+                <RadzenRadioButtonList @bind-Value="Ressource!.RessourceType" class="w-100">
+                    <Items>
+                        <RadzenRadioButtonListItem Value="(int)RessourceType.URL" Text="Url" />
+                        <RadzenRadioButtonListItem Value="(int)RessourceType.VEDIO" Text="Vedio Youtube" />
+                        <RadzenRadioButtonListItem Value="(int)RessourceType.File" Text="File" />
+                    </Items>
+                </RadzenRadioButtonList>
+            </RadzenColumn>
+        </RadzenRow>
+
+        <RadzenRow class="my-2">
+            <RadzenColumn Size="4">
+                @L["Name"] :
+            </RadzenColumn>
+            <RadzenColumn Size="8">
+                <RadzenTextBox @bind-Value="Ressource!.Name" Placeholder="@L["Contenu Name"]" />
+            </RadzenColumn>
+        </RadzenRow>
+
+        <RadzenRow class="my-2">
+            <RadzenColumn Size="4">
+                @L["Contenu"] :
+            </RadzenColumn>
+            <RadzenColumn Size="8">                
+                @switch (ressourceType)
+                {
+                    case RessourceType.URL:
+                        <RadzenTextBox @bind-Value="url" Placeholder="@L["https://..."]" class="w-100" />
+                        break;
+                    case RessourceType.File:
+                        <RadzenFileInput @bind-Value=@FileContent @bind-FileName=@fileName @bind-FileSize=@fileSize TValue="string" class="w-100"
+                                         Change=@(args => OnChange(args, "FileInput")) Error=@(args => OnError(args, "FileInput")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
+                        break;
+                    case RessourceType.VEDIO:
+                        <RadzenTextBox Placeholder="@L["Enter Url Vedio"]" class="w-100" />
+                        break;
+                }
+            </RadzenColumn>
+        </RadzenRow>
+        <div class="mx-auto mt-2 text-center">
+            <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
+            <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
+            <button type="button" @onclick="@(()=>dialogService!.Close(null))" class="btn btn-secondary px-5">Close</button>
+        </div>
+    </EditForm>
+</RadzenStack>
+
+@code{
+    public EditContext? editContext;
+    public Langua.Models.RessourceType ressourceType { get; set; } = RessourceType.URL;
+    public string? url { get; set; }
+    public string? FileContent { get; set; }
+    public string? UrlVedio { get; set; }
+    string? fileName;
+    long? fileSize;
+    public Ressource? Ressource { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        this.Ressource = new Ressource();
+        editContext = new EditContext(new Ressource());
+
+    }
+    void OnChange(string value, string name)
+    {
+        
+    }
+
+    void OnError(UploadErrorEventArgs args, string name)
+    {
+        
+    }
+    public async Task Submit()
+    {
+
+    }
+}

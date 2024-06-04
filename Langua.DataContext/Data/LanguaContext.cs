@@ -84,5 +84,7 @@ namespace Langua.DataContext.Data
         public DbSet<GroupCandidates> GroupCandidates { get; set; }
         public DbSet<GroupTeacher> GroupTeachers { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<Ressource> Ressources { get; set; }
+        public DbSet<ContentGroup> GroupRessources { get; set; }
     }
 }

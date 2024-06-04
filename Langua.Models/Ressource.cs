@@ -11,8 +11,10 @@ namespace Langua.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public byte[] cContentBytes { get; set; }
-
+        public string? Name { get; set; }
+        public byte[]? ContentBytes { get; set; }
+        public int RessourceType { get; set; }
+        public string? Url { get; set; }
     }
+    
 }

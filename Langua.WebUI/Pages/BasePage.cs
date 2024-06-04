@@ -15,25 +15,14 @@ namespace Langua.WebUI.Pages
     public partial class BasePage : BasePageClient
     {
         [Inject]public NavigationManager? Navigation { get; set; }
-        public RadzenProgressBarCircular loading;
+        public RadzenProgressBarCircular? loading;
         public bool IsStuck { get; set; } = true;
         [Inject] protected SecurityService? Security { get; set; }
-        [Inject] public LanguaService LanguaService { get; set; }
+        [Inject] public LanguaService? LanguaService { get; set; }
         [Inject] public BaseService? baseService { get; set; }
         [Inject] protected AuthenticationStateProvider? authenticationStateProvider { get; set; }
-        [Inject] protected IMailService mailService { get; set; }
-        public virtual async Task<bool?> Confirm(string title, string message , ConfirmOptions confirmOptions = default(ConfirmOptions))
-        {
-            if(confirmOptions is null)
-            {
-                confirmOptions = new ConfirmOptions { Width = "400px" , OkButtonText = L["Confirm"], CancelButtonText = L["Cancel"] };
-            }
-           return await dialogService.Confirm(message,title,confirmOptions);
-        }
-        public virtual void Notify(string title, string message, NotificationSeverity Severity = NotificationSeverity.Info)
-        {
-            notificationService.Notify(Severity,message,title,4000);
-        }
+        [Inject] protected IMailService? mailService { get; set; }
+        
         
     }
 }
