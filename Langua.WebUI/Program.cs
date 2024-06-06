@@ -40,7 +40,10 @@ builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>(serviceProvider =>
 builder.Services.AddLocalization();
 builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
 
-
+builder.Services.AddServerSideBlazor().AddHubOptions(o =>
+{
+    o.MaximumReceiveMessageSize = 900 * 1024 * 1024;
+});
 builder.Services.AddControllers()
     .AddOData(optio =>
     {
