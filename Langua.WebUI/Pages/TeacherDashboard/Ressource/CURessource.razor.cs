@@ -28,36 +28,9 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
         
 
 
-        async Task UploadFileToServer(byte[] fileContent)
+        void OnComplete(UploadCompleteEventArgs args)
         {
-            using var client = new HttpClient();
-            var content = new MultipartFormDataContent();
-            var fileContentStream = new MemoryStream(fileContent);
-            content.Add(new StreamContent(fileContentStream), "file", "filename");
-
-            var response = await client.PostAsync("https://yourserver/upload", content);
-
-            // Handle response from server
-            if (response.IsSuccessStatusCode)
-            {
-                // File uploaded successfully
-            }
-            else
-            {
-                // Handle error
-            }
-        }
-
-        void OnChangeFile(string args, string name)
-        {
-
-        }
-
-        async void OnComplete(UploadCompleteEventArgs args)
-        {
-           await upload.Upload();
-            var ileBytes = await Http.GetByteArrayAsync("https://localhost:44317/api/Upload");
-            this.Ressource.ContentBytes = ileBytes;
+         //  await upload.Upload();
         }
         
 
@@ -78,16 +51,22 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
             {
                 case (int)RessourceType.URL:
                     Ressource.Url = url;
+                    Ressource.ContentBytes = null;
                     break;
                 case (int)RessourceType.VEDIO:
                     Ressource.Url = UrlVedio;
+                    Ressource.ContentBytes = null;
                     break;
                 case (int)RessourceType.File:
-                    var bt = FileContent;
+                    var ileBytes = await Http.GetByteArrayAsync("https://localhost:44317/api/Upload");
+                    this.Ressource.ContentBytes = ileBytes;
                     break;
-
-
-                // how to read here 
+            }
+            var ResulCrRessource = repositoryRessource.Add(Ressource);
+            if(ResulCrRessource.Succeeded)
+            {
+                Notify("Success", "Ressource Created Successfuly", NotificationSeverity.Success);
+                dialogService.Close(null);
             }
         }
         

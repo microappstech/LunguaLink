@@ -1,8 +1,8 @@
 ﻿@page "/Teacher/Ressources"
 @page "/Ressource"
 @layout TeacherLayout
-@inherits BasePageClient 
-
+@inherits BasePage
+²
 <RadzenStack>
     <RadzenRow class="my-2">
         <RadzenColumn Size="4">
@@ -13,13 +13,87 @@
             <RadzenButton Click="RddRessource" Icon="add" Text="@L["Add"]" />
         </RadzenColumn>
     </RadzenRow>
+    <RadzenRow>
+        <RadzenColumn Size="_SizeGridColumn">
+            <RadzenDataGrid Data="Resources" AllowFiltering=true FilterMode="FilterMode.Simple" AllowSorting=true>
+                <Columns>
+                    <RadzenDataGridColumn Property="Name" Title="@L["Ressource Name"]" />
+                    <RadzenDataGridColumn Context="CtxRes" TItem="Langua.Models.Ressource" Width="160px">
+                        <Template>
+                            <RadzenButton Icon="edit" Size="ButtonSize.Medium" Click="@(args=>Edit(CtxRes))" ButtonStyle="ButtonStyle.Primary" Shade="Shade.Lighter" />
+                            <RadzenButton Icon="publish" Size="ButtonSize.Medium" Click="@(arfgs=>Publish(CtxRes))" ButtonStyle="ButtonStyle.Success" Shade="Shade.Lighter" />
+                            <RadzenButton Icon="delete" Size="ButtonSize.Medium" Click="@(args=>Delete(CtxRes))" ButtonStyle="ButtonStyle.Danger" Shade="Shade.Lighter" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenColumn>
+        <RadzenColumn Size="_SizeEditColumn" Visible="_EditColumnVisible">
+            <RadzenTemplateForm TItem="Ressource" Data="ResToEdit" Submit="SaveItem">
+                <RadzenRow>
+                    <RadzenColumn Size="6">
+                        @L["Ressource Name"]
+                    </RadzenColumn>
+                    <RadzenColumn Size="6">
+                        <RadzenTextBox @bind-Value="ResToEdit.Name" />
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenRow>
+                    <RadzenColumn Size="6">
+                        @L["Ressource Type"]
+                    </RadzenColumn>
+                    <RadzenColumn Size="6">
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenTemplateForm>
+        </RadzenColumn>
+    </RadzenRow>
 </RadzenStack>
 
 @code{
+    [Inject] public Langua.Repositories.Interfaces.IRepositoryCrudBase<Models.Ressource>? repositoryRessource { get; set; }
+    private RadzenDataGrid<Ressource> ResGrid;
+    public IEnumerable<Models.Ressource> Resources { get; set; }
+    public Ressource ResToEdit { get; set; }
     public async Task RddRessource(){
         var result = await dialogService.OpenAsync<CURessource>(L["Add Contenu"], null);
     }
-    protected override async Task OnInitializedAsync(){
+    int _SizeGridColumn = 12;
+    int _SizeEditColumn = 0;
+    bool _EditColumnVisible = false;
+    protected override async Task OnInitializedAsync()
+    {
+        await Security!.InitializeAsync();
+        await Security.IsAuthenticatedWidthRedirect();
+        var resRessources = repositoryRessource.GetAll();
+        if (resRessources.Succeeded)
+        {
+            Resources = resRessources.Value;
+            var r = await baseService.Apply(resRessources.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Teacher" } }));
+        }
+    }
+    public async Task Delete(Ressource ressource)
+    {
+        if (await Confirm(L["Confirm Delete"], L["Are you sure want to delete this item"]) == true)
+        {
+            var DeleteRes = repositoryRessource.Delete(ressource);
+            if (DeleteRes.Succeeded)
+            {
+                await ResGrid.Reload();
+                Notify(L["Successful"], L["The Item successful deleted"], NotificationSeverity.Success);
+            }
+        }
+    }
+    public async Task SaveItem()
+    {
+        
+    }
+    public async Task Publish(Ressource ressource)
+    {
 
+    }
+    public async Task Edit(Ressource ressource)
+    {
+        ResToEdit = ressource;
     }
 }

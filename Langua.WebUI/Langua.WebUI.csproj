@@ -42,4 +42,8 @@
     <Resource Include="Pages\Resource.fr.resx" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\" />
+  </ItemGroup>
+
 </Project>

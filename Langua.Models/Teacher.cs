@@ -27,5 +27,6 @@ namespace Langua.Models
         public string? Photo { get;set; }
         public DateTime CreatedAt { get; set; }
         public ApplicationUser User { get; set; }
+        public ICollection<Ressource> Ressources { get; set; }
     }
 }
