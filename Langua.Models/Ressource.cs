@@ -16,6 +16,7 @@ namespace Langua.Models
         public Teacher Teacher { get; set; }
         public int? TeacherId { get; set; }
         public byte[]? ContentBytes { get; set; }
+        public string? ContentFile { get; set; }
         public int RessourceType { get; set; }
         public string? Url { get; set; }
     }

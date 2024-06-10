@@ -39,10 +39,10 @@
                         <RadzenTextBox @bind-Value="url" Placeholder="@L["https://..."]" class="w-100" />
                         break;
                     case (int)RessourceType.File:
-                        @* <RadzenFileInput MaxFileSize="500000" Accept=".pdf, .docx" @bind-Value=@FileContent TValue="string" class="w-100"
-                                         Change=@(args => OnChangeFile(args, "FileInput")) Error=@(args => OnError(args, "FileInput")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
- *@
-                        <RadzenUpload Url="api/upload" @ref="upload" Complete="@OnComplete" Error="@OnError" />                        
+                        <RadzenCard>
+                            <RadzenUpload Url="api/upload" @ref="upload" Change="@OnComplete" Auto="false" Error="@OnError" />
+                            <RadzenText TextStyle="TextStyle.Subtitle2" Text="@FileName" Visible=@(!string.IsNullOrEmpty(FileName) ||false) />
+                        </RadzenCard>
                         
                         break;
                     case (int)RessourceType.VEDIO:

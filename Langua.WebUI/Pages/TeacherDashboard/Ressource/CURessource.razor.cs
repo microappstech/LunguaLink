@@ -20,6 +20,7 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
         public Langua.Models.Ressource? Ressource { get; set; }
         [Inject] public Langua.Repositories.Interfaces.IRepositoryCrudBase<Models.Ressource>? repositoryRessource { get; set; }
         [Inject] HttpClient Http { get; set; }
+        public string FileName { get; set; }
         public void OnError(UploadErrorEventArgs err)
         {
 
@@ -28,9 +29,9 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
         
 
 
-        void OnComplete(UploadCompleteEventArgs args)
+        async Task OnComplete(UploadChangeEventArgs args)
         {
-         //  await upload.Upload();
+             await upload.Upload();
         }
         
 
@@ -47,27 +48,37 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
 
         public async Task Submit()
         {
-            switch (Ressource!.RessourceType)
+            try
             {
-                case (int)RessourceType.URL:
-                    Ressource.Url = url;
-                    Ressource.ContentBytes = null;
-                    break;
-                case (int)RessourceType.VEDIO:
-                    Ressource.Url = UrlVedio;
-                    Ressource.ContentBytes = null;
-                    break;
-                case (int)RessourceType.File:
-                    var ileBytes = await Http.GetByteArrayAsync("https://localhost:44317/api/Upload");
-                    this.Ressource.ContentBytes = ileBytes;
-                    break;
+                switch (Ressource!.RessourceType)
+                {
+                    case (int)RessourceType.URL:
+                        Ressource.Url = url;
+                        Ressource.ContentBytes = null;
+                        break;
+                    case (int)RessourceType.VEDIO:
+                        Ressource.Url = UrlVedio;
+                        Ressource.ContentBytes = null;
+                        break;
+                    case (int)RessourceType.File:
+                        var ileBytes = await Http.GetByteArrayAsync("https://localhost:44317/api/Upload/");
+                        var base64 = await Http.GetStringAsync("https://localhost:44317/api/Upload/Base64");
+                        this.Ressource.ContentFile = base64;
+                        this.Ressource.ContentBytes = ileBytes;
+                        break;
+                }
+                var ResulCrRessource = repositoryRessource.Add(Ressource);
+                if (ResulCrRessource.Succeeded)
+                {
+                    Notify("Success", "Ressource Created Successfuly", NotificationSeverity.Success);
+                    dialogService.Close(null);
+                }
             }
-            var ResulCrRessource = repositoryRessource.Add(Ressource);
-            if(ResulCrRessource.Succeeded)
+            catch(Exception ex)
             {
-                Notify("Success", "Ressource Created Successfuly", NotificationSeverity.Success);
-                dialogService.Close(null);
+
             }
+            
         }
         
     }

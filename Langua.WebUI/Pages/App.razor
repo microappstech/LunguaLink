@@ -28,29 +28,19 @@
     <RadzenProgressBarCircular  Mode="ProgressBarMode.Indeterminate" ShowValue="false" class="mx-auto d-none" ProgressBarStyle="ProgressBarStyle.Primary" Size="ProgressBarCircularSize.Large" id="loading" Visible="IsStuck" @ref="loading" Style="width:100%; height:100px;" />
     <script src="_framework/blazor.web.js"></script>
     <script>
-        
+        function PreviewPdfFromBytes(byteArray) {
+            console.log("PreviewPdfFromBytes starting");
+                        Blob blob = new Blob([byteArray]);
+            var iframe = document.getElementById('pdfViewer');
+            console.log(iframe);
+                        string blobUrl = URL.createObjectURL(pdfBlob);
+            iframe.src = blobUrl;
+        }
     </script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
-    <script type="text/javascript">
-        var i = 0;
-        window.loadResourceCallback = (total, name, response) => {
-            if (name.endsWith('.dll')) {
-                i++;
-                const value = parseInt((i * 100.0) / total);
-                const pct = value + '%';
-                document.getElementById("loading").classList.remove("d-none");
-                document.getElementById("loading").classList.add("d-block");
-            }
-        }
-    </script>
-    <script>
-        function loading(){
-            document.getElementById("loading").classList.remove("d-none");
-            document.getElementById("loading").classList.add("d-block");
-        }
-    </script>
-    <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/chat.js"></script>
+    
+ @*    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script> *@
 </body>
 
 </html>

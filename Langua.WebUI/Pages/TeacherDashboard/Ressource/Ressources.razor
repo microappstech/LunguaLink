@@ -1,5 +1,6 @@
 ﻿@page "/Teacher/Ressources"
 @page "/Ressource"
+@using System.Reflection.Metadata
 @layout TeacherLayout
 @inherits BasePage
 ²
@@ -15,37 +16,24 @@
     </RadzenRow>
     <RadzenRow>
         <RadzenColumn Size="_SizeGridColumn">
-            <RadzenDataGrid Data="Resources" AllowFiltering=true FilterMode="FilterMode.Simple" AllowSorting=true>
+            <RadzenDataGrid EmptyText="@L["No Data To Display"]" @ref="ResGrid" Data="Resources" AllowFiltering=true FilterMode="FilterMode.Simple" AllowSorting=true>
                 <Columns>
                     <RadzenDataGridColumn Property="Name" Title="@L["Ressource Name"]" />
-                    <RadzenDataGridColumn Context="CtxRes" TItem="Langua.Models.Ressource" Width="160px">
+                    <RadzenDataGridColumn Context="CtxRes" TItem="Langua.Models.Ressource" Width="180px">
                         <Template>
                             <RadzenButton Icon="edit" Size="ButtonSize.Medium" Click="@(args=>Edit(CtxRes))" ButtonStyle="ButtonStyle.Primary" Shade="Shade.Lighter" />
                             <RadzenButton Icon="publish" Size="ButtonSize.Medium" Click="@(arfgs=>Publish(CtxRes))" ButtonStyle="ButtonStyle.Success" Shade="Shade.Lighter" />
                             <RadzenButton Icon="delete" Size="ButtonSize.Medium" Click="@(args=>Delete(CtxRes))" ButtonStyle="ButtonStyle.Danger" Shade="Shade.Lighter" />
+                            <RadzenButton Icon="preview" Size="ButtonSize.Medium" Click="@(args=>Preview(CtxRes))" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter" />
                         </Template>
                     </RadzenDataGridColumn>
                 </Columns>
             </RadzenDataGrid>
         </RadzenColumn>
-        <RadzenColumn Size="_SizeEditColumn" Visible="_EditColumnVisible">
-            <RadzenTemplateForm TItem="Ressource" Data="ResToEdit" Submit="SaveItem">
-                <RadzenRow>
-                    <RadzenColumn Size="6">
-                        @L["Ressource Name"]
-                    </RadzenColumn>
-                    <RadzenColumn Size="6">
-                        <RadzenTextBox @bind-Value="ResToEdit.Name" />
-                    </RadzenColumn>
-                </RadzenRow>
-                <RadzenRow>
-                    <RadzenColumn Size="6">
-                        @L["Ressource Type"]
-                    </RadzenColumn>
-                    <RadzenColumn Size="6">
-                    </RadzenColumn>
-                </RadzenRow>
-            </RadzenTemplateForm>
+        <RadzenColumn Size="_SizePreviewColumn">
+            <object type="application/pdf" width="100%" height="400px" data="@base64">
+                PDF Viewer not supported by your browser.
+            </object>
         </RadzenColumn>
     </RadzenRow>
 </RadzenStack>
@@ -55,12 +43,14 @@
     private RadzenDataGrid<Ressource> ResGrid;
     public IEnumerable<Models.Ressource> Resources { get; set; }
     public Ressource ResToEdit { get; set; }
+    public string url { get; set; }
+    public string base64 { get; set; }
     public async Task RddRessource(){
         var result = await dialogService.OpenAsync<CURessource>(L["Add Contenu"], null);
     }
     int _SizeGridColumn = 12;
-    int _SizeEditColumn = 0;
-    bool _EditColumnVisible = false;
+    int _SizePreviewColumn = 0;
+    bool _PreviewColumnVisible = false;
     protected override async Task OnInitializedAsync()
     {
         await Security!.InitializeAsync();
@@ -83,6 +73,15 @@
                 Notify(L["Successful"], L["The Item successful deleted"], NotificationSeverity.Success);
             }
         }
+    }
+
+
+    private async Task Preview(Ressource r)
+    {
+        _SizePreviewColumn = 6;
+        _SizeGridColumn = 6;
+        url = $"data:application/pdf;base64,{Convert.ToBase64String(r.ContentBytes,0,r.ContentBytes.Length)}";
+        base64 = $"data:application/pdf;base64,{r.ContentFile}";
     }
     public async Task SaveItem()
     {

@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text;
+using System.Text; 
 using System.Threading.Tasks;
 
 namespace Langua.ApiControllers.ApiControllers
@@ -15,6 +16,7 @@ namespace Langua.ApiControllers.ApiControllers
     public class UploadController : ControllerBase
     {
         public static byte[] bytes;
+        public static string Base64;
         private LanguaContext _context;
         public UploadController(LanguaContext languaContext)
         {
@@ -22,7 +24,7 @@ namespace Langua.ApiControllers.ApiControllers
         }
 
         [HttpPost]
-        public async Task<Result<byte[]>> Upload(IFormFile file)
+        public async Task<byte[]> Upload(IFormFile file)
         {
             byte[] ResultBytes;
             try
@@ -33,18 +35,26 @@ namespace Langua.ApiControllers.ApiControllers
                     ResultBytes = ms.ToArray();
                     bytes = ResultBytes;
                 }
-                return await Task.FromResult(new Result<byte[]>(true, ResultBytes));
+                Base64 = Convert.ToBase64String(ResultBytes,0,ResultBytes.Length);
+                return await Task.FromResult(ResultBytes);
     }
             catch (Exception ex)
             {
-                return await Task.FromResult(new Result<byte[]>(false, null));
+                throw ;
             }
         }
         [HttpGet]
-        public async Task<Result<byte[]>> GetBytesFile()
+        public async Task<byte[]> GetBytesFile()
         {
             byte[] fileBytes = bytes; //
-            return await Task.FromResult(new Result<byte[]>(true, fileBytes));
+            return await Task.FromResult(fileBytes);
+        }
+
+        [HttpGet("Base64")]
+        public async Task<string> GetBase64File()
+        {
+            byte[] fileBytes = bytes; //
+            return await Task.FromResult(Base64);
         }
     }
 }
