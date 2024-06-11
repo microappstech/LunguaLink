@@ -1,7 +1,7 @@
 ﻿@page "/c"
-@inherits BasePageClient
+@inherits BasePage
 <RadzenStack>
-    <EditForm EditContext="editContext">
+    <EditForm Model="@this.Ressource" OnValidSubmit="Submit">
 
         <RadzenRow class="my-2">
             <RadzenColumn Size="4">
@@ -17,7 +17,7 @@
                 @L["Contenu Type"] :
             </RadzenColumn>
             <RadzenColumn Size="8">
-                <RadzenRadioButtonList @bind-Value="Ressource!.RessourceType" class="w-100">
+                <RadzenRadioButtonList Disabled="@(IsEdit && Ressource!.RessourceType == (int)RessourceType.File )" @bind-Value="Ressource!.RessourceType" class="w-100">
                     <Items>
                         <RadzenRadioButtonListItem Value="(int)RessourceType.URL" Text="Url" />
                         <RadzenRadioButtonListItem Value="(int)RessourceType.VEDIO" Text="Vedio Youtube" />
@@ -28,7 +28,7 @@
         </RadzenRow>
 
 
-        <RadzenRow class="my-2">
+        <RadzenRow Visible="!IsEdit" class="my-2">
             <RadzenColumn Size="4">
                 @L["Contenu"] :
             </RadzenColumn>
@@ -36,7 +36,7 @@
                 @switch (Ressource!.RessourceType)
                 {
                     case (int)RessourceType.URL:
-                        <RadzenTextBox @bind-Value="url" Placeholder="@L["https://..."]" class="w-100" />
+                        <RadzenTextBox @bind-Value="Ressource.Url" Placeholder="@L["https://..."]" class="w-100" />
                         break;
                     case (int)RessourceType.File:
                         <RadzenCard>
@@ -46,13 +46,13 @@
                         
                         break;
                     case (int)RessourceType.VEDIO:
-                        <RadzenTextBox Placeholder="@L["Enter Url Vedio"]" class="w-100" />
+                        <RadzenTextBox Placeholder="@L["Enter Url Vedio"]" class="w-100" @bind-Value="Ressource.Url" />
                         break;
                 }
             </RadzenColumn>
         </RadzenRow>
         <div class="mx-auto mt-2 text-center">
-            <button @onclick="Submit" type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
+            <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
             <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
             <button type="button" @onclick="@(()=>dialogService!.Close(null))" class="btn btn-secondary px-5">Close</button>
         </div>

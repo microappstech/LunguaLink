@@ -28,15 +28,18 @@ namespace Langua.Repositories.Services
                 return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(false, null));
             return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(true, GrTeachers));
         }
-        public async Task<Result<IQueryable<Groups>>> Groups(List<int> groupIds)
+        public async Task<Result<IQueryable<GroupTeacher>>> GetGroupsForTeacher(int TeacherId)
         {
-            //var res = Context.Groups.Where(c => groupIds.Contains((int)c.Id)).AsQueryable();
+            var res = Context.GroupTeachers.Where(i => i.TeacherId == TeacherId)
+                .Include(i=>i.Group)
+                .AsQueryable();
             
-            //if (res is null)
-            //    return await Task.FromResult(new Result<IQueryable<Candidat>>(false, null));
+            if (res is null)
+                return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(false, null));
 
-            return await Task.FromResult(new Result<IQueryable<Groups>>(true, null));
+            return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(true, res));
         }
+
 
 
 

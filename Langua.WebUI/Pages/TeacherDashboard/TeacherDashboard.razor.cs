@@ -26,8 +26,8 @@ namespace Langua.WebUI.Pages.TeacherDashboard
 
         protected override async Task OnInitializedAsync()
         {
-            await Security.IsAuthenticatedWidthRedirect();
             await Security.InitializeAsync();
+            await Security.IsAuthenticatedWidthRedirect();
             var r = await Security.IsInRole("ADMIN");
             var teacher = await baseService.GetEntiteByUserId<Teacher>(Security.User.Id, t => t.UserId == Security.User.Id);
             if(teacher == null)

@@ -3,7 +3,6 @@
 @using System.Reflection.Metadata
 @layout TeacherLayout
 @inherits BasePage
-²
 <RadzenStack>
     <RadzenRow class="my-2">
         <RadzenColumn Size="4">
@@ -19,6 +18,8 @@
             <RadzenDataGrid EmptyText="@L["No Data To Display"]" @ref="ResGrid" Data="Resources" AllowFiltering=true FilterMode="FilterMode.Simple" AllowSorting=true>
                 <Columns>
                     <RadzenDataGridColumn Property="Name" Title="@L["Ressource Name"]" />
+                    <RadzenDataGridColumn Property="RessourceTypeStr" Title="@L["Ressource Type"]" />
+                    
                     <RadzenDataGridColumn Context="CtxRes" TItem="Langua.Models.Ressource" Width="180px">
                         <Template>
                             <RadzenButton Icon="edit" Size="ButtonSize.Medium" Click="@(args=>Edit(CtxRes))" ButtonStyle="ButtonStyle.Primary" Shade="Shade.Lighter" />
@@ -30,9 +31,9 @@
                 </Columns>
             </RadzenDataGrid>
         </RadzenColumn>
-        <RadzenColumn Size="_SizePreviewColumn">
+        <RadzenColumn Size="_SizePreviewColumn" Visible=_PreviewColumnVisible>
             <object type="application/pdf" width="100%" height="400px" data="@base64">
-                PDF Viewer not supported by your browser.
+                your browser doesn't support pdf view
             </object>
         </RadzenColumn>
     </RadzenRow>
@@ -47,19 +48,18 @@
     public string base64 { get; set; }
     public async Task RddRessource(){
         var result = await dialogService.OpenAsync<CURessource>(L["Add Contenu"], null);
+        await ResGrid.Reload();
     }
     int _SizeGridColumn = 12;
     int _SizePreviewColumn = 0;
     bool _PreviewColumnVisible = false;
     protected override async Task OnInitializedAsync()
     {
-        await Security!.InitializeAsync();
-        await Security.IsAuthenticatedWidthRedirect();
-        var resRessources = repositoryRessource.GetAll();
+        await Security!.InitializedTeacher();
+        var resRessources = await LanguaService.GetRessourceByTeacherId(Security.Teacher.Id);
         if (resRessources.Succeeded)
         {
             Resources = resRessources.Value;
-            var r = await baseService.Apply(resRessources.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Teacher" } }));
         }
     }
     public async Task Delete(Ressource ressource)
@@ -80,19 +80,27 @@
     {
         _SizePreviewColumn = 6;
         _SizeGridColumn = 6;
+        _PreviewColumnVisible = true;
         url = $"data:application/pdf;base64,{Convert.ToBase64String(r.ContentBytes,0,r.ContentBytes.Length)}";
         base64 = $"data:application/pdf;base64,{r.ContentFile}";
     }
-    public async Task SaveItem()
-    {
-        
-    }
+
     public async Task Publish(Ressource ressource)
     {
-
+        var result = await dialogService!.OpenAsync<PublishRessource>(L["Publish contenu to groupes"], new Dictionary<string, object> { { "ressource", ressource } });
+        if(result == true)
+            Notify("Success", "Ressource Created Successfuly!!!!", NotificationSeverity.Success);
+        else 
+            Notify(L["Error"], L["Creation finished with errors!!!!"], NotificationSeverity.Error);
     }
     public async Task Edit(Ressource ressource)
     {
         ResToEdit = ressource;
+        var result = await dialogService!.OpenAsync<CURessource>(L["Edit The Ressource"], new Dictionary<string, object> { { "Id", ressource.Id } });
+        if (result == true)
+            Notify(L["Success"], L["Ressource updated Successfuly!!!!"], NotificationSeverity.Success);
+        else
+            Notify(L["Error"], L["Editon finished with errors!!!!"], NotificationSeverity.Error);
+
     }
 }

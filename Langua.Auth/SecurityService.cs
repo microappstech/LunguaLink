@@ -9,6 +9,8 @@ using System.Security.Claims;
 using System.Linq.Expressions;
 using Langua.Models;
 using System.Transactions;
+using Langua.Repositories.Services;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Langua.Account
 {
@@ -22,12 +24,12 @@ namespace Langua.Account
         private IEnumerable<IdentityError> identityErrors;
         private ILogger<SecurityService> Ilogger;
         private NavigationManager navigationManager;
-        
+        private BaseService baseService;
         private readonly AuthenticationStateProvider authentication;
         private readonly IWebHostEnvironment webHost;
         private readonly RoleManager<IdentityRole> roleManager;
         public SecurityService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<SecurityService> logger, AuthenticationStateProvider authentication,
-            NavigationManager manager, IWebHostEnvironment webHost, RoleManager<IdentityRole> roleManager, Langua.DataContext.Data.LanguaContext context)
+            NavigationManager manager, IWebHostEnvironment webHost, RoleManager<IdentityRole> roleManager, Langua.DataContext.Data.LanguaContext context, BaseService baseService)
         {
             _userContext = context;
             _signInManager = signInManager;
@@ -37,11 +39,13 @@ namespace Langua.Account
             this.authentication = authentication;
             this.webHost = webHost;
             this.roleManager = roleManager;
+            this.baseService = baseService;
         }
         public ClaimsPrincipal Principal { get; set; }
-        private ApplicationUser user;
-
+        static ApplicationUser user;
+        static Teacher _teacher;
         public ApplicationUser User { get { return user; } }
+        public Teacher Teacher { get { return _teacher; } }
         SemaphoreSlim semaphoreSlimIntiSecurity = new SemaphoreSlim(1);
         public async Task<bool> InitializeAsync()
         {
@@ -59,6 +63,15 @@ namespace Langua.Account
             }
             //semaphoreSlimIntiSecurity.Release();
             return logged.User.Identity.IsAuthenticated;
+        }
+        public async Task InitializedTeacher()
+        {
+            var teacher = await baseService.GetEntiteByUserId<Teacher>(User.Id, t => t.UserId == User.Id);
+            if (teacher == null)
+            {
+                RedirectTo("/login");
+            }
+            _teacher = teacher;
         }
         public  bool IsAuthenticated()
         {

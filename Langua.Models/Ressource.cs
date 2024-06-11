@@ -19,6 +19,23 @@ namespace Langua.Models
         public string? ContentFile { get; set; }
         public int RessourceType { get; set; }
         public string? Url { get; set; }
+        [NotMapped]
+        public string? RessourceTypeStr { 
+            get 
+            {
+                if (this.RessourceType == (int)Langua.Models.RessourceType.QCM)
+                    return "QCM";
+                if (this.RessourceType == (int)Langua.Models.RessourceType.File)
+                    return "File";
+                if (this.RessourceType == (int)Langua.Models.RessourceType.URL)
+                    return "Url internet";
+                if (this.RessourceType == (int)Langua.Models.RessourceType.VEDIO)
+                    return "Url vedio";
+                else
+                    return null;
+            }
+        }
+        public ICollection<ContentGroup> GroupRessources { get; set; }
     }
     
 }

@@ -75,6 +75,17 @@ namespace Langua.DataContext.Data
                 .WithMany(i => i.Ressources)
                 .HasForeignKey(i => i.TeacherId)
                 .HasPrincipalKey(i => i.Id);
+
+            builder.Entity<ContentGroup>()
+                .HasOne(i => i.Group)
+                .WithMany(i => i.GroupRessources)
+                .HasForeignKey(i => i.GroupId)
+                .HasPrincipalKey(i => i.Id);
+            builder.Entity<ContentGroup>()
+                .HasOne(i => i.Ressource)
+                .WithMany(i => i.GroupRessources)
+                .HasForeignKey(i => i.RessourceId)
+                .HasPrincipalKey(i => i.Id);
         }
 
 

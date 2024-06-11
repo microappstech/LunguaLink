@@ -11,6 +11,8 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
 {
     public partial class CURessource
     {
+        [Parameter] public int Id { get; set; }
+        public bool IsEdit { get; set; }
         public EditContext? editContext;
         public string? url { get; set; }
         public string FileContent { get; set; }
@@ -38,11 +40,36 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
 
         protected override async Task OnInitializedAsync()
         {
-            this.Ressource = new Models.Ressource()
+            try
             {
-                RessourceType = (int)RessourceType.URL
-            };
-            editContext = new EditContext(new Models.Ressource());
+                if (Id != null && Id is not 0 )
+                {
+
+                    var resulRes = repositoryRessource.GetById(Id);
+                    if (resulRes.Succeeded)
+                    {
+                        IsEdit = true;
+                        Ressource = resulRes.Value;
+                    }
+                    else
+                    {
+                        Ressource = new Models.Ressource();
+                    }
+                }
+                else
+                {
+                    Ressource = new Models.Ressource()
+                    {
+                        RessourceType = (int)RessourceType.URL
+                    };
+                    editContext = new EditContext(new Models.Ressource());
+                }
+            }
+            catch(Exception ex)
+            {
+                Notify(L["Error"], L["Something happend wrong"], NotificationSeverity.Error);
+            }
+            
 
         }
 
@@ -67,16 +94,22 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
                         this.Ressource.ContentBytes = ileBytes;
                         break;
                 }
-                var ResulCrRessource = repositoryRessource.Add(Ressource);
+                Ressource.TeacherId = Security!.Teacher.Id;
+                
+                var ResulCrRessource = IsEdit? repositoryRessource!.Update(Ressource) : repositoryRessource!.Add(Ressource);
                 if (ResulCrRessource.Succeeded)
                 {
+                    dialogService!.Close(true);
                     Notify("Success", "Ressource Created Successfuly", NotificationSeverity.Success);
-                    dialogService.Close(null);
+                }
+                else
+                {
+                    Notify(L["Error"], L["Creation finished with errors"], NotificationSeverity.Error);
                 }
             }
-            catch(Exception ex)
+            catch
             {
-
+                Notify(L["Error"], L["Creation finished with errors"], NotificationSeverity.Error);
             }
             
         }

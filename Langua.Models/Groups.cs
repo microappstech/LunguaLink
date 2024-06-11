@@ -29,8 +29,7 @@ namespace Langua.Models
         public ICollection<Candidat> Candidats { get; set; }
         #nullable disable
         public ICollection<MessageGroup> GroupeMessages { get; set; }
-        //public int SubjectId { get; set; }
-        //public Subject Subject { get; set; }
+        public ICollection<ContentGroup> GroupRessources { get; set; }
         [NotMapped] public int NbCandidate { get; set; }
     }
 }
