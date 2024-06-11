@@ -8,6 +8,13 @@ namespace Langua.WebUI.Client.Pages
 {
     public class BasePageClient :ComponentBase
     {
+        public string LanguaUrl 
+        { 
+            get
+            {
+                return navigationManager.BaseUri.ToString();
+            } 
+        }
         [Inject] protected IJSRuntime? JSRuntime { get; set; }
 
         [Inject] protected NavigationManager? navigationManager { get; set; }

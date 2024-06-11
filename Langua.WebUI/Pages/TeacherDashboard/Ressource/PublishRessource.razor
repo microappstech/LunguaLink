@@ -25,8 +25,7 @@
             <RadzenLabel Text="@L["Disappearance Date "]" />
         </RadzenColumn>
         <RadzenColumn Size="8">
-            <RadzenDropDown Data="Groups" ValueProperty="Id" TextProperty="Name" class="w-100" Multiple=true
-                            AllowClear="true" AllowFiltering="true" AllowSelectAll=true @bind-Value="PublishToGroupsId" />
+            <RadzenDatePicker AllowClear=true AllowInput="false" DateFormat="dd:MM:yyyy" ShowTime=false TValue="DateOnly" @bind-Value="RessourceGroup.HideOn" />
         </RadzenColumn>
     </RadzenRow>
     <RadzenRow class="w-100">

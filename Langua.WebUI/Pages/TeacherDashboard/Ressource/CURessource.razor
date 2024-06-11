@@ -28,7 +28,7 @@
         </RadzenRow>
 
 
-        <RadzenRow Visible="!IsEdit" class="my-2">
+        <RadzenRow Visible="@(!IsEdit || ( IsEdit && Ressource!.RessourceType != (int)RessourceType.File) )" class="my-2">
             <RadzenColumn Size="4">
                 @L["Contenu"] :
             </RadzenColumn>
