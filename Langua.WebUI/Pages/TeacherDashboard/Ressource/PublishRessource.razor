@@ -25,7 +25,7 @@
             <RadzenLabel Text="@L["Disappearance Date "]" />
         </RadzenColumn>
         <RadzenColumn Size="8">
-            <RadzenDatePicker AllowClear=true AllowInput="false" DateFormat="dd:MM:yyyy" ShowTime=false TValue="DateOnly" @bind-Value="RessourceGroup.HideOn" />
+            <RadzenDatePicker AllowClear=true AllowInput="false" ShowTime=false TValue="DateOnly" @bind-Value="RessourceGroup.HideOn" />
         </RadzenColumn>
     </RadzenRow>
     <RadzenRow class="w-100">
@@ -60,7 +60,8 @@
     }
     public async Task Publish()
     {
-        var publishResult =await LanguaService.PublishRessource(ressource.Id, PublishToGroupsId);
+        RessourceGroup.RessourceId = ressource.Id;
+        var publishResult =await LanguaService.PublishRessource(RessourceGroup, PublishToGroupsId);
         if (publishResult.Succeeded)
         {
             dialogService.Close(true);

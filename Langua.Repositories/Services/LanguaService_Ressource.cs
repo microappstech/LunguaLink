@@ -11,15 +11,13 @@ namespace Langua.Repositories.Services
 {
     public partial class LanguaService
     {
-        public async Task<Result<bool>> PublishRessource(int ressourceId, List<int> PublishToGroupsId)
+        public async Task<Result<bool>> PublishRessource(ContentGroup CG, List<int> PublishToGroupsId)
         {
             try
             {
                 PublishToGroupsId.ForEach(GroupId =>
                 {
-                    ContentGroup CG = new ContentGroup();
                     CG.GroupId = GroupId;
-                    CG.RessourceId = ressourceId;
                     Context.GroupRessources.Add(CG);
                 });
                 await Context.SaveChangesAsync();
