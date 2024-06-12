@@ -35,7 +35,9 @@ namespace Langua.Models
                     return null;
             }
         }
-        public ICollection<ContentGroup> GroupRessources { get; set; }
+        public ICollection<ContentGroup> GroupRessources { get; set; } = null!;
+
+        [NotMapped] public string GroupsName { get; set; } = null!;
     }
     
 }

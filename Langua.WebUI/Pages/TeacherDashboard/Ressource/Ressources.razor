@@ -19,7 +19,7 @@
                 <Columns>
                     <RadzenDataGridColumn Property="Name" Title="@L["Ressource Name"]" />
                     <RadzenDataGridColumn Property="RessourceTypeStr" Title="@L["Ressource Type"]" />
-                    
+                    <RadzenDataGridColumn Property="GroupsName" Title="@L["Published To"]" />
                     <RadzenDataGridColumn Context="CtxRes" TItem="Langua.Models.Ressource" Width="180px">
                         <Template>
                             <RadzenButton Icon="edit" Size="ButtonSize.Medium" Click="@(args=>Edit(CtxRes))" ButtonStyle="ButtonStyle.Primary" Shade="Shade.Lighter" />
@@ -60,6 +60,13 @@
         if (resRessources.Succeeded)
         {
             Resources = resRessources.Value;
+            Resources.ToList()?.ForEach(res =>
+            {
+                res.GroupRessources.ToList()?.ForEach(GR =>
+                {
+                    res.GroupsName += $"{GR.Group?.Name}, ";
+                });
+            });
         }
     }
     public async Task Delete(Ressource ressource)

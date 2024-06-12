@@ -17,8 +17,11 @@ namespace Langua.Repositories.Services
             {
                 PublishToGroupsId.ForEach(GroupId =>
                 {
-                    CG.GroupId = GroupId;
-                    Context.GroupRessources.Add(CG);
+                    ContentGroup CGP = new ContentGroup();
+                    CGP.HideOn = CG.HideOn;
+                    CGP.GroupId = GroupId;
+                    CGP .RessourceId = CG.RessourceId;
+                    Context.GroupRessources.Add(CGP);
                 });
                 await Context.SaveChangesAsync();
                 return await Task.FromResult(new Result<bool>(true, true));
