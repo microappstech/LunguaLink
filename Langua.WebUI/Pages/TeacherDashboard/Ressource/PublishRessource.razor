@@ -35,7 +35,7 @@
 
 @code{
     [Parameter] public Ressource ressource { get; set; }
-
+    [Inject] public BaseRepositoryCrud<ContentGroup> repositoryGroupRessource { get; set; } = null!;
     public ContentGroup RessourceGroup { get; set; }
     public IEnumerable<Groups> Groups {get;set;}
     public List<int> PublishToGroupsId { get; set; }
@@ -43,6 +43,9 @@
     protected override async Task OnInitializedAsync()
     {
         RessourceGroup = new ContentGroup();
+        var PublishedResult =await LanguaService.GetPublishedContentByRessourceId(ressource.Id);
+        if (PublishedResult.Succeeded)
+            PublishToGroupsId = PublishedResult.Value.Select(i => i.GroupId).ToList();
         var teacher = await baseService.GetEntiteByUserId<Teacher>(Security.User.Id, t => t.UserId == Security.User.Id);
         if (teacher is null)
         {

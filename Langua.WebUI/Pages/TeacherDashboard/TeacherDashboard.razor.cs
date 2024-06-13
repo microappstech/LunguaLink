@@ -34,6 +34,9 @@ namespace Langua.WebUI.Pages.TeacherDashboard
             {
                 Navigation!.NavigateToLogin("/login");
             }
+            var TeacherRessource = await LanguaService.GetRessourceByTeacherId(teacher.Id);
+            if (TeacherRessource.Succeeded)
+                NbRessource = TeacherRessource.Value.ToList().Count();
 
             var resultGroups = GroupTeacherService!.GetByExpression($"TeacherId=={teacher.Id.ToString()}");
             if (resultGroups.Succeeded && resultGroups.Value.Count() > 0)

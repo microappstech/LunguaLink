@@ -37,7 +37,7 @@ namespace Langua.WebUI.Pages.Dashboard
             NbManagers = await baseService.NBItems<Models.Manager>();
             NbGrCandidates = await baseService.NBItems<GroupCandidates>();
             NbGrTeachers = await baseService.NBItems<Models.GroupTeacher>();
-
+            
 
 
 
