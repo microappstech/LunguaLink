@@ -18,7 +18,7 @@ namespace Langua.WebUI.Pages
         public RadzenProgressBarCircular? loading;
         public bool IsStuck { get; set; } = true;
         [Inject] protected SecurityService Security { get; set; } = null!;
-        [Inject] public LanguaService? LanguaService { get; set; }
+        [Inject] public LanguaService LanguaService { get; set; } = null!;
         [Inject] public BaseService baseService { get; set; } = null!;
         [Inject] protected AuthenticationStateProvider? authenticationStateProvider { get; set; }
         [Inject] protected IMailService? mailService { get; set; }

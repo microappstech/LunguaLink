@@ -12,20 +12,20 @@ namespace Langua.WebUI.Client.Pages
         { 
             get
             {
-                return navigationManager.BaseUri.ToString();
+                return navigationManager!.BaseUri.ToString();
             } 
         }
         [Inject] protected IJSRuntime? JSRuntime { get; set; }
 
         [Inject] protected NavigationManager? navigationManager { get; set; }
 
-        [Inject] protected DialogService? dialogService { get; set; } = null;
+        [Inject] protected DialogService dialogService { get; set; } = null!;
 
-        [Inject] protected TooltipService? tooltipService { get; set; }
+        [Inject] protected TooltipService tooltipService { get; set; } = null!;
 
         [Inject] protected ContextMenuService? contextMenuService { get; set; }
 
-        [Inject] protected NotificationService? notificationService { get; set; }
+        [Inject] protected NotificationService notificationService { get; set; } = null!;
 
         [Inject] public LangClientService? LangClientService { get; set; }
         [Inject] public Microsoft.Extensions.Localization.IStringLocalizer<LanguaResource> L { get; set; }

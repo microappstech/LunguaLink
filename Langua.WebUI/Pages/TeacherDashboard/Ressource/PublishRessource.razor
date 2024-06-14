@@ -25,7 +25,7 @@
             <RadzenLabel Text="@L["Disappearance Date "]" />
         </RadzenColumn>
         <RadzenColumn Size="8">
-            <RadzenDatePicker AllowClear=true AllowInput="false" ShowTime=false TValue="DateOnly" @bind-Value="RessourceGroup.HideOn" />
+            <RadzenDatePicker AllowClear=true AllowInput="false" ShowTime=false TValue="DateOnly" @bind-Value="RessourceGroup.HideOn" class="w-100" />
         </RadzenColumn>
     </RadzenRow>
     <RadzenRow class="w-100">
@@ -35,7 +35,6 @@
 
 @code{
     [Parameter] public Ressource ressource { get; set; }
-    [Inject] public BaseRepositoryCrud<ContentGroup> repositoryGroupRessource { get; set; } = null!;
     public ContentGroup RessourceGroup { get; set; }
     public IEnumerable<Groups> Groups {get;set;}
     public List<int> PublishToGroupsId { get; set; }
@@ -45,7 +44,10 @@
         RessourceGroup = new ContentGroup();
         var PublishedResult =await LanguaService.GetPublishedContentByRessourceId(ressource.Id);
         if (PublishedResult.Succeeded)
+        {
+            RessourceGroup.HideOn = PublishedResult.Value.FirstOrDefault().HideOn;
             PublishToGroupsId = PublishedResult.Value.Select(i => i.GroupId).ToList();
+        }
         var teacher = await baseService.GetEntiteByUserId<Teacher>(Security.User.Id, t => t.UserId == Security.User.Id);
         if (teacher is null)
         {
@@ -68,7 +70,7 @@
         if (publishResult.Succeeded)
         {
             dialogService.Close(true);
-            Notify(L["Success"], L["Successfuly updated"], NotificationSeverity.Success);
+            Notify(L["Success"], L["Successfuly published"], NotificationSeverity.Success);
         }
     }
 

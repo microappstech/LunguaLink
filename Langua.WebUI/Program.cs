@@ -100,11 +100,13 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
 {
     options.UseSqlServer(connectionString);
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    options.EnableSensitiveDataLogging(true);
 });
-builder.Services.AddDbContext<LanguaContext>(options =>
-{
-    options.UseSqlServer(connectionString);
-});
+//builder.Services.AddDbContext<LanguaContext>(options =>
+//{
+//    options.UseSqlServer(connectionString);
+//});
 
 
 builder.Services.AddSignalR();

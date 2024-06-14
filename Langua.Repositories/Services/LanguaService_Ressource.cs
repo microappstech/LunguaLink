@@ -16,7 +16,11 @@ namespace Langua.Repositories.Services
         {
             try
             {
-                var ExistingItems = Context.GroupRessources.Where(i => PublishToGroupsId.Contains(i.GroupId) && i.RessourceId == CG.RessourceId).AsNoTracking();
+                var ExistingItems = Context.GroupRessources.Where(i => i.RessourceId == CG.RessourceId).AsNoTracking();
+                Context.ChangeTracker.Entries().Where(etity => etity.State== EntityState.Modified).ToList().ForEach(ent => {
+                    ent.State = EntityState.Unchanged;
+                });
+                Reset();
                 if(ExistingItems.Any())
                     Context.GroupRessources.RemoveRange(ExistingItems);
 
@@ -41,6 +45,7 @@ namespace Langua.Repositories.Services
         {
             var resResult = Context.Ressources.Where(r => r.TeacherId == TeacherId).AsQueryable();
             resResult = resResult.Include(i => i.GroupRessources).ThenInclude(i => i.Group);
+            resResult = resResult.AsNoTracking();
             if(resResult is not null)
                 return await Task.FromResult(new Result<IEnumerable<Ressource>> (true, resResult ));
             return await Task.FromResult(new Result<IEnumerable<Ressource>> (false, null!));
@@ -51,7 +56,7 @@ namespace Langua.Repositories.Services
             try
             {
                 var Items = Context.GroupRessources.Where(g => g.RessourceId == RessourceId);
-                if (Items is not null)
+                if (Items is not null && Items.Count()>0)
                     return await Task.FromResult(new Result<IEnumerable<ContentGroup>>(true, Items));
                 return await Task.FromResult(new Result<IEnumerable<ContentGroup>>(false, null!,"There is no data"));
             }
