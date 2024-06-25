@@ -35,7 +35,9 @@ namespace Langua.Models
         public int SubjectId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public bool IsConnected { get; set; }
-        public List<MessageGroup> MessageGroups { get; set; }
+        public int DepartementId { get; set; }
+        public Department Departement { get; set; }
+        public List<MessageGroup>? MessageGroups { get; set; }
         public Groups? Group { get; set; }
         public int? GroupId { get; set; }
         public ApplicationUser User { get; set; }

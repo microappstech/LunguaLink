@@ -20,12 +20,13 @@
         }
     </style>
 </head>
-
 <body>
-
     <Langua.WebUI.Pages.Routes @rendermode="RenderModeForPage" />
     <RadzenDialog @rendermode="@RenderMode.InteractiveServer" />
-    <RadzenProgressBarCircular  Mode="ProgressBarMode.Indeterminate" ShowValue="false" class="mx-auto d-none" ProgressBarStyle="ProgressBarStyle.Primary" Size="ProgressBarCircularSize.Large" id="loading" Visible="IsStuck" @ref="loading" Style="width:100%; height:100px;" />
+    
+    <div id="components-reconnect-modal">
+        <RadzenProgressBarCircular Mode="ProgressBarMode.Indeterminate" ShowValue="false" class="mx-auto" ProgressBarStyle="ProgressBarStyle.Primary" Size="ProgressBarCircularSize.Large" id="loading" @ref="loading" Style="width:100%; height:100px;" />
+    </div>
     <script src="_framework/blazor.web.js"></script>
     <script>
         function PreviewPdfFromBytes(byteArray) {

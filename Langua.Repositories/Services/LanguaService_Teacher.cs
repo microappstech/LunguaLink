@@ -22,7 +22,7 @@ namespace Langua.Repositories.Services
         public async Task<Result<IQueryable<GroupTeacher>>> GetGroupByTeacher(int teacherid)
         {
             var GrTeachers = Context.GroupTeachers.Where(i => i.TeacherId == teacherid).AsQueryable().Include(i => i.Teacher).Include(i => i.Group).AsNoTracking();
-            //GrTeachers = GrTeachers.Include(i => i.Group);
+            GrTeachers = GrTeachers.Include(i => i.Group).ThenInclude(i=>i.Candidats);
             //GrTeachers = GrTeachers.Include(i => i.Teacher);
             if (GrTeachers is null)
                 return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(false, null));

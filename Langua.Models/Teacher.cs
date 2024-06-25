@@ -22,10 +22,11 @@ namespace Langua.Models
         //[DataType(DataType.Password)]
         public string? Password { get; set; }
         [NotMapped]
-        // [DataType(DataType.Password)] 
         public string? ConfirmPassword { get; set; }
         public string? Photo { get;set; }
         public DateTime CreatedAt { get; set; }
+        public int DepartementId { get; set; }
+        public Department? Departement { get; set; }
         public ApplicationUser User { get; set; }
         public ICollection<Ressource> Ressources { get; set; }
     }

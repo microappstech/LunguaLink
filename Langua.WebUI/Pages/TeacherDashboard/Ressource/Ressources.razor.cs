@@ -6,7 +6,7 @@ using Langua.Models;
 
 namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
 {
-    public partial class RessourcesComponenet : BasePage
+    public partial class Ressources : BasePage
     {
         [Inject] public Langua.Repositories.Interfaces.IRepositoryCrudBase<Models.Ressource> repositoryRessource { get; set; } = null!;
         private RadzenDataGrid<Models.Ressource> ResGrid = null!;

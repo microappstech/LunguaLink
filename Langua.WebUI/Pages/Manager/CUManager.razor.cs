@@ -80,53 +80,31 @@ namespace Langua.WebUI.Pages.Manager
         }
         public async Task HandleValidSubmit()
         {
-            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            try
             {
-                try
+                Errors = new List<string>();
+
+                if (Manager.Id == 0 && !IsEdit)
                 {
-                    Errors = new List<string>();
-
-                    if (Manager.Id == 0 && !IsEdit)
+                    Manager.Password = Manager.Email.Substring(0, Manager.Email.IndexOf("@")) + "_" + DateTime.Now.Day;
+                    ApplicationUser _user = new ApplicationUser()
                     {
-                        Manager.Password = Manager.Email.Substring(0, Manager.Email.IndexOf("@")) + "_" + DateTime.Now.Day;
-                        ApplicationUser _user = new ApplicationUser()
-                        {
-                            Email = Manager.Email,
-                            UserName = Manager.Email,
-                            Password = Manager.Password,
-                            NormalizedUserName = Manager.FullName,
-                            PhoneNumber = Manager.Phone,
-                            FullName = Manager.FullName,
-                        };
+                        Email = Manager.Email,
+                        UserName = Manager.Email,
+                        Password = Manager.Password,
+                        NormalizedUserName = Manager.FullName,
+                        PhoneNumber = Manager.Phone,
+                        FullName = Manager.FullName,
+                    };
 
-                        var TaskUser = await Security!.RegisterUser(_user);
-                        if (TaskUser.Succeeded)
-                        {
-                            var role = await Security!.AddRoleToUser(TaskUser.Value, "MANAGER");
-                            var result = crudRepository!.Add(Manager);
-                            if (result.Succeeded)
-                            {
-                                Notify("Success", "Item created successfully", Radzen.NotificationSeverity.Success);
-                                dialogService.Close();
-                            }
-                            else
-                            {
-                                Errors.Add(result.Error);
-                                return; // Ensure we exit to avoid calling Complete() and dispose
-                            }
-                        }
-                        else
-                        {
-                            Errors.Add(TaskUser.Error);
-                            return; // Ensure we exit to avoid calling Complete() and dispose
-                        }
-                    }
-                    else
+                    var TaskUser = await Security!.RegisterUser(_user);
+                    if (TaskUser.Succeeded)
                     {
-                        var result = crudRepository.Update(Manager);
+                        var role = await Security!.AddRoleToUser(TaskUser.Value, "MANAGER");
+                        var result = crudRepository!.Add(Manager);
                         if (result.Succeeded)
                         {
-                            Notify("Success", "Item updated successfully", Radzen.NotificationSeverity.Success);
+                            Notify("Success", "Item created successfully", Radzen.NotificationSeverity.Success);
                             dialogService.Close();
                         }
                         else
@@ -135,13 +113,30 @@ namespace Langua.WebUI.Pages.Manager
                             return; // Ensure we exit to avoid calling Complete() and dispose
                         }
                     }
-
-                    scope.Complete();
+                    else
+                    {
+                        Errors.Add(TaskUser.Error);
+                        return; // Ensure we exit to avoid calling Complete() and dispose
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Notify("Error", "Something went wrong! Please try again", Radzen.NotificationSeverity.Error);
+                    var result = crudRepository.Update(Manager);
+                    if (result.Succeeded)
+                    {
+                        Notify("Success", "Item updated successfully", Radzen.NotificationSeverity.Success);
+                        dialogService.Close();
+                    }
+                    else
+                    {
+                        Errors.Add(result.Error);
+                        return; // Ensure we exit to avoid calling Complete() and dispose
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Notify("Error", "Something went wrong! Please try again", Radzen.NotificationSeverity.Error);
             }
         }
 

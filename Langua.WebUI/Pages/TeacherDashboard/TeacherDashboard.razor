@@ -97,12 +97,16 @@
                                 </RadzenDataGrid>
                             </div>
                             
-                            <div class="container col-5 d-none">
+                            <div class="container col-5">
                                 <h4 style="color:purple;" class=" mb-3 fw-bold">Groups</h4>
-                                <RadzenDataGrid Data="groupTeachers">
+                                <RadzenDataGrid Data="groupTeachers" AllowVirtualization=true AllowFiltering="true" AllowSorting=true>
                                     <Columns>
                                         <RadzenDataGridColumn TItem="GroupTeacher" Property="Group.Name" Title="@L["Group"]" />
-                                        <RadzenDataGridColumn TItem="GroupTeacher" Property="Subject.Name" Title="@L["Subject"]" />
+                                        <RadzenDataGridColumn TItem="GroupTeacher" Title="@L["Number Candidates"]">
+                                            <Template Context="ConGrTeacher">
+                                                @ConGrTeacher?.Group?.Candidats?.Count()
+                                            </Template>
+                                        </RadzenDataGridColumn>
                                         
                                     </Columns>
                                 </RadzenDataGrid>

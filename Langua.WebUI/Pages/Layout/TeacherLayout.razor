@@ -1,6 +1,11 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
+    <AuthorizeView>
+        <NotAuthorized Context="Authorize">
+            <RedirectToLogin IsAuthenticated="@Authorize.User.Identity.IsAuthenticated"/> 
+        </NotAuthorized>
+        <Authorized>
     <nav class="row">
         <ul class="nav nav-tabs  col-md-9">
             <li>
@@ -26,30 +31,27 @@
             </li>
         </ul>
         <div style="" class="row text-white col-md-3" >      
-            <AuthorizeView>
-                <Authorized>
-                    <NavLink class="nav-link col-8" href="Account/Manage" style="color:purple; font-weight:bold; width:auto;">
-                        <RadzenIcon Icon="profile" />
-                        <span class="bi bi-person-fill-nav-menu text-bold" aria-hidden="true"></span>Hi @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@")))
-                    </NavLink>
-                    <div class=" rz-text-align-center col-3" style="">
-                        <RadzenProfileMenu>
-                            <Template>
-                                <RadzenGravatar  Email="@context.User.Identity?.Name" Style=""></RadzenGravatar>
-                            </Template>
-                            <ChildContent>
-                                <form action="api/Auth/Logout" method="post">
-                                    <AntiforgeryToken />
-                                    <button type="submit" class="nav-link mx-auto" style="background-color: Transparent; border:none; ">
-                                        <RadzenProfileMenuItem Icon="logout" class="mx-auto" Text="Logout" Style="width:60;">
-                                        </RadzenProfileMenuItem>
-                                    </button>
-                                </form>
-                            </ChildContent>
-                        </RadzenProfileMenu>
-                    </div>
-                </Authorized>
-            </AuthorizeView>
+         
+            <NavLink class="nav-link col-8" href="Account/Manage" style="color:purple; font-weight:bold; width:auto;">
+                <RadzenIcon Icon="profile" />
+                <span class="bi bi-person-fill-nav-menu text-bold" aria-hidden="true"></span>Hi @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@")))
+            </NavLink>
+            <div class=" rz-text-align-center col-3" style="">
+                <RadzenProfileMenu>
+                    <Template>
+                        <RadzenGravatar  Email="@context.User.Identity?.Name" Style=""></RadzenGravatar>
+                    </Template>
+                    <ChildContent>
+                        <form action="api/Auth/Logout" method="post">
+                            <AntiforgeryToken />
+                            <button type="submit" class="nav-link mx-auto" style="background-color: Transparent; border:none; ">
+                                <RadzenProfileMenuItem Icon="logout" class="mx-auto" Text="Logout" Style="width:60;">
+                                </RadzenProfileMenuItem>
+                            </button>
+                        </form>
+                    </ChildContent>
+                </RadzenProfileMenu>
+            </div>
         </div>
     </nav>
 
@@ -58,6 +60,9 @@
             @Body
         </article>
     </main>
+    
+    </Authorized>
+</AuthorizeView>
     <RadzenComponents />
 </div>
 

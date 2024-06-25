@@ -44,6 +44,21 @@ namespace Langua.DataContext.Data
                 .HasForeignKey(i=>i.GroupId)
                 .HasPrincipalKey(i=>i.Id)
                 .OnDelete(DeleteBehavior.SetNull);
+
+
+            builder.Entity<Teacher>()
+                .HasOne(i => i.Departement)
+                .WithMany(i => i.Teachers)
+                .HasForeignKey(i => i.DepartementId)
+                .HasPrincipalKey(i => i.Id);
+
+            builder.Entity<Candidat>()
+                .HasOne(i => i.Departement)
+                .WithMany(i => i.Candidates)
+                .HasForeignKey(i => i.DepartementId)
+                .HasPrincipalKey(i => i.Id);
+
+
             builder.Entity<Teacher>()
                 .ToTable(tb => tb.UseSqlOutputClause());
             builder.Entity<Teacher>()
@@ -51,7 +66,7 @@ namespace Langua.DataContext.Data
             builder.Entity<Candidat>()
                 .ToTable(tb => tb.HasTrigger("delete_user_on_candidate_deleted"));
             builder.Entity<Manager>().ToTable(tm => tm.HasTrigger("delete_user_on_manager_deleted"));
-            
+
             builder.Entity<ApplicationUser>().ToTable("Users");
             builder.Entity<Candidat>()
             .HasOne(c => c.User)

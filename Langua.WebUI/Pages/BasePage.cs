@@ -14,7 +14,7 @@ namespace Langua.WebUI.Pages
 {
     public partial class BasePage : BasePageClient
     {
-        [Inject]public NavigationManager? Navigation { get; set; }
+        [Inject] public NavigationManager Navigation { get; set; } = null!;
         public RadzenProgressBarCircular? loading;
         public bool IsStuck { get; set; } = true;
         [Inject] protected SecurityService Security { get; set; } = null!;

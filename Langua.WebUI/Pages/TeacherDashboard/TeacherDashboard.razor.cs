@@ -38,12 +38,13 @@ namespace Langua.WebUI.Pages.TeacherDashboard
             if (TeacherRessource.Succeeded)
                 NbRessource = TeacherRessource.Value.ToList().Count();
 
-            var resultGroups = GroupTeacherService!.GetByExpression($"TeacherId=={teacher.Id.ToString()}");
+            //var resultGroups = GroupTeacherService!.GetByExpression($"TeacherId=={teacher.Id.ToString()}");
+            var resultGroups = await LanguaService.GetGroupByTeacher(teacher.Id);
             if (resultGroups.Succeeded && resultGroups.Value.Count() > 0)
             {
                 NbGroups = resultGroups.Value.Count();
                 List<int> GroupTeacherIds = resultGroups.Value.Select(i => i.GroupId).ToList();
-                await baseService.Apply(resultGroups.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Subject,Group" } }));
+                //await baseService.Apply(resultGroups.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Subject,Group" } }));
                 groupTeachers = resultGroups.Value;
 
                 Result<IQueryable<Candidat>>? resultCandidates = await LanguaService!.GetCandidateForGroups(GroupTeacherIds);

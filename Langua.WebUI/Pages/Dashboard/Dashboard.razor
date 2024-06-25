@@ -1,4 +1,5 @@
 ﻿@page "/"
+@page "/Manager/"
 @page "/dashboard"
 @inherits DashboardComponent
 @using Langua.Models
@@ -7,7 +8,7 @@
 @layout WebUI.Pages.Layout.SideMainLayout
 
 
- @attribute [Authorize(Roles = "ADMIN")] 
+ @attribute [Authorize(Roles = "ADMIN,MANAGER")] 
 <PageTitle>LanguaLink| @L["Admin Dashboard"]</PageTitle>
 <HeadContent>
     <meta name="description" content="Rich dashboard created with the Radzen Blazor Components library.">
@@ -46,7 +47,7 @@
             </RadzenColumn>
 
 
-        <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+        <RadzenColumn Size="12" SizeMD="6" SizeLG="3" Visible="@Security.IsInRole("ADMIN").Result">
             <RadzenCard Style="position: relative; height :100px">
                 <RadzenText TextStyle="TextStyle.H6">@L["NB Managers"]</RadzenText>
                 <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbManagers</RadzenText>

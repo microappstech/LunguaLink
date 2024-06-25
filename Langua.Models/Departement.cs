@@ -17,5 +17,7 @@ namespace Langua.Models
         public Manager Manager { get; set; }
         public int ManagerId { get; set; }
         public DateTime CreatedAt { get; set; }
+        public IEnumerable<Teacher> Teachers { get; set; }
+        public IEnumerable<Candidat> Candidates { get; set; }
     }
 }

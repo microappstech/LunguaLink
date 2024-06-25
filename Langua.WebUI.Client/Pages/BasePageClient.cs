@@ -15,9 +15,9 @@ namespace Langua.WebUI.Client.Pages
                 return navigationManager!.BaseUri.ToString();
             } 
         }
-        [Inject] protected IJSRuntime? JSRuntime { get; set; }
+        [Inject] protected IJSRuntime JSRuntime { get; set; } = null!;
 
-        [Inject] protected NavigationManager? navigationManager { get; set; }
+        [Inject] protected NavigationManager navigationManager { get; set; } = null!;
 
         [Inject] protected DialogService dialogService { get; set; } = null!;
 

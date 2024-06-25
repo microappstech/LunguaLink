@@ -80,5 +80,26 @@ namespace Langua.Repositories.Services
             SemaphoreSlimCount.Release();
             return await Task.FromResult(count);
         }
+        public async Task<int> NBItemsForManager<T>(int ManagerId) where T : class
+        {
+            await SemaphoreSlimCount.WaitAsync();
+            var Manager = _context.Managers.Where(m => m.Id == ManagerId).Include(i => i.Department).FirstOrDefault();
+            int count = 0;
+            switch (typeof(T).Name)
+            {
+                case "Department":
+                    count = await _context.Departments.Where(p=>p.ManagerId == ManagerId).CountAsync();
+                    break;
+                case "Teacher":
+                    count = await _context.Teachers.Where(t => t.DepartementId == Manager.DepartmentId).CountAsync();
+                    break;
+                case "Candidat":
+                    count = await _context.Candidates.Where(t => t.DepartementId == Manager.DepartmentId).CountAsync();
+                    break;
+            }
+            SemaphoreSlimCount.Release();
+            return await Task.FromResult(count);
+            
+        }
     }
 }
