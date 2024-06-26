@@ -1,4 +1,5 @@
-﻿using Langua.DataContext.Data;
+﻿using Langua.Account;
+using Langua.DataContext.Data;
 using Langua.Models;
 using Langua.Repositories.Interfaces;
 using Microsoft.AspNetCore.Components;
@@ -16,12 +17,14 @@ namespace Langua.Repositories.Services
         private readonly LanguaContext _context;
         private readonly NavigationManager navigationManager;
         private readonly Uri baseUri;
+        private readonly Langua.Account.SecurityService security;
 
         private IRepositoryCrudBase<Session> repositorySession;
-        public LanguaService(LanguaContext languacontext, NavigationManager navigation)
+        public LanguaService(LanguaContext languacontext, NavigationManager navigation, SecurityService security)
         {
             _context = languacontext;
             navigationManager = navigation;
+            this.security = security;
             //this.repositorySession = crudBase;
         }
 

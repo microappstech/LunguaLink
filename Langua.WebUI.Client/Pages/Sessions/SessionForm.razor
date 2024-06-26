@@ -3,7 +3,7 @@
 
 <RadzenCard style="height: 100%;margin-top:0px;">
     <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Session</RadzenAlert>
-    <RadzenTemplateForm TItem="Models.Session" Data="@Session" Visible="@(Session != null)" Submit="@FormSubmit">
+    <RadzenTemplateForm TItem="Models.Session" Data="@Session" Submit="@FormSubmit">
         <RadzenRow style="margin-bottom: 1rem">
             <RadzenColumn SizeMD="3">
                 <RadzenLabel Text="Name" Component="Name" style="width: 100%" />

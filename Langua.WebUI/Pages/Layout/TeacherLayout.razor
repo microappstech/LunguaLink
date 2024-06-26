@@ -2,9 +2,9 @@
 
 <div class="page">
     <AuthorizeView>
-        <NotAuthorized Context="Authorize">
+        @* <NotAuthorized Context="Authorize">
             <RedirectToLogin IsAuthenticated="@Authorize.User.Identity.IsAuthenticated"/> 
-        </NotAuthorized>
+        </NotAuthorized> *@
         <Authorized>
     <nav class="row">
         <ul class="nav nav-tabs  col-md-9">

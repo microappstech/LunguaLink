@@ -9,14 +9,14 @@ using System.Security.Claims;
 using System.Linq.Expressions;
 using Langua.Models;
 using System.Transactions;
-using Langua.Repositories.Services;
+//using Langua.Repositories.Services;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Langua.Account
 {
     public class SecurityService
     {
-        [SupplyParameterFromQuery]    
+        [SupplyParameterFromQuery]
         private string? ReturnUrl { get; set; }
         private readonly UserManager<ApplicationUser> _userManager;
         private Langua.DataContext.Data.LanguaContext _userContext;
@@ -24,12 +24,13 @@ namespace Langua.Account
         private IEnumerable<IdentityError> identityErrors;
         private ILogger<SecurityService> Ilogger;
         private NavigationManager navigationManager;
-        private BaseService baseService;
+        //private BaseService baseService;
         private readonly AuthenticationStateProvider authentication;
         private readonly IWebHostEnvironment webHost;
         private readonly RoleManager<IdentityRole> roleManager;
+        public static bool IsAdmin;
         public SecurityService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<SecurityService> logger, AuthenticationStateProvider authentication,
-            NavigationManager manager, IWebHostEnvironment webHost, RoleManager<IdentityRole> roleManager, Langua.DataContext.Data.LanguaContext context, BaseService baseService)
+            NavigationManager manager, IWebHostEnvironment webHost, RoleManager<IdentityRole> roleManager, Langua.DataContext.Data.LanguaContext context)//, BaseService baseService)
         {
             _userContext = context;
             _signInManager = signInManager;
@@ -39,7 +40,7 @@ namespace Langua.Account
             this.authentication = authentication;
             this.webHost = webHost;
             this.roleManager = roleManager;
-            this.baseService = baseService;
+            //this.baseService = baseService;
         }
         public ClaimsPrincipal Principal { get; set; }
         static ApplicationUser user;
@@ -49,6 +50,7 @@ namespace Langua.Account
         SemaphoreSlim semaphoreSlimIntiSecurity = new SemaphoreSlim(1);
         public async Task<bool> InitializeAsync()
         {
+            IsAdmin = false;
             //await semaphoreSlimIntiSecurity.WaitAsync();
             var logged = await authentication.GetAuthenticationStateAsync();
             if(logged.User?.Identity?.Name != null && user == null)
@@ -61,12 +63,14 @@ namespace Langua.Account
                     user.Roles = await _userManager.GetRolesAsync(us);
                 }
             }
+            IsAdmin = user.Roles?.Contains("ADMIN")==true;
             //semaphoreSlimIntiSecurity.Release();
             return logged.User.Identity.IsAuthenticated;
         }
         public async Task InitializedTeacher()
         {
-            var teacher = await baseService.GetEntiteByUserId<Teacher>(User.Id, t => t.UserId == User.Id);
+            //var teacher = await baseService.GetEntiteByUserId<Teacher>(User.Id, t => t.UserId == User.Id);
+            var teacher = _userContext.Teachers.Where(t=>t.UserId== User.Id).FirstOrDefault();
             if (teacher == null)
             {
                 RedirectTo("/login");

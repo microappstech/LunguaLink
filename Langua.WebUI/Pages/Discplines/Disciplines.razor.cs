@@ -16,7 +16,8 @@ namespace Langua.WebUI.Pages.Discplines
         protected IEnumerable<Subject> subjects { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            var subjectsResult = baseRepository.GetAll();
+            await Security.InitializeAsync();
+            var subjectsResult = LanguaService.GetSubjects();
             if(subjectsResult.Succeeded)
             {
                 subjects = subjectsResult.Value;

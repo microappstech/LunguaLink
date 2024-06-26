@@ -79,6 +79,7 @@ namespace Langua.DataContext.Data
             .WithOne(u => u.Teacher)
             .HasForeignKey<Teacher>(c => c.UserId);
 
+
             builder.Entity<MessageGroup>()
                 .HasOne(mg => mg.User)
                 .WithMany(u => u.MessagesGroup)

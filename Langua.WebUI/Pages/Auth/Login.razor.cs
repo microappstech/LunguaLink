@@ -16,8 +16,8 @@ namespace Langua.WebUI.Pages.Auth
 
         [CascadingParameter]
         private HttpContext HttpContext { get; set; } = default!;
-        [Inject] SignInManager<ApplicationUser> SignInManager { get; set; }
-        public string errorMessage { get; set; }
+        
+        public string? errorMessage { get; set; }
         [SupplyParameterFromForm]
         public LoginInput Input { get; set; } = new();
 

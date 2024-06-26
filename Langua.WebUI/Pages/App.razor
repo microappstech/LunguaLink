@@ -29,14 +29,14 @@
     </div>
     <script src="_framework/blazor.web.js"></script>
     <script>
-        function PreviewPdfFromBytes(byteArray) {
-            console.log("PreviewPdfFromBytes starting");
-                        Blob blob = new Blob([byteArray]);
-            var iframe = document.getElementById('pdfViewer');
-            console.log(iframe);
-                        string blobUrl = URL.createObjectURL(pdfBlob);
-            iframe.src = blobUrl;
-        }
+        // function PreviewPdfFromBytes(byteArray) {
+        //     console.log("PreviewPdfFromBytes starting");
+        //                 Blob blob = new Blob([byteArray]);
+        //     var iframe = document.getElementById('pdfViewer');
+        //     console.log(iframe);
+        //                 string blobUrl = URL.createObjectURL(pdfBlob);
+        //     iframe.src = blobUrl;
+        // }
     </script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
     
@@ -49,5 +49,5 @@
 @code{
     [CascadingParameter]
     private HttpContext HttpContext {get;set;} = default;
-    private IComponentRenderMode? RenderModeForPage => (HttpContext.Request.Path.StartsWithSegments("/Account") || HttpContext.Request.Path.StartsWithSegments("/Login")) ? null : InteractiveServer;
+    private IComponentRenderMode? RenderModeForPage => (HttpContext.Request.Path.StartsWithSegments("/Account") || HttpContext.Request.Path.StartsWithSegments("/Login")) ? null : new InteractiveAutoRenderMode(prerender:false);
 }

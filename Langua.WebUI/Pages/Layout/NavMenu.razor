@@ -23,14 +23,14 @@
                     <span class="px-2">@L["Dashboard"]</span>
                 </NavLink>
             </div>
-            <div class="nav-item" style="padding-bottom:0 !important">
-                <NavLink class="nav-link" href="Departements">
-                    <RadzenIcon Icon="school" IconColor="white" />
-                    <span class="px-2">@L["Departements"]</span>
-                </NavLink>
-            </div>
-            @if (Security.IsInRole("ADMIN").Result)
+            @if (SecurityService.IsAdmin)
             {
+                <div class="nav-item" style="padding-bottom:0 !important">
+                    <NavLink class="nav-link" href="Departements">
+                        <RadzenIcon Icon="school" IconColor="white" />
+                        <span class="px-2">@L["Departements"]</span>
+                    </NavLink>
+                </div>
                 <div class="nav-item" style="padding-bottom:0 !important">
                     <NavLink class="nav-link" href="Managers">
                         <RadzenIcon Icon="perm_identity" IconColor="white" />
@@ -119,36 +119,6 @@
                 </NavLink>
             </div>
 
-            <AuthorizeView>
-                <Authorized>
-                    <div class="nav-item d-none">
-                        <NavLink class="nav-link" href="Account/Manage">
-                            <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
-                        </NavLink>
-                    </div>
-                    <div class="nav-item px-3 d-none">
-                        <form action="Account/Logout" method="post">
-                            <AntiforgeryToken />
-                            <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                            <button type="submit" class="nav-link">
-                                <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
-                            </button>
-                        </form>
-                    </div>
-                </Authorized>
-                <NotAuthorized>
-                    <div class="nav-item d-none">
-                        <NavLink class="nav-link" href="Register">
-                            <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
-                        </NavLink>
-                    </div>
-                    <div class="nav-item d-none">
-                        <NavLink class="nav-link" href="Login">
-                            <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
-                        </NavLink>
-                    </div>
-                </NotAuthorized>
-            </AuthorizeView>
         </nav>
     </div>
 

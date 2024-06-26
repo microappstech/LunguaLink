@@ -23,7 +23,7 @@ namespace Langua.Repositories.Services
         }
         public async Task<IQueryable<T>> Apply<T>(IQueryable<T> items, IQueryCollection query = null) where T : class
         {
-            if (query is not null)
+            if (query is not null && items is not null)
             {
                 if (query.ContainsKey("include"))
                 {

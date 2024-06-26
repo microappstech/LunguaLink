@@ -48,13 +48,12 @@ namespace Langua.WebUI.Pages.Dashboard
                 if(!Manager.Succeeded)
                 {
                     Navigation.NavigateToLogin("login");
-                    return;
                 }
                          
                 NbTeacher = await baseService!.NBItemsForManager<Teacher>(Manager.Value.Id);
                 NbCandidat = await baseService.NBItemsForManager<Candidat>(Manager.Value.Id);
-                NbDepartements = await baseService.NBItemsForManager<Department>(Manager.Value.Id);
                 //NbGroups = await baseService.NBItems<Groups>();
+                NbDepartements = await baseService.NBItemsForManager<Department>(Manager.Value.Id);
                 //NbManagers = await baseService.NBItems<Models.Manager>();
                 //NbGrCandidates = await baseService.NBItems<GroupCandidates>();
                 //NbGrTeachers = await baseService.NBItems<Models.GroupTeacher>();

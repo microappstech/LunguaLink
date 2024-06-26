@@ -30,6 +30,7 @@ namespace Langua.WebUI.Pages.Departements
             Errors = new();
             if (!IsEdit && Department!.Id == 0)
             {
+                //Department.UserId = Se
                 var result = crudRepository!.Add(Department);
                 if (result.Succeeded)
                 {

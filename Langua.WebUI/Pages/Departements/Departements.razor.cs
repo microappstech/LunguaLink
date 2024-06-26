@@ -11,7 +11,7 @@ namespace Langua.WebUI.Pages.Departements
     public partial class DepartementsComponent:BasePage
     {
         [Inject]
-        public IRepositoryCrudBase<Department> baseRepository { get; set; }
+        public IRepositoryCrudBase<Department> baseRepository { get; set; } = null!;
         protected RadzenDataGrid<Department>? grid0;
         public IEnumerable<Department>? Departements { get; set; }
 

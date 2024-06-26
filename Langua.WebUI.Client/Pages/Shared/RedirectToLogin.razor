@@ -1,9 +1,12 @@
 ﻿@inject NavigationManager navigation;
+
 @code{
     [Parameter]
     public bool IsAuthenticated { get; set; }
+    
     protected override async Task OnInitializedAsync()
     {
+        
         if (!IsAuthenticated)
         {
             var Redirect = navigation.ToBaseRelativePath(navigation.BaseUri);

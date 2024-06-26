@@ -8,21 +8,27 @@
 
 <div class="page">
     <AuthorizeView>
-        <NotAuthorized Context="AuthorizationContext">
-            <RedirectToLogin IsAuthenticated="@AuthorizationContext.User.Identity.IsAuthenticated" />
+        <NotAuthorized>
+            <h1>Your Are Not Authorized To Access This Page</h1>
+            <AccessDenied />
         </NotAuthorized>
+       @*  <NotAuthorized Context="AuthorizationContext">
+            <RedirectToLogin IsAuthenticated="@AuthorizationContext.User.Identity.IsAuthenticated" />
+        </NotAuthorized> *@
         <Authorized>
             <div class="sidebar d-none d-sm-block ">
                 <Langua.WebUI.Pages.Layout.NavMenu />
             </div>
             <main>
                 <div class="top-row px-4 text-white">
-            
+                    <div class="nav-link col-8" href="Account/Manage" style="color:rebeccapurple;">
+                        <strong>Deprtement : Instutie CCF Anazaran</strong>
+                    </div>
                     <NavLink class="nav-link " href="Account/Manage" style="color:rebeccapurple;">
                         <RadzenIcon Icon="profile" />
                         <span class="bi bi-person-fill-nav-menu text-bold" aria-hidden="true"></span>Hi @( context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@")))
                     </NavLink> 
-                    <div class="rz-p-2 rz-text-align-center" style="">
+                    <div class="rz-p-2 rz-text-align-center col-1" style="">
                         <RadzenProfileMenu Style="background-color: Transparent; border:none;">
                             <Template>
                                 <RadzenGravatar Email="@context.User.Identity?.Name"></RadzenGravatar>

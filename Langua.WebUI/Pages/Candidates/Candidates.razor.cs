@@ -39,18 +39,20 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task loadData(LoadDataArgs args)
         {
-            var candidatesResult = baseRepository.GetAll();
+            var candidatesResult = LanguaService.GetCandidates();
 
-            IQueryCollection queryCollection =
-                new QueryCollection(
-                    new Dictionary<string, StringValues> { { "include", new StringValues("Subject,User") } }
-                    );
-            
+            if (candidatesResult.Succeeded)
+            {
+               // IQueryCollection queryCollection =
+               //     new QueryCollection(
+               //         new Dictionary<string, StringValues> { { "include", new StringValues("Subject,User") } }
+               //         );
+               //var resul = await  baseService!.Apply<Models.Candidat>(candidatesResult.Value, queryCollection);
 
-           var resul = await  baseService!.Apply<Models.Candidat>(candidatesResult.Value, queryCollection);
-            candidates = (IEnumerable<Models.Candidat>)resul;
-            if (!string.IsNullOrEmpty(args.Filter))
-                fcandidates = candidates.AsQueryable().Where(args.Filter).ToList();
+                candidates = candidatesResult.Value;
+                if (!string.IsNullOrEmpty(args.Filter))
+                    fcandidates = candidates.AsQueryable().Where(args.Filter).ToList();
+            }
 
 
         }
@@ -70,9 +72,10 @@ namespace Langua.WebUI.Pages.Candidates
 
             return sb.ToString().Normalize(NormalizationForm.FormC);
         }
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
-            return base.OnInitializedAsync();
+            await Security.InitializeAsync();
+
         }
         public async Task ConfirmMail(Candidat args)
         {

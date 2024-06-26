@@ -47,14 +47,14 @@
             </RadzenColumn>
 
 
-        <RadzenColumn Size="12" SizeMD="6" SizeLG="3" Visible="@Security.IsInRole("ADMIN").Result">
+        <RadzenColumn Size="12" SizeMD="6" SizeLG="3" Visible="@SecurityService.IsAdmin">
             <RadzenCard Style="position: relative; height :100px">
                 <RadzenText TextStyle="TextStyle.H6">@L["NB Managers"]</RadzenText>
                 <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbManagers</RadzenText>
             </RadzenCard>
         </RadzenColumn>
 
-            <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+            <RadzenColumn Size="12" SizeMD="6" SizeLG="3" Visible=SecurityService.IsAdmin>
                 <RadzenCard Style="position: relative; height :100px">
                     <RadzenText TextStyle="TextStyle.H6">@L["NB Departements"]</RadzenText>
                     <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbDepartements</RadzenText>
