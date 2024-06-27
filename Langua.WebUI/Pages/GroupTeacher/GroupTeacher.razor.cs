@@ -16,12 +16,10 @@ namespace Langua.WebUI.Pages.GroupTeacher
 
         protected override async Task OnInitializedAsync()
         {
-            var result = repository!.GetAll();
+            var result = await LanguaService.GetGroupTeachers(includes:"Group,Teacher");
             if (result.Succeeded)
             {
-
-                var grcand = await baseService!.Apply(result.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "Group,Teacher" } }));
-                GroupTeachers = grcand.Cast<Models.GroupTeacher>().ToList();
+                GroupTeachers = result.Value.ToList();
                 DataReady = true;
             }
         }

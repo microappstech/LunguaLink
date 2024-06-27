@@ -60,13 +60,11 @@ namespace Langua.WebUI.Pages.Groupes
 
         protected override async Task OnInitializedAsync()
             {
-            var GResult = repository!.GetAll();
+            var GResult = await LanguaService.GetGroupes();
             if (GResult.Succeeded)
             {
-                var r = await baseService!.Apply(GResult.Value, 
-                    new QueryCollection(new Dictionary<string, StringValues> { { "include", "GroupeMessages,Candidats" } })
-                    );
-                Groups = (IEnumerable<Models.Groups>)r; ;
+                
+                Groups = GResult.Value;
             }
 
         }

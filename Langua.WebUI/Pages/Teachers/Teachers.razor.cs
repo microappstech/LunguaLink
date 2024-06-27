@@ -13,14 +13,13 @@ namespace Langua.WebUI.Pages.Teachers
         public IEnumerable<Teacher>? teachers { get; set; }
         public RadzenDataGrid<Teacher>? grid0;
         [Inject] private IRepositoryCrudBase<Teacher>? baseRepository { get; set; }
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
-            var TeachersResult = baseRepository!.GetAll();
+            var TeachersResult = await LanguaService.GetTeachers();
             if (TeachersResult.Succeeded)
             {
                 teachers = TeachersResult.Value;
             }
-            return base.OnInitializedAsync();
         }
         public async Task Delete(Teacher teacher)
         {

@@ -171,11 +171,11 @@
     {
         await Security.InitializeAsync();
         await Security.IsAuthenticatedWidthRedirect();
-        var GroupResult = repositoryGroup.GetAll();
+        var GroupResult = await LanguaService.GetGroupes(includes: "GroupeMessages,Candidats");
         if (GroupResult.Succeeded)
         {
-            var ResultIncluded = await baseService.Apply(GroupResult.Value, new QueryCollection(new Dictionary<string, StringValues> { { "include", "GroupeMessages,Candidats" } }));
-            Groups = (IEnumerable<Models.Groups>)ResultIncluded;
+
+            Groups = GroupResult.Value;
             DataReady = true;
         }
     }

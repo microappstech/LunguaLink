@@ -25,7 +25,9 @@ namespace Langua.Models
         public string Photo { get; set; }
         [Required] public string Name { get; set; }
         public string Description { get; set; }
-        #nullable enable
+        public int DepartmentId { get; set; }
+        public Department Department { get; set; }
+#nullable enable
         public ICollection<Candidat> Candidats { get; set; }
         #nullable disable
         public ICollection<MessageGroup> GroupeMessages { get; set; }

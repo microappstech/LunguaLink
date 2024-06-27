@@ -1,4 +1,5 @@
-﻿using Langua.Models;
+﻿using Langua.Account;
+using Langua.Models;
 using Langua.Shared.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -40,7 +41,48 @@ namespace Langua.Repositories.Services
             return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(true, res));
         }
 
+        public async Task<Result<IQueryable<Teacher>>> GetTeachers()
+        {
+            var items = Context.Teachers.AsQueryable();
+            if (!items.Any())
+                return await Task.FromResult(new Result<IQueryable<Teacher>>(false, null));
+            if (SecurityService.IsAdmin)
+                return await Task.FromResult(new Result<IQueryable<Teacher>>(true, items));
+            var manager = Context.Managers.Where(i => i.UserId == security.User.Id).FirstOrDefault();
+            if (manager == null)
+                return await Task.FromResult(new Result<IQueryable<Teacher>>(false, null));
+            items = items.Where(i=>i.DepartementId == manager.DepartmentId);
+            return await Task
+                .FromResult(new Result<IQueryable<Teacher>>(true, items));
+        }
 
+        public async Task<Result<IQueryable<GroupTeacher>>> GetGroupTeachers(string includes = "")
+        {
+            try
+            {
+                var items = Context.GroupTeachers.AsQueryable();
+                foreach (var inc in includes.Split(","))
+                {
+                    items = items.Include(inc);
+                }
+                if (SecurityService.IsAdmin)
+                    return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(true, items));
+                var manager = Context
+                    .Managers
+                    .Where(i=>i.UserId == security.User.Id).FirstOrDefault();
+                if (manager == null)
+                    return new Result<IQueryable<GroupTeacher>>(false, null);
+                var teacherIds = Context.Teachers.Where(t => t.DepartementId == manager.DepartmentId)?.Select(i => i.Id)?.ToList();
+                var groupIds = Context.Groups.Where(i => i.DepartmentId == manager.DepartmentId)?.Select(i => i.Id)?.ToList();
+                items = items.Where(i=> teacherIds.Contains(i.TeacherId)==true || groupIds.Contains(i.GroupId)).AsQueryable();
+                return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(true, items));
+
+            }
+            catch(Exception ex)
+            {
+                return new Result<IQueryable<GroupTeacher>>(false, null, $"Ex : {ex.Message}, InnerEx : {ex.InnerException.Message}, Stack : {ex.StackTrace}");
+            }
+        }
 
 
     }
