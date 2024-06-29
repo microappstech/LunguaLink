@@ -16,20 +16,17 @@
 
 <div class="py-4">
     <RadzenStack Gap="1rem" Style="position: relative">
-    <RadzenRow> 
+    <RadzenRow>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
             <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6">Nb Teachers</RadzenText>
+                <RadzenText TextStyle="TextStyle.H6">@L["Nb All Users"]</RadzenText>
+                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbUsers</RadzenText>
+            </RadzenCard>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
+            <RadzenCard Style="position: relative; height :100px">
+                <RadzenText TextStyle="TextStyle.H6">@L["Nb Teachers"]</RadzenText>
                 <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbTeacher</RadzenText>
-               @*
-                   <RadzenChart Style="width: 100%; height: 120px; margin-bottom    : -30px;">
-                        <RadzenColumnSeries Data=@openIssuesByDate ValueProperty="Count" CategoryProperty="Week" Title="Issues" Fill="var(--rz-success)" />
-                        <RadzenValueAxis Visible="false" />
-                        <RadzenCategoryAxis Visible="false" />
-                        <RadzenColumnOptions Margin="10" />
-                        <RadzenLegend Visible="false" />
-                    </RadzenChart> 
-                *@
             </RadzenCard>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
@@ -74,6 +71,7 @@
                     <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbGrTeachers</RadzenText>
                 </RadzenCard>
             </RadzenColumn>
+
     </RadzenRow>
 
 </RadzenStack>

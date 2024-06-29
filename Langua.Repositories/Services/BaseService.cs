@@ -87,6 +87,19 @@ namespace Langua.Repositories.Services
             int count = 0;
             switch (typeof(T).Name)
             {
+                case "GroupCandidates":
+                    List<int> candidateIds = new List<int>();
+                    candidateIds.AddRange(_context.Candidates.Where(p => p.DepartementId== Manager.DepartmentId).Select(i => i.Id).ToList());
+                    count = await _context.GroupCandidates.Where(g => candidateIds.Contains(g.CandidatId)).CountAsync();
+                    break;
+                case "GroupTeacher":
+                    List<int> groupIds = new List<int>();
+                    groupIds.AddRange(_context.Groups.Where(p => p.DepartmentId == Manager.DepartmentId).Select(i=>i.Id).ToList());
+                    count = await _context.GroupTeachers.Where(g=> groupIds.Contains(g.GroupId)).CountAsync();
+                    break;
+                case "Groups":
+                    count = await _context.Groups.Where(p=>p.DepartmentId==Manager.DepartmentId).CountAsync();
+                    break;
                 case "Department":
                     count = await _context.Departments.Where(p=>p.ManagerId == ManagerId).CountAsync();
                     break;
@@ -95,6 +108,12 @@ namespace Langua.Repositories.Services
                     break;
                 case "Candidat":
                     count = await _context.Candidates.Where(t => t.DepartementId == Manager.DepartmentId).CountAsync();
+                    break;
+                case "ApplicationUser":
+                    List<string> userIds = new List<string>();
+                    userIds.AddRange(_context.Candidates.Where(i => i.DepartementId == Manager.DepartmentId).Select(i => i.UserId).ToList());
+                    userIds.AddRange(_context.Teachers.Where(i => i.DepartementId == Manager.DepartmentId).Select(i => i.UserId).ToList());
+                    count = await _context.Users.Where(i=> userIds.Contains(i.Id)).CountAsync();
                     break;
             }
             SemaphoreSlimCount.Release();

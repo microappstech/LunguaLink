@@ -31,15 +31,17 @@
                 <div class="form-group my-auto">
                     <label for="FullName">@L["Full Name"] :</label>
                     <InputText id="FullName" @bind-Value="candidate.FullName" class="form-control" />
+                    <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
                 </div>
             </div>
         </div>
 
         <div class="form-group mb-2">
             <label for="Email">@L["Email"] :</label>
-            <RadzenTextBox id="Email" @bind-Value="@candidate.Email" @oninput="@((args)=>ValidateEmail(args.Value.ToString()))" class="form-control" />
-            @if(!string.IsNullOrEmpty(ErrorMail))
-                {<label class="text-danger">@ErrorMail</label>}
+            <RadzenTextBox id="Email" @bind-Value="@candidate.Email" class="form-control" />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
+            <RadzenEmailValidator Component="Email" Text="@L["Provide a valid email address"]" Popup=true />
+            <RadzenCustomValidator Validator="(()=>MailNotTaken(candidate.Email))" Text="@L["Mail already taken"]" Popup=true />
         </div>
 
         <div class="row">
@@ -63,6 +65,7 @@
             <div class="form-group mb-2 col-md-6">
                 <label for="Phone">@L["Phone"] :</label>
                 <InputText id="Phone" @bind-Value="candidate.Phone" class="form-control" />
+                <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
             </div>  
         </div>
         <div class="mx-auto mt-2 text-center">

@@ -26,10 +26,12 @@
             <div class="form-group my-3">
                 <label for="FullName">@L["Full Name"] :</label>
                 <RadzenTextBox id="FullName" @bind-Value="Manager.FullName" class="form-control" Name="Full_Name" />
+                <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
             </div>
             <div class="form-group ">
                 <label for="Phone">@L["Phone"] :</label>
                 <RadzenTextBox id="Phone" @bind-Value="Manager.Phone" class="form-control" Name="Phone" />
+                <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
             </div>
         </div>
     </div> 
@@ -40,6 +42,9 @@
         </div>
         <div class="col-9 ">
             <RadzenTextBox Name="Email" id="Email" @bind-Value="Manager.Email" class="form-control w-100" Style="width:100%" AutoComplete="false" />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
+            <RadzenEmailValidator Component="Email" Text="@L["Provide a valid email address"]" Popup=true />
+            <RadzenCustomValidator Validator="(()=>MailNotTaken(Manager.Email))" Text="@L["Mail already taken"]" Popup=true />
         </div>
     </div> 
 
@@ -49,6 +54,7 @@
         </div>
         <div class="col-9">
             <RadzenDropDown Data="Departements" ValueProperty="Id" class="w-100" TextProperty="Name" @bind-Value="Manager.DepartmentId" />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true DefaultValue="0" />
         </div>
     </div>
     @* <div class="form-group row my-3 ">

@@ -42,6 +42,7 @@ namespace Langua.Account
             this.roleManager = roleManager;
             //this.baseService = baseService;
         }
+        
         public ClaimsPrincipal Principal { get; set; }
         static ApplicationUser user;
         static Teacher _teacher;
@@ -304,6 +305,12 @@ namespace Langua.Account
             var result = _userManager.UpdateAsync(user);
             return await Task.FromResult(true);
 
+        }
+        public virtual bool MailTaken(string email)
+        {
+            if(string.IsNullOrEmpty(email)) return true;
+            var user = _userContext.Users.Where(i=>i.Email == email).FirstOrDefault();
+            return user != null;
         }
     }
 }

@@ -23,5 +23,15 @@ namespace Langua.WebUI.Pages
         [Inject] protected AuthenticationStateProvider? authenticationStateProvider { get; set; }
         [Inject] protected IMailService? mailService { get; set; }
         
+        public bool ValidateMail(string mail = "")
+        {
+            if(string.IsNullOrEmpty(mail)) return false;
+            if(!mail.Contains("@gmail.com")) return false;
+            return true;
+        }
+        public bool MailNotTaken(string mail)
+        {
+            return !Security.MailTaken(mail);
+        }
     }
 }

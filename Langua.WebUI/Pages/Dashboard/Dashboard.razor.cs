@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Langua.WebUI.Pages.Users;
 
 namespace Langua.WebUI.Pages.Dashboard
 {
@@ -14,9 +15,7 @@ namespace Langua.WebUI.Pages.Dashboard
         private HubConnection _chatGroupHub;
         public IEnumerable<Candidat>? Candidates { get; set; }
         public IEnumerable<Teacher> ?Teachers { get; set; }
-        public int NbTeacher;
-        public int NbCandidat;
-        public int NbGroups, NbManagers, NbDepartements, NbGrTeachers, NbGrCandidates;
+        public int NbGroups, NbManagers, NbDepartements, NbGrTeachers, NbGrCandidates, NbCandidat, NbTeacher, NbUsers;
 
         [Inject] public BaseService? baseService { get; set; }
 
@@ -40,6 +39,7 @@ namespace Langua.WebUI.Pages.Dashboard
                 NbManagers = await baseService.NBItems<Models.Manager>();
                 NbGrCandidates = await baseService.NBItems<GroupCandidates>();
                 NbGrTeachers = await baseService.NBItems<Models.GroupTeacher>();
+                NbUsers = await baseService.NBItems<ApplicationUser>();
 
             }
             else if(await Security.IsInRole("MANAGER"))
@@ -52,11 +52,12 @@ namespace Langua.WebUI.Pages.Dashboard
                          
                 NbTeacher = await baseService!.NBItemsForManager<Teacher>(Manager.Value.Id);
                 NbCandidat = await baseService.NBItemsForManager<Candidat>(Manager.Value.Id);
-                //NbGroups = await baseService.NBItems<Groups>();
+                NbUsers = await baseService.NBItemsForManager<ApplicationUser>(Manager.Value.Id);
                 NbDepartements = await baseService.NBItemsForManager<Department>(Manager.Value.Id);
-                //NbManagers = await baseService.NBItems<Models.Manager>();
-                //NbGrCandidates = await baseService.NBItems<GroupCandidates>();
-                //NbGrTeachers = await baseService.NBItems<Models.GroupTeacher>();
+                NbGroups = await baseService.NBItemsForManager<Groups>(Manager.Value.Id);
+                NbGrTeachers = await baseService.NBItemsForManager<Models.GroupTeacher>(Manager.Value.Id);
+                NbGrCandidates = await baseService.NBItemsForManager<Models.GroupCandidates>(Manager.Value.Id);
+
 
             }
 

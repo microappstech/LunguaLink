@@ -13,7 +13,9 @@ namespace Langua.WebUI.Pages.Teachers
     {
         [Inject] private IRepositoryCrudBase<Teacher>? _repository { get; set; }
         [Inject] private IRepositoryCrudBase<Subject>? _repositorySubjects { get; set; }
-        
+
+        protected string fileName;
+        protected long? fileSize;
         public List<string> Errors { get; set; } = new();
         protected Teacher? teacher { get; set; }
         public IEnumerable<Subject>? subjects { get; set; }
@@ -32,48 +34,54 @@ namespace Langua.WebUI.Pages.Teachers
                 subjects = SubjectResult.Value;
             }
         }
+        public void OnChange(string value , string name)
+        {
+
+        }
+
+        public void OnError(UploadErrorEventArgs args, string name)
+        {
+            Notify(L["Error"], args.Message, NotificationSeverity.Error);
+        }
         protected async Task HandleValidSubmit()
         {
-            using (var scope = new TransactionScope(TransactionScopeOption.Suppress))
+            try
             {
-                try
+                teacher!.Password = teacher.Email.Substring(0, teacher!.Email!.IndexOf("@")) + "_" + DateTime.Now.Day;
+                ApplicationUser _user = new ApplicationUser()
                 {
-                    teacher!.Password = teacher.Email.Substring(0, teacher!.Email!.IndexOf("@")) + "_" + DateTime.Now.Day;
-                    ApplicationUser _user = new ApplicationUser()
+                    Email = teacher.Email,
+                    FullName=teacher.FullName,
+                    UserName = teacher.Email,
+                    Password = teacher.Password,
+                    NormalizedUserName = teacher.FullName,
+                    PhoneNumber = teacher.Phone
+                };
+                var TaskUser = await Security!.RegisterUser(_user);
+                if (TaskUser.Succeeded)
+                {
+                    teacher.UserId = TaskUser.Value.Id;
+                    var r = await Security.AddRoleToUser(TaskUser.Value, "TEACHER");
+                    var result = _repository!.Add(teacher);
+                    if (result.Succeeded)
                     {
-                        Email = teacher.Email,
-                        FullName=teacher.FullName,
-                        UserName = teacher.Email,
-                        Password = teacher.Password,
-                        NormalizedUserName = teacher.FullName,
-                        PhoneNumber = teacher.Phone
-                    };
-                    var TaskUser = await Security!.RegisterUser(_user);
-                    if (TaskUser.Succeeded)
-                    {
-                        teacher.UserId = TaskUser.Value.Id;
-                        var r = await Security.AddRoleToUser(TaskUser.Value, "TEACHER");
-                        var result = _repository!.Add(teacher);
-                        if (result.Succeeded)
-                        {
-                            Notify("Success", "Creation Successful Completed", NotificationSeverity.Success);
-                            dialogService.Close(null);
-                        }
-                        else
-                        {
-                            Notify("Failed", "Something Wrong", NotificationSeverity.Error);
-                        }
+                        Notify("Success", "Creation Successful Completed", NotificationSeverity.Success);
+                        dialogService.Close(null);
                     }
                     else
                     {
-                        Errors.Add(TaskUser.Error);
+                        Notify("Failed", "Something Wrong", NotificationSeverity.Error);
                     }
-                        
                 }
-                catch
+                else
                 {
-                    Notify("Failed", "Something Wrong", NotificationSeverity.Error);
+                    Errors.Add(TaskUser.Error);
                 }
+                        
+            }
+            catch
+            {
+                Notify("Failed", "Something Wrong", NotificationSeverity.Error);
             }
         }
         public void Close()
