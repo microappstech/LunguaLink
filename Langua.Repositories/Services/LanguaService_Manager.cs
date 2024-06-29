@@ -1,4 +1,5 @@
-﻿using Langua.Models;
+﻿using Langua.Account;
+using Langua.Models;
 using Langua.Shared.Data;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,18 @@ namespace Langua.Repositories.Services
 
             return await Task.FromResult(new Result<Manager>(false,null!));
         }
-        public async Task<Result<IQueryable<Department>>> GetDepartement(bool is_Admin=false, string UserId = "" )
+        public async Task<Result<IQueryable<Department>>> GetDepartement()
         {
             try
             {
+                bool is_Admin = SecurityService.IsAdmin;
                 var items = Context.Departments.AsQueryable();
-                if (is_Admin || string.IsNullOrEmpty(UserId))
+                if (is_Admin)
                     return new Result<IQueryable<Department>>(true, items);
-
-                items = items.Where(d => d.UserId == UserId);
+                var manager = Context.Managers.Where(i=>i.UserId==security.User.Id).FirstOrDefault();
+                if (manager is null)
+                    return new Result<IQueryable<Department>>(false, null!);
+                items = items.Where(d => d.Id==manager.DepartmentId);
                 return new Result<IQueryable<Department>>(true, items);
 
 

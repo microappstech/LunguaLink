@@ -55,16 +55,14 @@ namespace Langua.Repositories.Services
             }
         }
 
-        public Result<IQueryable<T>> GetAll(bool IsAdmin = false, string expression = "")
+        public Result<IQueryable<T>> GetAll()
         {
             try
             {
                 IQueryable<T> result = _context.Set<T>().AsQueryable();
-                if(IsAdmin)
-                    return new Result<IQueryable<T>>(true, result);
                 if (result is not null && result.Any())
-                    return new Result<IQueryable<T>>(false, null);
-                return new Result<IQueryable<T>>(true,result.Where(expression));
+                    return new Result<IQueryable<T>>(true, result);
+                return new Result<IQueryable<T>>(false,null);
             }catch(Exception ex)
             {
                 return new Result<IQueryable<T>>(false, null, Error:ex.Message);

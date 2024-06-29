@@ -85,7 +85,7 @@ namespace Langua.Repositories.Services
             }
         }
 
-        public Result<IQueryable<T>> GetAll(bool isAdmin, string UserId)
+        public Result<IQueryable<T>> GetAll()
         {
             try
             {

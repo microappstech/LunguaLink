@@ -41,9 +41,14 @@ namespace Langua.Repositories.Services
             return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(true, res));
         }
 
-        public async Task<Result<IQueryable<Teacher>>> GetTeachers()
+        public async Task<Result<IQueryable<Teacher>>> GetTeachers(string includes = "")
         {
             var items = Context.Teachers.AsQueryable();
+            if (!string.IsNullOrEmpty(includes))
+                foreach (var inc in includes.Split(","))
+                {
+                    items = items.Include(inc);
+                }
             if (!items.Any())
                 return await Task.FromResult(new Result<IQueryable<Teacher>>(false, null));
             if (SecurityService.IsAdmin)
@@ -61,10 +66,11 @@ namespace Langua.Repositories.Services
             try
             {
                 var items = Context.GroupTeachers.AsQueryable();
-                foreach (var inc in includes.Split(","))
-                {
-                    items = items.Include(inc);
-                }
+                if (!string.IsNullOrEmpty(includes))
+                    foreach (var inc in includes.Split(","))
+                    {
+                        items = items.Include(inc);
+                    }
                 if (SecurityService.IsAdmin)
                     return await Task.FromResult(new Result<IQueryable<GroupTeacher>>(true, items));
                 var manager = Context

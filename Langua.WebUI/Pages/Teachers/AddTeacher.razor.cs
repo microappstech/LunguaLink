@@ -13,14 +13,17 @@ namespace Langua.WebUI.Pages.Teachers
     {
         [Inject] private IRepositoryCrudBase<Teacher>? _repository { get; set; }
         [Inject] private IRepositoryCrudBase<Subject>? _repositorySubjects { get; set; }
-
+        
         public List<string> Errors { get; set; } = new();
         protected Teacher? teacher { get; set; }
         public IEnumerable<Subject>? subjects { get; set; }
         public bool DataReady { get; set; }
-        
+        public IEnumerable<Department> Departements { get; set; }
         protected override async Task OnInitializedAsync()
         {
+            var DepResult = await LanguaService.GetDepartement();
+            if (DepResult.Succeeded)
+                Departements = DepResult.Value;
 
             teacher = new Teacher();
             var SubjectResult = _repositorySubjects!.GetAll();
@@ -28,8 +31,6 @@ namespace Langua.WebUI.Pages.Teachers
             {
                 subjects = SubjectResult.Value;
             }
-            base.OnInitialized();
-            await base.OnInitializedAsync();
         }
         protected async Task HandleValidSubmit()
         {
@@ -56,7 +57,6 @@ namespace Langua.WebUI.Pages.Teachers
                         if (result.Succeeded)
                         {
                             Notify("Success", "Creation Successful Completed", NotificationSeverity.Success);
-                            scope.Complete();
                             dialogService.Close(null);
                         }
                         else
@@ -79,6 +79,7 @@ namespace Langua.WebUI.Pages.Teachers
         public void Close()
         {
             dialogService.Close(null);
+            
         }
         public async void loadImage(InputFileChangeEventArgs args)
         {

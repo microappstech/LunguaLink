@@ -17,12 +17,13 @@ namespace Langua.Repositories.Services
         {
             try
             {
-                string[] _includes = includes.Split(',');
+
                 var items = Context.Groups.AsQueryable();
-                foreach ( var inc in includes.Split(','))
-                {
-                    items = items.Include(inc);
-                }
+                if(!string.IsNullOrEmpty(includes) )
+                    foreach ( var inc in includes.Split(','))
+                    {
+                        items = items.Include(inc);
+                    }
                 if (ReferenceEquals(items,null))
                     return await Task.FromResult(new Result<IQueryable<Groups>>(false, null));
 

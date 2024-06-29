@@ -59,7 +59,7 @@ namespace Langua.WebUI.Pages.Groupes
         }
 
         protected override async Task OnInitializedAsync()
-            {
+        {
             var GResult = await LanguaService.GetGroupes();
             if (GResult.Succeeded)
             {
