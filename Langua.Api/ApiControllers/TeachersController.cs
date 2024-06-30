@@ -1,11 +1,15 @@
 ﻿using Azure.Core;
+using Langua.Account;
 using Langua.DataContext.Data;
 using Langua.Models;
+using Langua.Repositories.Services;
+using Langua.Shared.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +23,14 @@ namespace Langua.ApiControllers.ApiControllers
     public partial class TeachersController : ODataController
     {
         private LanguaContext context;
+        private SecurityService security;
+        private LanguaService languaService;
 
-        public TeachersController(LanguaContext context)
+        public TeachersController(LanguaContext context, SecurityService security, LanguaService languaService)
         {
             this.context = context;
+            this.security = security;
+            this.languaService = languaService;
         }
 
 
@@ -31,8 +39,16 @@ namespace Langua.ApiControllers.ApiControllers
         public IEnumerable<Teacher> GetTeachers()
         {
             var items = this.context.Teachers.AsQueryable<Teacher>();
-            this.OnTeachersRead(ref items);
 
+
+            if (SecurityService.IsAdmin)
+                return items;
+
+            var manager = context.Managers.Where(i => i.UserId == security.User.Id).FirstOrDefault();
+            if (manager == null)
+                return null;
+            
+            items = items.Where(i => i.DepartementId == manager.DepartmentId);
             return items;
         }
 

@@ -13,7 +13,8 @@
 
 </div>
 <RadzenContent>
-    <RadzenDataGrid @ref="grid0"  CellRender="CellRender" LoadData="loadData" Data=candidates TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
+    <RadzenDataGrid @ref="grid0"  CellRender="CellRender" LoadData="loadData" Data=candidates TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple"
+            Style="background-color:lightblue">
        
         <Columns>
             <RadzenDataGridColumn Property="FullName" FilterValue="fullName" Title="@L["Full Name"]" TItem="Candidat">
@@ -25,6 +26,13 @@
                         <img src="@CanContext.Photo" width="50" />
                         <span>@CanContext.FullName</span>
                     </div>
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn Title="@L["Departement"]">
+                <Template Context="CanContext">
+                    <span>
+                        @CanContext.Departement?.Name
+                    </span>
                 </Template>
             </RadzenDataGridColumn>
             <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Candidat" />

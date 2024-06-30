@@ -44,11 +44,15 @@
         </RadzenTabs>
     </Template>
     <Columns>
-        <RadzenDataGridColumn TItem="Groups" Property="Name" Title="Name" />
-        <RadzenDataGridColumn TItem="Groups" Property="Description" Title="Desciption"  />
-        <RadzenDataGridColumn TItem="Groups" Property="NbCandidate" Title="NB Candidates" Filterable="false" FormatString="{0:d}" >
+        <RadzenDataGridColumn TItem="Groups" Property="Name" Title="@L["Name"]" />
+        <RadzenDataGridColumn TItem="Groups" Property="Description" Title="@L["Desciption"]"  />
+        <RadzenDataGridColumn TItem="Groups" Title="@L["Department"]" Filterable="false" FormatString="{0:d}">
+            <Template Context="GroupCon">@GroupCon.Department?.Name</Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Groups" Property="NbCandidate" Title="@L["NB Candidates"]" Filterable="false" FormatString="{0:d}">
             <Template Context="GroupCon">@GroupCon.Candidats?.Count()</Template>
         </RadzenDataGridColumn>
+        
         <RadzenDataGridColumn TItem="Groups" Width="140px">
             <Template Context="GroupCon">
                 <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(GroupCon))" class="mr-2" />

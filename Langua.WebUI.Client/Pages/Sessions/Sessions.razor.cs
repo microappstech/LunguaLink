@@ -34,7 +34,7 @@ namespace Langua.WebUI.Client.Pages.Sessions
         protected bool EditClicked = false;
         protected override async Task OnInitializedAsync()
         {
-            session = new Models.Session();
+            //session = new Models.Session();
         }
 
         protected async Task Grid0LoadData(LoadDataArgs args)
@@ -42,7 +42,6 @@ namespace Langua.WebUI.Client.Pages.Sessions
             try
             {
                 var result = await LangClientService.GetSessions(filter: $"{args.Filter}", expand: "Group,Teacher", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null);
-                
                 sessions = result;
                 count = result.Count();
             }

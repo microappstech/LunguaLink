@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.Extensions.Primitives;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Net.Http.Headers;
+using Langua.Account;
+using Langua.Shared.Data;
 
 
 
@@ -31,10 +33,12 @@ namespace Langua.Api.ApiControllers
     public partial class GroupsController : ODataController
     {
         private LanguaContext context;
+        private SecurityService security;
 
-        public GroupsController(LanguaContext context)
+        public GroupsController(LanguaContext context, SecurityService security)
         {
             this.context = context;
+            this.security = security;
         }
         public static IDictionary<string, object> IfMatch(HttpRequest request, Type elementType)
         {
@@ -137,8 +141,15 @@ namespace Langua.Api.ApiControllers
         {
             var items = this.context.Groups.AsQueryable<Groups>();
             items = ApplyTo<Groups>(Request, items);
-            this.OnGroupsRead(ref items);
+            
+            if(SecurityService.IsAdmin)
+                return items;
 
+            var manager = context.Managers.Where(i => i.UserId == security.User.Id).FirstOrDefault();
+            if (manager == null)
+                return null;
+
+            items = items.Where(i => i.DepartmentId == manager.DepartmentId);
             return items;
         }
 

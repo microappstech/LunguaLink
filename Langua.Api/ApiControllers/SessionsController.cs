@@ -19,6 +19,7 @@ using Langua.Models;
 using Langua.Repositories.Interfaces;
 using Langua.Repositories.Services;
 using Microsoft.AspNetCore.Routing.Matching;
+using Langua.Account;
 
 namespace Langua.Api.ApiControllers
 {
@@ -28,11 +29,13 @@ namespace Langua.Api.ApiControllers
         private LanguaContext context;
         private IMailService mailService;
         private LanguaService languaService;
-        public SessionsController(LanguaContext context,IMailService mail,LanguaService languaService)
+        private SecurityService _security;
+        public SessionsController(LanguaContext context,IMailService mail,LanguaService languaService, SecurityService securityService)
         {
             this.context = context;
             this.mailService = mail;
             this.languaService = languaService;
+            _security = securityService;
         }
 
     
@@ -40,10 +43,20 @@ namespace Langua.Api.ApiControllers
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         public IEnumerable<Session> GetSessions()
         {
-            var items = this.context.Sessions.AsQueryable<Session>();
-            
-
+            var items = this.context.Sessions.AsQueryable<Session>();          
+            if(SecurityService.IsAdmin)
+                return items;
+            var manager = context.Managers.Where(i => i.UserId == _security.User.Id).FirstOrDefault();
+            if (manager is null)
+                return null;
+            var groupIds = context.Groups.Where(g=>g.DepartmentId == manager.DepartmentId).Select(i=>i.Id).ToList();
+            var teacherIds = context.Teachers.Where(g=>g.DepartementId== manager.DepartmentId).Select(i => i.Id).ToList();
+            if(groupIds is not null)
+                items = items.Where(i => groupIds.Contains(i.GroupId));
+            if(teacherIds is not null)
+                items = items.Where(i => teacherIds.Contains(i.TeacherId));
             return items;
+
         }
 
         partial void OnSessionsRead(ref IQueryable<Session> items);
@@ -52,8 +65,6 @@ namespace Langua.Api.ApiControllers
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         [HttpGet("/odata/Langua/Sessions(Id={Id})")]
-        //[HttpGet("/odata/Langua/Sessions({Id})")]
-        //public SingleResult<Session> GetSession(int Id)
         public Session GetSession(int Id)
         {
             var items = this.context.Sessions.Where(i => i.Id == Id).Include(s=>s.Group).ThenInclude(s=>s.Candidats).FirstOrDefault();

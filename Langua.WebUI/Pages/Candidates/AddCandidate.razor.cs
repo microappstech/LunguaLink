@@ -15,6 +15,7 @@ namespace Langua.WebUI.Pages.Candidates
 
         protected Candidat? candidate { get; set; }
         public IEnumerable<Subject>? subjects { get; set; }
+        public IEnumerable<Department>? Departments { get; set; }
         public bool DataReady { get; set; }
         public string? ErrorMail { get; set; }
         public List<string> Errors { get; set; } = new ();
@@ -22,6 +23,11 @@ namespace Langua.WebUI.Pages.Candidates
         {
             candidate = new Candidat();
             var SubjectResult = _repositorySubjects!.GetAll();
+            var resultDeparts = await LanguaService.GetDepartement();
+            if (resultDeparts.Succeeded)
+            {
+                Departments = resultDeparts.Value;
+            }
             if (SubjectResult.Succeeded)
             {
                 subjects = SubjectResult.Value;

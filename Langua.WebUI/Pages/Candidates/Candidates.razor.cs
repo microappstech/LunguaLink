@@ -39,16 +39,10 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task loadData(LoadDataArgs args)
         {
-            var candidatesResult = LanguaService.GetCandidates();
+            var candidatesResult = LanguaService.GetCandidates(includes: "Departement");
 
             if (candidatesResult.Succeeded)
             {
-               // IQueryCollection queryCollection =
-               //     new QueryCollection(
-               //         new Dictionary<string, StringValues> { { "include", new StringValues("Subject,User") } }
-               //         );
-               //var resul = await  baseService!.Apply<Models.Candidat>(candidatesResult.Value, queryCollection);
-
                 candidates = candidatesResult.Value;
                 if (!string.IsNullOrEmpty(args.Filter))
                     fcandidates = candidates.AsQueryable().Where(args.Filter).ToList();

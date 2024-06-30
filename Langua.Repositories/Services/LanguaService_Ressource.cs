@@ -1,4 +1,5 @@
-﻿using Langua.Models;
+﻿using Langua.Account;
+using Langua.Models;
 using Langua.Shared.Data;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
@@ -12,6 +13,31 @@ namespace Langua.Repositories.Services
 {
     public partial class LanguaService
     {
+        public async Task<Result<IEnumerable<Ressource>>> GetRessources(string includes ="")
+        {
+            var resResult = Context.Ressources.AsQueryable();
+            if(resResult is null )
+                return await Task.FromResult(new Result<IEnumerable<Ressource>>(false, null!));
+            if(!string.IsNullOrEmpty(includes))
+                foreach(var inc in includes.Split(','))
+                {
+                    resResult = resResult.Include(inc);
+                }
+            if(SecurityService.IsAdmin)
+                return await Task.FromResult(new Result<IEnumerable<Ressource>>(true, resResult));
+            var Manager = Context.Managers.Where(i => i.UserId == security.User.Id).FirstOrDefault();
+            if(Manager == null )
+                return await Task.FromResult(new Result<IEnumerable<Ressource>>(false, null!));
+            var teacherIds = Context.Teachers.Where(t=>t.DepartementId==Manager.DepartmentId).Select(i=>i.Id).ToList();
+            if(teacherIds is not null)
+                resResult = resResult.Where(i => teacherIds.Contains((int)i.TeacherId) == true);
+
+            resResult = resResult.AsNoTracking();            
+            return await Task.FromResult(new Result<IEnumerable<Ressource>>(true, resResult));
+            
+
+        }
+
         public async Task<Result<bool>> PublishRessource(ContentGroup CG, List<int> PublishToGroupsId)
         {
             try

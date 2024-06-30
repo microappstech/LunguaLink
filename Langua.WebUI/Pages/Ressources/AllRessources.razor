@@ -1,0 +1,100 @@
+﻿@page "/All-Ressource"
+@inherits BasePage
+
+<RadzenStack>
+    <RadzenRow class="my-2">
+        <RadzenColumn Size="4">
+            <RadzenText Text="@L["Contenus"]" TextStyle="TextStyle.DisplayH4" />
+        </RadzenColumn>
+        <RadzenColumn Size="8"></RadzenColumn>
+        
+    </RadzenRow>
+    <RadzenRow>
+        <RadzenColumn Size="_SizeGridColumn">
+            <RadzenDataGrid EmptyText="@L["No Data To Display"]" @ref="ResGrid" Data="Resources" AllowFiltering=true FilterMode="FilterMode.Simple" AllowSorting=true>
+                <Columns>
+                    <RadzenDataGridColumn Property="Name" Title="@L["Ressource Name"]" />
+                    <RadzenDataGridColumn Property="RessourceTypeStr" Title="@L["Ressource Type"]" />
+                    <RadzenDataGridColumn Title="@L["Teacher"]">
+                        <Template Context="RContext">
+                            <span>@RContext.Teacher?.FullName</span>
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn Property="GroupsName" Title="@L["Published To"]" />
+                    <RadzenDataGridColumn Context="CtxRes" TItem="Langua.Models.Ressource" Width="180px">
+                        <Template>
+                            <RadzenButton Icon="delete" Size="ButtonSize.Medium" Click="@(args=>Delete(CtxRes))" ButtonStyle="ButtonStyle.Danger" Shade="Shade.Lighter" />
+                            <RadzenButton Icon="preview" Size="ButtonSize.Medium" Click="@(args=>Preview(CtxRes))" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenColumn>
+        <RadzenColumn Size="_SizePreviewColumn" Visible=_PreviewColumnVisible>
+            <object type="application/pdf" width="100%" height="400px" data="@base64">
+                your browser doesn't support pdf view
+            </object>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+@code{
+    [Inject] public IRepositoryCrudBase<Models.Ressource> repositoryRessource { get; set; } = null!;
+    private RadzenDataGrid<Models.Ressource> ResGrid = null!;
+    public List<Models.Ressource> Resources { get; set; } = null!;
+    public string url { get; set; } = null!;
+    public string base64 { get; set; } = null!;
+
+    int _SizeGridColumn = 12;
+    int _SizePreviewColumn = 0;
+    bool _PreviewColumnVisible = false;
+    protected override async Task OnInitializedAsync()
+    {
+        await Security!.InitializeAsync();
+        
+        var resRessources = await LanguaService.GetRessources(includes: "GroupRessources,Teacher");
+        if (resRessources.Succeeded)
+        {
+            Resources = resRessources.Value.ToList();
+            Resources.ToList()?.ForEach(res =>
+            {
+                res.GroupRessources.ToList()?.ForEach(GR =>
+                {
+                    res.GroupsName += $"{GR.Group?.Name}, ";
+                });
+            });
+        }
+    }
+    public async Task Delete(Models.Ressource ressource)
+    {
+        if (await Confirm(L["Confirm Delete"], L["Are you sure want to delete this item"]) == true)
+        {
+            var DeleteRes = repositoryRessource.Delete(ressource);
+            if (DeleteRes.Succeeded)
+            {
+                await ResGrid.Reload();
+                Notify(L["Successful"], L["The Item successful deleted"], NotificationSeverity.Success);
+            }
+        }
+    }
+
+
+    private async Task Preview(Models.Ressource r)
+    {
+        switch ((RessourceType)r.RessourceType)
+        {
+            case RessourceType.File:
+                _SizePreviewColumn = 6;
+                _SizeGridColumn = 6;
+                _PreviewColumnVisible = true;
+                url = $"data:application/pdf;base64,{Convert.ToBase64String(r.ContentBytes, 0, r.ContentBytes.Length)}";
+                base64 = $"data:application/pdf;base64,{r.ContentFile}";
+                break;
+
+            case RessourceType.VEDIO:
+            case RessourceType.URL:
+                await JSRuntime.InvokeVoidAsync("open", r.Url, "_blank");
+                break;
+        }
+    }
+
+}

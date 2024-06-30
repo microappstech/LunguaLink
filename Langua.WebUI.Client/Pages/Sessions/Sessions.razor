@@ -29,17 +29,17 @@
                 <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
                                 Data="@sessions" LoadData="@Grid0LoadData" Count="@count" TItem="Models.Session" RowSelect="@EditRow">
                     <Columns>
-                        <RadzenDataGridColumn TItem="Models.Session" Property="Id" Title="Id">
+                        <RadzenDataGridColumn Property="Id" Title="Id">
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Models.Session" Property="Name" Title="Name">
+                        <RadzenDataGridColumn Property="Name" Title="Name">
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Models.Session" Property="Group.Name" Title="Group">
+                        <RadzenDataGridColumn Property="Group.Name" Title="Group">
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Models.Session" Property="Teacher.FullName" Title="Teacher">
+                        <RadzenDataGridColumn Property="Teacher.FullName" Title="Teacher">
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Models.Session" Property="Start" Title="Start">
+                        <RadzenDataGridColumn Property="Start" Title="Start">
                         </RadzenDataGridColumn>
-                        <RadzenDataGridColumn TItem="Models.Session" Property="End" Title="End">
+                        <RadzenDataGridColumn Property="End" Title="End">
                         </RadzenDataGridColumn>
                         <RadzenDataGridColumn TItem="Models.Session" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
                             <Template Context="session">
