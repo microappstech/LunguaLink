@@ -4,14 +4,13 @@
 <PageTitle>Edit Candidate</PageTitle>
 <div class="px-2">
 
-    <EditForm Model="@candidate" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
+    <RadzenTemplateForm Data="@candidate" Submit="@((Candidat Can)=>HandleValidSubmit())">
         <div class="row">
             <div class="form-group mb-1 col-md-6">
                 <label for="Photo">@L["Photo"] :</label>
-                <InputFile id="Photo" OnChange="@loadImage" class="form-control" />
+                @* <InputFile id="Photo" OnChange="@loadImage" class="form-control" /> *@
+                <RadzenFileInput @bind-Value=@candidate.Photo @bind-FileName=@fileName @bind-FileSize=@fileSize TValue="string" class="w-90"
+                        Error=@(args => OnError(args, "FileInput")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
             </div>
             <div class="col-md-5">
                 <img src="" />
@@ -20,20 +19,25 @@
         <div class="row d-flex">
             <div class="form-group mb-1 col-md-6">
                 <label for="FullName">@L["Full Name"] :</label>
-                <InputText id="FullName" @bind-Value="candidate.FullName" class="form-control" />
+                <RadzenTextBox id="FullName" @bind-Value="candidate.FullName" class="form-control" Name="FullName" />
+                <RadzenRequiredValidator Component="desc" Text="@L["The Field is required"]" Popup=true />
             </div>
 
             <div class="form-group mb-1 col-md-6">
                 <label for="Phone">@L["Phone"] :</label>
-                <InputText id="Phone" @bind-Value="candidate.Phone" class="form-control" />
+                <RadzenTextBox Name="Phone" id="Phone" @bind-Value="candidate.Phone" class="form-control" />
+                <RadzenRequiredValidator Component="Phone" Text="@L["The Field is required"]" Popup=true />
             </div>
         </div>
 
-        <div class="form-group mb-1">
+        <div class="form-group mb-2">
             <label for="Email">@L["Email"] :</label>
-            <InputText id="Email" @bind-Value="candidate.Email" class="form-control" />
+            <RadzenTextBox id="Email" @bind-Value="@candidate.Email" class="form-control" Name="Email" />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
+            <RadzenEmailValidator Component="Email" Text="@L["Provide a valid email address"]" Popup=true />
+            <RadzenCustomValidator Validator="(()=>MailNotTaken(candidate.Email))" Text="@L["Mail already taken"]" Popup=true />
         </div>
-@* 
+        @* 
         <div class="form-group row mb-1">
             <div class="col-3">
                 @L["Change password"]
@@ -62,7 +66,7 @@
             <button type="button" @onclick="@(()=>Close())" class="btn btn-secondary px-5">Close</button>
 
         </div>
-    </EditForm>
+    </RadzenTemplateForm>
 
 </div>
 

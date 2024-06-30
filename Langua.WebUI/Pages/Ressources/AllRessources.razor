@@ -15,7 +15,7 @@
                 <Columns>
                     <RadzenDataGridColumn Property="Name" Title="@L["Ressource Name"]" />
                     <RadzenDataGridColumn Property="RessourceTypeStr" Title="@L["Ressource Type"]" />
-                    <RadzenDataGridColumn Title="@L["Teacher"]">
+                    <RadzenDataGridColumn Title="@L["Teacher"]" Property="Teacher.FullName">
                         <Template Context="RContext">
                             <span>@RContext.Teacher?.FullName</span>
                         </Template>

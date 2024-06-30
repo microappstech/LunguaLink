@@ -46,7 +46,7 @@
 
     public async Task Delete(Models.ApplicationUser usr)
     {
-        if (await Confirm(L["Confirmation"], L["Are you sure want to delete this manager"]) == true)
+        if (await Confirm(L["Confirmation"], L["Are you sure want to delete this manager, If you deleted this user will be delete teacher or candidate or manager"]) == true)
         {
             var resultDelete = baseRepository!.Delete(usr);
             if (resultDelete.Succeeded)

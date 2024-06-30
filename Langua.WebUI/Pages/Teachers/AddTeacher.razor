@@ -4,24 +4,8 @@
 <PageTitle>Add Candidate</PageTitle>
 <div class="px-2">
 
-    @* <EditForm Model="@teacher" OnValidSubmit="@HandleValidSubmit"> *@
+    
         <RadzenTemplateForm Data="@teacher" TItem="Teacher" Submit="HandleValidSubmit">
-        <div class="text-danger">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
-            @if (Errors.Count() > 0)
-            {
-                <ul>
-
-                    @foreach (var error in Errors)
-                    {
-                        <li>@error</li>
-                    }
-                </ul>
-            }
-        </div>
-        
-
         <div class="row">
             <div class="form-group mb-1 col-md-6">
                 <div class="form-group mb-3">

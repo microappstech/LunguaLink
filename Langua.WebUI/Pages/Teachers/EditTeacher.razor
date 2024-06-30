@@ -3,65 +3,47 @@
 @inherits EditTeacherComponent
 <PageTitle>Edit Teacher</PageTitle>
 <div class="px-2">
-
-    <EditForm Model="@teacher" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
+    <RadzenTemplateForm Data="@teacher" TItem="Teacher" Submit="HandleValidSubmit">
         <div class="row">
             <div class="form-group mb-1 col-md-6">
-                <label for="Photo">@L["Photo"] :</label>
-                <RadzenFileInput id="teacher" @bind-Value="teacher.Photo" class="form-control" />
+                <div class="form-group mb-3">
+                    <label for="Photo">@L["Photo"] :</label>
+                    <RadzenFileInput @bind-Value=@teacher.Photo @bind-FileName=@fileName @bind-FileSize=@fileSize TValue="string" class="w-100"
+                                     Error=@(args => OnError(args, "FileInput")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
+                </div>
+                
             </div>
-            <div class="col-md-5">
-                <img src="" />
+            <div class="col-md-6 my-auto">
+                <div class="form-group mb-3 ">
+                    <label for="FullName">@L["Full Name"] :</label>
+                    <RadzenTextBox id="FullName" @bind-Value="teacher.FullName" class="form-control" Name="FullName" />
+                    <RadzenRequiredValidator Component="FullName" Text="@L["The Filed is Required"]" Popup=true />
+                </div>
+
+                <div class="form-group mb-3 ">
+                    <label for="Phone">@L["Phone"] :</label>
+                    <RadzenTextBox id="Phone" @bind-Value="teacher.Phone" class="form-control" Name="Phone" />
+                    <RadzenRequiredValidator Component="Phone" Text="@L["The Filed is Required"]" Popup=true />
+                </div>
             </div>
         </div>
-        <div class="row d-flex">
-            <div class="form-group mb-1 col-md-6">
-                <label for="FullName">@L["Full Name"] :</label>
-                <InputText id="FullName" @bind-Value="@teacher.FullName" class="form-control" />
-            </div>
 
-            <div class="form-group mb-1 col-md-6">
-                <label for="Phone">@L["Phone"] :</label>
-                <InputText id="Phone" @bind-Value="teacher.Phone" class="form-control" />
-            </div>
-        </div>
-
-        <div class="form-group mb-1">
+        <div class="form-group mb-3">
             <label for="Email">@L["Email"] :</label>
-            <InputText id="Email" @bind-Value="teacher.Email" class="form-control" />
+            <RadzenTextBox Name="Email" id="Email" @bind-Value="teacher.Email" class="form-control" AutoComplete="false" />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
+            <RadzenEmailValidator Component="Email" Text="@L["Provide a valid email address"]" Popup=true />
+            <RadzenCustomValidator Validator="(()=>MailNotTaken(teacher.Email))" Text="@L["Mail already taken"]" Popup=true />
         </div>
-@* 
-        <div class="form-group row mb-1">
-            <div class="col-3">
-                @L["Change password"]
-            </div>
-            <div class="col-9">
 
-                <RadzenRadioButtonList @bind-Value="ChangePass">
-                    <Items>
-                        <RadzenRadioButtonListItem Value="true" Text="@L["Yes"]" />
-                        <RadzenRadioButtonListItem Value="false" Text="@L["No"]" />
-                    </Items>
-                </RadzenRadioButtonList>
-            </div>
-        </div>
-        @if (ChangePass)
-        {
-            <div class="form-group mb-1 col-md-6">
-                <label for="Password">Password :</label>
-                <InputText id="Password" type="Password" @bind-Value="teacher.Password" class="form-control" />
-            </div>
-        } *@
         <div class="mx-auto mt-2 text-center">
-            <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
-            <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
-            <button type="button" @onclick="@(()=>dialogService.Close())" class="btn btn-secondary px-5">Close</button>
-
+            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="@L["Save"]" ButtonStyle="ButtonStyle.Primary" class="px-5">
+            </RadzenButton>
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="close" style="margin-left: 1rem" Text="@L["Cancel"]" Click="@(()=>dialogService.Close(null))" class="px-5">
+            </RadzenButton>
+            <RadzenButton ButtonType="ButtonType.Reset" ButtonStyle="ButtonStyle.Danger" style="margin-left: 1rem" Icon="reset" Text="@L["Reset"]" class="px-5" />
         </div>
-    </EditForm>
+    </RadzenTemplateForm>
 
 </div>
 

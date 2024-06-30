@@ -11,6 +11,8 @@ namespace Langua.WebUI.Pages.Teachers
 {
     public partial class EditTeacherComponent : BasePage
     {
+        protected string fileName;
+        protected long? fileSize;
         [Parameter] public int Id { get; set; }
         public Teacher teacher { get; set; }
         public bool ChangePass { get; set; }
@@ -48,5 +50,9 @@ namespace Langua.WebUI.Pages.Teachers
             await Task.CompletedTask;
         }
 
+        public void OnError(UploadErrorEventArgs args, string name)
+        {
+            Notify(L["Error"], args.Message, NotificationSeverity.Error);
+        }
     }
 }

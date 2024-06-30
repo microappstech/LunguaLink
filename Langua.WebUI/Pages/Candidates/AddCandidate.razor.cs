@@ -10,6 +10,9 @@ namespace Langua.WebUI.Pages.Candidates
 {
     public partial class AddCandidateComponent : BasePage
     {
+        protected string fileName;
+        protected long? fileSize;
+        public bool Submited { get; set; }
         [Inject] private IRepositoryCrudBase<Candidat>? _repository { get; set; }
         [Inject] private IRepositoryCrudBase<Subject>? _repositorySubjects { get; set; }
 
@@ -44,7 +47,7 @@ namespace Langua.WebUI.Pages.Candidates
         }
         protected async Task HandleValidSubmit()
         {
-
+            Submited = true;
             ErrorMail = "";
             if (!string.IsNullOrEmpty(candidate?.Email) && !candidate.Email.Contains("@gmail.com"))
             {
@@ -101,6 +104,7 @@ namespace Langua.WebUI.Pages.Candidates
                 }
                 
             }
+            Submited = false;
         }
         public void Close()
         {
@@ -115,6 +119,15 @@ namespace Langua.WebUI.Pages.Candidates
             
             candidate.Photo = "data:image/png;base64," + base64;
 
+        }
+        public void OnChange(string value, string name)
+        {
+
+        }
+
+        public void OnError(UploadErrorEventArgs args, string name)
+        {
+            Notify(L["Error"], args.Message, NotificationSeverity.Error);
         }
     }
 }

@@ -5,11 +5,8 @@
 <PageTitle>Add Candidate</PageTitle>
 <div class="px-2">
 
-    <EditForm Model="@candidate" OnValidSubmit="@HandleValidSubmit">
+    <RadzenTemplateForm Data="@candidate" Submit="@((Candidat candidat)=>HandleValidSubmit())">
         <div  class="text-danger">
-            
-            <DataAnnotationsValidator />
-            <ValidationSummary />
             @if (Errors.Count() > 0)
             {
                 <ul>
@@ -25,18 +22,19 @@
         <div class="row">
             <div class="form-group mb-1 col-md-6">
                 <label for="Photo">@L["Photo"] :</label>
-                <RadzenFileInput id="Photo" @bind-Value="@candidate.Photo" class="form-control" />
+                <RadzenFileInput @bind-Value=@candidate.Photo @bind-FileName=@fileName @bind-FileSize=@fileSize TValue="string" class="w-90"
+                                 Change=@(args => OnChange(args, "FileInput")) Error=@(args => OnError(args, "FileInput")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
             </div>
             <div class="col-md-6 my-auto">
                 <div class="form-group my-auto">
                     <label for="FullName">@L["Full Name"] :</label>
                     <RadzenTextBox Name="FullName" id="FullName" @bind-Value="candidate.FullName" class="form-control" />
-                    <RadzenRequiredValidator Component="FullName" Text="@L["The Field is required"]" Popup=true />
+                    <RadzenRequiredValidator Component="FullName" Text="@L["The Field is required"]" Popup=false/>
                 </div>
                 <div class="form-group my-auto">
                     <label for="FullName">@L["Department"] :</label>
                     <RadzenDropDown Data="Departments" @bind-Value="candidate.DepartementId" ValueProperty="Id" TextProperty="Name" Name="Department" class="w-100" />
-                    <RadzenRequiredValidator Component="Department" Text="@L["The Field is required"]" Popup=true />
+                    <RadzenRequiredValidator Component="Department" Text="@L["The Field is required"]" Popup=false />
                 </div>
             </div>
         </div>
@@ -44,9 +42,9 @@
         <div class="form-group mb-2">
             <label for="Email">@L["Email"] :</label>
             <RadzenTextBox id="Email" @bind-Value="@candidate.Email" class="form-control" Name="Email" />
-            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
-            <RadzenEmailValidator Component="Email" Text="@L["Provide a valid email address"]" Popup=true />
-            <RadzenCustomValidator Validator="(()=>MailNotTaken(candidate.Email))" Text="@L["Mail already taken"]" Popup=true />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" />
+            <RadzenEmailValidator Component="Email" Text="@L["Provide a valid email address"]" />
+            <RadzenCustomValidator Validator="(()=>MailNotTaken(candidate.Email))" Text="@L["Mail already taken"]" />
         </div>
 
         <div class="row">
@@ -70,16 +68,16 @@
             <div class="form-group mb-2 col-md-6">
                 <label for="Phone">@L["Phone"] :</label>
                 <RadzenTextBox Name="Phone" id="Phone" @bind-Value="candidate.Phone" class="form-control" />
-                <RadzenRequiredValidator Component="Phone" Text="@L["The Field is required"]" Popup=true />
+                <RadzenRequiredValidator Component="Phone" Text="@L["The Field is required"]" />
             </div>  
         </div>
         <div class="mx-auto mt-2 text-center">
-            <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
+            <RadzenButton type="submit" class="btn btn-primary px-5 mx-3" Text="@L["Submit"]" IsBusy="Submited" />
             <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
             <button type="button" @onclick="@(()=>Close())" class="btn btn-secondary px-5">Close</button>
 
         </div>
-    </EditForm>
+    </RadzenTemplateForm>
 
 </div>
 

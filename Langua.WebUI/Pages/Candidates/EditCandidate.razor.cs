@@ -9,7 +9,9 @@ namespace Langua.WebUI.Pages.Candidates
 {
     public partial class EditCandidateComponent:BasePage
     {
-
+        protected string fileName;
+        protected long? fileSize;
+        public bool Submited { get; set; }
         [Parameter] public int Id { get; set; }
         [Inject] private IRepositoryCrudBase<Candidat> _repository { get; set; }
         public bool Changepass { get; set; }
@@ -26,6 +28,11 @@ namespace Langua.WebUI.Pages.Candidates
                 await Task.CompletedTask;
             }
 
+        }
+
+        public void OnError(UploadErrorEventArgs args, string name)
+        {
+            Notify(L["Error"], args.Message, NotificationSeverity.Error);
         }
         protected async Task HandleValidSubmit()
         {
