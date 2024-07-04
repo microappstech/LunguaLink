@@ -74,10 +74,6 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
         options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
-        
-
-        //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     }).AddJwtBearer(opts =>
     {
         byte[] SigninKey = Encoding.ASCII.GetBytes(builder.Configuration["AuthSettings:Key"]);
@@ -103,11 +99,6 @@ builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     options.EnableSensitiveDataLogging(true);
 });
-//builder.Services.AddDbContext<LanguaContext>(options =>
-//{
-//    options.UseSqlServer(connectionString);
-//});
-
 
 builder.Services.AddSignalR();
 

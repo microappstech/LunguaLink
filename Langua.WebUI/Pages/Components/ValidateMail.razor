@@ -21,16 +21,25 @@
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow>
-            <RadzenButton Disabled="@(DisabledBtn)" class="w-50 mx-auto" ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Submit" Text="@L["Validate"]"/>
+            <RadzenColumn Size="6">
+                <RadzenButton Disabled="@(DisabledBtn)" class="w-100 mx-auto" ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Submit" Text="@L["Validate"]" />
+            </RadzenColumn>
+            <RadzenColumn Size="6">
+                <RadzenButton BusyText="@timerDisplay" class="w-100 mx-auto" IsBusy=DisabledBtnResend ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Button" Click="ResendVerCode" Text="@L["Resend"]" />
+            </RadzenColumn>
         </RadzenRow>
     </RadzenCard>
 </RadzenTemplateForm>
 
 @code{
     [Inject] private IMailService _mailService { get; set; }
+
     [Parameter] public string Email { get; set; }
+    [Parameter] public string UserId { get; set; }
+    public Timer timer;
     public string Error { get; set; }
     public bool DisabledBtn { get; set; } = true;
+    public bool DisabledBtnResend { get; set; }
     private ConfirmEmail confirmMail { get; set; }
     protected override Task OnInitializedAsync()
     {
@@ -42,7 +51,6 @@
     }
     protected void VerificationCodeChanged(string value)
     {
-        // DisabledBtn = ((!string.IsNullOrEmpty(confirmMail.CodeVerification) && confirmMail.CodeVerification.Count() != 4)) &&!( int.TryParse(confirmMail.CodeVerification, out int value));
         DisabledBtn = !(!string.IsNullOrEmpty(value) && value.Length == 4 && int.TryParse(value, out int code));
     }
     protected async Task Submit(ConfirmEmail args)
@@ -56,5 +64,40 @@
         }
         await InvokeAsync(StateHasChanged);
         dialogService.Close(true);
+    }
+
+    private int countdownSeconds = 60; // Initial countdown time in seconds
+    private string timerDisplay { get; set; }
+    private async void UpdateTimerDisplay()
+    {
+        await InvokeAsync(StateHasChanged);
+        int minutes = countdownSeconds / 60;
+        int seconds = countdownSeconds % 60;
+        timerDisplay = $"{minutes:00}:{seconds:00}";
+        await InvokeAsync(StateHasChanged);
+    }
+    public async Task ResendVerCode()
+    {
+        try
+        {
+            DisabledBtnResend = true;
+            countdownSeconds = 60;
+            UpdateTimerDisplay();
+            var Candidate = await Security.GetById(UserId);
+            while (countdownSeconds > 0)
+            {
+                await Task.Delay(1000);
+                countdownSeconds--;
+                UpdateTimerDisplay();
+            }
+            DisabledBtnResend = false;
+            timerDisplay = "";
+            var result = mailService.SendVerificationCode(Email, Email.Substring(0, Email.IndexOf("@")), Candidate.Code);
+            
+        }
+        catch(Exception ex)
+        {
+            NotifyError(L["Error"], L["Something wrong, Please try agin"]);
+        }
     }
 }

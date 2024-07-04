@@ -213,7 +213,7 @@ namespace Langua.Api.ApiControllers
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] Session item)
+        public async Task<IActionResult> Post([FromBody] Session item)
         {
             try
             {
@@ -235,7 +235,7 @@ namespace Langua.Api.ApiControllers
                 {
                     candidatesEmail.Add(cand.FullName, cand!.Email);
                 }
-                var SendMailToCands = mailService.SendMails("New Session Created", @$"Admin langua create a new session <h3>{item.Name}</h3> in {item.Start.ToShortDateString()} from {item.Start.TimeOfDay } to {item.End.TimeOfDay}
+                var SendMailToCands = await mailService.SendMails("New Session Created", @$"Admin langua create a new session <h3>{item.Name}</h3> in {item.Start.ToShortDateString()} from {item.Start.TimeOfDay } to {item.End.TimeOfDay}
                             . <br/> Don't forget to present to the session", candidatesEmail); 
                 if(SendMailToCands)
                     this.context.Sessions.Add(item);

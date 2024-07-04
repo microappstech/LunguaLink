@@ -39,7 +39,7 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task loadData(LoadDataArgs args)
         {
-            var candidatesResult = LanguaService.GetCandidates(includes: "Departement");
+            var candidatesResult = LanguaService.GetCandidates(includes: "Departement,User");
 
             if (candidatesResult.Succeeded)
             {
@@ -73,7 +73,7 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task ConfirmMail(Candidat args)
         {
-            var result = await dialogService.OpenAsync<ValidateMail>("Confirm you email", new Dictionary<string, object> { { "Email", args.Email } });
+            var result = await dialogService.OpenAsync<ValidateMail>("Confirm you email", new Dictionary<string, object> { { "Email", args.Email }, { "UserId",args.UserId } });
             await grid0!.Reload();
         }
         public async Task Delete(Candidat candidat)

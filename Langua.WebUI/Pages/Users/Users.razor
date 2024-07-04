@@ -35,7 +35,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var result = baseRepository!.GetAll();
+        var result = await LanguaService.GetUsers();
         if (result.Succeeded)
         {
             users = result.Value;

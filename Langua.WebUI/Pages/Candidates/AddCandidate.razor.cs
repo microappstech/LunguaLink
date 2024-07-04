@@ -1,3 +1,4 @@
+using BenchmarkDotNet.Validators;
 using Langua.DataContext.Data;
 using Langua.Models;
 using Langua.Repositories.Interfaces;
@@ -54,8 +55,7 @@ namespace Langua.WebUI.Pages.Candidates
                 ErrorMail = L["Email Should be account google"];
                 return;
             }
-            var verification_code = candidate?.Email?.Count().ToString() + DateTime.Now.Day.ToString();
-            candidate.Password = candidate.Email.Substring(0, candidate.Email.IndexOf("@") - 1) + "_" + DateTime.Now.Day;
+            candidate.Password = candidate.Email.Substring(0, candidate.Email.IndexOf("@")) + "_" + DateTime.Now.Day;
             ApplicationUser _user = new ApplicationUser()
             {
                 Email = candidate.Email,
@@ -65,7 +65,7 @@ namespace Langua.WebUI.Pages.Candidates
                 PhoneNumber = candidate.Phone,
                 FullName = candidate.FullName,
                 EmailConfirmed = false,
-                Code= verification_code,
+                Code= GenerateVerificationCode(),
 
             };
 
@@ -77,7 +77,7 @@ namespace Langua.WebUI.Pages.Candidates
 
                     if (taskResult.Succeeded)
                     {
-                        var sendVerifyMail = mailService.SendVerificationCode(candidate.Email,candidate.FullName,verification_code);
+                        var sendVerifyMail = mailService.SendVerificationCode(candidate.Email,candidate.FullName,_user.Code);
                         var r = await Security.AddRoleToUser(taskResult.Value, "CANDIDATE");
                         candidate.UserId = taskResult.Value.Id;
                         var result = _repository.Add(candidate);

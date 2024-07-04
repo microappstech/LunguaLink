@@ -18,7 +18,7 @@ namespace Langua.Repositories.Services
         {
             this.configuration = configuration;
         }
-        public bool SendMail(string subject, string body,string ToMail,string ToName)
+        public async Task<bool> SendMail(string subject, string body,string ToMail,string ToName)
         {
             try
             {
@@ -43,13 +43,13 @@ namespace Langua.Repositories.Services
 
                 }
 
-                return true;
+                return await Task.FromResult(true);
             }catch
             {
-                return false;
+                return await Task.FromResult(false);
             }
         }
-        public bool SendMails(string subject, string body, Dictionary<string, string> ToName_Mails) 
+        public async Task<bool> SendMails(string subject, string body, Dictionary<string, string> ToName_Mails) 
         {
             try
             {
@@ -77,17 +77,30 @@ namespace Langua.Repositories.Services
                         emailMsg.Dispose();
                     }
                 }
-                return true;
+                return await Task.FromResult(true);
             }
             catch
             {
-                return false;
+                return await Task.FromResult(false);
             }
         }
-        public bool SendVerificationCode(string Mail, string Name, string code_verification)
+        public async Task<bool> SendVerificationCode(string Mail, string Name, string code_verification)
         {
-            var sendMail = SendMail("Email verification", $"Hello {Name}, this code verification for your applicant in Langua Link : {code_verification}", Mail, Name);
+            var sendMail = await SendMail("Email verification", $"Hello {Name}, this code verification for your applicant in Langua Link : {code_verification}", Mail, Name);
             return sendMail;
+        }
+
+        public string GenerateVerificationCode()
+        {
+            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            StringBuilder code = new StringBuilder();
+            Random random = new Random();
+
+            for (int i = 0; i < 6; i++)
+            {
+                code.Append(chars[random.Next(chars.Length)]);
+            }
+            return code.ToString();
         }
     }
 }
