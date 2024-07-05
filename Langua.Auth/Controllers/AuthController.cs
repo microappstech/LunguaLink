@@ -44,7 +44,7 @@ namespace Langua.Account.Controllers
         //public async Task<ApiResponse> Login(string Username, string Password)
         [HttpPost("Login")]
         [AllowAnonymous]
-        public async Task<ApiResponse> Login([FromBody] LoginInput loginInput)
+        public async Task<LoginResponse> Login([FromBody] LoginInput loginInput)
         
         {
             string username = loginInput.Email;
@@ -54,7 +54,7 @@ namespace Langua.Account.Controllers
                 ApplicationUser user = await userManager.FindByEmailAsync(username);
                 if(user is null) 
                 {
-                    return new ApiResponse 
+                    return new LoginResponse
                     {
                         Success = false, 
                         Message = "No user found" 
@@ -63,7 +63,7 @@ namespace Langua.Account.Controllers
                 var signInResult = await signInManager.PasswordSignInAsync(user, password,false,false);
                 if(!signInResult.Succeeded)
                 {
-                    return new ApiResponse
+                    return new LoginResponse
                     {
                         Success = false,
                         Message = "Password is incorrect"
@@ -80,12 +80,9 @@ namespace Langua.Account.Controllers
                         claims.Append(new Claim(ClaimTypes.Name, user.FullName));
                     var token = _apiHelper.GenerateToken(claims);
                     Response.Cookies.Append("token", token);
-                    return new ApiResponse<object>
+                    return new LoginResponse
                     {
-                        Data = new
-                        {
-                            token
-                        },
+                        Token = token,
                         Success = true,
                         Message = "Successed"
                     };
@@ -93,7 +90,7 @@ namespace Langua.Account.Controllers
                 
             }catch(Exception ex)
             {
-                return new ApiResponse { Success = false,Message =ex.Message };
+                return new LoginResponse { Success = false,Message =ex.Message };
             }
         }
     }
