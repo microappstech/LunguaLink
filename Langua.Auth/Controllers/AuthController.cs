@@ -8,6 +8,7 @@ using Langua.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
 
 
 namespace Langua.Account.Controllers
@@ -20,14 +21,15 @@ namespace Langua.Account.Controllers
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
         private readonly ApiHelper _apiHelper;
-
+        private IConfiguration config;
         public AuthController( SecurityService security , SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
-            ApiHelper apiHelper)
+            ApiHelper apiHelper, IConfiguration configuration)
         {
             _securityService = security;
             this.userManager = userManager;
             this.signInManager = signInManager;
             _apiHelper = apiHelper;
+            config= configuration;
         }
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
@@ -80,11 +82,14 @@ namespace Langua.Account.Controllers
                         claims.Append(new Claim(ClaimTypes.Name, user.FullName));
                     var token = _apiHelper.GenerateToken(claims);
                     Response.Cookies.Append("token", token);
+                    var expireTimeInmunite = int.TryParse(config["AuthSettings:TokenValidityInMinutes"], out int ExpTime) ? ExpTime : 10;
                     return new LoginResponse
                     {
                         Token = token,
                         Success = true,
-                        Message = "Successed"
+                        Message = "Successed",
+                        UserName = user.UserName,
+                        ExpiredAt = DateTime.Now.AddMinutes(expireTimeInmunite),
                     };
                 }
                 
