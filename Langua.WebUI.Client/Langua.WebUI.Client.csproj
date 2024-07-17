@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.3" />
 	  <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.0" />
@@ -39,6 +43,18 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguaResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Component.razor" />
   </ItemGroup>
 
 </Project>

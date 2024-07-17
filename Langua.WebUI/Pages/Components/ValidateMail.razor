@@ -51,7 +51,7 @@
     }
     protected void VerificationCodeChanged(string value)
     {
-        DisabledBtn = !(!string.IsNullOrEmpty(value) && value.Length == 4 && int.TryParse(value, out int code));
+        DisabledBtn = !(!string.IsNullOrEmpty(value) && value.Length == 6 && int.TryParse(value, out int code));
     }
     protected async Task Submit(ConfirmEmail args)
     {

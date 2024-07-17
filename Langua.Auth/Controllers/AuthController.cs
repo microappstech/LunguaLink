@@ -9,6 +9,9 @@ using Langua.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
+using Langua.Shared.Data;
 
 
 namespace Langua.Account.Controllers
@@ -21,15 +24,17 @@ namespace Langua.Account.Controllers
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
         private readonly ApiHelper _apiHelper;
+        private readonly LanguaContext context;
         private IConfiguration config;
         public AuthController( SecurityService security , SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
-            ApiHelper apiHelper, IConfiguration configuration)
+            ApiHelper apiHelper, IConfiguration configuration, LanguaContext context)
         {
             _securityService = security;
             this.userManager = userManager;
             this.signInManager = signInManager;
             _apiHelper = apiHelper;
             config= configuration;
+            this.context = context;
         }
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
@@ -77,6 +82,7 @@ namespace Langua.Account.Controllers
                     {
                         new Claim (ClaimTypes.Email,user.UserName),
                         new Claim (ClaimTypes.NameIdentifier,user.Id),
+                        new Claim(ClaimTypes.MobilePhone,user.PhoneNumber),
                     };
                     if (user.FullName is not null)
                         claims.Append(new Claim(ClaimTypes.Name, user.FullName));
@@ -89,6 +95,7 @@ namespace Langua.Account.Controllers
                         Success = true,
                         Message = "Successed",
                         UserName = user.UserName,
+                        UserId = user.Id,
                         ExpiredAt = DateTime.Now.AddMinutes(expireTimeInmunite),
                     };
                 }
@@ -98,5 +105,83 @@ namespace Langua.Account.Controllers
                 return new LoginResponse { Success = false,Message =ex.Message };
             }
         }
+        [Authorize]
+        [HttpPost("Profile")]
+        public async Task<ApiResponse<ResponseProfile>> Profile()
+        {
+            try
+            {
+                var ser = User;
+                var userid = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userName = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email);
+
+                SqlParameter UserId = new SqlParameter("@UserId", "e710ea0-7a07-43d1-87a5-290ca4413a72");
+
+                //var Items = context.from .FromSqlRaw(
+                //    @"  
+                //        select 
+                //         FullName,
+                //         Cn.UserId, 
+                //         Cn.Photo, 
+                //         Cn.Phone, 
+                //         Cn.Email,
+                //         Sb.Name as SubjectName,
+                //         Cn.CreatedAt,
+                //         Cn.IsConnected,
+                //         Dep.Name as DepartementName,
+                //         Gr.Name as GroupName 
+                //        from Candidates Cn
+                //        left join Departments Dep
+                //         on Cn.DepartementId = Dep.Id
+                //        left Join Subjects Sb 
+                //         on Sb.Id = Cn.SubjectId
+                //        Left join Groups Gr 
+                //         on Cn.GroupId = Gr.Id
+                //        where Cn.UserId = @UserId", UserId);
+
+                //var Item = Items.FirstOrDefault();
+                var Item = context.Candidates
+                    .Where(c => c.UserId == userid)
+                    .Select(c => new ResponseProfile
+                    {
+                        FullName = c.FullName,
+                        UserId =  c.UserId,
+                        Photo = c.Photo,
+                        Phone = c.Phone,
+                        Email = c.Email,
+                        SubjectName = c.Subject!=null? c.Subject.Name:"",
+                        CreatedAt = c.CreatedAt,
+                        IsConnected = c.IsConnected,
+                        DepartementName = c.Departement != null ? c.Departement.Name:"",
+                        GroupName = c.Group != null ? c.Group.Name : ""
+                    })
+                    .FirstOrDefault();
+
+                if (Item is null)
+                    return new ApiResponse<ResponseProfile> { Success = false, Message = "There No Candidat for this userid" };
+
+                return new ApiResponse<ResponseProfile> { Success = true,  Data = Item};
+
+            }
+            catch(Exception ex)
+            {
+                return new ApiResponse<ResponseProfile> { Success = false, Message = ex.Message };
+            }
+        }
+    }
+    public class ResponseProfile
+    {
+        public string? FullName { get; set; }
+        public string? UserId { get; set; }
+        public string? Photo { get; set; }
+        public string? Phone { get; set; }
+        public string? Email { get; set; }
+        public string? SubjectName { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public bool IsConnected { get; set; }
+        public string? DepartementName { get; set; }
+        public string? GroupName { get; set; }
+        public bool ConfirmedMail { get; set; }
+
     }
 }
