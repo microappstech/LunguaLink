@@ -12,11 +12,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Langua.Shared.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 
 namespace Langua.Account.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -40,7 +42,8 @@ namespace Langua.Account.Controllers
         public async Task<IActionResult> Logout()
         {
             await _securityService.Logut();
-            return Redirect("/login");
+            return Ok("Successfully loged out!");
+
         }
 
         [HttpGet("Test")]
@@ -105,8 +108,7 @@ namespace Langua.Account.Controllers
                 return new LoginResponse { Success = false,Message =ex.Message };
             }
         }
-        [Authorize]
-        [HttpPost("Profile")]
+        [HttpGet("Profile")]
         public async Task<ApiResponse<ResponseProfile>> Profile()
         {
             try
