@@ -154,6 +154,8 @@ namespace Langua.Account.Controllers
                         SubjectName = c.Subject!=null? c.Subject.Name:"",
                         CreatedAt = c.CreatedAt,
                         IsConnected = c.IsConnected,
+                        GroupId = c.GroupId,
+                        DepartementId = c.DepartementId,
                         DepartementName = c.Departement != null ? c.Departement.Name:"",
                         GroupName = c.Group != null ? c.Group.Name : ""
                     })
@@ -171,19 +173,5 @@ namespace Langua.Account.Controllers
             }
         }
     }
-    public class ResponseProfile
-    {
-        public string? FullName { get; set; }
-        public string? UserId { get; set; }
-        public string? Photo { get; set; }
-        public string? Phone { get; set; }
-        public string? Email { get; set; }
-        public string? SubjectName { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public bool IsConnected { get; set; }
-        public string? DepartementName { get; set; }
-        public string? GroupName { get; set; }
-        public bool ConfirmedMail { get; set; }
-
-    }
+    
 }

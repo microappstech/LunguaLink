@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Langua.Models
         public byte[]? ContentMessage { get; set; }
         public Models.ApplicationUser User { get; set; }
 
-        [NotMapped] public string Color { get; set;}
+        [NotMapped] public Color Color { get; set;}
         [NotMapped] public bool SuccessSended { get; set; }
     }
 }

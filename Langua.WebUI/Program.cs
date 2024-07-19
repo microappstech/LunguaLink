@@ -88,6 +88,7 @@ builder.Services.AddAuthentication(options =>
             ValidAudience = builder.Configuration["AuthSettings:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(SigninKey)
         };
+
     })
     .AddIdentityCookies();
 builder.Services.AddAuthorization();
