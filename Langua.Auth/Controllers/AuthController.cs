@@ -117,32 +117,9 @@ namespace Langua.Account.Controllers
                 var userid = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var userName = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Email);
 
-                SqlParameter UserId = new SqlParameter("@UserId", "e710ea0-7a07-43d1-87a5-290ca4413a72");
-
-                //var Items = context.from .FromSqlRaw(
-                //    @"  
-                //        select 
-                //         FullName,
-                //         Cn.UserId, 
-                //         Cn.Photo, 
-                //         Cn.Phone, 
-                //         Cn.Email,
-                //         Sb.Name as SubjectName,
-                //         Cn.CreatedAt,
-                //         Cn.IsConnected,
-                //         Dep.Name as DepartementName,
-                //         Gr.Name as GroupName 
-                //        from Candidates Cn
-                //        left join Departments Dep
-                //         on Cn.DepartementId = Dep.Id
-                //        left Join Subjects Sb 
-                //         on Sb.Id = Cn.SubjectId
-                //        Left join Groups Gr 
-                //         on Cn.GroupId = Gr.Id
-                //        where Cn.UserId = @UserId", UserId);
-
-                //var Item = Items.FirstOrDefault();
                 var Item = context.Candidates
+                    .Include(i=>i.Group)
+                    .Include(i=>i.Departement)
                     .Where(c => c.UserId == userid)
                     .Select(c => new ResponseProfile
                     {

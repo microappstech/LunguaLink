@@ -16,6 +16,7 @@ using Langua.DataContext.Data;
 using System.Drawing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Langua.ApiControllers.ApiControllers
 {
@@ -40,7 +41,9 @@ namespace Langua.ApiControllers.ApiControllers
         {
             try
             {
-                var respos = context.MessageGroups.Where(g => g.GroupId == GroupId).ToList();
+                var respos = context.MessageGroups.Where(g => g.GroupId == GroupId)
+                    .Include(i=>i.User).ThenInclude(i=>i.Candidate)
+                    .Include(i=>i.User).ThenInclude(i=>i.Teacher).ToList();
                 var ResponseData = respos.Select(i => new MessageResponse
                 {
                     Id = i.Id,
@@ -49,7 +52,14 @@ namespace Langua.ApiControllers.ApiControllers
                     IsFile = i.ContentMessage != null,
                     ContentFile = i.ContentMessage,
                     GroupId = i.GroupId,
-                    SuccessSended = i.SuccessSended
+                    SuccessSended = i.SuccessSended, 
+                    User = new DtoUser
+                    {
+                        FullName = i.User.Candidate==null?i.User?.Teacher?.FullName: i.User?.Candidate?.FullName,
+                        Phone = i.User.PhoneNumber,
+                        Email = i.User.Email,
+                        Id = i.User.Id
+                    },
                 }).ToList();
                 return new ApiResponse<List<MessageResponse>> { Success = true, Data = ResponseData };
             }catch(Exception ex)
@@ -59,7 +69,7 @@ namespace Langua.ApiControllers.ApiControllers
         }
 
         [HttpPost("SendeMessage")]
-        public async Task<IActionResult> SendMessageToGroup([FromBody]ApiSendedMessage message)
+        public async Task<ApiSendedMessageState> SendMessageToGroup([FromBody]ApiSendedMessage message)
         {
             ApiSendedMessageState state = new ApiSendedMessageState();
             state.Sended = false;
@@ -84,15 +94,18 @@ namespace Langua.ApiControllers.ApiControllers
                     await ChatGroupHub.StartAsync();
                     await ChatGroupHub.InvokeAsync("SendMessageToGroup", message.GroupId,message.UserId,message.Message);
                     state.Recieved = true;
-                    return Ok(state);
+                    return state;
                 }
-                return BadRequest();
+                state.Sended = res.Succeeded;
+                state.Detail = res.Error;
+                return state;
+
             }
             catch(Exception ex)
             {
                 state.Recieved = false;
                 state.Detail = ex.Message;
-                return BadRequest(state);
+                return state;
             }
 
         }

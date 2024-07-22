@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Langua.Api
 {
     public class ApiResponse
@@ -35,6 +36,15 @@ namespace Langua.Api
         public bool IsFile { get; set; }
         public byte[]? ContentFile { get; set; }
         public bool SuccessSended { get; set; }
+        public DtoUser User { get; set; }
+
+    }
+    public class DtoUser
+    {
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public string FullName { get; set; }
+        public string Phone { get; set; }
     }
     public class ResponseProfile
     {

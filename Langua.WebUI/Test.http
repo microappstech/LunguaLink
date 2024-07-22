@@ -1,7 +1,8 @@
 
 @url = https://localhost:44317 
-@iisurl = http://192.168.11.177:81
-@jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJUZWFjaGVyMUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjY5NTQxYWNkLWUzMGYtNDZmYS05OGJkLTFhNTc5Yzk5NjRhMSIsImV4cCI6MTcxNTU1OTQ4NSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0OTAwIiwiYXVkIjoiQVBJIn0.6iJmQMgM38byvnTT5NsHSJOZX1V6vsQbAMvo7hCfXvo
+https://localhost:44317
+@iisurl = http://192.168.11.17781//
+@jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJvbmVibGFjazM0MkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjllZTk5ODZlLWZmZjQtNDFkMC05MGQ3LWE5NzU4OTBiZDJjMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL21vYmlsZXBob25lIjoiMDYzNDIyODE2MyIsImV4cCI6MTcyMTU5OTA4MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0OTAwIiwiYXVkIjoiQVBJIn0.RBiQtQJJnFacvPy5oa6hiIMUtqRRwamS3Wb55TR7qD4
 
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
 GET {{url}}/api/Global/GetGroup
@@ -13,8 +14,8 @@ POST  https://localhost:44317/api/Auth/login
 Content-Type: application/json
 
 {
-  "email": "Teacher1@gmail.com",
-  "Password":"Teacher1@123"
+  "email": "howhave157@gmail.com",
+  "Password":"howhave157_4"
 }
 
 ###
@@ -47,7 +48,7 @@ Content-Type: application/json
 
 ###
 
-POST {{iisurl}}/api/Auth/login
+POST https://localhost:44317/api/Auth/login
 Content-Type: application/json
 
 {
@@ -57,25 +58,10 @@ Content-Type: application/json
 
 ### 
 GET {{url}}/api/Auth/Profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJob3doYXZlMTU3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiOGU3MTBlYTAtN2EwNy00M2QxLTg3YTUtMjkwY2E0NDEzYTcyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbW9iaWxlcGhvbmUiOiIwNjM0MjI4MTYzIiwiZXhwIjoxNzIxNDA0MDczLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ5MDAiLCJhdWQiOiJBUEkifQ.ysBqodMIQJWrc3OUvyBFarwZKWsV1d2dw_KrYqbAWHA
-
-###
-
-GET {{url}}/api/ChatGroup/GetMessages?groupId=1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJob3doYXZlMTU3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiOGU3MTBlYTAtN2EwNy00M2QxLTg3YTUtMjkwY2E0NDEzYTcyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbW9iaWxlcGhvbmUiOiIwNjM0MjI4MTYzIiwiZXhwIjoxNzIxNDA0MDczLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ5MDAiLCJhdWQiOiJBUEkifQ.ysBqodMIQJWrc3OUvyBFarwZKWsV1d2dw_KrYqbAWHA
-
-###
-POST {{iisurl}}/api/Auth/Logout
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJvbmVibGFjazM0MkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjllZTk5ODZlLWZmZjQtNDFkMC05MGQ3LWE5NzU4OTBiZDJjMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL21vYmlsZXBob25lIjoiMDYzNDIyODE2MyIsImV4cCI6MTcyMTMzOTkwMywiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTEuMTc3OjgxIiwiYXVkIjoiQVBJIn0.mU6fD3a4NNIZGO3Ftuh13Gsw7OLo-24seKHjEH1-Jas
+Authorization: Bearer {{jwt}}
 
 
 ###
-POST {{url}}/api/ChatGroup/SendeMessage
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJob3doYXZlMTU3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiOGU3MTBlYTAtN2EwNy00M2QxLTg3YTUtMjkwY2E0NDEzYTcyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbW9iaWxlcGhvbmUiOiIwNjM0MjI4MTYzIiwiZXhwIjoxNzIxNDA0MDczLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ5MDAiLCJhdWQiOiJBUEkifQ.ysBqodMIQJWrc3OUvyBFarwZKWsV1d2dw_KrYqbAWHA
-Content-Type: application/json
-
-{
-  "groupId": 1,
-  "userId": "8e710ea0-7a07-43d1-87a5-290ca4413a72",
-  "message": "string"
-}
+GET {{url}}/api/ChatGroup/GetMessages?groupid=1
+Content-Type: application/sjon
+Authorization: Bearer {{jwt}}
