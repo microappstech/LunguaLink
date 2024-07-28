@@ -37,6 +37,14 @@ namespace Langua.WebUI.Pages.Teachers
 
             }
         }
+        public async Task ResetPassword(Teacher teacher)
+        {
+            var res = await Security.ResetPassword(teacher!.Email);
+            if (res.Item1)
+                NotifySuccess(L["Success"], res.Item2);
+            else
+                NotifyError(L["Error"], L["Something working, Try again"]);
+        }
         public async Task Edit(Teacher teacher)
         {
             var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Teachers.EditTeacher>("Edit the teacher", new Dictionary<string, object> { { "Id", teacher.Id } }, new DialogOptions { Width = "50vw", ShowClose = true });

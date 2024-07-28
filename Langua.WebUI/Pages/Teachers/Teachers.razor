@@ -33,7 +33,11 @@
             </RadzenDataGridColumn>
             <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Teacher" />
             <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Teacher" />
-
+            <RadzenDataGridColumn Title="@L["Reset Password"]" TItem="Teacher">
+                <Template Context="ConTeacher">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="restart_alt" Size="ButtonSize.Medium" Click="@((args) => ResetPassword (ConTeacher))" class="mr-2" />
+                </Template>
+            </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="Teacher" Width="120px">
                 <Template Context="ConTeacher">
                     <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConTeacher))" class="mr-2" />

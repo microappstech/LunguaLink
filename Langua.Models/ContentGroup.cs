@@ -15,6 +15,8 @@ namespace Langua.Models
         public int GroupId { get; set; }
         public Ressource Ressource { get; set; }
         public int RessourceId { get; set; }
-        public DateOnly HideOn { get; set; }
+        public DateOnly HideOn { get; set; }= DateOnly.MaxValue;
+
+        public DateTime? PublishedAt { get; set; } = DateTime.Now;
     }
 }

@@ -1,7 +1,7 @@
 
 @url = https://localhost:44317 
 https://localhost:44317
-@iisurl = http://192.168.11.17781//
+@iisurl = http://192.168.11.177:81//
 @jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJvbmVibGFjazM0MkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjllZTk5ODZlLWZmZjQtNDFkMC05MGQ3LWE5NzU4OTBiZDJjMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL21vYmlsZXBob25lIjoiMDYzNDIyODE2MyIsImV4cCI6MTcyMTU5OTA4MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0OTAwIiwiYXVkIjoiQVBJIn0.RBiQtQJJnFacvPy5oa6hiIMUtqRRwamS3Wb55TR7qD4
 
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
@@ -65,3 +65,6 @@ Authorization: Bearer {{jwt}}
 GET {{url}}/api/ChatGroup/GetMessages?groupid=1
 Content-Type: application/sjon
 Authorization: Bearer {{jwt}}
+
+### 
+GET {{iisurl}}/api/Gontenus

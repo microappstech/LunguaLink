@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -74,5 +75,18 @@ namespace Langua.Api
         public int GroupId { get; set; }
         public string UserId { get; set; }
         public string Message { get; set; }
+    }
+    public class ContenuResponse
+    {
+
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string Description { get; set; }
+        public byte[]? ContentBytes { get; set; }
+        public string? ContentFile { get; set; }
+        public int RessourceType { get; set; }
+        public string? Url { get; set; }
+        public DateTime? CreatedAt { get; set; }
+
     }
 }

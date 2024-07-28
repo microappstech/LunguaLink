@@ -64,7 +64,7 @@ namespace Langua.WebUI.Pages.Manager
                 var result = crudRepository!.Delete(args);
                 if (result.Succeeded)
                 {
-                    Notify("success", "Suppression successful completed");
+                    NotifySuccess("success", "Suppression successful completed");
                 }
             }
         }

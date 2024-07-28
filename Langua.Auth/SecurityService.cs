@@ -102,6 +102,25 @@ namespace Langua.Account
                     $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor.");
             }
         }
+        public async Task<Tuple<bool , string>> ResetPassword(string email)
+        {
+            try
+            {
+
+                string Password = email.Substring(0, email!.IndexOf("@")) + "_" + DateTime.Now.Day;
+                var user = await _userManager.FindByEmailAsync(email); 
+                if(user == null)
+                    return new Tuple<bool, string>(false, "No user found");
+                var usr = await _userManager.RemovePasswordAsync(user);
+                var crusr = await _userManager.AddPasswordAsync(user, Password);
+
+                return new Tuple<bool, string>(true, Password);
+            }catch(Exception ex)
+            {
+                return new Tuple<bool, string>(false, ex.Message);
+
+            }
+        }
         public async Task<Result<ApplicationUser>> RegisterUser(ApplicationUser ApplicationUser)
         {
             //using (var UserScop = new TransactionScope( TransactionScopeAsyncFlowOption.Enabled))

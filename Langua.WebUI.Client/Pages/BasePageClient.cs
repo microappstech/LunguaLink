@@ -31,7 +31,7 @@ namespace Langua.WebUI.Client.Pages
         [Inject] public LangClientService? LangClientService { get; set; }
         [Inject] public Microsoft.Extensions.Localization.IStringLocalizer<LanguaResource> L { get; set; }
 
-        public virtual void Notify(string title, string message, NotificationSeverity notification = NotificationSeverity.Success, double Time = 4000)
+        public virtual void Notify(string title, string message, NotificationSeverity notification , double Time = 4000)
         {
             notificationService!.Notify(notification, title, message, Time);
         }
