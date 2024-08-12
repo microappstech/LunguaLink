@@ -38,6 +38,7 @@ namespace Langua.Api.ApiControllers
              /*  .Select(i => i.Ressource)*/.ToList();
                 var ItemsToResponse = items.Select(i => new ContenuResponse
                 {
+                   Id = i.Ressource.Id,
                     Name = i.Ressource.Name,
                     ContentBytes = i.Ressource.ContentBytes,
                     ContentFile = i.Ressource.ContentFile,
@@ -53,5 +54,37 @@ namespace Langua.Api.ApiControllers
                 return await Task.FromResult(new ApiResponse<List<ContenuResponse>>() { Success = true, Data = null, Message = ex.Message });
             }
         }
+        /// <summary>
+        /// /////
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("ContenuDetail")]
+        public async Task<ApiResponse<ContenuResponse>> GetContenuDetail(int id)
+        {
+            try
+            {
+                var i = context.Ressources.Where(r => r.Id == id).FirstOrDefault();
+                if (i == null)
+                    return await Task.FromResult(new ApiResponse<ContenuResponse>() { Success = true, Data = null!, Message = "Not exist" });
+
+
+                var ItemsToResponse =  new ContenuResponse
+                {
+                    Name = i.Name,
+                    ContentBytes = i.ContentBytes,
+                    ContentFile = i.ContentFile,
+                    RessourceType = i.RessourceType,
+                    Url = i.Url
+
+                };
+                return await Task.FromResult(new ApiResponse<ContenuResponse>() { Success = true, Data = ItemsToResponse });
+            }
+            catch (Exception ex)
+            {
+                return await Task.FromResult(new ApiResponse<ContenuResponse>() { Success = true, Data = null!, Message = ex.Message });
+            }
+        }
+
     }
 }

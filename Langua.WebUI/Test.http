@@ -1,7 +1,7 @@
 
 @url = https://localhost:44317 
 https://localhost:44317
-@iisurl = http://192.168.11.177:81//
+@iisurl = http://192.168.69.177:81//
 @jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJvbmVibGFjazM0MkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjllZTk5ODZlLWZmZjQtNDFkMC05MGQ3LWE5NzU4OTBiZDJjMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL21vYmlsZXBob25lIjoiMDYzNDIyODE2MyIsImV4cCI6MTcyMTU5OTA4MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0OTAwIiwiYXVkIjoiQVBJIn0.RBiQtQJJnFacvPy5oa6hiIMUtqRRwamS3Wb55TR7qD4
 
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
@@ -10,7 +10,7 @@ Content-Type: application/sjon
 Authorization: Bearer {{jwt}}
 
 ###
-POST  https://localhost:44317/api/Auth/login
+POST  http://192.168.16.1:81/api/Auth/login
 Content-Type: application/json
 
 {
@@ -57,14 +57,16 @@ Content-Type: application/json
 }
 
 ### 
-GET {{url}}/api/Auth/Profile
-Authorization: Bearer {{jwt}}
+GET http://192.168.16.1:81/api/Auth/Profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJob3doYXZlMTU3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiOGU3MTBlYTAtN2EwNy00M2QxLTg3YTUtMjkwY2E0NDEzYTcyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbW9iaWxlcGhvbmUiOiIwNjM0MjI4MTYzIiwiZXhwIjoxNzIzNDk0MDc2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ5MDAiLCJhdWQiOiJBUEkifQ.FH9SDjJd2dAzNXq046686qTLcgHS6ydyC3Bm4IFbKfQ
 
 
 ###
-GET {{url}}/api/ChatGroup/GetMessages?groupid=1
+GET {{iisurl}}/api/ChatGroup/GetMessages?groupid=1
 Content-Type: application/sjon
 Authorization: Bearer {{jwt}}
 
 ### 
-GET {{iisurl}}/api/Gontenus
+GET https://localhost:44317/odata/Langua/Sessions/SessionForGroup?groupId=1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJob3doYXZlMTU3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiOGU3MTBlYTAtN2EwNy00M2QxLTg3YTUtMjkwY2E0NDEzYTcyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbW9iaWxlcGhvbmUiOiIwNjM0MjI4MTYzIiwiZXhwIjoxNzIzMzk2MjM5LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ5MDAiLCJhdWQiOiJBUEkifQ.kwjSn7UL-8Qxcs1eXps2rrvjsJj6p0VwVeLVRWLx2X8
+

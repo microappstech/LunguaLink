@@ -13,12 +13,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using Langua.Shared.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
 
 
 namespace Langua.Account.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -38,19 +39,20 @@ namespace Langua.Account.Controllers
             config= configuration;
             this.context = context;
         }
-        [HttpPost("Logout")]
+        [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
-            await _securityService.Logut();
+            var username = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier);
+            var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            await HttpContext.SignOutAsync();
+            await signInManager.SignOutAsync();
+            //await _securityService.Logut();
+            return Redirect("/");
             return Ok("Successfully loged out!");
 
-        }
-
-        [HttpGet("Test")]
-        public async Task Test()
-        {
 
         }
+
         //public async Task<ApiResponse> Login(string Username, string Password)
         [HttpPost("Login")]
         [AllowAnonymous]
@@ -108,6 +110,8 @@ namespace Langua.Account.Controllers
                 return new LoginResponse { Success = false,Message =ex.Message };
             }
         }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("Profile")]
         public async Task<ApiResponse<ResponseProfile>> Profile()
         {

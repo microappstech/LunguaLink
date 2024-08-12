@@ -20,10 +20,14 @@ using Langua.Repositories.Interfaces;
 using Langua.Repositories.Services;
 using Microsoft.AspNetCore.Routing.Matching;
 using Langua.Account;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Langua.Api.ApiControllers
 {
     [Route("odata/Langua/Sessions")]
+    [Authorize]
+    //[ApiController]
     public partial class SessionsController : ControllerBase
     {
         private LanguaContext context;
@@ -59,6 +63,30 @@ namespace Langua.Api.ApiControllers
 
         }
 
+        [HttpGet("SessionForGroup")]
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ApiResponse<List<SessionResponse>> GetSessionForGroup(int groupId)
+        {
+            try
+            {
+                var result = context.Sessions.Where(i=>i.GroupId == groupId).Include(i=>i.Teacher).ToList();
+                var data = result.Select(i => new SessionResponse
+                {
+                    Id = i.Id,
+                    End=i.End,
+                    Start=i.Start,
+                    TeacherName=i.Teacher.FullName,
+                    TeacherId=i.Teacher.Id,
+
+
+                }).ToList();
+                return new ApiResponse<List<SessionResponse>>(true, data);
+            }catch(Exception ex)
+            {
+                return new ApiResponse<List<SessionResponse>>(false, null!, ex.Message);
+            }
+        }
         partial void OnSessionsRead(ref IQueryable<Session> items);
 
         partial void OnSessionGet(ref SingleResult<Session> item);

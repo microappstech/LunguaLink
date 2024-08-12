@@ -34,13 +34,13 @@
                                 <RadzenGravatar Email="@context.User.Identity?.Name"></RadzenGravatar>
                             </Template>
                             <ChildContent>
-                                <form action="api/Auth/Logout" method="post">
-                                    <AntiforgeryToken />
-                                    <button type="submit" class="nav-link mx-auto" style="background-color: Transparent; border:none; ">
+                                @* <form action="api/Auth/Logout" method="post">
+                                    <AntiforgeryToken /> *@
+                                <button type="submit" @onclick="@(Logout)" class="nav-link mx-auto" style="background-color: Transparent; border:none; ">
                                         <RadzenProfileMenuItem Icon="logout" class="mx-auto" Text="Logout" Style="width:100;">
                                         </RadzenProfileMenuItem>
                                     </button>
-                                </form>
+                                @* </form> *@
                             </ChildContent>
                         </RadzenProfileMenu>
                     </div>

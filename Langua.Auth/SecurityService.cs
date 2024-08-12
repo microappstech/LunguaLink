@@ -11,6 +11,7 @@ using Langua.Models;
 using System.Transactions;
 //using Langua.Repositories.Services;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Langua.Account
 {
@@ -292,7 +293,14 @@ namespace Langua.Account
         }
         public async Task Logut()
         {
-            await _signInManager.SignOutAsync();
+            try
+            {
+                navigationManager.NavigateTo("api/Auth/Logout", true);
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         public async Task<ApplicationUser> GetById(string userId)

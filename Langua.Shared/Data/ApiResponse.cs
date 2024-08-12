@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
@@ -16,6 +17,16 @@ namespace Langua.Api
     }
     public class ApiResponse<T> :ApiResponse
     {
+        public ApiResponse()
+        {
+            
+        }
+        public ApiResponse( bool success, T data, string message="")
+        {
+            this.Data = data;
+            this.Success = success;
+            this.Message = message;
+        }
         public T Data { get;set; }
     }
     public class LoginResponse
@@ -27,6 +38,20 @@ namespace Langua.Api
         public string RefreshToken { get; set; }
         public string UserId { get; set; }
         public DateTime ExpiredAt {  get; set; } 
+    }
+    public class SessionResponse
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        //public Groups? Group { get; set; }
+        public int GroupId { get; set; }
+        public string? TeacherName { get; set; }
+        public int TeacherId { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End
+        {
+            get; set;
+        }
     }
     public class MessageResponse
     {

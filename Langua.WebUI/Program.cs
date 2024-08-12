@@ -116,9 +116,10 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     .AddEntityFrameworkStores<Langua.DataContext.Data.LanguaContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
-
-//builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
-//builder.Services.AddSingleton<Uri>();
+//builder.WebHost.ConfigureKestrel(opt =>
+//{
+    //opt.Listen(System.Net.IPAddress.Parse("192.168.69.177"), 5000);
+//});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
