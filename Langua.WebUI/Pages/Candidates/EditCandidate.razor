@@ -20,7 +20,7 @@
             <div class="form-group mb-1 col-md-6">
                 <label for="FullName">@L["Full Name"] :</label>
                 <RadzenTextBox id="FullName" @bind-Value="candidate.FullName" class="form-control" Name="FullName" />
-                <RadzenRequiredValidator Component="desc" Text="@L["The Field is required"]" Popup=true />
+                <RadzenRequiredValidator Component="FullName" Text="@L["The Field is required"]" Popup=true />
             </div>
 
             <div class="form-group mb-1 col-md-6">

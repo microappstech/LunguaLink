@@ -77,7 +77,7 @@ namespace Langua.WebUI.Pages.Candidates
 
                     if (taskResult.Succeeded)
                     {
-                        var sendVerifyMail = mailService.SendVerificationCode(candidate.Email,candidate.FullName,_user.Code);
+                        var sendVerifyMail = await mailService!.SendVerificationCode(candidate.Email,candidate.FullName,_user.Code);
                         var r = await Security.AddRoleToUser(taskResult.Value, "CANDIDATE");
                         candidate.UserId = taskResult.Value.Id;
                         var result = _repository.Add(candidate);
@@ -94,7 +94,7 @@ namespace Langua.WebUI.Pages.Candidates
                         }
                     }
                     else
-                      {
+                    {
                         Errors.Add(taskResult.Error);
                     }
 

@@ -25,6 +25,7 @@ namespace Langua.Repositories.Services
             if (e is not null)
                 e.State = EntityState.Detached;
         });
+        public Result<T> Delete(T entity, string[] inc){ throw new NotImplementedException();     }
         public void Reset() => _context.ChangeTracker.Entries().Where(e => e.Entity != null).ToList().ForEach(e => e.State = EntityState.Detached);
         public Result<T> Add(T entity)
         {
@@ -49,12 +50,30 @@ namespace Langua.Repositories.Services
                 _context.SaveChanges();
                 return new Result<T>(true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return new Result<T>(false,Error:ex.Message);
+                return new Result<T>(false, Error: ex.Message);
             }
         }
 
+        public Result<T> Delete(int entityId, string[] includes)
+        {
+            try
+            {
+                var query = _context.Set<T>().AsQueryable();
+                foreach (var item in includes)
+                {
+                    query = query.Include(item);
+                }
+                var entity = query.FirstOrDefault(e => EF.Property<int>(e,"Id")==entityId);
+                // complete codde to remove dynamic entity along with its includes 
+                return new Result<T>(true);
+            }
+            catch (Exception ex)
+            {
+                return new Result<T>(false, Error: ex.Message);
+            }
+        }
         public Result<IQueryable<T>> GetAll()
         {
             try

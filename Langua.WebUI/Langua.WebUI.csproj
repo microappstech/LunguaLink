@@ -29,13 +29,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ProtectedBrowserStorage.NETStandard" Version="1.1.2" />
     <PackageReference Include="Radzen.Blazor" Version="4.30.2" />
+    <PackageReference Include="Solutaris.InfoWARE.ProtectedBrowserStorage" Version="1.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Langua.Api\Langua.ApiControllers.csproj" />
-    <ProjectReference Include="..\Langua.Auth\Langua.Account.csproj" />
+    <ProjectReference Include="..\Langua.Auth\Langua.Auth.csproj" />
     <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
     <ProjectReference Include="..\Langua.Repositories\Langua.Repositories.csproj" />
     <ProjectReference Include="..\Langua.WebUI.Client\Langua.WebUI.Client.csproj" />

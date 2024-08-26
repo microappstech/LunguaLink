@@ -31,6 +31,7 @@ namespace Langua.Repositories.Services
                 return new Result<T>(false,Error:ex.Message,exception:ex);
             }
         }
+        public Result<T> Delete(T entity, string[] inc) { throw new NotImplementedException(); }
 
         public Result<List<GroupCandidates>> AddCandidateToGroup(Groups group, List<int> candidatsIds)
         {

@@ -22,6 +22,7 @@ namespace Langua.WebUI.Pages.Candidates
     public partial class CandidatesComponent : BasePage
     {
         public IEnumerable<Candidat> candidates { get; set; }
+        protected bool AddClicked, DeleteClicked;
         public List<Candidat> fcandidates { get; set; }
         public RadzenDataGrid<Candidat>? grid0;
 
@@ -47,33 +48,33 @@ namespace Langua.WebUI.Pages.Candidates
                 if (!string.IsNullOrEmpty(args.Filter))
                     fcandidates = candidates.AsQueryable().Where(args.Filter).ToList();
             }
-
-
         }
-        string RemoveDiacritics(string text)
-        {
-            string formD = text.Normalize(NormalizationForm.FormD);
-            StringBuilder sb = new StringBuilder();
+        //string RemoveDiacritics(string text)
+        //{
+        //    string formD = text.Normalize(NormalizationForm.FormD);
+        //    StringBuilder sb = new StringBuilder();
 
-            foreach (char ch in formD)
-            {
-                UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(ch);
-                if (uc != UnicodeCategory.NonSpacingMark)
-                {
-                    sb.Append(ch);
-                }
-            }
+        //    foreach (char ch in formD)
+        //    {
+        //        UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(ch);
+        //        if (uc != UnicodeCategory.NonSpacingMark)
+        //        {
+        //            sb.Append(ch);
+        //        }
+        //    }
 
-            return sb.ToString().Normalize(NormalizationForm.FormC);
-        }
+        //    return sb.ToString().Normalize(NormalizationForm.FormC);
+        //}
+        
         protected override async Task OnInitializedAsync()
         {
             await Security.InitializeAsync();
-
         }
         public async Task ConfirmMail(Candidat args)
         {
             var result = await dialogService.OpenAsync<ValidateMail>("Confirm you email", new Dictionary<string, object> { { "Email", args.Email }, { "UserId",args.UserId } });
+            if(!ReferenceEquals(result,null) && result == true)
+                args.ConfirmedMail = true;
             await grid0!.Reload();
         }
         public async Task Delete(Candidat candidat)
@@ -103,8 +104,10 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task Add()
         {
-           var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw",  ShowClose = true, Draggable=true });
+            AddClicked = true;
+            var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Candidates.AddCandidate>("Add new candidate", null, new DialogOptions { Width = "50vw",  ShowClose = true, Draggable=true });
             await grid0!.Reload();
+            AddClicked = false;
         }
     }
 

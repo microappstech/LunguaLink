@@ -8,7 +8,7 @@
         <h3>@L["Candidats"]</h3>
     </div>
     <div class="col-md-3 ">
-        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="text-sm" Text="@L["Add New Candidate"]"></RadzenButton>
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" IsBusy=AddClicked BusyText="@L["Adding..."]" Icon="add" class="text-sm" Text="@L["Add New Candidate"]"></RadzenButton>
     </div>
 
 </div>

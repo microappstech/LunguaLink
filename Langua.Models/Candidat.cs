@@ -14,7 +14,7 @@ namespace Langua.Models
         public int Id { get; set; }
         [Required]
         public string? FullName { get; set; }
-        public string? UserId { get; set; }
+
         //[Required]
         public string? Photo { get; set; }
         [Required]
@@ -41,6 +41,8 @@ namespace Langua.Models
         public Groups? Group { get; set; }
         public int? GroupId { get; set; }
         public ApplicationUser User { get; set; }
+        [ForeignKey(nameof(ApplicationUser))]
+        public string? UserId { get; set; }
         [NotMapped] public bool ConfirmedMail { get; set; }
         
     }

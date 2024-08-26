@@ -19,11 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.ApiControllers", "La
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.DAL", "Langua.DAL\Langua.DAL.csproj", "{C275DDA6-9832-462C-97E0-AF190665D3D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Account", "Langua.Auth\Langua.Account.csproj", "{9C170CAC-281F-4991-9BC8-D8CEF66442A0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.WebUI.Client", "Langua.WebUI.Client\Langua.WebUI.Client.csproj", "{2E7A56C4-78F2-40CD-8CAF-41795188689C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Langua.Api.Shared", "Langua.Api.Shared\Langua.Api.Shared.csproj", "{9F9E5F86-FC1F-4875-89FE-6899B86CEEFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Langua.Auth", "Langua.Auth\Langua.Auth.csproj", "{1592BA01-7FBA-4E39-89F8-741C519E5D47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,10 +63,6 @@ Global
 		{C275DDA6-9832-462C-97E0-AF190665D3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C275DDA6-9832-462C-97E0-AF190665D3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C275DDA6-9832-462C-97E0-AF190665D3D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C170CAC-281F-4991-9BC8-D8CEF66442A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C170CAC-281F-4991-9BC8-D8CEF66442A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C170CAC-281F-4991-9BC8-D8CEF66442A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C170CAC-281F-4991-9BC8-D8CEF66442A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E7A56C4-78F2-40CD-8CAF-41795188689C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E7A56C4-78F2-40CD-8CAF-41795188689C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E7A56C4-78F2-40CD-8CAF-41795188689C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,6 +71,10 @@ Global
 		{9F9E5F86-FC1F-4875-89FE-6899B86CEEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F9E5F86-FC1F-4875-89FE-6899B86CEEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F9E5F86-FC1F-4875-89FE-6899B86CEEFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1592BA01-7FBA-4E39-89F8-741C519E5D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1592BA01-7FBA-4E39-89F8-741C519E5D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1592BA01-7FBA-4E39-89F8-741C519E5D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1592BA01-7FBA-4E39-89F8-741C519E5D47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

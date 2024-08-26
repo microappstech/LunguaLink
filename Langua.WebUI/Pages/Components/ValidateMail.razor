@@ -51,10 +51,15 @@
     }
     protected void VerificationCodeChanged(string value)
     {
-        DisabledBtn = !(!string.IsNullOrEmpty(value) && value.Length == 6 && int.TryParse(value, out int code));
+        DisabledBtn = !(!string.IsNullOrEmpty(value) && value.Length == 6);
     }
     protected async Task Submit(ConfirmEmail args)
     {
+        if (args.CodeVerification.Length != 6)
+        {
+            DisabledBtn = true;
+            return;
+        }
         var result = await Security.ConfirmMail(args, confirmMail.CodeVerification);
         if (!result)
         {

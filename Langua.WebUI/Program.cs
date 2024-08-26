@@ -40,10 +40,17 @@ builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>(serviceProvider =>
 builder.Services.AddLocalization();
 builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
 
-builder.Services.AddServerSideBlazor().AddHubOptions(o =>
+builder.Services.AddServerSideBlazor()
+.AddCircuitOptions(o =>
+{
+    o.DetailedErrors = true;
+})
+.AddHubOptions(o =>
 {
     o.MaximumReceiveMessageSize = 900 * 1024 * 1024;
+    o.EnableDetailedErrors = true;
 });
+
 builder.Services.AddControllers()
     .AddOData(optio =>
     {
@@ -54,8 +61,7 @@ builder.Services.AddControllers()
         .Expand().OrderBy().SetMaxTop(null)
         .Count();
     })
-    .AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Account")));
-
+    .AddApplicationPart(Assembly.Load(new AssemblyName("Langua.Auth")));
 builder.Services.AddControllers();
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
@@ -93,15 +99,16 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<LanguaService>();
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("sqlConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
 {
     options.UseSqlServer(connectionString);
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     options.EnableSensitiveDataLogging(true);
-});
+}, ServiceLifetime.Singleton);
 
 builder.Services.AddSignalR();
+
 
 builder.Services.AddScoped<LangClientService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

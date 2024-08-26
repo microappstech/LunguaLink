@@ -3,6 +3,8 @@ using Langua.WebUI.Client.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Radzen;
+using System.Net.NetworkInformation;
+
 using System.Text;
 
 namespace Langua.WebUI.Client.Pages

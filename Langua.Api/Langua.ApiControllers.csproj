@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Langua.Api.Shared\Langua.Api.Shared.csproj" />
-    <ProjectReference Include="..\Langua.Auth\Langua.Account.csproj" />
+    <ProjectReference Include="..\Langua.Auth\Langua.Auth.csproj" />
     <ProjectReference Include="..\Langua.DAL\Langua.DAL.csproj" />
     <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
     <ProjectReference Include="..\Langua.Models\Langua.Models.csproj" />
