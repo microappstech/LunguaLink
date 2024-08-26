@@ -16,7 +16,12 @@ namespace Langua.WebUI.Pages.GroupTeacher
 
         protected override async Task OnInitializedAsync()
         {
-            var result = await LanguaService.GetGroupTeachers(includes:"Group,Teacher");
+            await LoadGrTeachers();
+        }
+
+        public async Task LoadGrTeachers()
+        {
+            var result = await LanguaService.GetGroupTeachers(includes: "Group,Teacher");
             if (result.Succeeded)
             {
                 GroupTeachers = result.Value.ToList();
@@ -28,11 +33,13 @@ namespace Langua.WebUI.Pages.GroupTeacher
         public async Task SubmitAdd()
         {
             var result = await dialogService.OpenAsync<CUGroupTeacher>("Create Group/Teacher",new Dictionary<string, object> { { "EntId",""} });
+            await LoadGrTeachers();
             await grid!.Reload();
         }
         public async Task Edit(Models.GroupTeacher groupTeacher)
         {
             var result = await dialogService.OpenAsync<CUGroupTeacher>("Edit Group/Teacher",new Dictionary<string, object> { { "EntId",groupTeacher.Id } });
+            await LoadGrTeachers();
             await grid!.Reload();
         }
 
@@ -43,6 +50,7 @@ namespace Langua.WebUI.Pages.GroupTeacher
                 var result = repository!.Delete(groupTeacher);
                 if (result.Succeeded)
                 {
+                    await LoadGrTeachers();
                     Notify(L["Success"], L["Deletion successfully completed"], NotificationSeverity.Success);
                     await grid!.Reload();
                 }
@@ -51,7 +59,6 @@ namespace Langua.WebUI.Pages.GroupTeacher
                     Notify(L["Failed"], L["Deletion failed"], NotificationSeverity.Error);
                 }
             }
-            dialogService.Close();
         }
     }
 }

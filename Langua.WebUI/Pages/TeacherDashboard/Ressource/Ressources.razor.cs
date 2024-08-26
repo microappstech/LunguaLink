@@ -12,11 +12,12 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
         private RadzenDataGrid<Models.Ressource> ResGrid = null!;
         public List<Models.Ressource> Resources { get; set; } = null!;
         public Models.Ressource ResToEdit { get; set; } = null!;
-        public string url { get; set; } = null!;
+        //public string url { get; set; } = null!;
         public string base64 { get; set; } = null!;
         public async Task RddRessource()
         {
             var result = await dialogService.OpenAsync<CURessource>(L["Add Contenu"], null);
+            await LoadRessourcesForTeacher();
             await ResGrid.Reload();
         }
         int _SizeGridColumn = 12;
@@ -25,6 +26,10 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
         protected override async Task OnInitializedAsync()
         {
             await Security!.InitializedTeacher();
+            await LoadRessourcesForTeacher();
+        }
+        public async Task LoadRessourcesForTeacher()
+        {
             var resRessources = await LanguaService.GetRessourceByTeacherId(Security.Teacher.Id);
             if (resRessources.Succeeded)
             {
@@ -45,7 +50,8 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
                 var DeleteRes = repositoryRessource.Delete(ressource);
                 if (DeleteRes.Succeeded)
                 {
-                    await ResGrid.Reload();
+                    await LoadRessourcesForTeacher();
+
                     Notify(L["Successful"], L["The Item successful deleted"], NotificationSeverity.Success);
                 }
             }
@@ -60,7 +66,7 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
                     _SizePreviewColumn = 6;
                     _SizeGridColumn = 6;
                     _PreviewColumnVisible = true;
-                    url = $"data:application/pdf;base64,{Convert.ToBase64String(r.ContentBytes, 0, r.ContentBytes.Length)}";
+                    //url = $"data:application/pdf;base64,{Convert.ToBase64String(r.ContentBytes, 0, r.ContentBytes.Length)}";
                     base64 = $"data:application/pdf;base64,{r.ContentFile}";
                     break;
 
@@ -81,6 +87,7 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
         {
             ResToEdit = ressource;
             var result = await dialogService!.OpenAsync<CURessource>(L["Edit The Ressource"], new Dictionary<string, object> { { "Id", ressource.Id } });
+            await LoadRessourcesForTeacher();
         }
     }
 }

@@ -39,7 +39,7 @@
             <RadzenTextBox Name="Email" id="Email" @bind-Value="teacher.Email" class="form-control" AutoComplete="false" />
             <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true/>
             <RadzenEmailValidator Component="Email" Text="@L["Provide a valid email address"]" Popup=true/>
-            <RadzenCustomValidator Validator="(()=>MailNotTaken(teacher.Email))" Text="@L["Mail already taken"]" Popup=true/>
+            <RadzenCustomValidator Visible="@(!string.IsNullOrEmpty(teacher.Email) && teacher.Email.Contains("@gmail.com")==true)" Validator="(()=>MailNotTaken(teacher.Email))" Text="@L["Mail already taken"]" Popup=true/>
         </div>
 
         <div class="mx-auto mt-2 text-center">

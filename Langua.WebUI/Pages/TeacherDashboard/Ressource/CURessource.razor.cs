@@ -89,7 +89,7 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
                     case (int)RessourceType.File:
                         //var ileBytes = await Http!.GetByteArrayAsync($"{LanguaUrl}/api/Upload/");
                         //this.Ressource.ContentBytes = ileBytes;
-                        var base64 = await Http.GetStringAsync($"{LanguaUrl}/api/Upload/Base64");
+                        var base64 = await Http.GetStringAsync($"{LanguaUrl}api/Upload/Base64");
                         this.Ressource.ContentFile = base64;
                         break;
                 }
@@ -98,7 +98,7 @@ namespace Langua.WebUI.Pages.TeacherDashboard.Ressource
                 var ResulCrRessource = IsEdit? repositoryRessource!.Update(Ressource) : repositoryRessource!.Add(Ressource);
                 if (ResulCrRessource.Succeeded)
                 {
-                    dialogService!.Close(true);
+                    dialogService!.Close(Ressource);
                     Notify("Success", "Ressource Created Successfuly", NotificationSeverity.Success);
                 }
                 else

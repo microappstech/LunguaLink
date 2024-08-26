@@ -28,12 +28,13 @@
                     <RadzenDataGrid @ref="gridCandidate" 
                         FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@GroupsContext.Candidats" TItem="Candidat">
                         <Columns>
-                            <RadzenDataGridColumn TItem="Candidat" Property="Photo">
+                            <RadzenDataGridColumn TItem="Candidat" Property="Photo" Title="@L["Full Name"]">
                                 <Template Context="Candidat">
                                     <img src="@Candidat.Photo" class="" width="50px" />
+                                    <span>@Candidat.FullName</span>
                                 </Template>
                             </RadzenDataGridColumn>
-                            <RadzenDataGridColumn TItem="Candidat" Property="FullName" Title="@L["Full Name"]" />
+                            @* <RadzenDataGridColumn TItem="Candidat" Property="FullName" /> *@
                             <RadzenDataGridColumn TItem="Candidat" Property="Phone" Title="@L["Phone"]" />
                             <RadzenDataGridColumn TItem="Candidat" Property="Email" Title="@L["Email"]" />
                             <RadzenDataGridColumn TItem="Candidat" Property="Subject.Name" Title="@L["Subject"]" />

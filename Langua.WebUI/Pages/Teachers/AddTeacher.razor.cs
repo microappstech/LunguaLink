@@ -66,7 +66,7 @@ namespace Langua.WebUI.Pages.Teachers
                     if (result.Succeeded)
                     {
                         Notify("Success", "Creation Successful Completed", NotificationSeverity.Success);
-                        dialogService.Close(null);
+                        dialogService.Close(true);
                     }
                     else
                     {
