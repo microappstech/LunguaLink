@@ -34,7 +34,7 @@ namespace Langua.WebUI.Client.Pages.Sessions
         protected bool EditClicked = false;
         protected override async Task OnInitializedAsync()
         {
-            //session = new Models.Session();
+             await LangClientService.GetNSessions();
         }
 
         protected async Task Grid0LoadData(LoadDataArgs args)

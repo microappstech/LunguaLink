@@ -1,5 +1,5 @@
 using Langua.WebUI.Pages;
-//using Langua.WebUI.Pages.Account;
+using Langua.WebUI.Data;
 using Langua.DataContext.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,12 +13,12 @@ using Langua.DAL;
 using Microsoft.IdentityModel.Tokens;
 using Langua.Models;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Langua.Api.Shared.ApiHelper;
 using Langua.WebUI.Client.Services;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Langua.ApiControllers.LanguaHub;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +31,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddCascadingAuthenticationState();
 //builder.Services.AddScoped<IdentityUserAccessor>();
 //builder.Services.AddScoped<IdentityRedirectManager>();
-//builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<AuthenticationStateProvider, Langua.WebUI.Data.PersistingRevalidatingAuthenticationStateProvider>();
 
 builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>(serviceProvider =>
 {
@@ -78,7 +79,6 @@ builder.Services.AddHttpClient();
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
-        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
         options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
     }).AddJwtBearer(opts =>
     {
@@ -88,16 +88,25 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            
+            ValidateIssuerSigningKey = true,            
             ValidIssuer = builder.Configuration["AuthSettings:Issuer"],
             ValidAudience = builder.Configuration["AuthSettings:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(SigninKey)
         };
 
     })
-    .AddIdentityCookies();
+    .AddCookie(opt =>
+    {
+        opt.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+        opt.LoginPath = "/Login";
+    })
+    .AddIdentityCookies(opt =>
+    {
+        //opt.ApplicationCookie = CookieAuthenticationDefaults.CookiePrefix;
+    });
 builder.Services.AddAuthorization();
+//builder.Services.AddScoped<AuthenticationStateProvider, Langua.WebUI.Client.CustomAuthenticationStateProvider>();
+
 builder.Services.AddScoped<LanguaService>();
 var connectionString = builder.Configuration.GetConnectionString("sqlConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
@@ -145,12 +154,13 @@ else
 
 app.UseHttpsRedirection();
 app.UseRouting();
-//app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
+
 app.UseAuthorization();
 app.UseAntiforgery();
 app.UseStaticFiles();
 app.UseSwagger();
+//app.UseCookiePolicy();
 app.UseRequestLocalization(option =>
 {
     option.SetDefaultCulture("fr-FR");
@@ -170,7 +180,7 @@ app.MapControllers();
 app.MapHub<ChatHub>(ChatHub.ChatGroupEndPoint);
 await Seeding.Initialize(app.Services.CreateScope().ServiceProvider);
 //
-//app.MapIdentityApi<ApplicationUser>();
 
-//app.MapAdditionalIdentityEndpoints();
+//app.MapIdentityApi<ApplicationUser>();
+app.MapingOutEndpoint();
 app.Run();

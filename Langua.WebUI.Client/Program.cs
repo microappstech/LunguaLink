@@ -8,11 +8,13 @@ using Radzen;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddAuthorizationCore();
+builder.Services.AddCascadingAuthenticationState();
+
+builder.Services.AddSingleton<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddRadzenComponents();
 //builder.Services.AddLocalization();
 builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<LangClientService>();
 builder.Services.AddRadzenComponents();
-builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
 await builder.Build().RunAsync();

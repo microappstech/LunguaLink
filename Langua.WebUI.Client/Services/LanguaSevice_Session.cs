@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
+
 using Radzen;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -33,9 +35,19 @@ namespace Langua.WebUI.Client.Services
 
             OnGetSessions(httpRequestMessage);
 
+            httpRequestMessage.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
             var response = await httpClient.SendAsync(httpRequestMessage);
-
+            var str = await response.Content.ReadAsStringAsync();
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<IEnumerable<Langua.Models.Session>>(response);
+        }
+        public async Task GetNSessions()
+        {
+            var uri = new Uri(baseUri, $"Sessions");
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+            requestMessage.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+            var response = await httpClient.SendAsync(requestMessage);
+            
+            var str = await response.Content.ReadAsStringAsync();
         }
 
         partial void OnCreateSession(HttpRequestMessage requestMessage);
