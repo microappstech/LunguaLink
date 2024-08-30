@@ -23,7 +23,14 @@ namespace Langua.DAL
                 return result.ToList();
             }
         }
-
+        public async Task<List<T>> LoadData<T>(string sp)
+        {
+            using(var con = new SqlConnection(_connectionString))
+            {
+                var res = await con.QueryAsync<T>(sp);
+                return res.ToList();
+            }
+        }
         Task<T> ISqlDataAccess.LoadDataById<T, U>(string storedProcedure, U parameters)
         {
             throw new NotImplementedException();

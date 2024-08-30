@@ -1,4 +1,4 @@
-﻿@rendermode @(new InteractiveServerRenderMode(false))
+﻿@rendermode @(new InteractiveAutoRenderMode(false))
 @inherits BasePageClient
 <RadzenCard>
     <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Session</RadzenAlert>
@@ -51,8 +51,8 @@
             </RadzenColumn>
         </RadzenRow>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
-            <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
-            <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick" Visible=false />
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" IsBusy="SubmitClicked" BusyText="@L["Submiting..."]" />
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@(args=>dialogService.Close())" Visible=false />
         </RadzenStack>
     </RadzenTemplateForm>
 </RadzenCard>
@@ -64,7 +64,7 @@
     [Parameter] public DateTime End { get; set; }
     [Parameter] public DateTime Start { get; set; }
 
-    protected bool errorVisible;
+    protected bool errorVisible,SubmitClicked;
     protected Models.Session? Session;
 
     protected IEnumerable<Models.Groups>? groupsForGroupId;
@@ -114,6 +114,7 @@
     {
         try
         {
+            SubmitClicked = true;
             if (Session.End.TimeOfDay < Session.Start.TimeOfDay)
             {
                 Notify("Wrong Time Session", "Please enter a correct durre for session", NotificationSeverity.Warning);
@@ -130,33 +131,50 @@
         {
             errorVisible = true;
         }
+        finally
+        {
+            SubmitClicked = false;
+        }
     }
 
-    protected async Task CancelButtonClick(MouseEventArgs args)
+    protected override Task OnParametersSetAsync()
     {
-        //dialogService.Close(null);
+        return base.OnParametersSetAsync();
     }
-
+    SemaphoreSlim semaphore = new SemaphoreSlim(1,1);
     protected override async Task OnInitializedAsync()
     {
-        if (SessionId != 0)
+        semaphore.Wait();
+        try
         {
-            Session = await LangClientService!.GetSessionById(id: SessionId);
-        }
-        else
-        {
-            Session = new Session();
-            Session.End = End;
-            Session.Start = Start;
-            if (IsForGroup)
+            if (SessionId != 0)
             {
-                Session.GroupId = GroupOrTeacherId;
+                Session = await LangClientService!.GetSessionById(id: SessionId);
             }
             else
             {
-                Session.TeacherId = GroupOrTeacherId;
-            }
+                Session = new Session();
+                Session.End = End;
+                Session.Start = Start;
+                if (IsForGroup)
+                {
+                    Session.GroupId = GroupOrTeacherId;
+                }
+                else
+                {
+                    Session.TeacherId = GroupOrTeacherId;
+                }
 
+            }
+            semaphore.Release();
+        }
+        catch(Exception ex)
+        {
+
+        }
+        finally
+        {
+            semaphore.Dispose();
         }
 
 

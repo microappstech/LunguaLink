@@ -8,11 +8,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+    using static Langua.DAL.Sp.SqlProcedure;
 
 namespace Langua.Repositories.Services
 {
     public partial class LanguaService
     {
+        public async Task<Result<List<CandidateAlongGroup>>> candidateAlongGroups(int departementId)
+        {
+            try
+            {
+                if (SecurityService.IsAdmin)
+                {
+                    var res = await dataAccess.LoadData<CandidateAlongGroup>(sp["CandidateAlongGroup"]!.ToString());
+                    return new Result<List<CandidateAlongGroup>>(true, res);
+                }
+                else
+                {
+                    var res = await dataAccess.LoadData<CandidateAlongGroup>(sp["CandidateAlongGroup"]!.ToString()!.Replace("@Depart", departementId.ToString()));
+                    return new Result<List<CandidateAlongGroup>>(true, res);
+                }
+
+            }catch(Exception ex)
+            {
+                return new Result<List<CandidateAlongGroup>>(false, null, ex.Message, null, ex);
+            }
+        }
         public Result<IQueryable<Candidat>> GetCandidates(string includes ="")
         {
             if (SecurityService.IsAdmin)

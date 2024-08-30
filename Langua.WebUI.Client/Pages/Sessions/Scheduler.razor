@@ -20,12 +20,9 @@
         <RadzenDropDown Data="@Groups" Change="SelectChanged" @bind-Value="selectedGroup" TextProperty="Name" ValueProperty="Id" Visible=@(SchedelurFor.GroupSched == ScheFor) Style="width:100%" />
     </RadzenColumn>
 </RadzenRow>
-<RadzenScheduler @ref=@scheduler 
-    SlotRender=@OnSlotRender style="height: 768px;" TItem="Langua.Models.Session" 
+<RadzenScheduler @ref=@scheduler style="height: 768px;" TItem="Langua.Models.Session" 
 Data=@Sessions StartProperty="Start" EndProperty="End" 
-    TextProperty="Name" SelectedIndex="1" SlotSelect=@OnSlotSelect 
-    AppointmentSelect=@OnSessionSelect AppointmentRender=@OnSessionRender
-                 AppointmentMove=@OnSessionMove>
+    TextProperty="Name" SelectedIndex="1" SlotSelect=@OnSlotSelect>
 
     <RadzenDayView />
     <RadzenWeekView />

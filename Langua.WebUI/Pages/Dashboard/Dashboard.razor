@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿ @page "/"
 @page "/Manager/"
 @page "/dashboard"
 @inherits DashboardComponent
@@ -16,7 +16,7 @@
 
 <div class="py-4">
     <RadzenStack Gap="1rem" Style="position: relative">
-    <RadzenRow>
+        <RadzenRow>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
             <RadzenCard Style="position: relative; height :100px">
                 <RadzenText TextStyle="TextStyle.H6">@L["Nb All Users"]</RadzenText>
@@ -66,7 +66,14 @@
             </RadzenColumn>
 
     </RadzenRow>
-    <hr />
-
+     <hr />
+    <RadzenRow>
+        <div class="rz-p-0 rz-p-md-12">
+            <RadzenChart>
+                    <RadzenColumnSeries Data="@GroupsStat" CategoryProperty="Quarter" ValueProperty="Revenue" />
+                @* <RadzenColumnSeries Data="@revenue2" CategoryProperty="Quarter" ValueProperty="Revenue" /> *@
+            </RadzenChart>
+        </div>
+    </RadzenRow>
 </RadzenStack>
 </div>

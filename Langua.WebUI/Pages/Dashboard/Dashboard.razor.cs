@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Langua.WebUI.Pages.Users;
 
 namespace Langua.WebUI.Pages.Dashboard
 {
@@ -14,6 +13,7 @@ namespace Langua.WebUI.Pages.Dashboard
     {
         private HubConnection _chatGroupHub;
         public IEnumerable<Candidat>? Candidates { get; set; }
+        public CandidateAlongGroup[] GroupsStat;
         public IEnumerable<Teacher> ?Teachers { get; set; }
         public int NbGroups, NbManagers, NbDepartements, NbGrTeachers, NbGrCandidates, NbCandidat, NbTeacher, NbUsers;
 
@@ -57,8 +57,9 @@ namespace Langua.WebUI.Pages.Dashboard
                 NbGroups = await baseService.NBItemsForManager<Groups>(Manager.Value.Id);
                 NbGrTeachers = await baseService.NBItemsForManager<Models.GroupTeacher>(Manager.Value.Id);
                 NbGrCandidates = await baseService.NBItemsForManager<Models.GroupCandidates>(Manager.Value.Id);
-
-
+                var resGrCan = await LanguaService.candidateAlongGroups(Manager.Value.DepartmentId);
+                if (resGrCan.Succeeded)
+                    GroupsStat = resGrCan.Value.ToArray();
             }
 
 

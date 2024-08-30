@@ -88,11 +88,17 @@ namespace Langua.WebUI.Data
             var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
             return await ValidateSecurityStampAsync(userManager, authenticationState.User);
         }
-        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
-        {
-            var sess = await sessionStorage.GetAsync<string>("Token");
+        //public override async Task<AuthenticationState> GetAuthenticationStateAsync()
+        //{
+        //    var sess = await sessionStorage.GetAsync<string>("Token");
+        //    var Token = sess.Success ? sess.Value : null;
+        //    if (Token == null)
+        //        return null;
+            
+        //            notig
+                
 
 
-        }
+        //}
     }
 }

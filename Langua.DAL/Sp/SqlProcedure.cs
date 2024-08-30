@@ -20,6 +20,21 @@ namespace Langua.DAL.Sp
                 FROM Groups gr INNER JOIN  GroupCandidates gc ON gr.Id = gc.GroupId
                 INNER JOIN Candidates c ON c.Id = gc.CandidatId WHERE c.UserId = @UserId
                 """;
+            sp["CandidateAlongDepartment"] = """
+                select Dep.Name as DaprtementName , count(Can.Id) as NbCans  from Candidates Can inner join Departments Dep 
+                	On Dep.Id = Can.DepartementId
+                group by  dep.Name
+                """;
+            sp["CandidateAlongGroup"] = """    
+                select Gr.Name as GroupName, Count(Can.Id) NbCans from Groups Gr Left Outer join Candidates Can ON Gr.Id = Can.GroupId group by Gr.Name;
+                """;
+            sp["CandidateAlongGroupByDep"] = """    
+                SELECT Gr.Name AS GroupName, COUNT(Can.Id) AS NbCans
+                FROM   Groups AS Gr LEFT OUTER JOIN
+                             Candidates AS Can ON Gr.Id = Can.GroupId
+                Where Gr.DepartmentId = @Depart
+                GROUP BY Gr.Name 
+                """;
         }
 
     }

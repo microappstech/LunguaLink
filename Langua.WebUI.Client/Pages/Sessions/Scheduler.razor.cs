@@ -43,18 +43,18 @@ namespace Langua.WebUI.Client.Pages.Sessions
                     Sessions = sessions.Where(s=> s.GroupId == selectedGroup);
                     break;
             }
-            await scheduler.Reload();
+            await scheduler?.Reload();
         }
         protected override async Task OnInitializedAsync()
         {
-            var teachers =await LangClientService.GetTeachers();
+            var teachers =await LangClientService!.GetTeachers();
             var groups =await LangClientService.GetGroups();
             Teachers = teachers.ToList();
             Groups = groups.ToList();
             if (Groups.FirstOrDefault() is not null)
-                selectedGroup = Groups.FirstOrDefault().Id;
+                selectedGroup = Groups.FirstOrDefault()?.Id??0;
             if(Teachers.FirstOrDefault() is not null)
-                selectedTeacher = teachers.FirstOrDefault().Id;
+                selectedTeacher = teachers.FirstOrDefault()?.Id??0;
             var sessions = await LangClientService!.GetSessions();
             Sessions = sessions;
 
@@ -96,14 +96,5 @@ namespace Langua.WebUI.Client.Pages.Sessions
             await scheduler.Reload();
         }
 
-        protected void OnSessionRender(SchedulerAppointmentRenderEventArgs<Session> args)
-        {
-            
-        }
-
-        protected async Task OnSessionMove(SchedulerAppointmentMoveEventArgs args)
-        {
-
-        }
     }
 }

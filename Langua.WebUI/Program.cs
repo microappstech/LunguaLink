@@ -18,7 +18,6 @@ using Langua.WebUI.Client.Services;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Langua.ApiControllers.LanguaHub;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,10 +76,14 @@ builder.Services.AddScoped<ApiHelper>();
 builder.Services.AddScoped<IMailService,MailService>();
 builder.Services.AddHttpClient();
 builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultScheme = IdentityConstants.ApplicationScheme;
-        options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
-    }).AddJwtBearer(opts =>
+{
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+
+})
+    .AddJwtBearer(opts =>
     {
         byte[] SigninKey = Encoding.ASCII.GetBytes(builder.Configuration["AuthSettings:Key"]);
         opts.TokenValidationParameters = new TokenValidationParameters
@@ -88,7 +91,7 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,            
+            ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["AuthSettings:Issuer"],
             ValidAudience = builder.Configuration["AuthSettings:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(SigninKey)
@@ -97,13 +100,13 @@ builder.Services.AddAuthentication(options =>
     })
     .AddCookie(opt =>
     {
-        opt.ExpireTimeSpan = TimeSpan.FromMinutes(1);
         opt.LoginPath = "/Login";
+        opt.LogoutPath = "/Logout";
+        opt.ExpireTimeSpan = TimeSpan.FromMinutes(1);
     })
-    .AddIdentityCookies(opt =>
-    {
-        //opt.ApplicationCookie = CookieAuthenticationDefaults.CookiePrefix;
-    });
+    .AddIdentityCookies()
+    ;
+//builder.Services.AddRazorComponents();
 builder.Services.AddAuthorization();
 //builder.Services.AddScoped<AuthenticationStateProvider, Langua.WebUI.Client.CustomAuthenticationStateProvider>();
 
@@ -132,10 +135,6 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     .AddEntityFrameworkStores<Langua.DataContext.Data.LanguaContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
-//builder.WebHost.ConfigureKestrel(opt =>
-//{
-    //opt.Listen(System.Net.IPAddress.Parse("192.168.69.177"), 5000);
-//});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -26,16 +26,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Langua.Api.ApiControllers
 {
-    [Route("odata/Langua/Sessions")]
-    [Authorize]
-    //[ApiController]
+    [Route("odata/Langua/Sessions")]    
+    [ApiController]
     public partial class SessionsController : ODataController
     {
         private LanguaContext context;
         private IMailService mailService;
         private LanguaService languaService;
         private SecurityService _security;
-        const string AuthSchema = CookieAuthenticationDefaults.AuthenticationScheme;// + "," +
         //JwtBearerDefaults.AuthenticationScheme;
         public SessionsController(LanguaContext context,IMailService mail,LanguaService languaService, SecurityService securityService)
         {
@@ -75,12 +73,7 @@ namespace Langua.Api.ApiControllers
         [HttpGet("/odata/Langua/Sessions(Id={Id})")]
         public Session GetSession(int Id)
         {
-            var items = this.context.Sessions.Where(i => i.Id == Id).Include(s=>s.Group).ThenInclude(s=>s.Candidats).FirstOrDefault();
-            
-            //var result = SingleResult.Create(items);
-
-            //OnSessionGet(ref result);
-
+            var items = this.context.Sessions.Where(i => i.Id == Id).Include(s=>s.Group)?.ThenInclude(s=>s.Candidats)?.FirstOrDefault();
             return items;
         }
         partial void OnSessionDeleted(Session item);
@@ -241,7 +234,7 @@ namespace Langua.Api.ApiControllers
                 Dictionary<string,string> candidatesEmail = new ();
                 foreach (var cand in Candidates)
                 {
-                    candidatesEmail.Add(cand.FullName, cand!.Email);
+                    candidatesEmail.Add(cand!.Email, cand.FullName);
                 }
                 var SendMailToCands = await mailService.SendMails("New Session Created", @$"Admin langua create a new session <h3>{item.Name}</h3> in {item.Start.ToShortDateString()} from {item.Start.TimeOfDay } to {item.End.TimeOfDay}
                             . <br/> Don't forget to present to the session", candidatesEmail); 

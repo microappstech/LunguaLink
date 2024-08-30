@@ -59,7 +59,7 @@ namespace Langua.Repositories.Services
                     using(MimeMessage emailMsg = new MimeMessage())
                     {
                         emailMsg.From.Add(new MailboxAddress(smtpSettings["SenderName"], smtpSettings["SenderEmail"]));
-                        emailMsg.To.Add(new MailboxAddress(recipient.Key, recipient.Value));
+                        emailMsg.To.Add(new MailboxAddress(recipient.Value, recipient.Key));
                         emailMsg.Subject = subject;
                         emailMsg.Body = new TextPart("plain")
                         {

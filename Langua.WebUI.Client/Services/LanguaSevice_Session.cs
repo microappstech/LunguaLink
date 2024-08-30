@@ -44,7 +44,7 @@ namespace Langua.WebUI.Client.Services
         {
             var uri = new Uri(baseUri, $"Sessions");
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-            requestMessage.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+            requestMessage.SetBrowserRequestCredentials(BrowserRequestCredentials.SameOrigin);
             var response = await httpClient.SendAsync(requestMessage);
             
             var str = await response.Content.ReadAsStringAsync();

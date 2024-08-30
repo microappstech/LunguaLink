@@ -12,6 +12,7 @@ using System.Transactions;
 //using Langua.Repositories.Services;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Langua.Account
 {
@@ -25,7 +26,6 @@ namespace Langua.Account
         private IEnumerable<IdentityError> identityErrors;
         private ILogger<SecurityService> Ilogger;
         private NavigationManager navigationManager;
-        //private BaseService baseService;
         private readonly AuthenticationStateProvider authentication;
         private readonly IWebHostEnvironment webHost;
         private readonly RoleManager<IdentityRole> roleManager;
@@ -207,6 +207,15 @@ namespace Langua.Account
                     SignInResult? result = await _signInManager.PasswordSignInAsync(us, Input.Password, isPersistent: false, false);
                     if (result.Succeeded)
                     {
+
+                        var claims = new List<Claim>()
+                        {
+                            new Claim(ClaimTypes.Name,us.FullName??"ss"),
+                            new Claim(ClaimTypes.Email,us.Email??"emali"),
+                            //new Claim(ClaimTypes.Role ,us.Roles.)
+                        };
+                        var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        
                         Ilogger.LogInformation("User logged in.");
                         LResult loginResult = new LResult(true) { };
                         user = us;
