@@ -63,6 +63,7 @@ namespace Langua.WebUI.Client.Pages.Sessions
         {
             try
             {
+                addCliecked = true;
                 if (Session.End.TimeOfDay < Session.Start.TimeOfDay)
                 {
                     Notify("Wrong Time Session", "Please enter a correct durre for session", NotificationSeverity.Warning);
@@ -77,6 +78,10 @@ namespace Langua.WebUI.Client.Pages.Sessions
             catch (Exception ex)
             {
                 errorVisible = true;
+            }
+            finally
+            {
+                addCliecked = false;
             }
         }
 

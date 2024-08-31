@@ -11,13 +11,14 @@ namespace Langua.WebUI.Pages.Dashboard
 {
     public partial class DashboardComponent:BasePage
     {
-        private HubConnection _chatGroupHub;
+        private HubConnection? _chatGroupHub;
         public IEnumerable<Candidat>? Candidates { get; set; }
-        public CandidateAlongGroup[] GroupsStat;
+        public CandidateAlongGroup[]? GroupsStat;
+        public SessionByGroup[]? NbSessionByGroups;
+        public TotalDureeSessions[]? TotalDureeSessions;
         public IEnumerable<Teacher> ?Teachers { get; set; }
         public int NbGroups, NbManagers, NbDepartements, NbGrTeachers, NbGrCandidates, NbCandidat, NbTeacher, NbUsers;
 
-        [Inject] public BaseService? baseService { get; set; }
 
 
 
@@ -40,6 +41,15 @@ namespace Langua.WebUI.Pages.Dashboard
                 NbGrCandidates = await baseService.NBItems<GroupCandidates>();
                 NbGrTeachers = await baseService.NBItems<Models.GroupTeacher>();
                 NbUsers = await baseService.NBItems<ApplicationUser>();
+                var resGrCan = await LanguaService.candidateAlongGroups();
+                var ResSByGr = await LanguaService.NbSessionByGroup();
+                var TotDureSes = await LanguaService.TotalDureeSessions();
+                if (resGrCan.Succeeded)
+                    GroupsStat = resGrCan.Value.ToArray();
+                if(ResSByGr.Succeeded)
+                    NbSessionByGroups = ResSByGr.Value.ToArray();
+                if (TotDureSes.Succeeded)
+                    TotalDureeSessions = TotDureSes.Value.ToArray();
 
             }
             else if(await Security.IsInRole("MANAGER"))
@@ -58,8 +68,14 @@ namespace Langua.WebUI.Pages.Dashboard
                 NbGrTeachers = await baseService.NBItemsForManager<Models.GroupTeacher>(Manager.Value.Id);
                 NbGrCandidates = await baseService.NBItemsForManager<Models.GroupCandidates>(Manager.Value.Id);
                 var resGrCan = await LanguaService.candidateAlongGroups(Manager.Value.DepartmentId);
+                var ResSByGr = await LanguaService.NbSessionByGroup(Manager.Value.DepartmentId);
+                var TotDureSes = await LanguaService.TotalDureeSessions(Manager.Value.DepartmentId);
                 if (resGrCan.Succeeded)
                     GroupsStat = resGrCan.Value.ToArray();
+                if (ResSByGr.Succeeded)
+                    NbSessionByGroups = ResSByGr.Value.ToArray();
+                if (TotDureSes.Succeeded)
+                    TotalDureeSessions = TotDureSes.Value.ToArray();
             }
 
 

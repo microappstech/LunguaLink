@@ -35,6 +35,32 @@ namespace Langua.DAL.Sp
                 Where Gr.DepartmentId = @Depart
                 GROUP BY Gr.Name 
                 """;
+            sp["NbrSessionsForGroup"] = """
+                SELECT Gr.Name AS GroupName, COUNT(S.Id) AS NbSessions
+                    FROM   Groups AS Gr LEFT OUTER JOIN
+                                    Sessions AS S ON Gr.Id = S.GroupId
+                    group by Gr.Name;
+                """;
+            sp["NbrSessionsForGroupByDep"] = """
+                SELECT Gr.Name AS GroupName, COUNT(S.Id) AS NbSessions FROM   Groups AS Gr LEFT OUTER JOIN
+                    Sessions AS S ON Gr.Id = S.GroupId 
+                where Gr.DepartmentId = @Depart group by Gr.Name
+                """;
+            sp["TotalSesOfGroupInMenute"] = """
+                                
+                SELECT Sum(DATEDIFF(Minute ,[Start],[End])) as TotalInMenute, Gr.Name
+                FROM   Groups AS Gr LEFT OUTER JOIN
+                             Sessions AS S ON Gr.Id = S.GroupId 
+
+                group by Gr.Name
+                """;
+            sp["TotalSesOfGroupInMenuteByDep"] = """                                
+                SELECT Sum(DATEDIFF(Minute ,[Start],[End])) as TotalInMenute, Gr.Name
+                FROM   Groups AS Gr LEFT OUTER JOIN
+                             Sessions AS S ON Gr.Id = S.GroupId 
+                             where Gr.DepartmentId=@Depart
+                group by Gr.Name
+                """;
         }
 
     }

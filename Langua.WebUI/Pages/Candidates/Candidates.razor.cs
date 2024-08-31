@@ -72,7 +72,7 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task ConfirmMail(Candidat args)
         {
-            var result = await dialogService.OpenAsync<ValidateMail>("Confirm you email", new Dictionary<string, object> { { "Email", args.Email }, { "UserId",args.UserId } });
+            var result = await dialogService.OpenAsync<ValidateMail>(L["Confirm your email"], new Dictionary<string, object> { { "Email", args.Email }, { "UserId",args.UserId } });
             if(!ReferenceEquals(result,null) && result == true)
                 args.ConfirmedMail = true;
             await grid0!.Reload();

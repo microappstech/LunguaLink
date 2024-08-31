@@ -35,7 +35,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, Langua.WebUI.Data.Persis
 
 builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>(serviceProvider =>
 {
-    return new SqlDataAccess(builder.Configuration.GetConnectionString("DefaultConnection"));
+    return new SqlDataAccess(builder.Configuration.GetConnectionString("sqlConnection"));
 });
 builder.Services.AddLocalization();
 builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
@@ -111,7 +111,7 @@ builder.Services.AddAuthorization();
 //builder.Services.AddScoped<AuthenticationStateProvider, Langua.WebUI.Client.CustomAuthenticationStateProvider>();
 
 builder.Services.AddScoped<LanguaService>();
-var connectionString = builder.Configuration.GetConnectionString("sqlConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("sqlConnection") ?? throw new InvalidOperationException("Connection string 'sqlConnection' not found.");
 builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
 {
     options.UseSqlServer(connectionString);
@@ -121,7 +121,7 @@ builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
 
 builder.Services.AddSignalR();
 
-
+builder.Services.AddLogging();
 builder.Services.AddScoped<LangClientService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddSwaggerGen();

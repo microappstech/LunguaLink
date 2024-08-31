@@ -14,7 +14,81 @@ namespace Langua.Repositories.Services
 {
     public partial class LanguaService
     {
-        public async Task<Result<List<CandidateAlongGroup>>> candidateAlongGroups(int departementId)
+        public async Task<Result<List<TotalDureeSessions>>> TotalDureeSessions(int? deprt = null)
+        {
+            try
+            {
+                if (SecurityService.IsAdmin)
+                {
+                    List<TotalDureeSessions>? res = await dataAccess.LoadData<TotalDureeSessions>(sp["TotalSesOfGroupInMenute"]!.ToString());
+                    return new Result<List<TotalDureeSessions>>(true, res);
+                }
+                else
+                {
+                    if (ReferenceEquals(deprt, null))
+                    {
+                        return new Result<List<TotalDureeSessions>>(
+                            false,
+                            null!,
+                            "The user does not belong to any departement"
+                            , new Shared.Exceptions.LanguaException("The user does not belong to any departement"));
+
+                    }
+                    else
+                    {
+
+                        var res = await dataAccess.LoadData<TotalDureeSessions>(sp["TotalSesOfGroupInMenuteByDep"]!.ToString()!.Replace("@Depart", deprt.ToString()));
+                        return new Result<List<TotalDureeSessions>>(true, res);
+                    }
+                }
+            }
+            catch (Langua.Shared.Exceptions.LanguaException langex)
+            {
+                return new Result<List<TotalDureeSessions>>(false, null!, langex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<TotalDureeSessions>>(false, null!, ex.Message);
+            }
+        }
+        public async Task<Result<List<SessionByGroup>>> NbSessionByGroup(int? deprt = null)
+        {
+            try
+            {
+                if (SecurityService.IsAdmin)
+                {
+                    var res = await dataAccess.LoadData<SessionByGroup>(sp["NbrSessionsForGroup"]!.ToString());
+                    return new Result<List<SessionByGroup>>(true, res);
+                }
+                else
+                {
+                    if (ReferenceEquals(deprt, null))
+                    {
+                        return new Result<List<SessionByGroup>>(
+                            false,
+                            null!,
+                            "The user does not belong to any departement"
+                            , new Shared.Exceptions.LanguaException("The user does not belong to any departement"));
+
+                    }
+                    else
+                    {
+
+                        var res = await dataAccess.LoadData<SessionByGroup>(sp["NbrSessionsForGroupByDep"]!.ToString()!.Replace("@Depart", deprt.ToString()));
+                        return new Result<List<SessionByGroup>>(true, res);
+                    }
+                }
+            }
+            catch (Langua.Shared.Exceptions.LanguaException langex)
+            {
+                return new Result<List<SessionByGroup>>(false, null!, langex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<SessionByGroup>>(false, null!, ex.Message);
+            }
+        }
+        public async Task<Result<List<CandidateAlongGroup>>> candidateAlongGroups(int? departementId=null)
         {
             try
             {
@@ -25,6 +99,13 @@ namespace Langua.Repositories.Services
                 }
                 else
                 {
+                    if (ReferenceEquals(null, departementId))
+                        return new Result<List<CandidateAlongGroup>>(
+                            false,
+                            null!,
+                            "There is no departement for this user"
+                            , new Shared.Exceptions.LanguaException("There is no departement for this user"));
+
                     var res = await dataAccess.LoadData<CandidateAlongGroup>(sp["CandidateAlongGroup"]!.ToString()!.Replace("@Depart", departementId.ToString()));
                     return new Result<List<CandidateAlongGroup>>(true, res);
                 }

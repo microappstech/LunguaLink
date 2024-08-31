@@ -68,12 +68,27 @@
     </RadzenRow>
      <hr />
     <RadzenRow>
-        <div class="rz-p-0 rz-p-md-12">
+        <RadzenColumn Size="6">
+            <div class="rz-p-0 rz-p-md-12 w-100">
+                <RadzenChart Style="width:100%" class="bg-red">
+                    <RadzenColumnSeries Data="@GroupsStat" Fill="Purple" Stroke="purple" Title="@L["Nombre Candidates By Group"]" StrokeWidth="0" CategoryProperty="GroupName" ValueProperty="NbCans" />
+                    <RadzenColumnOptions Radius="5" Width="50" />
+                    <RadzenLegend Position="LegendPosition.Bottom" />
+                    
+                    <RadzenCategoryAxis Padding="20" />
+                    @* <RadzenColumnSeries Data="@revenue2" CategoryProperty="Quarter" ValueProperty="Revenue" /> *@
+                </RadzenChart>
+            </div>
+        </RadzenColumn>
+        <RadzenColumn Size="6">
             <RadzenChart>
-                    <RadzenColumnSeries Data="@GroupsStat" CategoryProperty="Quarter" ValueProperty="Revenue" />
-                @* <RadzenColumnSeries Data="@revenue2" CategoryProperty="Quarter" ValueProperty="Revenue" /> *@
+                    <RadzenPieSeries Data="@NbSessionByGroups"  Title="@L["Nb Session For Group"]" CategoryProperty="GroupName" ValueProperty="NbSessions">
+                    <RadzenSeriesDataLabels Visible="true" />
+                    <RadzenLegend Visible="true" />
+                </RadzenPieSeries>
             </RadzenChart>
-        </div>
+            <RadzenLabel Text="@L["Nb Session For Group"]" class="mx-auto text-center" />
+        </RadzenColumn>
     </RadzenRow>
 </RadzenStack>
 </div>
