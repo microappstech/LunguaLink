@@ -9,6 +9,7 @@ namespace Langua.WebUI.Pages.Candidates
 {
     public partial class EditCandidateComponent:BasePage
     {
+        protected string _oldmail;
         protected string fileName;
         protected long? fileSize;
         public bool Submited { get; set; }
@@ -25,6 +26,7 @@ namespace Langua.WebUI.Pages.Candidates
             if (CResult.Succeeded)
             {
                 candidate = CResult.Value;
+                _oldmail = candidate.Email;
                 await Task.CompletedTask;
             }
 

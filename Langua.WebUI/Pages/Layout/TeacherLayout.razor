@@ -42,7 +42,7 @@
                         <RadzenGravatar  Email="@context.User.Identity?.Name" Style=""></RadzenGravatar>
                     </Template>
                     <ChildContent>
-                        <form action="api/Auth/Logout" method="post">
+                        <form action="api/Auth/Logout" method="get">
                             <AntiforgeryToken />
                             <button type="submit" class="nav-link mx-auto" style="background-color: Transparent; border:none; ">
                                 <RadzenProfileMenuItem Icon="logout" class="mx-auto" Text="Logout" Style="width:60;">

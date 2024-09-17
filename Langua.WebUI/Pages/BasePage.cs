@@ -41,8 +41,12 @@ namespace Langua.WebUI.Pages
             if(!mail.Contains("@gmail.com")) return false;
             return true;
         }
-        public bool MailNotTaken(string mail)
+        public bool MailNotTaken(string mail, string _olmail = null)
         {
+            if(!string.IsNullOrEmpty(mail))
+            {
+                return mail != _olmail;
+            }
             return !Security.MailTaken(mail);
         }
     }

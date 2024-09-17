@@ -53,7 +53,7 @@ namespace Langua.WebUI.Client.Pages
             }
             return await dialogService!.Confirm(message, title, confirmOptions);
         }
-        public async Task LogMessage(string message)
+        public async Task LogMessage(object message)
         {
             await JSRuntime.InvokeVoidAsync("console.log", message);
         }

@@ -3,7 +3,12 @@
 
 <RadzenCard style="height: 100%;margin-top:0px;">
     <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Session</RadzenAlert>
-    <RadzenTemplateForm TItem="Models.Session" Data="@Session" Submit="@FormSubmit">
+    @if (stillLoading)
+    {
+        <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+    }
+    else{
+        <RadzenTemplateForm TItem="Models.Session" Data="@Session" Submit="@FormSubmit">
         <RadzenRow style="margin-bottom: 1rem">
             <RadzenColumn SizeMD="3">
                 <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
@@ -19,7 +24,7 @@
             <RadzenColumn SizeMD="9">
                 <RadzenDropDown Disabled="IsForGroup" Data="@groupsForGroupId" TextProperty="Name" ValueProperty="Id" AllowClear=true
                                 Placeholder="Choose Group" style="display: block; width: 100%" @bind-Value="@Session.GroupId" Name="GroupId"
-                                Count=@groupsForGroupIdCount LoadData=@groupsForGroupIdLoadData />
+                                Count=@groupsForGroupIdCount />
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow style="margin-bottom: 1rem">
@@ -29,7 +34,7 @@
             <RadzenColumn SizeMD="9">
                 <RadzenDropDown Disabled="!IsForGroup" Data="@teachersForTeacherId" TextProperty="FullName" ValueProperty="Id" AllowClear=true
                                 Placeholder="Choose Teacher" style="display: block; width: 100%" @bind-Value="@Session.TeacherId" Name="TeacherId"
-                                Count=@teachersForTeacherIdCount LoadData=@teachersForTeacherIdLoadData />
+                                Count=@teachersForTeacherIdCount />
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow style="margin-bottom: 1rem">
@@ -56,5 +61,6 @@
             <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick" Visible=false />
         </RadzenStack>
     </RadzenTemplateForm>
+    }
 </RadzenCard>
 

@@ -27,14 +27,15 @@ namespace Langua.WebUI.Pages.GroupTeacher
                 Groups = GResult.Value;
                 Teachers = Treasult.Value;
             }
-            bool converted = int.TryParse(EntId, out int GroupTeacherId);
+            bool converted = !string.IsNullOrEmpty(EntId.ToString())? int.TryParse(EntId.ToString(), out int GroupTeacherId):false;
             if (!converted)
             {
                 groupTeacher = new Models.GroupTeacher();
             }
             else
             {
-                var result = repository.GetById(GroupTeacherId) ;
+                int.TryParse(EntId.ToString(), out int _GroupTeacherId);
+                var result = repository.GetById(_GroupTeacherId) ;
                 if(result.Succeeded)
                 {
                     groupTeacher = result.Value;

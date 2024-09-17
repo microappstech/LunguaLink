@@ -13,7 +13,7 @@ namespace Langua.WebUI.Client.Pages.Sessions
         [Parameter] public DateTime End { get; set; }
         [Parameter] public DateTime Start { get; set; }
         
-        protected bool errorVisible;
+        protected bool errorVisible, stillLoading;
         protected Models.Session? Session;
 
         protected IEnumerable<Models.Groups>? groupsForGroupId;
@@ -26,36 +26,36 @@ namespace Langua.WebUI.Client.Pages.Sessions
         protected int count;
         protected bool isEdit = false;
         protected bool addCliecked = false;
-        protected async Task groupsForGroupIdLoadData(LoadDataArgs args)
+        protected async Task groupsForGroupIdLoadData()
         {
             try
             {
-                var filter = $"contains(Name, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')";
-                //var result = await LangClientService.GetGroups(top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null, filter: $"contains(Name, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')", orderby: $"{args.OrderBy}");
-                var result = await LangClientService.GetGroups();
+                var result = await LangClientService!.GetGroups();
                 groupsForGroupId = result;
                 groupsForGroupIdCount = result.Count();
 
             }
             catch (System.Exception ex)
             {
+                await LogMessage(ex);
                 Notify($"Error", $"Unable to load Group", NotificationSeverity.Error);
             }
         }
 
         protected int teachersForTeacherIdCount;
         protected Models.Teacher teachersForTeacherIdValue;
-        protected async Task teachersForTeacherIdLoadData(LoadDataArgs args)
+        protected async Task teachersForTeacherIdLoadData()
         {
             try
             {
-                var result = await LangClientService.GetTeachers(top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null, filter: /*$"contains(UserId, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')",*/ null, orderby: $"{args.OrderBy}");
+                var result = await LangClientService!.GetTeachers();
                 teachersForTeacherId = result;
                 teachersForTeacherIdCount = result.Count();
 
             }
             catch (System.Exception ex)
             {
+                await LogMessage(ex);
                 //NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load Teacher" });
             }
         }
@@ -92,27 +92,34 @@ namespace Langua.WebUI.Client.Pages.Sessions
 
         protected override async Task OnInitializedAsync()
         {
-            if(SessionId != 0)
+            try
             {
-                Session = await LangClientService!.GetSessionById(id: SessionId);
-            }
-            else
-            {
-                Session = new Session();
-                Session.End = End;
-                Session.Start = Start;
-                if (IsForGroup)
+                stillLoading = true;
+                await groupsForGroupIdLoadData();
+                await teachersForTeacherIdLoadData();
+                if (SessionId != 0)
                 {
-                    Session.GroupId = GroupOrTeacherId;
+                    Session = await LangClientService!.GetSessionById(id: SessionId);
                 }
                 else
                 {
-                    Session.TeacherId = GroupOrTeacherId;
+                    Session = new Session();
+                    Session.End = End;
+                    Session.Start = Start;
+                    if (IsForGroup)
+                    {
+                        Session.GroupId = GroupOrTeacherId;
+                    }
+                    else
+                    {
+                        Session.TeacherId = GroupOrTeacherId;
+                    }
+
                 }
+            }finally{
+                stillLoading = false;
 
             }
-            
-            
         }
     }
 }

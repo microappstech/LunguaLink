@@ -271,6 +271,7 @@ namespace Langua.Api.ApiControllers
                     Id = i.Id,
                     End = i.End,
                     Start = i.Start,
+                    Name = i.Name,
                     TeacherName = i.Teacher.FullName,
                     TeacherId = i.Teacher.Id,
 
