@@ -51,7 +51,7 @@
     {
         await Security!.InitializeAsync();
         
-        var resRessources = await LanguaService.GetRessources(includes: "GroupRessources,Teacher");
+        var resRessources = await LanguaService.GetRessources(includes: "Teacher");
         if (resRessources.Succeeded)
         {
             Resources = resRessources.Value.ToList();

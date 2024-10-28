@@ -15,7 +15,9 @@ namespace Langua.Repositories.Services
     {
         public async Task<Result<IEnumerable<Ressource>>> GetRessources(string includes ="")
         {
-            var resResult = Context.Ressources.AsQueryable();
+            var resResult = Context.Ressources
+                .Include(g => g.GroupRessources)
+                .ThenInclude(i => i.Group).AsQueryable();
             if(resResult is null )
                 return await Task.FromResult(new Result<IEnumerable<Ressource>>(false, null!));
             if(!string.IsNullOrEmpty(includes))

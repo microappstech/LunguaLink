@@ -179,7 +179,7 @@ namespace Langua.Account
 
         public async Task<LResult> Login(ModelView.InputModels.LoginInput Input)
         {
-            if (Input.Email == "admin@langua.ma" && Input.Password == "admin" && webHost.EnvironmentName == "Development")
+            if (Input.Email == "Hamzamouddakur@gmail.com" && Input.Password == "admin" && webHost.EnvironmentName == "Development")
             {
                 var RoleAdmin = await roleManager.FindByNameAsync("ADMIN");
                 if (RoleAdmin == null)
