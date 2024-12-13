@@ -2,7 +2,13 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <EmbeddedResource Update="LocalRessources\LanguaResource.en-US.resx">
+    <EmbeddedResource Update="Localization\Localizer.ar.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Localizer.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Localization\Localizer.fr.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

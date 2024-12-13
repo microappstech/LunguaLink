@@ -59,6 +59,7 @@ namespace Langua.WebUI.Client.Pages.Sessions
                 //NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load Teacher" });
             }
         }
+        public string Error;
         protected async Task FormSubmit()
         {
             try
@@ -66,7 +67,12 @@ namespace Langua.WebUI.Client.Pages.Sessions
                 addCliecked = true;
                 if (Session.End.TimeOfDay < Session.Start.TimeOfDay)
                 {
-                    Notify("Wrong Time Session", "Please enter a correct durre for session", NotificationSeverity.Warning);
+                    Notify(L["Wrong Time Session"], L["Please enter a correct durre for session"], NotificationSeverity.Warning);
+                    return;
+                }
+                if(!Equals(Session.TeacherId, null) && Session.TeacherId == 0)
+                {
+                    Error = L["Please choose teacher"];
                     return;
                 }
                 Session.End = Session.Start + (Session.End.TimeOfDay - Session.Start.TimeOfDay);

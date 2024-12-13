@@ -2,7 +2,7 @@
 @inherits FormSession
 
 <RadzenCard style="height: 100%;margin-top:0px;">
-    <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save Session</RadzenAlert>
+    <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">@Error</RadzenAlert>
     @if (stillLoading)
     {
         <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
@@ -11,7 +11,7 @@
         <RadzenTemplateForm TItem="Models.Session" Data="@Session" Submit="@FormSubmit">
         <RadzenRow style="margin-bottom: 1rem">
             <RadzenColumn SizeMD="3">
-                <RadzenLabel Text="Name" Component="Name" style="width: 100%" />
+                <RadzenLabel Text="@L["Name"]" Component="Name" style="width: 100%" />
             </RadzenColumn>
             <RadzenColumn SizeMD="9">
                 <RadzenTextBox style="display: block; width: 100%" @bind-Value="@Session.Name" Name="Name" />
@@ -19,12 +19,14 @@
         </RadzenRow>
         <RadzenRow style="margin-bottom: 1rem">
             <RadzenColumn SizeMD="3">
-                <RadzenLabel Text="Group" Component="Group" style="width: 100%" />
+                <RadzenLabel Text="@L["Group"]" Component="Group" style="width: 100%" />
             </RadzenColumn>
             <RadzenColumn SizeMD="9">
                 <RadzenDropDown Disabled="IsForGroup" Data="@groupsForGroupId" TextProperty="Name" ValueProperty="Id" AllowClear=true
-                                Placeholder="Choose Group" style="display: block; width: 100%" @bind-Value="@Session.GroupId" Name="GroupId"
+                                Placeholder="@L["Choose Group"]" style="display: block; width: 100%" @bind-Value="@Session.GroupId" Name="GroupId"
                                 Count=@groupsForGroupIdCount />
+                    <RadzenRequiredValidator Component="GroupId" Text="@L["group is required"]" DefaultValue="0" />
+
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow style="margin-bottom: 1rem">
@@ -33,8 +35,10 @@
             </RadzenColumn>
             <RadzenColumn SizeMD="9">
                 <RadzenDropDown Disabled="!IsForGroup" Data="@teachersForTeacherId" TextProperty="FullName" ValueProperty="Id" AllowClear=true
-                                Placeholder="Choose Teacher" style="display: block; width: 100%" @bind-Value="@Session.TeacherId" Name="TeacherId"
+                                Placeholder="@L["Choose Teacher"]" style="display: block; width: 100%" @bind-Value="@Session.TeacherId" Name="TeacherId"
                                 Count=@teachersForTeacherIdCount />
+                <RadzenRequiredValidator Component="TeacherId" Text="@L["teacher is required"]" DefaultValue="0" />
+
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow style="margin-bottom: 1rem">
@@ -43,7 +47,7 @@
             </RadzenColumn>
             <RadzenColumn SizeMD="9">
                 <RadzenDatePicker DateFormat="dd/MM/yyyy HH:mm" style="display: block; width: 100%" @bind-Value="@Session.Start" Name="Start" ShowTime="true" />
-                <RadzenRequiredValidator Component="Start" Text="Start is required" />
+                <RadzenRequiredValidator Component="Start" Text="@L["date is required"]" />
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow style="margin-bottom: 1rem">

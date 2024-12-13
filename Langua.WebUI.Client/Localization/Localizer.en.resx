@@ -117,7 +117,100 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ProjectName" xml:space="preserve">
-    <value>Bienvenue Langua Link</value>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Langue" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="Teachers" xml:space="preserve">
+    <value>Teachers</value>
+  </data>
+  <data name="Students" xml:space="preserve">
+    <value>Students</value>
+  </data>
+  <data name="Managers" xml:space="preserve">
+    <value>Managers</value>
+  </data>
+  <data name="Subjects" xml:space="preserve">
+    <value>Subjects</value>
+  </data>
+  <data name="Enter a valid email address" xml:space="preserve">
+    <value>Enter a valid email address</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Departement" xml:space="preserve">
+    <value>Departement</value>
+  </data>
+  <data name="Hi" xml:space="preserve">
+    <value>Hi</value>
+  </data>
+  <data name="Departements" xml:space="preserve">
+    <value>Departement</value>
+  </data>
+  <data name="Ressources" xml:space="preserve">
+    <value>Resources</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="Group/Teacher" xml:space="preserve">
+    <value>Group/Teacher</value>
+  </data>
+  <data name="Sessions" xml:space="preserve">
+    <value>Sessions</value>
+  </data>
+  <data name="Schedelur" xml:space="preserve">
+    <value>Scheduler</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Nb All Users" xml:space="preserve">
+    <value>Nb All Users</value>
+  </data>
+	<data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+	<data name="Sessions" xml:space="preserve">
+    <value>Sessions</value>
+  </data>
+	<data name="Scheduler" xml:space="preserve">
+    <value>Scheduler</value>
+  </data>
+	<data name="Resources" xml:space="preserve">
+    <value>Resources</value>
+  </data>
+	<data name="Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+	<data name="Group/Teacher" xml:space="preserve">
+    <value>Group/Teacher</value>
+  </data>
+	<data name="Nb Candidates By Group" xml:space="preserve">
+    <value>Nombre Candidates By Group</value>
+  </data>
+	<data name="NbTeachers" xml:space="preserve">
+    <value>Nb Teachers</value>
+  </data>
+	<data name="Nb Teachers/Group" xml:space="preserve">
+    <value>Nb Teachers/Group</value>
+  </data>
+	<data name="Nb sessions for Group" xml:space="preserve">
+    <value>Nb Session for Group</value>
+  </data>
+	<data name="NbManagers" xml:space="preserve">
+    <value>Nb Managers</value>
+  </data>
+	<data name="NbGroups" xml:space="preserve">
+    <value>Nb Groups</value>
+  </data>
+	<data name="Nb Departments" xml:space="preserve">
+    <value>Nb Departements</value>
+  </data>
+	<data name="Nb Candidates" xml:space="preserve">
+    <value>Nb Candidates</value>
   </data>
 </root>

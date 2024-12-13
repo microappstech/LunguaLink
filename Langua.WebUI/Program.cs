@@ -18,6 +18,7 @@ using Langua.WebUI.Client.Services;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Langua.ApiControllers.LanguaHub;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -162,9 +163,9 @@ app.UseSwagger();
 //app.UseCookiePolicy();
 app.UseRequestLocalization(option =>
 {
-    option.SetDefaultCulture("fr-FR");
-    option.AddSupportedCultures(new[] { "fr-FR", "en-US" });
-    option.AddSupportedUICultures(new[] { "fr-FR", "en-US" });
+    option.SetDefaultCulture("fr");
+    option.AddSupportedCultures(new[] { "fr", "en", "ar" });
+    option.AddSupportedUICultures(new[] { "fr", "en","ar" });
 });
 app.UseSwaggerUI(c =>
 {
@@ -177,6 +178,46 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(Langua.WebUI.Client._Imports).Assembly);
 app.MapControllers();
 app.MapHub<ChatHub>(ChatHub.ChatGroupEndPoint);
+app.Use(async (context, next) =>
+{
+    var lang = "fr";
+    if (!context.Request.Cookies.ContainsKey("LanguaLangue"))
+    {
+        context.Response.Cookies.Append("LanguaLangue", "fr", new CookieOptions
+        {
+            Expires = DateTimeOffset.UtcNow.AddYears(1),
+            HttpOnly = true,
+            Secure = context.Request.IsHttps
+        });
+    }
+    else
+    {
+        lang = context.Request.Cookies["LanguaLangue"];
+    }
+    try
+    {
+        if (!string.IsNullOrEmpty(lang))
+        {
+            var culture = new CultureInfo(lang);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+        }
+        else
+        {
+            throw new ArgumentException("Language cookie value is invalid.");
+        }
+    }
+    catch (CultureNotFoundException ex)
+    {
+        Console.WriteLine($"Invalid culture found in cookie: {lang}. Error: {ex.Message}");
+        var defaultCulture = new CultureInfo("fr");
+        Thread.CurrentThread.CurrentCulture = defaultCulture;
+        Thread.CurrentThread.CurrentUICulture = defaultCulture;
+    }
+
+    await next.Invoke();
+});
+
 await Seeding.Initialize(app.Services.CreateScope().ServiceProvider);
 //
 
