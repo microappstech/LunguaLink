@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Langua.ApiControllers.LanguaHub;
 using System.Globalization;
+using Microsoft.Extensions.Logging;
+using Langua.WebUI.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -105,12 +107,22 @@ builder.Services.AddAuthentication(options =>
         opt.LogoutPath = "/Logout";
         opt.ExpireTimeSpan = TimeSpan.FromMinutes(1);
     })
-    .AddIdentityCookies()
-    ;
+    .AddIdentityCookies();
+
 //builder.Services.AddRazorComponents();
 builder.Services.AddAuthorization();
 //builder.Services.AddScoped<AuthenticationStateProvider, Langua.WebUI.Client.CustomAuthenticationStateProvider>();
+builder.Services.AddLogging(loggerbuilder =>
+{
+//    //this gonna remove any default provider (like add console log maded by ms)
+    loggerbuilder.ClearProviders();
+//    //
+    loggerbuilder.AddProvider(new LanguaLoggerProvider(builder.Configuration,(cate)=>true));
+//    //
+    loggerbuilder.AddConsole();
+//    //
 
+});
 builder.Services.AddScoped<LanguaService>();
 var connectionString = builder.Configuration.GetConnectionString("sqlConnection") ?? throw new InvalidOperationException("Connection string 'sqlConnection' not found.");
 builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
@@ -122,7 +134,7 @@ builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
 
 builder.Services.AddSignalR();
 
-builder.Services.AddLogging();
+
 builder.Services.AddScoped<LangClientService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddSwaggerGen();

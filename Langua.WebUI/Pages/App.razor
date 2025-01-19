@@ -51,4 +51,6 @@
     [CascadingParameter]
     private HttpContext HttpContext {get;set;} = default;
     private IComponentRenderMode? RenderModeForPage => (HttpContext.Request.Path.StartsWithSegments("/Account") || HttpContext.Request.Path.StartsWithSegments("/Login")) ? null : new InteractiveAutoRenderMode(prerender:false);
+     // _logger.LogError(exception, "Unhandled exception occurred.");
+    }
 }

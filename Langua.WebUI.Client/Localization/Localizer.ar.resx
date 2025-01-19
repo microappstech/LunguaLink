@@ -7,7 +7,7 @@
     
     The primary goals of this format is to allow a simple XML format 
     that is mostly human readable. The generation and parsing of the 
-    various data typese done through the TypeConverter classes 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
     
     Example:
@@ -23,17 +23,17 @@
         <value>[base64 mime encoded serialized .NET Framework object]</value>
     </data>
     <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byteray form of the .NET Framework object]</value>
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
                 
-    Theree any number of "resheader" rows that contain simple 
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
     
     Each data row contains a name, and value. The row also contains a 
     type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverterchitecture. 
-    Classes that don't support thise serialized and stored with the 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
     
     The mimetype is used for serialized objects, and tells the 
@@ -55,7 +55,7 @@
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byteray 
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -168,52 +168,38 @@
   <data name="Users" xml:space="preserve">
     <value>المستخدمون</value>
   </data>
-	<data name="Users" xml:space="preserve">
-    <value>المستخدمون</value>
-  </data>
-	<data name="Sessions" xml:space="preserve">
-    <value>الجلسات</value>
-  </data>
-	<data name="Scheduler" xml:space="preserve">
+  <data name="Scheduler" xml:space="preserve">
     <value>الجدولة</value>
   </data>
-	<data name="Resources" xml:space="preserve">
+  <data name="Resources" xml:space="preserve">
     <value>الموارد</value>
   </data>
-	<data name="Groups" xml:space="preserve">
-    <value>المجموعات</value>
-  </data>
-	<data name="Group/Teacher" xml:space="preserve">
-    <value>مجموعة/مدرس</value>
-  </data>
-	<data name="Nombre Candidates By Group" xml:space="preserve">
-    <value>عدد المرشحات حسب المجموعة</value>
-  </data>
-	<data name="Nb Teachers" xml:space="preserve">
+  <data name="Nb Teachers" xml:space="preserve">
     <value>عدد المعلمين</value>
   </data>
-	<data name="Nb Teachers group" xml:space="preserve">
-    <value>عدد المعلمين لكل مجموعة</value>
-  </data>
-	<data name="Nb Session for group" xml:space="preserve">
+  <data name="Nb Session for group" xml:space="preserve">
     <value>عدد الجلسات لكل مجموعة</value>
   </data>
-	<data name="Nb managers" xml:space="preserve">
+  <data name="Nb managers" xml:space="preserve">
     <value>عدد المدراء</value>
   </data>
-	<data name="NB Groups" xml:space="preserve">
+  <data name="NB Groups" xml:space="preserve">
     <value>عدد المجموعات</value>
   </data>
-	<data name="Nb Departements" xml:space="preserve">
+  <data name="Nb Departements" xml:space="preserve">
     <value>عدد الأقسام</value>
   </data>
-	<data name="NB Candidates" xml:space="preserve">
+  <data name="NB Candidates" xml:space="preserve">
     <value>عدد المرشحين</value>
   </data>
-	<data name="Nb All users" xml:space="preserve">
+  <data name="Nb All users" xml:space="preserve">
     <value>عدد جميع المستخدمين</value>
   </data>
-	<data name="NB Teacher / Groupes ">
-		<value>عدد المترشحبن بالمنج</value>
-	</data>
+  <data name="NB Teacher / Groupes " xml:space="preserve">
+    <value>عدد المترشحبن بالمنج</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Nb Candidates By Group" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
 </root>

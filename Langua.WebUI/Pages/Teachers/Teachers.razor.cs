@@ -50,16 +50,28 @@ namespace Langua.WebUI.Pages.Teachers
         }
         public async Task Edit(Teacher teacher)
         {
+
+            Teacher t = null;
+            _ = t.Departement;
             var result = await dialogService.OpenAsync<Langua.WebUI.Pages.Teachers.EditTeacher>("Edit the teacher", new Dictionary<string, object> { { "Id", teacher.Id } }, new DialogOptions { Width = "50vw", ShowClose = true });
             await LoadTeachers();
             _AddBtnClicked = false;
         }
         public async Task Add()
         {
-            _AddBtnClicked = true;
-            var result = await dialogService.OpenAsync<AddTeacher>("Add new teacher", null, new DialogOptions { Width = "50vw", ShowClose = true });
-            await LoadTeachers();
-            _AddBtnClicked = false;
+            try
+            {
+                Teacher t = null;
+                _ = t.Departement;
+                _AddBtnClicked = true;
+                var result = await dialogService.OpenAsync<AddTeacher>("Add new teacher", null, new DialogOptions { Width = "50vw", ShowClose = true });
+                await LoadTeachers();
+                _AddBtnClicked = false;
+
+            }catch(Exception ex)
+            {
+
+            }
         }
     }
 }
