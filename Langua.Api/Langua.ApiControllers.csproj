@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+    <None Remove="Controllers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Langua.Api.Shared\Langua.Api.Shared.csproj" />
+    <ProjectReference Include="..\Langua.Auth\Langua.Auth.csproj" />
+    <ProjectReference Include="..\Langua.DAL\Langua.DAL.csproj" />
+    <ProjectReference Include="..\Langua.DataContext\Langua.DataContext.csproj" />
+    <ProjectReference Include="..\Langua.Models\Langua.Models.csproj" />
+    <ProjectReference Include="..\Langua.ModelView\Langua.ModelView.csproj" />
+    <ProjectReference Include="..\Langua.Repositories\Langua.Repositories.csproj" />
+    <ProjectReference Include="..\Langua.Shared\Langua.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

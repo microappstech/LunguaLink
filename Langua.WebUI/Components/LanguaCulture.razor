@@ -1,0 +1,26 @@
+﻿@using Radzen.Blazor
+@using System.Globalization
+
+<RadzenDropDown @bind-Value="@culture" TValue="string" Data="@(new [] { new { Text = "English", Value = "en" }, new { Text = "français (France)", Value = "fr" }, new { Text = "العربية (المغرب)", Value = "ar" } })"
+    TextProperty="Text" ValueProperty="Value" Change="@ChangeCulture" />
+
+@code {
+
+    protected string culture;
+    [Inject] protected NavigationManager NavigationManager { get; set; }
+
+    protected override void OnInitialized()
+    {
+        culture = CultureInfo.CurrentCulture.Name.Split("-")[0];
+    }
+
+    protected async Task ChangeCulture()
+    {
+        var redirect = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment, UriFormat.UriEscaped);
+
+        var query = $"?culture={Uri.EscapeDataString(culture)}&redirectUri={redirect}";
+
+        NavigationManager.NavigateTo("Culture/SetCulture" + query, forceLoad: true);
+    }
+
+}

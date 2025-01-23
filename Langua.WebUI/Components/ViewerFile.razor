@@ -1,0 +1,38 @@
+﻿@page "/view-file"
+@inherits BasePage
+@using System.IO
+@using System.Text
+@using Langua.WebUI.Pages
+@using Microsoft.JSInterop
+@* @inject IJSRuntime JSRuntime *@
+
+<h1>View File</h1>
+
+<div>
+    <iframe id="pdfViewer" src="data:application/octet-stream;base64,@base64Data" frameborder="0" width="100%" height="500"></iframe>
+    
+</div>
+
+
+@code {
+    [Parameter] public byte[] FileContent { get; set; }
+    public string base64Data { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        base64Data = Convert.ToBase64String(FileContent);
+        await JSRuntime.InvokeVoidAsync("FilePreview");
+
+
+    }
+
+    string _url = "";
+    private async Task ViewFile()
+    {
+        var renderer = new IronPdf.ChromePdfRenderer();
+        var pdf = renderer.RenderUrlAsPdf("https://localhost:44317/Ressource");
+        _url = $"data:application/pdf;base64,{Convert.ToBase64String(pdf.Stream.ToArray())}";
+    }
+
+}

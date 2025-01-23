@@ -1,0 +1,43 @@
+﻿@* <div>
+    <div class="alert alert-secondary" role="alert">
+        @Message
+    </div>
+    <small style="position:absolute">@(Date)</small>
+
+</div> *@
+
+    <small> Hello @MessageGroup.User?.FullName </small>
+<div class=@(MessageGroup.SuccessSended==true ? "alert d-flex flex-column flex-sm-row px-2 mb-10 mx-auto bg-success":"alert bg-white d-flex flex-column flex-sm-row px-2 mb-10 mx-auto " ) style="color:black;width:95%;">
+   <span class="position-absolute " style="top:-10px; left : -10px">
+        @if (!string.IsNullOrEmpty(""))
+        {
+            <img src="@Photo" width="20px" height="20px" style="border-radius:50%" />
+        }
+        else
+        {
+            <h5 style="color:purple; border:1px solid gray; background:white; border-radius:50%; width:30px; height:30px; text-align:center">@(string.IsNullOrEmpty(MessageGroup.User?.Email) ? "#" : MessageGroup.User?.Email?.Substring(0, 1))</h5>
+        }
+   </span>
+    <div class=" text-primary pe-0 pe-sm-10 px-3 w-100 ">
+        <span>
+            @Message
+        </span>
+        <div style="text-align:right" class="text-secondary row">
+            <div class="col-8"></div>
+            <small class="col-4">
+                @Date
+            </small>
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter] public MessageGroup MessageGroup { get; set; }
+    [Parameter] public string Message { get; set; }
+    [Parameter] public string Sender { get; set; }
+    [Parameter] public string Photo { get; set; }
+    [Parameter] public DateTime Date { get; set; }
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+}

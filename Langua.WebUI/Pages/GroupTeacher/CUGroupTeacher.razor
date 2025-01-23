@@ -1,0 +1,35 @@
+﻿@page "/CUGroup-Teacher"
+@layout WebUI.Pages.Layout.SideMainLayout
+@inherits CUGroupTeacherComponent
+
+
+<EditForm Model="@groupTeacher" OnValidSubmit="@HandleValidSubmit" class="my-2">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-3 row">
+        <div class="col-md-2">
+            <label for="FullName">@L["Teacher"] :</label>
+        </div>
+        <div class="col-md-10">
+            <RadzenDropDown Data="Teachers" TextProperty="FullName" ValueProperty="Id" @bind-Value="@groupTeacher.TeacherId" class="w-100" />
+        </div>
+    </div>
+
+    <div class="form-group mb-3 row">
+        <div class="col-md-2">
+            <label for="Phone">@L["Group"] :</label>
+        </div>
+        <div class="col-md-10   ">
+            <RadzenDropDown Data="Groups" TValue="int" ValueProperty="Id" TextProperty="Name" @bind-Value="@groupTeacher.GroupId" class="w-100" />
+        </div>
+    </div>
+
+    <div class="mx-auto mt-2 text-center">
+        <button type="submit" style="background-color:purple !important;" class="btn btn-primary px-5 mx-3">Submit</button>
+        <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
+        <button type="button" @onclick="@(()=>dialogService.Close())" class="btn btn-secondary px-5">Close</button>
+
+    </div>
+</EditForm>
+

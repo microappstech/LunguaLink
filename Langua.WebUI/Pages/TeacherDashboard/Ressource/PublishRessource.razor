@@ -1,0 +1,78 @@
+﻿@using Langua.Repositories.Services
+@inherits BasePage
+
+
+<RadzenRow class="w-100">
+    <RadzenRow class="w-100">
+        <RadzenColumn Size="4">
+            <RadzenLabel Text="@L["Ressource Name"]" />
+        </RadzenColumn>
+        <RadzenColumn Size="8">
+            <RadzenTextBox @bind-Value="ressource.Name" Disabled=true class="w-100" />
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow class="w-100">
+        <RadzenColumn Size="4">
+            <RadzenLabel Text="@L["Classe"]" />
+        </RadzenColumn>
+        <RadzenColumn Size="8">
+            <RadzenDropDown Data="Groups" ValueProperty="Id" TextProperty="Name" class="w-100" Multiple=true
+                            AllowClear="true" AllowFiltering="true" AllowSelectAll=true @bind-Value="PublishToGroupsId" />
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow class="w-100">
+        <RadzenColumn Size="4">
+            <RadzenLabel Text="@L["Disappearance Date "]" />
+        </RadzenColumn>
+        <RadzenColumn Size="8">
+            <RadzenDatePicker AllowClear=true AllowInput="true" ShowTime=false ShowButton=true TValue="DateOnly" @bind-Value="RessourceGroup.HideOn" class="w-100" />
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow class="w-100">
+        <RadzenButton Text="@L["Publish"]" Click="Publish" />
+    </RadzenRow>
+</RadzenRow>
+
+@code{
+    [Parameter] public Ressource ressource { get; set; }
+    public ContentGroup RessourceGroup { get; set; }
+    public IEnumerable<Groups> Groups {get;set;}
+    public List<int> PublishToGroupsId { get; set; }
+    bool  _DataReady{ get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        RessourceGroup = new ContentGroup();
+        var PublishedResult =await LanguaService.GetPublishedContentByRessourceId(ressource.Id);
+        if (PublishedResult.Succeeded)
+        {
+            RessourceGroup.HideOn = PublishedResult.Value.FirstOrDefault().HideOn;
+            PublishToGroupsId = PublishedResult.Value.Select(i => i.GroupId).ToList();
+        }
+        var teacher = await baseService.GetEntiteByUserId<Teacher>(Security.User.Id, t => t.UserId == Security.User.Id);
+        if (teacher is null)
+        {
+            Navigation.NavigateTo("/login");
+        }
+        var gr = await LanguaService.GetGroupsForTeacher(teacher.Id);
+        if (gr.Succeeded)
+        {
+            Groups = gr.Value.Select(i => i.Group).ToList();
+            _DataReady = true;
+        }
+
+
+
+    }
+    public async Task Publish()
+    {
+        RessourceGroup.RessourceId = ressource.Id;
+        var publishResult =await LanguaService.PublishRessource(RessourceGroup, PublishToGroupsId);
+        if (publishResult.Succeeded)
+        {
+            dialogService.Close(true);
+            Notify(L["Success"], L["Successfuly published"], NotificationSeverity.Success);
+        }
+    }
+
+
+}

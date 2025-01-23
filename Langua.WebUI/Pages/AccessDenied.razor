@@ -1,0 +1,33 @@
+﻿@page "/Account/AccessDenied"
+@layout MainLayout
+@inherits BasePage
+
+
+
+<h3>you are not authorized</h3>
+<RadzenLink Text="Contact your manager" href="/contact" ></RadzenLink>
+<RadzenLink Text="Home" href="@href"/>
+
+@code {
+    public string href { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Security.InitializeAsync();
+        if (Security.User is null || !Security.User.Roles.Any())
+        {
+            href = "Account/Login";
+        }
+        else if (Security.User.Roles.Contains("ADMIN") || Security.User.Roles.Contains("MANAGERETAB"))
+        {
+            href = "/";
+        }
+        else if (Security.User.Roles.Contains("TEACHER"))
+        {
+            href = "/Teacher";
+        } 
+
+
+    }
+}
+   

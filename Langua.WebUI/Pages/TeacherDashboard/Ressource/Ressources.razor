@@ -1,0 +1,42 @@
+﻿@page "/Teacher/Ressources"
+@page "/Ressource"
+@using System.Reflection.Metadata
+@layout TeacherLayout
+@inherits BasePage
+
+<RadzenStack>
+    <RadzenRow class="my-2">
+        <RadzenColumn Size="4">
+            <RadzenText Text="@L["Contenus"]" TextStyle="TextStyle.DisplayH4" />
+        </RadzenColumn>
+        <RadzenColumn Size="6"></RadzenColumn>
+        <RadzenColumn Size="2" class="my-2">
+            <RadzenButton Click="RddRessource" Icon="add" Text="@L["Add"]" />
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow>
+        <RadzenColumn Size="_SizeGridColumn">
+            <RadzenDataGrid EmptyText="@L["No Data To Display"]" @ref="ResGrid" Data="Resources" AllowFiltering=true FilterMode="FilterMode.Simple" AllowSorting=true>
+                <Columns>
+                    <RadzenDataGridColumn Property="Name" Title="@L["Ressource Name"]" />
+                    <RadzenDataGridColumn Property="RessourceTypeStr" Title="@L["Ressource Type"]" />
+                    <RadzenDataGridColumn Property="GroupsName" Title="@L["Published To"]" />
+                    <RadzenDataGridColumn Context="CtxRes" TItem="Langua.Models.Ressource" Width="180px">
+                        <Template>
+                            <RadzenButton Icon="edit" Size="ButtonSize.Medium" Click="@(args=>Edit(CtxRes))" ButtonStyle="ButtonStyle.Primary" Shade="Shade.Lighter" />
+                            <RadzenButton Icon="publish" Size="ButtonSize.Medium" Click="@(arfgs=>Publish(CtxRes))" ButtonStyle="ButtonStyle.Success" Shade="Shade.Lighter" />
+                            <RadzenButton Icon="delete" Size="ButtonSize.Medium" Click="@(args=>Delete(CtxRes))" ButtonStyle="ButtonStyle.Danger" Shade="Shade.Lighter" />
+                            <RadzenButton Icon="preview" Size="ButtonSize.Medium" Click="@(args=>Preview(CtxRes))" ButtonStyle="ButtonStyle.Info" Shade="Shade.Lighter" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenColumn>
+        <RadzenColumn Size="_SizePreviewColumn" Visible=_PreviewColumnVisible>
+            <object type="application/pdf" width="100%" height="400px" data="@base64">
+                your browser doesn't support pdf view
+            </object>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+

@@ -1,0 +1,64 @@
+﻿@page "/Groups"
+@layout WebUI.Pages.Layout.SideMainLayout
+@using Langua.Models;
+@inherits GroupsComponent
+
+<div class="row py-3">
+    <div class="col-md-9">
+        <h3>@L["Groups"]</h3>
+    </div>
+    <div class="col-md-3 mb-2">
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" class="text-sm" Text="@L["Add New Group"]"></RadzenButton>
+    </div>
+
+</div>
+
+<RadzenDataGrid @ref="grid" FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" RowExpand="@OnExpend" RowRender="@RowRender" ExpandMode="DataGridExpandMode.Single"
+                Data="@Groups" TItem="Groups">
+    <Template Context="GroupsContext">
+        <RadzenTabs>
+            <Tabs>
+                <RadzenTabsItem Text="Candidates">
+                    <div class="row">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-3 mb-2">
+                            <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>AddCandidatToGroup(GroupsContext))" Icon="add" class="text-sm" Text="@L["Add Candidat"]"></RadzenButton>
+                        </div>
+                    </div>
+                    <RadzenDataGrid @ref="gridCandidate" 
+                        FilterMode="FilterMode.Simple" AllowFiltering="true" AllowPaging="true" AllowSorting="true" Data="@GroupsContext.Candidats" TItem="Candidat">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="Candidat" Property="Photo" Title="@L["Full Name"]">
+                                <Template Context="Candidat">
+                                    <img src="@Candidat.Photo" class="" width="50px" />
+                                    <span>@Candidat.FullName</span>
+                                </Template>
+                            </RadzenDataGridColumn>
+                            @* <RadzenDataGridColumn TItem="Candidat" Property="FullName" /> *@
+                            <RadzenDataGridColumn TItem="Candidat" Property="Phone" Title="@L["Phone"]" />
+                            <RadzenDataGridColumn TItem="Candidat" Property="Email" Title="@L["Email"]" />
+                            <RadzenDataGridColumn TItem="Candidat" Property="Subject.Name" Title="@L["Subject"]" />
+                        </Columns>
+                    </RadzenDataGrid>
+                </RadzenTabsItem>
+            </Tabs>
+        </RadzenTabs>
+    </Template>
+    <Columns>
+        <RadzenDataGridColumn TItem="Groups" Property="Name" Title="@L["Name"]" />
+        <RadzenDataGridColumn TItem="Groups" Property="Description" Title="@L["Desciption"]"  />
+        <RadzenDataGridColumn TItem="Groups" Title="@L["Department"]" Filterable="false" FormatString="{0:d}">
+            <Template Context="GroupCon">@GroupCon.Department?.Name</Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Groups" Property="NbCandidate" Title="@L["NB Candidates"]" Filterable="false" FormatString="{0:d}">
+            <Template Context="GroupCon">@GroupCon.Candidats?.Count()</Template>
+        </RadzenDataGridColumn>
+        
+        <RadzenDataGridColumn TItem="Groups" Width="140px">
+            <Template Context="GroupCon">
+                <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(GroupCon))" class="mr-2" />
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(GroupCon))" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>

@@ -1,0 +1,75 @@
+﻿@page "/EditCandidate"
+@using Langua.Models
+@inherits EditCandidateComponent
+<PageTitle>Edit Candidate</PageTitle>
+<div class="px-2">
+
+    <RadzenTemplateForm Data="@candidate" Submit="@((Candidat Can)=>HandleValidSubmit())">
+        <div class="row">
+            <div class="form-group mb-1 col-md-6">
+                <label for="Photo">@L["Photo"] :</label>
+                @* <InputFile id="Photo" OnChange="@loadImage" class="form-control" /> *@
+                <RadzenFileInput @bind-Value=@candidate.Photo @bind-FileName=@fileName @bind-FileSize=@fileSize TValue="string" class="w-90"
+                        Error=@(args => OnError(args, "FileInput")) InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "select file" }})" />
+            </div>
+            <div class="col-md-5">
+                <img src="" />
+            </div>
+        </div>
+        <div class="row d-flex">
+            <div class="form-group mb-1 col-md-6">
+                <label for="FullName">@L["Full Name"] :</label>
+                <RadzenTextBox id="FullName" @bind-Value="candidate.FullName" class="form-control" Name="FullName" />
+                <RadzenRequiredValidator Component="FullName" Text="@L["The Field is required"]" Popup=true />
+            </div>
+
+            <div class="form-group mb-1 col-md-6">
+                <label for="Phone">@L["Phone"] :</label>
+                <RadzenTextBox Name="Phone" id="Phone" @bind-Value="candidate.Phone" class="form-control" />
+                <RadzenRequiredValidator Component="Phone" Text="@L["The Field is required"]" Popup=true />
+            </div>
+        </div>
+
+        <div class="form-group mb-2">
+            <label for="Email">@L["Email"] :</label>
+            <RadzenTextBox id="Email" @bind-Value="@candidate.Email" class="form-control" Name="Email" />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
+            <RadzenEmailValidator Component="Email" Text="@L["Provide a valid email address"]" Popup=true />
+            @if (_oldmail==candidate.Email)
+            {
+                <RadzenCustomValidator Validator="(()=>MailNotTaken(candidate.Email))" Text="@L["Mail already taken"]" Popup=true />
+            }
+        </div>
+        @* 
+        <div class="form-group row mb-1">
+            <div class="col-3">
+                @L["Change password"]
+            </div>
+            <div class="col-9">
+
+                <RadzenRadioButtonList @bind-Value="Changepass">
+                    <Items>
+                        <RadzenRadioButtonListItem Value="true" Text="@L["Yes"]" />
+                        <RadzenRadioButtonListItem Value="false" Text="@L["No"]" />
+                    </Items>
+                </RadzenRadioButtonList>
+            </div>
+        </div>
+        @if (Changepass)
+        {
+            <div class="form-group mb-1 col-md-6">
+                <label for="CreatedAt">Password:</label>
+                <InputText id="CreatedAt" @bind-Value="candidate.Password" class="form-control" />
+            </div>
+
+        } *@
+        <div class="mx-auto mt-2 text-center">
+            <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
+            <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
+            <button type="button" @onclick="@(()=>Close())" class="btn btn-secondary px-5">Close</button>
+
+        </div>
+    </RadzenTemplateForm>
+
+</div>
+

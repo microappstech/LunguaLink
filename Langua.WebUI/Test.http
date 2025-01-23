@@ -1,0 +1,95 @@
+
+@url = https://localhost:44317 
+https://localhost:44317
+@iisurl = http://192.168.69.177:81//
+@jwt = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJvbmVibGFjazM0MkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjllZTk5ODZlLWZmZjQtNDFkMC05MGQ3LWE5NzU4OTBiZDJjMCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL21vYmlsZXBob25lIjoiMDYzNDIyODE2MyIsImV4cCI6MTcyMTU5OTA4MiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0OTAwIiwiYXVkIjoiQVBJIn0.RBiQtQJJnFacvPy5oa6hiIMUtqRRwamS3Wb55TR7qD4
+
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+GET {{url}}/api/Global/GetGroup
+Content-Type: application/sjon
+Authorization: Bearer {{jwt}}
+
+###
+POST  https://localhost:44395/api/Auth/login
+Content-Type: application/json
+
+{
+  "email": "howhave157@gmail.com",
+  "Password":"howhave157_4"
+}
+
+###
+POST {{url}}/odata/Langua/Session/Update?Id=1
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{ 
+  "Name" : "Test",
+  "GroupId" : 1,
+  "TeacheriD":1,
+  Start : DateTime.Now,
+  End : DateTime.Now
+}
+
+###
+GET {{url}}/odata/Langua/Sessions?$filter name eq 'Francais'
+#filter=name eq 'ddd'
+# GET {{url}}/odata/Langua/Sessions?$filter=name eq 'Anglais'
+
+###
+POST {{url}}/api/ChatGroup/SendeMessage?FromUserId=cf413dca-375d-46ed-b483-6f5f69337ff2&groupId=2&Message=Hellowourld
+Content-Type: application/json
+
+{
+  "FromUserId":"cf413dca-375d-46ed-b483-6f5f69337ff2",
+  "groupId":3,
+  "Message":H"ello Father"
+}
+
+###
+
+POST https://localhost:44395/api/Auth/login
+Content-Type: application/json
+
+{
+  "Email":"oneblack342@gmail.com",
+  "Password":"oneblack342_26"
+}
+
+### 
+GET http://192.168.16.1:81/api/Auth/Profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJob3doYXZlMTU3QGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiOGU3MTBlYTAtN2EwNy00M2QxLTg3YTUtMjkwY2E0NDEzYTcyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbW9iaWxlcGhvbmUiOiIwNjM0MjI4MTYzIiwiZXhwIjoxNzIzNDk0MDc2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ5MDAiLCJhdWQiOiJBUEkifQ.FH9SDjJd2dAzNXq046686qTLcgHS6ydyC3Bm4IFbKfQ
+
+
+###
+GET {{iisurl}}/api/ChatGroup/GetMessages?groupid=1
+Content-Type: application/sjon
+Authorization: Bearer {{jwt}}
+
+### 
+GET https://localhost:44395/odata/Langua/Sessions
+Cookie: .AspNetCore.Identity=CfDJ8CVQ8jxYvb5KksJ5MPXMnqRLS_oNTQWZje8JNBCtWqTxoKZ4LHFjCd9BvIUbxH2vZaApFWJM-58F6X-XZGycGgcB7nivplGTzDEivucE4KSVfCeEkUNj4JKoPCqaXgLPQ9V3l7BpM-CCKagD7jvdoraNreNo-QpvsANKjgvmgRhidlqg-OPbVnL6udBCK9QC7dQFrWB9Dh6XaG826ngkIKcDm8IM52jPgjwOqdVRG9owuxSLo9Xabeq5msAwgmlz9hp6X6dwwWBc0cWRibRUSPqOpNIknBE7v7uAQ2AUGu9PfuS1e2FfmhLi4jL9THjaAswT-_do9I8q0bhE_F11OmCeCgcfAv0dc6V4ofFTpZCDO416DGjuAVWXtBlatn36oB8eYW56k4SUKVME1muPYqeN1eF9edFH4UxJ-j6XfebKWsvxEvCFTR8698izgstAgnImoqLCmeR8P6CexRElcpHLa0MDjH78nh1E3gon3MW6pV4QK6Jvdqbbhdf1J9dOEJbVoTvLtnOI_mktuDF5wmvmblLidl6R6P_4FDuwQ3J85xCqFQcHl1EajhS4neOxboQ6_xixUknvPRGj_9b0kSHXMtlguOYC_fnO57msuUkWDtQuMfKn4mbb7CYnKcn7B3j4SO82sLuIHrS1HKFE5Wupyt-hqMiJ9h3_2MfJUOYy0qqKOAKH9ZVVgYsz20nOl2TUgpkp91f2hW0ofW3g4uiA3JmP21lHoBPbmqYxEX3Rba9tQz1FbBcbwTyF1khFvuuaze5hhbpDNHveUPWJg59_bgaZwtrWXTzQEj_N1c0i11aF8842oA70D3nWrIPBYAA2wHe83jkKYlJ5x-vGdxE
+
+
+###
+GET https://localhost:44395/odata/Langua/Sessions?$top=10&$skip=0&$expand=Group%2cTeacher&$count=true
+
+### 
+POST https://localhost:44395/odata/Langua/Sessions
+Content-Type: application/json
+Cookie: .AspNetCore.Identity=CfDJ8CVQ8jxYvb5KksJ5MPXMnqRLS_oNTQWZje8JNBCtWqTxoKZ4LHFjCd9BvIUbxH2vZaApFWJM-58F6X-XZGycGgcB7nivplGTzDEivucE4KSVfCeEkUNj4JKoPCqaXgLPQ9V3l7BpM-CCKagD7jvdoraNreNo-QpvsANKjgvmgRhidlqg-OPbVnL6udBCK9QC7dQFrWB9Dh6XaG826ngkIKcDm8IM52jPgjwOqdVRG9owuxSLo9Xabeq5msAwgmlz9hp6X6dwwWBc0cWRibRUSPqOpNIknBE7v7uAQ2AUGu9PfuS1e2FfmhLi4jL9THjaAswT-_do9I8q0bhE_F11OmCeCgcfAv0dc6V4ofFTpZCDO416DGjuAVWXtBlatn36oB8eYW56k4SUKVME1muPYqeN1eF9edFH4UxJ-j6XfebKWsvxEvCFTR8698izgstAgnImoqLCmeR8P6CexRElcpHLa0MDjH78nh1E3gon3MW6pV4QK6Jvdqbbhdf1J9dOEJbVoTvLtnOI_mktuDF5wmvmblLidl6R6P_4FDuwQ3J85xCqFQcHl1EajhS4neOxboQ6_xixUknvPRGj_9b0kSHXMtlguOYC_fnO57msuUkWDtQuMfKn4mbb7CYnKcn7B3j4SO82sLuIHrS1HKFE5Wupyt-hqMiJ9h3_2MfJUOYy0qqKOAKH9ZVVgYsz20nOl2TUgpkp91f2hW0ofW3g4uiA3JmP21lHoBPbmqYxEX3Rba9tQz1FbBcbwTyF1khFvuuaze5hhbpDNHveUPWJg59_bgaZwtrWXTzQEj_N1c0i11aF8842oA70D3nWrIPBYAA2wHe83jkKYlJ5x-vGdxE
+
+{
+    Id : 1,
+    "Name" :"Test",
+    "GroupId" :1,
+    "Teacher":null,
+    "TeacherId":5
+    "Start":null,
+    "End":null
+}
+CfDJ8CVQ8jxYvb5KksJ5MPXMnqTXM7B4GgdJoV-3GCbaZR4UHQkfLT8ZUCrWQE47sqWnvKPYtTqnO_2b0QuBps4ZIRQhAECBlRTrONU4y6Xq41rM6wv2EeBcuLtfVp2DvIrTgUiNlw3KOGNTxbluBVS0xmf-mGH1Z-kmFfhLgDE_15xgFLo5vVmUU8HJC_mua9TBBB8n71uxvGSON7bw-oI4POWOnpCnobsnu6vKfbXMOvYv1rtVM4sUEuuBapXQF3vNxXVuK4kJ0S9msJ0ZQo4jsZsNZYpzjwFDzM8cKoFNxOf-AJEeYNGMFkaGQ1hMnZDM0dqEwbFEa8Bz0HUyZWkpsACy8V5HNLhEYgSmZNATlRIPLEPsNJ8_94Kqwx7z9tkripby_89CS71bMJYe6SMmuvuLRn5JfiSB47u7GcDAO8J0-nj7s7U-pNCFGEODxTE_8RRMOBkMyqoJ8SKFNJ875BNPU-T-zsAhqcv6gZdf1838pBnAxkF-1begUlrVmG8nkXI0B89ShmkoJot8H-r378p4D52VYUutfrdQx7wxu92w6egJlulbB_e1XO7zvxgbJ6krodgc2EUyR4iAZkFWzHsiOlYvJ__klLLQCIJEVk8_4VbNC9WSa6q5oo12VgrsHx-hpKMFzndIei2QiwRqY4LxFfYpMbnm5VUnSH_RDWMpKL0h2L5RW346Qhq9KXUL8B8l20hatDqdJid2w_cKijHnpq4crsB6-KyeLwGq2wB9fanDIXmLM0r-NeKMxFo4peS9GLe0Q8sExqVuECspZhyhNj_1-wn-bOu44bjYT7-IaJqgT5nSTyiQvEJ761EpxADAHZx9tsxvsxBjRkw_ajM
+
+### get group 
+GET https://localhost:44395/api/Global/GetGroup
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJvbmVibGFjazM0MkBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImYyZGZmMDhjLTA5NDEtNDcyOS1hMDU3LThmMTU4M2UyMTExMyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL21vYmlsZXBob25lIjoiMDYzNDIyODE2MyIsImV4cCI6MTcyNTA1MTYwNiwiaXNzIjoiTGFuZ3VhZ2VMZWFybmluZ1BsYXRmb3JtIiwiYXVkIjoiTGFuZ3VhZ2VJbnN0aXR1dGVzQW5kU3R1ZGVudHMifQ.9iRnBctP9JnDfd2eg9yIBJ5_VQ1roBD5TQFIzQo93v0

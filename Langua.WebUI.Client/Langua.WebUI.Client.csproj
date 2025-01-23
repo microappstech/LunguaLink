@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.3" />
+	  <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.4" />
+	  <PackageReference Include="ProtectedBrowserStorage.NETStandard" Version="1.1.2" />
+	  <PackageReference Include="Radzen.Blazor" Version="4.30.2" />
+	  <PackageReference Include="Solutaris.InfoWARE.ProtectedBrowserStorage" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--<ProjectReference Include="..\Langua.Auth\Langua.Account.csproj" />-->
+    <ProjectReference Include="..\Langua.Models\Langua.Models.csproj" />
+    <ProjectReference Include="..\Langua.Shared\Langua.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Component.razor" />
+  </ItemGroup>
+
+</Project>

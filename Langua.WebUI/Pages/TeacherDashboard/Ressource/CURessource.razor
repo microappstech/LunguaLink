@@ -1,0 +1,61 @@
+﻿@page "/c"
+@inherits BasePage
+<RadzenStack>
+    <EditForm Model="@this.Ressource" OnValidSubmit="Submit">
+
+        <RadzenRow class="my-2">
+            <RadzenColumn Size="4">
+                @L["Name"] :
+            </RadzenColumn>
+            <RadzenColumn Size="8">
+                <RadzenTextBox @bind-Value="Ressource!.Name" Placeholder="@L["Contenu Name"]" class="w-100" />
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow class="my-2">
+            <RadzenColumn Size="4">
+
+                @L["Contenu Type"] :
+            </RadzenColumn>
+            <RadzenColumn Size="8">
+                <RadzenRadioButtonList Disabled="@(IsEdit && Ressource!.RessourceType == (int)RessourceType.File )" @bind-Value="Ressource!.RessourceType" class="w-100">
+                    <Items>
+                        <RadzenRadioButtonListItem Value="(int)RessourceType.URL" Text="Url" />
+                        <RadzenRadioButtonListItem Value="(int)RessourceType.VEDIO" Text="Vedio Youtube" />
+                        <RadzenRadioButtonListItem Value="(int)RessourceType.File" Text="File" />
+                    </Items>
+                </RadzenRadioButtonList>
+            </RadzenColumn>
+        </RadzenRow>
+
+
+        <RadzenRow Visible="@(!IsEdit || ( IsEdit && Ressource!.RessourceType != (int)RessourceType.File) )" class="my-2">
+            <RadzenColumn Size="4">
+                @L["Contenu"] :
+            </RadzenColumn>
+            <RadzenColumn Size="8">                
+                @switch (Ressource!.RessourceType)
+                {
+                    case (int)RessourceType.URL:
+                        <RadzenTextBox @bind-Value="Ressource.Url" Placeholder="@L["https://..."]" class="w-100" />
+                        break;
+                    case (int)RessourceType.File:
+                        <RadzenCard>
+                            <RadzenUpload Url="api/upload" @ref="upload" Change="@OnComplete" Auto="false" Error="@OnError" />
+                            <RadzenText TextStyle="TextStyle.Subtitle2" Text="@FileName" Visible=@(!string.IsNullOrEmpty(FileName) ||false) />
+                        </RadzenCard>
+                        
+                        break;
+                    case (int)RessourceType.VEDIO:
+                        <RadzenTextBox Placeholder="@L["Enter Url Vedio"]" class="w-100" @bind-Value="Ressource.Url" />
+                        break;
+                }
+            </RadzenColumn>
+        </RadzenRow>
+        <div class="mx-auto mt-2 text-center">
+            <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
+            <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
+            <button type="button" @onclick="@(()=>dialogService!.Close(null))" class="btn btn-secondary px-5">Close</button>
+        </div>
+    </EditForm>
+</RadzenStack>
+

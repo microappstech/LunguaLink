@@ -1,0 +1,154 @@
+﻿@using Langua.WebUI.Client.Localization
+@implements IDisposable
+@inherits BasePage
+@inject NavigationManager NavigationManager
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Localizer> L
+
+
+
+@if (Visible)
+{
+    <div class="top-row ps-3 navbar bg-red-500">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="">Lingua Link</a>
+        </div>
+    </div>
+
+    <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+    <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+        <nav class="flex-column">
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <RadzenIcon Icon="dashboard" IconColor="white" />
+                    <span class="px-2">@L["Dashboard"]</span>
+                </NavLink>
+            </div>
+            @if (SecurityService.IsAdmin)
+            {
+                <div class="nav-item" style="padding-bottom:0 !important">
+                    <NavLink class="nav-link" href="Departements">
+                        <RadzenIcon Icon="school" IconColor="white" />
+                        <span class="px-2">@L["Departements"]</span>
+                    </NavLink>
+                </div>
+                <div class="nav-item" style="padding-bottom:0 !important">
+                    <NavLink class="nav-link" href="Managers">
+                        <RadzenIcon Icon="perm_identity" IconColor="white" />
+                        <span class="px-2">@L["Managers"]</span>
+                    </NavLink>
+                </div>
+            }
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Candidates">
+                    <RadzenIcon Icon="perm_identity" IconColor="white" />
+                    <span class="px-2">@L["Students"]</span>
+                </NavLink>
+            </div>
+
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Subjects">
+                    <RadzenIcon Icon="subject" IconColor="white" />
+                    <span class="px-2">@L["Subjects"]</span>
+                </NavLink>
+            </div>
+
+            <div class="nav-item" style="padding-bottom:0 !important">
+
+                <NavLink class="nav-link" href="Teachers">
+                    <RadzenIcon Icon="supervisor_account" IconColor="white" />
+                    <span class="px-2" aria-hidden="true">
+                        @L["Teachers"]
+                    </span>
+                </NavLink>
+            </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="All-Ressource">
+                    <RadzenIcon Icon="description" IconColor="white" />
+                    <span class="px-2" aria-hidden="true">
+                        @L["Ressources"]
+                    </span>
+                </NavLink>
+            </div> 
+
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Groups">
+                    <RadzenIcon Icon="groups" IconColor="white" />
+                    <span class="px-2">
+                        @L["Groups"]
+                    </span>
+                </NavLink>
+            </div>
+
+            @* <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="chatgroup">
+                    <RadzenIcon Icon="chat" IconColor="white" />
+                    <span class="px-2">
+                        @L["Chat Groups"]
+                    </span>
+                </NavLink>
+            </div> *@
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Group-Teacher">
+                    <RadzenIcon Icon="group" IconColor="white" />
+                    <span class="px-2">
+                        @L["Group/Teacher"]
+                    </span>
+                </NavLink>
+            </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Sessions">
+                    <RadzenIcon Icon="event" IconColor="white" />
+                    <span class="px-2">
+                        @L["Sessions"]
+                    </span>
+                </NavLink>
+            </div>
+            <div class="nav-item" style="padding-bottom:0 !important">
+                <NavLink class="nav-link" href="Schedelur">
+                    <RadzenIcon Icon="calendar_month" IconColor="white" />
+                    <span class="px-2">
+                        @L["Schedelur"]
+                    </span>
+                </NavLink>
+            </div>
+            @* @if (SecurityService.IsAdmin)
+            { *@
+                <div class="nav-item" style="padding-bottom:0 !important">
+                    <NavLink class="nav-link" href="Users">
+                        <RadzenIcon Icon="people_alt" IconColor="white" />
+                        <span class="px-2">
+                            @L["Users"]
+                        </span>
+                    </NavLink>
+                </div>
+            @* } *@
+
+        </nav>
+    </div>
+
+}
+
+
+@code {
+    private string? currentUrl;
+    [Parameter] public bool Visible { get; set; } = true;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
+

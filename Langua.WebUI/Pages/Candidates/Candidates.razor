@@ -1,0 +1,59 @@
+﻿@page "/Candidates"
+@layout WebUI.Pages.Layout.SideMainLayout
+@using Langua.Models;
+@inherits CandidatesComponent
+@using Langua.WebUI.Client.Pages;
+<div class="row py-3">
+    <div class="col-md-9 ">
+        <h3>@L["Candidats"]</h3>
+    </div>
+    <div class="col-md-3 ">
+        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" IsBusy=AddClicked BusyText="@L["Adding..."]" Icon="add" class="text-sm" Text="@L["Add New Candidate"]"></RadzenButton>
+    </div>
+
+</div>
+<RadzenContent>
+    <RadzenDataGrid @ref="grid0"  CellRender="CellRender" LoadData="loadData" Data=candidates TItem="Candidat" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple"
+            Style="background-color:lightblue">
+       
+        <Columns>
+            <RadzenDataGridColumn Property="FullName" FilterValue="fullName" Title="@L["Full Name"]" TItem="Candidat">
+                <FilterTemplate >
+                    <RadzenTextBox @bind-Value="fullName"></RadzenTextBox>
+                </FilterTemplate>
+                <Template Context="CanContext">
+                    <div>
+                        <img src="@CanContext.Photo" width="50" />
+                        <span>@CanContext.FullName</span>
+                    </div>
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn Title="@L["Departement"]">
+                <Template Context="CanContext">
+                    <span>
+                        @CanContext.Departement?.Name
+                    </span>
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Candidat" />
+            <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Candidat" />
+            <RadzenDataGridColumn Property="Subject.Name" Title="@L["Subject"]" TItem="Candidat" />
+
+            <RadzenDataGridColumn TItem="Candidat" Width="220px">
+                <Template Context="ConCandidate">
+                    <RadzenButton Disabled="@(ConCandidate.User?.EmailConfirmed!=true)" ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConCandidate))" @onclick:stopPropagation="true" class="mr-2" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConCandidate))" @onclick:stopPropagation="true" />
+                    <RadzenButton Visible="@(ConCandidate.User?.EmailConfirmed!=true)" ButtonStyle="ButtonStyle.Success" Text="Confirm Mail" Size="ButtonSize.Medium" Click="@((args) =>ConfirmMail(ConCandidate))" @onclick:stopPropagation="true" />
+
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+
+    </RadzenDataGrid>
+</RadzenContent>
+@code{
+    string fullName;
+   
+   
+
+}

@@ -1,0 +1,56 @@
+﻿@inherits BasePage
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="Langua.WebUI.styles.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/standard-base.css">
+    <HeadOutlet @rendermode="RenderModeForPage" />
+    @* <link rel="stylesheet" href="~/app.css" /> *@
+    <title>LanguaLink </title>
+    <style>
+        :root {
+            --bs-primary-rgb: 128,0,128;
+            --rz-primary : purple;
+        }
+    </style>
+</head>
+<body>
+    <Langua.WebUI.Pages.Routes @rendermode="RenderModeForPage" />
+    <RadzenDialog @rendermode="@RenderMode.InteractiveServer" />
+    
+    <div id="components-reconnect-modal">
+        @* <RadzenProgressBarCircular Mode="ProgressBarMode.Indeterminate" ShowValue="false" class="mx-auto" ProgressBarStyle="ProgressBarStyle.Primary" Size="ProgressBarCircularSize.Large" id="loading" @ref="loading" Style="width:100%; height:100px;" /> *@
+    </div>
+    <script src="_framework/blazor.web.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script>
+        window.initializeCodeMirror = (element) => {
+            CodeMirror.fromTextArea(element, {
+                lineNumbers: true,
+                mode: "javascript"
+            });
+        };
+
+    </script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    
+ @*    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script> *@
+</body>
+
+</html>
+
+@code{
+    [CascadingParameter]
+    private HttpContext HttpContext {get;set;} = default;
+    private IComponentRenderMode? RenderModeForPage => (HttpContext.Request.Path.StartsWithSegments("/Account") || HttpContext.Request.Path.StartsWithSegments("/Login")) ? null : new InteractiveAutoRenderMode(prerender:false);
+     // _logger.LogError(exception, "Unhandled exception occurred.");
+    }
+}

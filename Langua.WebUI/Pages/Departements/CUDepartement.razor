@@ -1,0 +1,41 @@
+﻿@page "/Create"
+@inherits CUDepartementComponent
+
+<EditForm Model="@Department" OnValidSubmit="@HandleValidSubmit" class="my-2">
+    <div class="text-danger">
+      @*   <DataAnnotationsValidator />
+        <ValidationSummary /> *@
+        @if (Errors.Count() > 0)
+        {
+            <ul>
+
+                @foreach (var error in Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        }
+    </div>
+    <div class="row d-flex">
+        <div class="form-group mb-1 col-12">
+            <label for="FullName">@L["Name"] :</label>
+            <RadzenTextBox id="FullName" @bind-Value="Department.Name" class="form-control" Name="Full_Name" />
+            @* <RadzenRequiredValidator Component="Full_Name" Text="@L["The Filed is Required"]" /> *@
+        </div>
+    </div>
+    
+    <div class="row d-flex">
+        <div class="form-group mb-1 col-12">
+            <label for="Phone">@L["Adresse"] :</label>
+            <RadzenTextBox id="Phone" @bind-Value="Department.Location" class="form-control" Name="Phone" />
+            @* <RadzenRequiredValidator Component="Phone" Text="@L["The Filed is Required"]" /> *@
+        </div>
+    </div>
+
+    <div class="mx-auto mt-2 text-center">
+        <button type="submit" style="background-color:purple !important;" class="btn btn-primary px-5 mx-3">Submit</button>
+        <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
+        <button type="button" @onclick="@(()=>dialogService.Close())" class="btn btn-secondary px-5">Close</button>
+
+    </div>
+</EditForm>

@@ -1,0 +1,31 @@
+﻿@page "/Schedelur"
+@inherits SchedulerComponent
+
+<RadzenHeading Text="@Title" Size="H1" Style="width:100%; text-align:center;" class="py-2 text-primary"  />
+
+<RadzenRow JustifyContent="JustifyContent.Center" class="py-2">
+    <RadzenColumn Size="3">
+        <RadzenLabel Text="@L["Schedelur for : "]"/>
+    </RadzenColumn>
+    <RadzenColumn Size="3">
+        <RadzenRadioButtonList TValue="SchedelurFor" @bind-Value="ScheFor" Change="ShedelurChanged" Style="width:100%;">
+            <Items>
+                <RadzenRadioButtonListItem Text="@L["Teacher"]" Value="SchedelurFor.TeacherSched" />
+                <RadzenRadioButtonListItem Text="@L["Group"]" Value="SchedelurFor.GroupSched" />
+            </Items>
+        </RadzenRadioButtonList>
+    </RadzenColumn>
+    <RadzenColumn SizeMD="6">
+        <RadzenDropDown Data="@Teachers" TValue="int" @bind-Value="selectedTeacher" Change="SelectChanged" TextProperty="FullName" ValueProperty="Id" Visible=@(SchedelurFor.TeacherSched == ScheFor)  Style="width:100%" />
+        <RadzenDropDown Data="@Groups" Change="SelectChanged" @bind-Value="selectedGroup" TextProperty="Name" ValueProperty="Id" Visible=@(SchedelurFor.GroupSched == ScheFor) Style="width:100%" />
+    </RadzenColumn>
+</RadzenRow>
+<RadzenScheduler @ref=@scheduler style="height: 768px;" TItem="Langua.Models.Session" 
+Data=@Sessions StartProperty="Start" EndProperty="End" 
+    TextProperty="Name" SelectedIndex="1" SlotSelect=@OnSlotSelect>
+
+    <RadzenDayView />
+    <RadzenWeekView />
+    <RadzenMonthView />
+</RadzenScheduler>
+

@@ -1,0 +1,66 @@
+﻿@page "/Users"
+@using Langua.Repositories.Interfaces
+@inherits BasePage
+
+<div class="row p-3 pt-4 ">
+    <div class="col-md-9 ">
+        <h3>@L["Users"]</h3>
+    </div>
+    <div class="col-md-3 ">
+        
+    </div>
+</div>
+<RadzenContent>
+    <RadzenDataGrid Data="users" TItem="Models.ApplicationUser" AllowSorting="true" @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
+        <Columns>
+            <RadzenDataGridColumn Property="Email" Title="@L["Email"]" />
+            <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" />
+            <RadzenDataGridColumn Property="PhoneNumber" Title="@L["PhoneNumber"]" />
+
+            <RadzenDataGridColumn TItem="ApplicationUser" Width="120px">
+                <Template Context="ConTeacher">
+                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="preview" Size="ButtonSize.Medium" Click="@((args) => Preview(ConTeacher))" class="mr-2" Disabled=true />
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConTeacher))" />
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+
+    </RadzenDataGrid>
+</RadzenContent>
+
+@code{
+    public IEnumerable<Langua.Models.ApplicationUser> users { get; set; }
+    RadzenDataGrid<ApplicationUser> grid0;
+    [Inject] private IRepositoryCrudBase<ApplicationUser>? baseRepository { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await LanguaService.GetUsers();
+        if (result.Succeeded)
+        {
+            users = result.Value;
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+
+    public async Task Delete(Models.ApplicationUser usr)
+    {
+        if (await Confirm(L["Confirmation"], L["Are you sure want to delete this manager, If you deleted this user will be delete teacher or candidate or manager"]) == true)
+        {
+            var resultDelete = baseRepository!.Delete(usr);
+            if (resultDelete.Succeeded)
+            {
+                Notify("Success", "Suppression successfully finished", NotificationSeverity.Success);
+                dialogService.Close();
+                await grid0!.Reload();
+            }
+
+        }
+    }
+    public async Task Preview(Models.ApplicationUser usr)
+    {
+        
+    }
+
+}

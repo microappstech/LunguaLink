@@ -1,0 +1,94 @@
+﻿@page "/UCManager"
+@inherits BasePage
+
+
+<EditForm Model="@Manager" OnValidSubmit="@HandleValidSubmit" class="my-2">
+    <div class="text-danger">
+        @if (Errors.Count() > 0)
+        {
+            <ul>
+
+                @foreach (var error in Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        }
+    </div>
+
+
+    <div class="row my-2">
+        <div class="form-group mb-1 col-md-6">
+            <label for="Photo">@L["Photo"] :</label>
+            <RadzenFileInput id="teacher" @bind-Value="Manager.Photo" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <div class="form-group my-3">
+                <label for="FullName">@L["Full Name"] :</label>
+                <RadzenTextBox id="FullName" @bind-Value="Manager.FullName" class="form-control" Name="Full_Name" />
+                <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
+            </div>
+            <div class="form-group ">
+                <label for="Phone">@L["Phone"] :</label>
+                <RadzenTextBox id="Phone" @bind-Value="Manager.Phone" class="form-control" Name="Phone" />
+                <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
+            </div>
+        </div>
+    </div> 
+    
+    <div class="form-group row my-2">
+        <div class="col-3">
+            <label for="Email">@L["Email"] :</label>
+        </div>
+        <div class="col-9 ">
+            <RadzenTextBox Name="Email" id="Email" @bind-Value="Manager.Email" class="form-control w-100" Style="width:100%" AutoComplete="false" />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true />
+            <RadzenEmailValidator Component="Email" Text="@L["Provide a valid email address"]" Popup=true />
+            <RadzenCustomValidator Validator="(()=>MailNotTaken(Manager.Email))" Text="@L["Mail already taken"]" Popup=true />
+        </div>
+    </div> 
+
+    <div class="form-group row my-2">
+        <div class="col-3">
+            <label for="Email">@L["Departement"] :</label>
+        </div>
+        <div class="col-9">
+            <RadzenDropDown Data="Departements" ValueProperty="Id" class="w-100" TextProperty="Name" @bind-Value="Manager.DepartmentId" />
+            <RadzenRequiredValidator Component="Email" Text="@L["The Field is required"]" Popup=true DefaultValue="0" />
+        </div>
+    </div>
+    @* <div class="form-group row my-3 ">
+        <div class="col-3">
+            @L["Change password"]
+        </div>
+        <div class="col-9">
+
+            <RadzenRadioButtonList @bind-Value="ChangePassword">
+                <Items>
+                    <RadzenRadioButtonListItem Value="true" Text="@L["Yes"]" />
+                    <RadzenRadioButtonListItem Value="false" Text="@L["No"]" />
+                </Items>
+            </RadzenRadioButtonList>
+        </div>
+    </div>
+    @if (IsEdit && ChangePassword)
+    {
+        <div class="row ">
+            <div class="form-group mb-1 col-md-6">
+                <label for="password">Password:</label>
+                <RadzenPassword id="password" @bind-Value="Manager.Password" class="form-control" Name="password" AutoComplete="false" />
+            <div class="form-group mb-1 col-md-6">
+                <label for="password">@L["Confirm Password"]:</label>
+                <RadzenPassword id="password" @bind-Value="Manager.ConfirmPassword" class="form-control" Name="ConfirmPassword" AutoComplete="false" />
+            </div>
+        </div>
+
+    } *@
+    <div class="mx-auto mt-2 text-center">
+        <button type="submit" style="background-color:purple !important;" class="btn btn-primary px-5 mx-3">Submit</button>
+        <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
+        <button type="button" @onclick="@(()=>dialogService.Close())" class="btn btn-secondary px-5">Close</button>
+
+    </div>
+</EditForm>
+
