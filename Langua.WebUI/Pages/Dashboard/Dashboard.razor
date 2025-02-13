@@ -19,19 +19,19 @@
         <RadzenRow>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
             <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6">@L["Nb All Users"]</RadzenText>
+                <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["Nb All Users"]</RadzenText>
                 <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbUsers</RadzenText>
             </RadzenCard>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
             <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6">@L["Nb Teachers"]</RadzenText>
+                <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["Nb Teachers"]</RadzenText>
                 <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbTeacher</RadzenText>
             </RadzenCard>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
             <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6">@L["NB Candidates"]</RadzenText>
+                <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["NB Candidates"]</RadzenText>
                 <RadzenText TextStyle="TextStyle.H2" Class="rz-color-danger" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbCandidat</RadzenText>
                 
             </RadzenCard>
@@ -46,21 +46,21 @@
 
         <RadzenColumn Size="12" SizeMD="6" SizeLG="3" Visible="@SecurityService.IsAdmin">
             <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6">@L["NB Managers"]</RadzenText>
+                <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["NB Managers"]</RadzenText>
                 <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbManagers</RadzenText>
             </RadzenCard>
         </RadzenColumn>
 
             <RadzenColumn Size="12" SizeMD="6" SizeLG="3" Visible=SecurityService.IsAdmin>
                 <RadzenCard Style="position: relative; height :100px">
-                    <RadzenText TextStyle="TextStyle.H6">@L["NB Departements"]</RadzenText>
+                    <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["NB Departements"]</RadzenText>
                     <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbDepartements</RadzenText>
                 </RadzenCard>
             </RadzenColumn>
 
             <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
                 <RadzenCard Style="position: relative; height :100px">
-                    <RadzenText TextStyle="TextStyle.H6">@L["NB Teacher / Groupes "]</RadzenText>
+                    <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["NB Teacher / Groupes "]</RadzenText>
                     <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbGrTeachers</RadzenText>
                 </RadzenCard>
             </RadzenColumn>

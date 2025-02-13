@@ -2,6 +2,7 @@
 @page "/Account/Login"
 @layout MainLayout
 @inherits LoginComponent
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Langua.WebUI.Client.Pages.BasePageClient> L;
 
 <PageTitle>Langua | Log in</PageTitle>
 
@@ -41,7 +42,7 @@
                     <!-- Email input -->
                     <div class="form-outline mb-5">
                          <InputText @bind-Value="Input.Email" type="email" id="form3Example3" class="form-control form-control-lg"
-                               placeholder="Enter a valid email address" /> 
+                                   placeholder="@L["Enter a valid email address"]" />
                         <ValidationMessage For="() => Input.Email" class="text-danger" />
                         @* <label class="form-label" for="form3Example3">Email address</label>                         *@
                     </div>
@@ -68,7 +69,7 @@
                     <div class="text-center text-lg-start mt-4 pt-2">
                          <button type="submit" class="btn px-5  btn-lg"
                                 style="color:white; background-color:purple;">
-                            Login
+                            @L["Login"]
                         </button> 
                         <h4 class="mt-2 pt-1 mb-0 mx-auto text-center">
                             <div>Want to see a demo</div>

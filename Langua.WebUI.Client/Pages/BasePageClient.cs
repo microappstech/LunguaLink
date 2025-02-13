@@ -1,4 +1,4 @@
-﻿using Langua.WebUI.Client.LocalRessources;
+﻿using Langua.WebUI.Client.Localization;
 using Langua.WebUI.Client.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -31,7 +31,7 @@ namespace Langua.WebUI.Client.Pages
         [Inject] protected NotificationService notificationService { get; set; } = null!;
 
         [Inject] public LangClientService? LangClientService { get; set; }
-        [Inject] public Microsoft.Extensions.Localization.IStringLocalizer<LanguaResource> L { get; set; }
+        [Inject] public Microsoft.Extensions.Localization.IStringLocalizer<Localizer> L { get; set; }
 
         public virtual void Notify(string title, string message, NotificationSeverity notification , double Time = 4000)
         {

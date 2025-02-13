@@ -18,6 +18,9 @@ using Langua.WebUI.Client.Services;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Langua.ApiControllers.LanguaHub;
+using System.Globalization;
+using Microsoft.Extensions.Logging;
+using Langua.WebUI.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -104,12 +107,22 @@ builder.Services.AddAuthentication(options =>
         opt.LogoutPath = "/Logout";
         opt.ExpireTimeSpan = TimeSpan.FromMinutes(1);
     })
-    .AddIdentityCookies()
-    ;
+    .AddIdentityCookies();
+
 //builder.Services.AddRazorComponents();
 builder.Services.AddAuthorization();
 //builder.Services.AddScoped<AuthenticationStateProvider, Langua.WebUI.Client.CustomAuthenticationStateProvider>();
+builder.Services.AddLogging(loggerbuilder =>
+{
+//    //this gonna remove any default provider (like add console log maded by ms)
+    loggerbuilder.ClearProviders();
+//    //
+    loggerbuilder.AddProvider(new LanguaLoggerProvider(builder.Configuration,(cate)=>true));
+//    //
+    loggerbuilder.AddConsole();
+//    //
 
+});
 builder.Services.AddScoped<LanguaService>();
 var connectionString = builder.Configuration.GetConnectionString("sqlConnection") ?? throw new InvalidOperationException("Connection string 'sqlConnection' not found.");
 builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
@@ -121,7 +134,7 @@ builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
 
 builder.Services.AddSignalR();
 
-builder.Services.AddLogging();
+
 builder.Services.AddScoped<LangClientService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddSwaggerGen();
@@ -162,9 +175,9 @@ app.UseSwagger();
 //app.UseCookiePolicy();
 app.UseRequestLocalization(option =>
 {
-    option.SetDefaultCulture("fr-FR");
-    option.AddSupportedCultures(new[] { "fr-FR", "en-US" });
-    option.AddSupportedUICultures(new[] { "fr-FR", "en-US" });
+    option.SetDefaultCulture("fr");
+    option.AddSupportedCultures(new[] { "fr", "en", "ar" });
+    option.AddSupportedUICultures(new[] { "fr", "en","ar" });
 });
 app.UseSwaggerUI(c =>
 {
@@ -177,6 +190,46 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(Langua.WebUI.Client._Imports).Assembly);
 app.MapControllers();
 app.MapHub<ChatHub>(ChatHub.ChatGroupEndPoint);
+app.Use(async (context, next) =>
+{
+    var lang = "fr";
+    if (!context.Request.Cookies.ContainsKey("LanguaLangue"))
+    {
+        context.Response.Cookies.Append("LanguaLangue", "fr", new CookieOptions
+        {
+            Expires = DateTimeOffset.UtcNow.AddYears(1),
+            HttpOnly = true,
+            Secure = context.Request.IsHttps
+        });
+    }
+    else
+    {
+        lang = context.Request.Cookies["LanguaLangue"];
+    }
+    try
+    {
+        if (!string.IsNullOrEmpty(lang))
+        {
+            var culture = new CultureInfo(lang);
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+        }
+        else
+        {
+            throw new ArgumentException("Language cookie value is invalid.");
+        }
+    }
+    catch (CultureNotFoundException ex)
+    {
+        Console.WriteLine($"Invalid culture found in cookie: {lang}. Error: {ex.Message}");
+        var defaultCulture = new CultureInfo("fr");
+        Thread.CurrentThread.CurrentCulture = defaultCulture;
+        Thread.CurrentThread.CurrentUICulture = defaultCulture;
+    }
+
+    await next.Invoke();
+});
+
 await Seeding.Initialize(app.Services.CreateScope().ServiceProvider);
 //
 

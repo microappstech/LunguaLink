@@ -9,6 +9,8 @@
             </RadzenColumn>
             <RadzenColumn SizeMD="9">
                 <RadzenTextBox style="display: block; width: 100%" @bind-Value="@Session.Name" Name="Name" />
+                <RadzenRequiredValidator Component="Name" Text="@L["Name is required"]" DefaultValue="0" />
+
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow style="margin-bottom: 1rem">
@@ -19,6 +21,9 @@
                 <RadzenDropDown Disabled="IsForGroup" Data="@groupsForGroupId" TextProperty="Name" ValueProperty="Id" AllowClear=true
                                 Placeholder="Choose Group" style="display: block; width: 100%" @bind-Value="@Session.GroupId" Name="GroupId"
                                 Count=@groupsForGroupIdCount LoadData=@groupsForGroupIdLoadData />
+
+                <RadzenRequiredValidator Component="GroupId" Text="@L["teacher is required"]" DefaultValue="0" />
+
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow style="margin-bottom: 1rem">
@@ -29,6 +34,8 @@
                 <RadzenDropDown Disabled="!IsForGroup" Data="@teachersForTeacherId" TextProperty="FullName" ValueProperty="Id" AllowClear=true
                                 Placeholder="Choose Teacher" style="display: block; width: 100%" @bind-Value="@Session.TeacherId" Name="TeacherId"
                                 Count=@teachersForTeacherIdCount LoadData=@teachersForTeacherIdLoadData />
+                <RadzenRequiredValidator Component="TeacherId" Text="@L["teacher is required"]" DefaultValue="0" />
+
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow style="margin-bottom: 1rem">

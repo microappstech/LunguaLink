@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @using Langua.Repositories.Services
+@using Langua.WebUI.Client.Localization
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Localizer> L
 
 <RadzenDialog />
 <RadzenNotification />
@@ -20,13 +22,16 @@
                 <Langua.WebUI.Pages.Layout.NavMenu />
             </div>
             <main>
-                <div class="top-row px-4 text-white">
-                    <div class="nav-link col-8" href="Account/Manage" style="color:rebeccapurple;">
-                        <strong>Deprtement : Instutie CCF Anazaran</strong>
+                <div class="top-row px-4 text-white justify-content-between">
+                    <div class="nav-link" href="Account/Manage" style="color:rebeccapurple;">
+                        <strong>@L["Deprtement"] : Instutie CCF Anazaran</strong>
+                    </div>
+                    <div>
+                        <Langua.WebUI.Components.LanguaCulture />
                     </div>
                     <NavLink class="nav-link " href="Account/Manage" style="color:rebeccapurple;">
                         <RadzenIcon Icon="profile" />
-                        <span class="bi bi-person-fill-nav-menu text-bold" aria-hidden="true"></span>Hi @( context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@")))
+                        <span class="bi bi-person-fill-nav-menu text-bold" aria-hidden="true"></span>@L["Hi"] @(context.User.Identity?.Name?.Substring(0, (int)context.User.Identity?.Name.IndexOf("@")))
                     </NavLink> 
                     <div class="rz-p-2 rz-text-align-center col-1" style="">
                         <RadzenProfileMenu Style="background-color: Transparent; border:none;">
@@ -34,17 +39,15 @@
                                 <RadzenGravatar Email="@context.User.Identity?.Name"></RadzenGravatar>
                             </Template>
                             <ChildContent>
-                                @* <form action="api/Auth/Logout" method="post">
-                                    <AntiforgeryToken /> *@
                                 <button type="submit" @onclick="@(Logout)" class="nav-link mx-auto" style="background-color: Transparent; border:none; ">
-                                        <RadzenProfileMenuItem Icon="logout" class="mx-auto" Text="Logout" Style="width:100;">
-                                        </RadzenProfileMenuItem>
-                                    </button>
-                                @* </form> *@
+                                    <RadzenProfileMenuItem Icon="logout" class="mx-auto" Text="Logout">
+                                    </RadzenProfileMenuItem>
+                                </button>
                             </ChildContent>
                         </RadzenProfileMenu>
                     </div>
                 </div>
+
                 <article class="content px-4">
                     @Body
                 </article>
