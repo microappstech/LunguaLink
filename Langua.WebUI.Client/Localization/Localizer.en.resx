@@ -201,4 +201,10 @@
   <data name="Nb Candidates By Group" xml:space="preserve">
     <value>Nombre Candidates By Group</value>
   </data>
+	<data name="TxtWrongUserOrPassword">
+		<value>Login failed check your mail and your password, or contact your Manager</value>
+	</data>
+	<data name="LoadingText">
+		<value>Loading...</value>
+	</data>
 </root>

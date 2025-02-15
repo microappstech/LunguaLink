@@ -21,6 +21,7 @@ using Langua.ApiControllers.LanguaHub;
 using System.Globalization;
 using Microsoft.Extensions.Logging;
 using Langua.WebUI.Logging;
+using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,8 @@ builder.Services.AddScoped<ISqlDataAccess, SqlDataAccess>(serviceProvider =>
     return new SqlDataAccess(builder.Configuration.GetConnectionString("sqlConnection"));
 });
 builder.Services.AddLocalization();
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<MemoryCache>();
 builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
 
 builder.Services.AddServerSideBlazor()

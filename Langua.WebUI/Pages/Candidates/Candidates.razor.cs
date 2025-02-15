@@ -22,7 +22,8 @@ namespace Langua.WebUI.Pages.Candidates
     public partial class CandidatesComponent : BasePage
     {
         public IEnumerable<Candidat> candidates { get; set; }
-        protected bool AddClicked, DeleteClicked;
+        protected bool AddClicked, DeleteClicked, isLoading;
+
         public List<Candidat> fcandidates { get; set; }
         public RadzenDataGrid<Candidat>? grid0;
 
@@ -40,13 +41,22 @@ namespace Langua.WebUI.Pages.Candidates
         }
         public async Task loadData(LoadDataArgs args)
         {
-            var candidatesResult = LanguaService.GetCandidates(includes: "Departement,User");
-
-            if (candidatesResult.Succeeded)
+            try
             {
-                candidates = candidatesResult.Value;
-                if (!string.IsNullOrEmpty(args.Filter))
-                    fcandidates = candidates.AsQueryable().Where(args.Filter).ToList();
+                isLoading = true;
+                var candidatesResult = LanguaService.GetCandidates(includes: "Departement,User");
+
+                if (candidatesResult.Succeeded)
+                {
+                    candidates = candidatesResult.Value;
+                    if (!string.IsNullOrEmpty(args.Filter))
+                        fcandidates = candidates.AsQueryable().Where(args.Filter).ToList();
+                }
+
+            }
+            finally
+            {
+                isLoading = false;
             }
         }
         //string RemoveDiacritics(string text)

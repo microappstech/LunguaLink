@@ -16,17 +16,20 @@ namespace Langua.WebUI.Pages.Discplines
         protected IEnumerable<Subject> subjects { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            await Security.InitializeAsync();
-            var subjectsResult = LanguaService.GetSubjects();
-            if(subjectsResult.Succeeded)
+            try
             {
-                subjects = subjectsResult.Value;
+
+                await Security.InitializeAsync();
+                var subjectsResult = LanguaService.GetSubjects();
+                if(subjectsResult.Succeeded)
+                {
+                    subjects = subjectsResult.Value;
+                }
+            }
+            finally
+            {
                 DataReady = true;
             }
-            
-            
-            
-            
         }
 
         public async Task Delete(Subject subject)

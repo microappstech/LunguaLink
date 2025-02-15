@@ -1,17 +1,17 @@
 ﻿@page "/All-Ressource"
 @inherits BasePage
-
+@attribute [Microsoft.AspNetCore.Mvc.ResponseCache(Duration = 100)]
 <RadzenStack>
     <RadzenRow class="my-2">
         <RadzenColumn Size="4">
             <RadzenText Text="@L["Contenus"]" TextStyle="TextStyle.DisplayH4" />
         </RadzenColumn>
         <RadzenColumn Size="8"></RadzenColumn>
-        
+
     </RadzenRow>
     <RadzenRow>
         <RadzenColumn Size="_SizeGridColumn">
-            <RadzenDataGrid EmptyText="@L["No Data To Display"]" @ref="ResGrid" Data="Resources" AllowFiltering=true FilterMode="FilterMode.Simple" AllowSorting=true>
+            <RadzenDataGrid EmptyText="@L["TxtEmptyGrid"]" @ref="ResGrid" Data="Resources" AllowFiltering=true FilterMode="FilterMode.Simple" AllowSorting=true>
                 <Columns>
                     <RadzenDataGridColumn Property="Name" Title="@L["Ressource Name"]" />
                     <RadzenDataGridColumn Property="RessourceTypeStr" Title="@L["Ressource Type"]" />
@@ -38,6 +38,7 @@
     </RadzenRow>
 </RadzenStack>
 @code{
+
     [Inject] public IRepositoryCrudBase<Models.Ressource> repositoryRessource { get; set; } = null!;
     private RadzenDataGrid<Models.Ressource> ResGrid = null!;
     public List<Models.Ressource> Resources { get; set; } = null!;
@@ -46,22 +47,28 @@
 
     int _SizeGridColumn = 12;
     int _SizePreviewColumn = 0;
-    bool _PreviewColumnVisible = false;
+    bool _PreviewColumnVisible = false, isLoading;
     protected override async Task OnInitializedAsync()
     {
-        await Security!.InitializeAsync();
-        
-        var resRessources = await LanguaService.GetRessources(includes: "Teacher");
-        if (resRessources.Succeeded)
-        {
-            Resources = resRessources.Value.ToList();
-            Resources.ToList()?.ForEach(res =>
+        try{
+
+            isLoading = true;
+            await Security!.InitializeAsync();
+
+            var resRessources = await LanguaService.GetRessources(includes: "Teacher");
+            if (resRessources.Succeeded)
             {
-                res.GroupRessources.ToList()?.ForEach(GR =>
+                Resources = resRessources.Value.ToList();
+                Resources.ToList()?.ForEach(res =>
                 {
-                    res.GroupsName += $"{GR.Group?.Name}, ";
+                    res.GroupRessources.ToList()?.ForEach(GR =>
+                    {
+                        res.GroupsName += $"{GR.Group?.Name}, ";
+                    });
                 });
-            });
+            }
+        }finally{
+            isLoading = false;
         }
     }
     public async Task Delete(Models.Ressource ressource)

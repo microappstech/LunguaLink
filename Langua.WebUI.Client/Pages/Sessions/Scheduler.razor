@@ -2,12 +2,16 @@
 @inherits SchedulerComponent
 
 <RadzenHeading Text="@Title" Size="H1" Style="width:100%; text-align:center;" class="py-2 text-primary"  />
+@if(isLoading){
+    <Langua.WebUI.Client.Components.Base.Loading />
+}else{
 
 <RadzenRow JustifyContent="JustifyContent.Center" class="py-2">
     <RadzenColumn Size="3">
         <RadzenLabel Text="@L["Schedelur for : "]"/>
     </RadzenColumn>
     <RadzenColumn Size="3">
+
         <RadzenRadioButtonList TValue="SchedelurFor" @bind-Value="ScheFor" Change="ShedelurChanged" Style="width:100%;">
             <Items>
                 <RadzenRadioButtonListItem Text="@L["Teacher"]" Value="SchedelurFor.TeacherSched" />
@@ -29,3 +33,5 @@ Data=@Sessions StartProperty="Start" EndProperty="End"
     <RadzenMonthView />
 </RadzenScheduler>
 
+
+}

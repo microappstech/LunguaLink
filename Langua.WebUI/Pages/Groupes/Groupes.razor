@@ -3,6 +3,10 @@
 @using Langua.Models;
 @inherits GroupsComponent
 
+@if(isLoading){
+    <Langua.WebUI.Client.Components.Base.Loading />
+}else{
+
 <div class="row py-3">
     <div class="col-md-9">
         <h3>@L["Groups"]</h3>
@@ -62,3 +66,5 @@
         </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
+
+}

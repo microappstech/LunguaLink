@@ -1,1 +1,52 @@
-﻿
+﻿@page "/chat"
+<RadzenStack>
+    <RadzenRow>
+        <RadzenColumn Size="10">
+            <RadzenTextBox @bind-Value="MessageToSend"/>
+        </RadzenColumn>
+        <RadzenColumn Size="2">
+            <RadzenButton Click="SendClicked" Icon="send" />
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow>
+        <RadzenColumn>
+            @Response
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>
+
+@code{
+    private static readonly string endpoint = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={token}";
+
+    public string MessageToSend { get; set; }
+    public string Response { get; set; }
+    public async Task SendClicked()
+    {
+        try{
+            var requestData = new
+            {
+                contents = new[]{
+                new {
+                    parts=new []{
+                        new {text=MessageToSend}
+                    }
+                }
+            }
+            };
+            using HttpClient httpClient = new();
+            var json = System.Text.Json.JsonSerializer.Serialize(requestData);
+            var HttpReq = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync(endpoint, HttpReq);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var geminiResponse = System.Text.Json.JsonSerializer.Deserialize<GeminiApiResponse>(responseBody);
+            Console.WriteLine("Response:");
+            Response = geminiResponse?.Candidates?.FirstOrDefault()?.Content?.Parts.FirstOrDefault().Text;
+            Console.WriteLine(responseBody);
+
+        }catch(Exception ex)
+        {
+
+        }
+    }
+
+}

@@ -15,6 +15,7 @@ builder.Services.AddRadzenComponents();
 //builder.Services.AddLocalization();
 builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddMemoryCache();
 builder.Services.AddScoped<LangClientService>();
 builder.Services.AddRadzenComponents();
 await builder.Build().RunAsync();

@@ -29,27 +29,28 @@ namespace Langua.WebUI.Client.Pages.Sessions
         protected IEnumerable<Models.Session>? sessions;
         protected RadzenDataGrid<Models.Session>? grid0;
         protected int count;
-        protected bool isEdit = true;
+        protected bool isEdit = true, isLoading;
         protected bool addCliecked = false;
         protected bool EditClicked = false;
         protected override async Task OnInitializedAsync()
         {
-             await LangClientService.GetNSessions();
-        }
-
-        protected async Task Grid0LoadData(LoadDataArgs args)
-        {
             try
             {
-                var result = await LangClientService.GetSessions(filter: $"{args.Filter}", expand: "Group,Teacher", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count: args.Top != null && args.Skip != null);
+                isLoading = true;
+                await LangClientService.GetNSessions();
+                var result = await LangClientService.GetSessions();
                 sessions = result;
-                count = result.Count();
-            }
-            catch (Exception ex)
+            }catch(Exception ex)
             {
-                Notify("Error", "Unable to load Sessions", NotificationSeverity.Error);
+                logger.LogError(ex.Message, ex);
             }
+            finally
+            {
+                isLoading = false;
+            }
+
         }
+
 
         protected async Task AddButtonClick(MouseEventArgs args)
         {

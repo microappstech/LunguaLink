@@ -16,9 +16,18 @@ namespace Langua.WebUI.Pages.GroupTeacher
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadGrTeachers();
-        }
+            try
+            {
+                isLoading = true;
+                await LoadGrTeachers();
 
+            }
+            finally
+            {
+                isLoading = false;
+            }
+        }
+        protected bool isLoading;
         public async Task LoadGrTeachers()
         {
             var result = await LanguaService.GetGroupTeachers(includes: "Group,Teacher");

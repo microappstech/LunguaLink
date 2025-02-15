@@ -14,9 +14,13 @@ namespace Langua.WebUI.Pages.Managers
     {
         public IEnumerable<Models.Manager>? Managers { get; set; }
         public RadzenDataGrid<Models.Manager>? grid0;
+        protected bool isLoading;
         [Inject] private IRepositoryCrudBase<Models.Manager>? baseRepository { get; set; }
         protected override async Task OnInitializedAsync()
         {
+            try
+            {
+                isLoading = true;
             var ManagersResult = baseRepository!.GetAll();
             if (ManagersResult.Succeeded)
             {
@@ -24,6 +28,11 @@ namespace Langua.WebUI.Pages.Managers
                 Managers = (IEnumerable<Models.Manager>)result;
             }
             await InvokeAsync(StateHasChanged);
+            }
+            finally
+            {
+                isLoading = false;
+            }
         }
         public async Task Delete(Models.Manager mng)
         {

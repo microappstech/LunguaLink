@@ -45,18 +45,27 @@ namespace Langua.WebUI.Client.Pages.Sessions
             }
             await scheduler?.Reload();
         }
+        protected bool isLoading;
         protected override async Task OnInitializedAsync()
         {
-            var teachers =await LangClientService!.GetTeachers();
-            var groups =await LangClientService.GetGroups();
-            Teachers = teachers.ToList();
-            Groups = groups.ToList();
-            if (Groups.FirstOrDefault() is not null)
-                selectedGroup = Groups.FirstOrDefault()?.Id??0;
-            if(Teachers.FirstOrDefault() is not null)
-                selectedTeacher = teachers.FirstOrDefault()?.Id??0;
-            var sessions = await LangClientService!.GetSessions();
-            Sessions = sessions;
+            try
+            {
+                isLoading = true;
+                var teachers =await LangClientService!.GetTeachers();
+                var groups =await LangClientService.GetGroups();
+                Teachers = teachers.ToList();
+                Groups = groups.ToList();
+                if (Groups.FirstOrDefault() is not null)
+                    selectedGroup = Groups.FirstOrDefault()?.Id??0;
+                if(Teachers.FirstOrDefault() is not null)
+                    selectedTeacher = teachers.FirstOrDefault()?.Id??0;
+                var sessions = await LangClientService!.GetSessions();
+                Sessions = sessions;
+            }
+            finally
+            {
+                isLoading = false;
+            }
 
 
         }

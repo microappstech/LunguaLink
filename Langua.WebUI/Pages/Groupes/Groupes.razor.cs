@@ -61,10 +61,18 @@ namespace Langua.WebUI.Pages.Groupes
             await LoadGroups();
             await gridCandidate!.Reload();
         }
-
+        protected bool isLoading;
         protected override async Task OnInitializedAsync()
         {
-            await LoadGroups();
+            try
+            {
+                isLoading = true;
+                await LoadGroups();
+            }
+            finally
+            {
+                isLoading = false;
+            }
 
         }
         public async Task LoadGroups()

@@ -3,40 +3,43 @@
 @using Langua.Models;
 @inherits Managers.ManagersComponent
 
+@if(isLoading)
+{
+    <Langua.WebUI.Client.Components.Base.Loading/>
+}else{
+    <div class="row p-3 pt-4 ">
+        <div class= "col-md-9 " >
+            <h3>@L["Managers"]</h3>
+        </div>
+        <div class= "col-md-3 " >
+            <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" Text="@L["Add New Manager"]"></RadzenButton>
+        </div>
 
-<div class="row p-3 pt-4 ">
-    <div class= "col-md-9 " >
-        <h3>@L["Managers"]</h3>
     </div>
-    <div class= "col-md-3 " >
-        <RadzenButton ButtonStyle="ButtonStyle.Primary" Click="@(()=>Add())" Icon="add" Text="@L["Add New Manager"]"></RadzenButton>
-    </div>
 
-</div>
-<RadzenContent>
-    <RadzenDataGrid Data="Managers" TItem="Models.Manager" AllowSorting="true" @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
-        <Columns>
-            <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Manager" >
-                <Template Context="CanContext">
-                    <div>
-                        <img src="@CanContext.Photo" width="50" />
-                        <span>@CanContext.FullName</span>
-                    </div>
-                </Template>
-            </RadzenDataGridColumn>
-            <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Manager" />
-            <RadzenDataGridColumn Property="Department.Name" Title="@L["Departement"]" TItem="Manager" />
-            <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Manager" />
+    <RadzenContent>
+        <RadzenDataGrid Data="Managers" TItem="Models.Manager" AllowSorting="true" @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Simple" Style="background-color:lightblue">
+            <Columns>
+                <RadzenDataGridColumn Property="FullName" Title="@L["Full Name"]" TItem="Manager" >
+                    <Template Context="CanContext">
+                        <div>
+                            <img src="@CanContext.Photo" width="50" />
+                            <span>@CanContext.FullName</span>
+                        </div>
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="Phone" Title="@L["Phone"]" TItem="Manager" />
+                <RadzenDataGridColumn Property="Department.Name" Title="@L["Departement"]" TItem="Manager" />
+                <RadzenDataGridColumn Property="Email" Title="@L["Email"]" TItem="Manager" />
 
-            <RadzenDataGridColumn TItem="Manager" Width="120px">
-                <Template Context="ConTeacher">
-                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConTeacher))" class="mr-2" />
-                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConTeacher))" />
-                </Template>
-            </RadzenDataGridColumn>
-        </Columns>
+                <RadzenDataGridColumn TItem="Manager" Width="120px">
+                    <Template Context="ConTeacher">
+                        <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(ConTeacher))" class="mr-2" />
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(ConTeacher))" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
 
-    </RadzenDataGrid>
-</RadzenContent>
-
-                
+        </RadzenDataGrid>
+    </RadzenContent>          
+}

@@ -10,19 +10,23 @@
     </div>
 </div>
 <RadzenContent>
-    <RadzenDataGrid @ref="@grid0" Data="Departements" TItem="Department" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple">
-        <Columns>
-            <RadzenDataGridColumn Property="Name" Title="@L["Name"]" TItem="Department" />
-            <RadzenDataGridColumn Property="Location" Title="@L["Localisation"]" TItem="Department" />
-            <RadzenDataGridColumn Property="Manager.FullName" Title="@L["Manger"]" TItem="Department" />
-            <RadzenDataGridColumn TItem="Department" Width="120px" Title="@L["Action"]">
-                <Template Context="SubContext">
-                    <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(SubContext))" class="mr-2" />
-                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(SubContext))" />
-                </Template>
-            </RadzenDataGridColumn>
-        </Columns>
+    @if(isLoading){
+        <Langua.WebUI.Client.Components.Base.Loading />
+    }else{
+        <RadzenDataGrid @ref="@grid0" Data="Departements" TItem="Department" AllowSorting="true" AllowFiltering="true" FilterMode="FilterMode.Simple">
+            <Columns>
+                <RadzenDataGridColumn Property="Name" Title="@L["Name"]" TItem="Department" />
+                <RadzenDataGridColumn Property="Location" Title="@L["Localisation"]" TItem="Department" />
+                <RadzenDataGridColumn Property="Manager.FullName" Title="@L["Manger"]" TItem="Department" />
+                <RadzenDataGridColumn TItem="Department" Width="120px" Title="@L["Action"]">
+                    <Template Context="SubContext">
+                        <RadzenButton ButtonStyle="ButtonStyle.Primary" Icon="edit" Size="ButtonSize.Medium" Click="@((args) => Edit(SubContext))" class="mr-2" />
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium" Click="@((args) =>Delete(SubContext))" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
 
-    </RadzenDataGrid>
+        </RadzenDataGrid>
+        }
 </RadzenContent>
 

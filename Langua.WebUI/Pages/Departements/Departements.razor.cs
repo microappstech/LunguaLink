@@ -13,12 +13,23 @@ namespace Langua.WebUI.Pages.Departements
         [Inject]
         public IRepositoryCrudBase<Department> baseRepository { get; set; } = null!;
         protected RadzenDataGrid<Department>? grid0;
+        protected bool isLoading;
+
         public IEnumerable<Department>? Departements { get; set; }
 
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadDepartements();
+            try
+            {
+                isLoading = true;
+                await LoadDepartements();
+
+            }
+            finally
+            {
+                isLoading = false;
+            }
         }
         public async Task LoadDepartements()
         {

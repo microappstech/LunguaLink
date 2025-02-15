@@ -8,6 +8,7 @@ using Langua.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Langua.WebUI.Client.Localization;
 
 namespace Langua.WebUI.Pages.Auth
 {
@@ -20,6 +21,7 @@ namespace Langua.WebUI.Pages.Auth
         public string? errorMessage { get; set; }
         [SupplyParameterFromForm]
         public LoginInput Input { get; set; } = new();
+        [Inject] public Microsoft.Extensions.Localization.IStringLocalizer<Localizer> L { get; set; }
 
         public EditContext? EditLogin;
         protected override async Task OnInitializedAsync()
@@ -31,6 +33,12 @@ namespace Langua.WebUI.Pages.Auth
                     // Clear the existing external cookie to ensure a clean login process
                 }
             }
+            Input = new LoginInput()
+            {
+                Email = "Hamzamouddakur@gmail.com",
+                Password = "Hamza=Langua123"
+            };
+            await LoginUser();
         }
         public async Task LoginUser()
         {
@@ -42,8 +50,7 @@ namespace Langua.WebUI.Pages.Auth
             }
             else
             {
-                errorMessage = "Login failed check your mail and your password, or contact your Manager";
-                Notify("Login Failed", "result.Message", Radzen.NotificationSeverity.Error);
+                errorMessage = L["TxtWrongUserOrPassword"];
             }
         }
 

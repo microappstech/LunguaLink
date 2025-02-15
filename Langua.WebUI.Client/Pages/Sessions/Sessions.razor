@@ -4,7 +4,7 @@
 
 <style>
     .rz-datepicker-header{
-        display:none;
+    display:none;
     }
 </style>
 @inherits SessionsComponent
@@ -23,11 +23,12 @@
         </RadzenColumn>
     </RadzenRow>
 
-    <RadzenRow>
-        <RadzenColumn SizeMD=@((addCliecked || EditClicked)?7:12)>
+    @if (!isLoading) {
+        <RadzenRow>
+            <RadzenColumn SizeMD=@((addCliecked || EditClicked)?7:12)>
             <RadzenCard style="height: 100%">
                 <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
-                                Data="@sessions" LoadData="@Grid0LoadData" Count="@count" TItem="Models.Session" RowSelect="@EditRow">
+                                Data="@sessions" TItem="Models.Session" RowSelect="@EditRow">
                     <Columns>
                         <RadzenDataGridColumn Property="Id" Title="Id">
                         </RadzenDataGridColumn>
@@ -114,7 +115,9 @@
             </RadzenCard>
         </RadzenColumn>
     </RadzenRow>
-
+    }else{
+        <Langua.WebUI.Client.Components.Base.Loading />
+    }
 
 </RadzenStack>
 

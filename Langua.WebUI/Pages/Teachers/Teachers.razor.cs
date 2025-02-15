@@ -12,12 +12,20 @@ namespace Langua.WebUI.Pages.Teachers
     {
         public IEnumerable<Teacher>? teachers { get; set; }
         public RadzenDataGrid<Teacher>? grid0;
-        public bool _AddBtnClicked;
+        public bool _AddBtnClicked, isLoading;
         
         [Inject] private IRepositoryCrudBase<Teacher>? baseRepository { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            await LoadTeachers();
+            try
+            {
+                isLoading = true;
+                await LoadTeachers();
+            }
+            finally
+            {
+                isLoading = false;
+            }
         }
         public async Task LoadTeachers()
         {

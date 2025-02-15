@@ -1,0 +1,17 @@
+﻿@inherits Langua.WebUI.Client.Pages.BasePageClient
+
+<RadzenStack AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center" class="min-w-100 min-h-100">
+    <RadzenProgressBarCircular ShowValue="true" Mode="ProgressBarMode.Indeterminate" Size="ProgressBarCircularSize.Large">
+        <Template>@LoadingText</Template>
+    </RadzenProgressBarCircular>
+</RadzenStack>
+
+
+@code {
+    [Parameter] public string LoadingText { get; set;}
+    protected override void OnInitialized()
+    {
+        LoadingText = L["LoadingText"];
+    }
+
+}
