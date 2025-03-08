@@ -1,4 +1,7 @@
 ﻿using Langua.Models;
+using Langua.Repositories.Interfaces;
+using Langua.Shared.Constants;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,30 +11,41 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Reflection.Metadata;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Langua.DataContext.Data
 {
-    public class LanguaContext(DbContextOptions<Langua.DataContext.Data.LanguaContext> options) : IdentityDbContext<ApplicationUser>(options)
-    //public class LanguaContext : DbContext
+    //public class LanguaContext(DbContextOptions<Langua.DataContext.Data.LanguaContext> options) : IdentityDbContext<ApplicationUser>(options)
+    public class LanguaContext : IdentityDbContext<ApplicationUser>
     {
-
-        //public LanguaContext(DbContextOptions<LanguaContext> dbContextOptions):base(dbContextOptions)
-        //{            
-        //}
-
+        private readonly ITenantService _tenantService;
+        public LanguaContext(DbContextOptions<LanguaContext> options, ITenantService tenantService):base(options)
+        {
+            _tenantService = tenantService;
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             base.OnModelCreating(builder);
-            builder.Entity<ApplicationUser>().ToTable("Users");
+            builder.Entity<LanguaRole>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<ApplicationUser>().ToTable("Users").HasQueryFilter(i=>i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
             builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("UserRoleClaim");
             builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserToken");
-
+            
+            builder.Entity<Department>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<Candidat>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<Groups>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<Teacher>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<Manager>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<BaseMessage>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<Ressource>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<Session>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<Subject>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
 
             builder.Entity<Department>()
                 .HasOne(i => i.Manager)

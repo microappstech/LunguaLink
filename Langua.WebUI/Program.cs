@@ -45,7 +45,8 @@ builder.Services.AddLocalization();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<MemoryCache>();
 builder.Services.AddTransient(typeof(IRepositoryCrudBase<>), typeof(BaseRepositoryCrud<>));
-
+builder.Services.AddScoped<IAIService, AIService>();
+builder.Services.AddScoped<ITenantService, TenantService>();
 builder.Services.AddServerSideBlazor()
 .AddCircuitOptions(o =>
 {

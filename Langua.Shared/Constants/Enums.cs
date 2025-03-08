@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Langua.Shared.Constants
 {
+    public enum TenantType
+    {
+        System = 0,
+    }
     public enum ExcepType
     {
         UserExce = 0,

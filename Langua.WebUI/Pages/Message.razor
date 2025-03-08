@@ -1,0 +1,35 @@
+﻿@if (isNew)
+{
+    <div class="chat-message">
+        <div class="chat-message">
+            <RadzenCard>
+                <div class="message-header">
+                    @* <strong>@(IAMessage.Sender == SenderAIMessage.User ? "You" : "AI")</strong> *@
+                </div>
+                <div class="message-content" id="elementToTypeIn"></div>
+            </RadzenCard>
+        </div>
+    </div>
+}
+else
+{
+    <div class="chat-message">
+        <div class="chat-message @(IAMessage.Sender == SenderAIMessage.User ? "sent" : "received")">
+            <RadzenCard>
+                <div class="message-header">
+                    <strong>@(IAMessage.Sender == SenderAIMessage.User ? "You" : "AI")</strong>
+                </div>
+                <div class="message-content" id="@IAMessage.Guid">
+                    @IAMessage.Message
+                </div>
+            </RadzenCard>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter] public IAMessage IAMessage { get; set; }
+    [Parameter] public string ID { get; set; }
+    [Parameter] public bool isNew { get; set; }
+}

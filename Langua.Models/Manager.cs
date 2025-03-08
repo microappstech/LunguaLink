@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace Langua.Models
 {
-    public class Manager
+    public class Manager:ITenantEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string? FullName { get; set; }
         public string? UserId { get; set; }
         public string? Photo { get; set; }
+        public int TenantId { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
         [NotMapped] public string? Password { get; set; }

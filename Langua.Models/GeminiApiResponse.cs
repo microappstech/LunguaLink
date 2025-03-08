@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using System.Text.Json.Serialization;
 namespace Langua.Models
 {
-
+    public class GeminiRequest()
+    {
+        public Content[] contents { get; set; }
+    }
     public class GeminiApiResponse
     {
         [JsonPropertyName("candidates")]
@@ -70,4 +73,15 @@ namespace Langua.Models
         public int TotalTokenCount { get; set; }
     }
 
+    public class IAMessage
+    {
+        public Guid Guid { get; set; }
+        public SenderAIMessage Sender { get; set; }
+        public string Message { get; set; }
+    }
+    public enum SenderAIMessage
+    {
+        User = 0,
+        AI = 1
+    }
 }

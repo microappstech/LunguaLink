@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Langua.Models
 {
-    public class Candidat
+    public class Candidat : ITenantEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -18,17 +18,17 @@ namespace Langua.Models
         //[Required]
         public string? Photo { get; set; }
         [Required]
-        [Phone(ErrorMessage ="Please enter a valid Phone number")]
-        [MinLength(10, ErrorMessage ="Phone number is not valid")]
+        [Phone(ErrorMessage = "Please enter a valid Phone number")]
+        [MinLength(10, ErrorMessage = "Phone number is not valid")]
         [MaxLength(14)]
         public string? Phone { get; set; }
         [Required]
         [EmailAddress(ErrorMessage = "Please enter a valid email")]
         public string? Email { get; set; }
-        
-        //[Required] 
-        [NotMapped] 
-        [DataType(DataType.Password, ErrorMessage ="Please enter a strong password")]
+
+        //[Required]
+        [NotMapped]
+        [DataType(DataType.Password, ErrorMessage = "Please enter a strong password")]
         [MinLength(8)]
         public string? Password { get; set; }
         public Subject? Subject { get; set; }
@@ -44,6 +44,8 @@ namespace Langua.Models
         [ForeignKey(nameof(ApplicationUser))]
         public string? UserId { get; set; }
         [NotMapped] public bool ConfirmedMail { get; set; }
-        
+
+        // Implementing the missing TenantId property from ITenantEntity interface
+        public int TenantId { get; set; }
     }
 }

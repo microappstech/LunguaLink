@@ -16,7 +16,16 @@
 </RadzenStack>
 
 @code{
-    private static readonly string endpoint = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={token}";
+    [Inject] public IConfiguration Configuration { get; set; }
+    string token { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        var key = Configuration["Ge:Random"];
+        
+        base.OnParametersSet();
+    }
+    private static readonly string endpoint = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=";
 
     public string MessageToSend { get; set; }
     public string Response { get; set; }

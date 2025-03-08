@@ -1,0 +1,39 @@
+﻿@page "/Ask-me"
+@inherits BasePage
+<RadzenStack Orientation="Orientation.Vertical" Style="height: 100vh; display: flex; flex-direction: column;">
+    <!-- Scrollable Chat History -->
+    <RadzenStack Style="flex: 1; overflow-y: auto; padding: 10px;" id="chatContainer">
+        <RadzenRow>
+            <RadzenColumn>
+                @for (int i = 0; i < Messages.Count ; i++)
+                {   
+                    <Message IAMessage="Messages[i]" />
+                }
+                @* @foreach(var message in Messages)
+                {
+                } *@
+                @if(waitingForResponse)
+                {
+                    <Langua.WebUI.Client.Components.Base.Loading />
+                }
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenStack>
+
+
+    <RadzenStack Style="position: sticky; bottom: 0; background: none; padding: 10px; box-shadow: 0 -2px 5px rgba(0,0,0,0.1);">
+        <RadzenRow>
+            <RadzenColumn Size="10">
+                <RadzenTextBox @bind-Value="MessageToSend" class="w-100" Placeholder="Type a message..." />
+            </RadzenColumn>
+            <RadzenColumn Size="2">
+                <RadzenButton Click="SendClicked" IsBusy="waitingForResponse" Icon="send" />
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenStack>
+</RadzenStack>
+
+
+
+
+

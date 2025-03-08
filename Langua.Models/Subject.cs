@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Langua.Models
 {
-    public class Subject
+    public class Subject:ITenantEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -15,5 +15,7 @@ namespace Langua.Models
         public string Description { get; set; }
         public string Photo { get; set; }
         public string? UserId { get; set; }
+        public int TenantId { get; set; }
+
     }
 }
