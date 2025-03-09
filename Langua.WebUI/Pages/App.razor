@@ -40,7 +40,33 @@
 
     </script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
-    
+ <script>
+        window.startTyping = async (elementId, text, speed, dotNetObject) => {
+                let element = document.getElementById(elementId);
+                if (!element) {
+                    console.error(`Element with ID '${elementId}' not found.`);
+                    return;
+                }
+
+                element.textContent = ""; // Clear existing text
+                for (let i = 0; i < text.length; i++) {
+                    if (window.typingStopped) {
+                        console.log("Typing stopped");
+                        return;
+                    }
+                    element.textContent += text[i];
+                    await new Promise(resolve => setTimeout(resolve, speed));
+                }
+                if (dotNetObject) {
+                    dotNetObject.invokeMethodAsync("OnTypingFinished", elementId);
+                }
+            };
+
+            window.stopTyping = () => {
+                window.typingStopped = true;
+            };
+
+ </script>   
  @*    <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/chat.js"></script> *@
 </body>

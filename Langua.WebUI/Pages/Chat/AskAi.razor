@@ -6,15 +6,8 @@
         <RadzenRow>
             <RadzenColumn>
                 @for (int i = 0; i < Messages.Count ; i++)
-                {   
-                    <Message IAMessage="Messages[i]" />
-                }
-                @* @foreach(var message in Messages)
                 {
-                } *@
-                @if(waitingForResponse)
-                {
-                    <Langua.WebUI.Client.Components.Base.Loading />
+                    <Message IAMessage="Messages[i]" isNew="@(string.IsNullOrEmpty(Messages[i].Message) &&  Messages[i].Sender == SenderAIMessage.AI)" />
                 }
             </RadzenColumn>
         </RadzenRow>
@@ -27,7 +20,7 @@
                 <RadzenTextBox @bind-Value="MessageToSend" class="w-100" Placeholder="Type a message..." />
             </RadzenColumn>
             <RadzenColumn Size="2">
-                <RadzenButton Click="SendClicked" IsBusy="waitingForResponse" Icon="send" />
+                <RadzenButton Click="ButtonClicked" Icon="@((waitingForResponse||isTyping)? "stop":"send")" Disabled="waitingForResponse" />
             </RadzenColumn>
         </RadzenRow>
     </RadzenStack>

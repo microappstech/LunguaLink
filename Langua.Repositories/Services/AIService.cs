@@ -14,11 +14,11 @@ namespace Langua.Repositories.Services
     {
         private readonly HttpClient _httpClient;
         private const string token = "AIzaSyDsD8vONzus0kKJHXIjJeSxrTthW9UG008";
-        private static readonly string endpoint = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={token}";
+        private static readonly string endpoint = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={token}";
         public AIService(HttpClient httpClient)
         {
             this._httpClient = httpClient;
-        }
+        }   
         public async Task<GeminiApiResponse> AskGemini(GeminiRequest geminiRequest)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, endpoint);

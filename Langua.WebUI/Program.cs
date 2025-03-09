@@ -22,6 +22,7 @@ using System.Globalization;
 using Microsoft.Extensions.Logging;
 using Langua.WebUI.Logging;
 using Microsoft.Extensions.Caching.Memory;
+using Langua.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -134,7 +135,7 @@ builder.Services.AddDbContext<Langua.DataContext.Data.LanguaContext>(options =>
     options.UseSqlServer(connectionString);
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     options.EnableSensitiveDataLogging(true);
-}, ServiceLifetime.Singleton);
+}, ServiceLifetime.Scoped);
 
 builder.Services.AddSignalR();
 

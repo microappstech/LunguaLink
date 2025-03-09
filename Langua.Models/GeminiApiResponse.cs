@@ -40,10 +40,10 @@ namespace Langua.Models
     public class Content
     {
         [JsonPropertyName("parts")]
-        public List<Part> Parts { get; set; }
+        public Part[] Parts { get; set; }
 
         [JsonPropertyName("role")]
-        public string Role { get; set; }
+        public string? Role { get; set; }
     }
 
     public class Part
@@ -78,6 +78,7 @@ namespace Langua.Models
         public Guid Guid { get; set; }
         public SenderAIMessage Sender { get; set; }
         public string Message { get; set; }
+        public DateTime SentAt { get; set; } = DateTime.Now;
     }
     public enum SenderAIMessage
     {

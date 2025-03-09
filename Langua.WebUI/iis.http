@@ -49,3 +49,12 @@ Set-Cookie: AspNetCore.Identity.Application=CfDJ8CVQ8jxYvb5KksJ5MPXMnqTXM7B4GgdJ
     "Start":null,
     "End":null
 }
+###
+POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDsD8vONzus0kKJHXIjJeSxrTthW9UG008
+# POST https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyDsD8vONzus0kKJHXIjJeSxrTthW9UG008
+Content-Type: application/json
+{
+  "contents": [{
+    "parts":[{"text": "Explain how AI works"}]
+    }]
+   }

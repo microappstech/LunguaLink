@@ -18,13 +18,14 @@ namespace Langua.DataContext.Data
             {
                 var userM = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                 var roleM = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var context = serviceScope.ServiceProvider.GetService<LanguaContext>();
 
-
-                List<string> Roles = new List<string>() { "ADMIN", "TEACHER", "MANAGER", "MANAGERETAB","CANDIDATE" };
+                List<string> Roles = new List<string>() { "ADMIN", "TEACHER", "MANAGER", "MANAGERETAB", "CANDIDATE" };
 
                 foreach (var role in Roles)
                 {
-                    if (await roleM.RoleExistsAsync(role) != true) {
+                    if (await roleM.RoleExistsAsync(role) != true)
+                    {
                         var resultRole = await roleM.CreateAsync(new IdentityRole(role));
                     }
                 }
@@ -35,6 +36,9 @@ namespace Langua.DataContext.Data
                     UserName = "Hamzamouddakur@gmail.com"
                 };
                 var ExistUser = await userM.FindByEmailAsync(_user.Email);
+                if (ExistUser == null)
+                    ExistUser = context
+                        .Users.Where(i => i.Email == _user.Email).FirstOrDefault();
                 if (ExistUser is null)
                 {
 

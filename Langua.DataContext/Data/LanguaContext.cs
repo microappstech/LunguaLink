@@ -1,5 +1,5 @@
 ﻿using Langua.Models;
-using Langua.Repositories.Interfaces;
+using Langua.Shared;
 using Langua.Shared.Constants;
 
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +29,7 @@ namespace Langua.DataContext.Data
             base.OnModelCreating(builder);
 
             base.OnModelCreating(builder);
-            builder.Entity<LanguaRole>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<LanguaRole>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
             builder.Entity<ApplicationUser>().ToTable("Users").HasQueryFilter(i=>i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
             builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("UserRoleClaim");

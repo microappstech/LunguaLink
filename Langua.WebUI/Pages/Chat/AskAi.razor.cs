@@ -4,6 +4,7 @@ using Langua.Models;
 using Langua.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 using Microsoft.JSInterop;
 
 namespace Langua.WebUI.Pages.Chat
@@ -11,28 +12,48 @@ namespace Langua.WebUI.Pages.Chat
     public partial class AskAi
     {
         [Inject] public IAIService _aIService { get; set; }
+        private DotNetObjectReference<AskAi> objRef;
 
+        protected override void OnInitialized()
+        {
+            objRef = DotNetObjectReference.Create(this);
+        }
         public string MessageToSend { get; set; }
         public string ResponseMessage { get; set; }
         List<IAMessage> Messages = new List<IAMessage>() { };
-        bool waitingForResponse;
+        bool waitingForResponse, isTyping;
+        public async Task ButtonClicked()
+        {
+            if (!waitingForResponse)
+                await SendClicked();
+            else
+               await StopClicked();
+        }
+        public async Task StopClicked()
+        {
+            isTyping = false;
+            await JSRuntime.InvokeVoidAsync("stopTyping");
+            Messages.OrderBy(i => i.Sender).LastOrDefault().Message = ResponseMessage;
+        }
         public async Task SendClicked()
         {
             try
             {
+                ResponseMessage = string.Empty;
                 waitingForResponse = true;
                 StateHasChanged();
 
                 var reqData = new GeminiRequest
                 {
                     contents = new Content[] {
-                new Content {
-                    Parts= new List<Part>(){
-                        new Part{
-                            Text = MessageToSend
+                        new Content {
+                            Parts= new Part[]
+                            {
+                                new Part{
+                                    Text = MessageToSend
+                                }
+                            }
                         }
-                    }
-                }
                     }
                 };
 
@@ -47,18 +68,34 @@ namespace Langua.WebUI.Pages.Chat
                     {
                         var _ResAIMessage = new IAMessage { Message = "", Sender = SenderAIMessage.AI, Guid = new() };
                         Messages.Add(_ResAIMessage);
-
-                        //_ResAIMessage.Message = ResponseMessage;
-                        StateHasChanged();
                     }
                 }
+                        StateHasChanged();
+            }catch(Exception ex)
+            {
+                Messages.Remove(Messages.OrderBy(Message => Message.SentAt).LastOrDefault());//.OrderBy(Message => Message.SentAt);
+                NotifyError(L["Error"], ex.Message);
             }
             finally
             {
-                await JSRuntime.InvokeVoidAsync("startTyping", "elementToTypeIn", ResponseMessage, 10);
                 waitingForResponse = false;
+                isTyping = true;
+                JSRuntime.InvokeVoidAsync("startTyping", "elementToTypeIn", ResponseMessage, 5, objRef);
                 StateHasChanged();
             }
+        }
+        [JSInvokable("OnTypingFinished")]
+        public void TypingFinished(string elementId)
+        {
+            isTyping = false;
+            StateHasChanged();
+            //return;
+            if (!string.IsNullOrEmpty(ResponseMessage))
+                Messages.OrderBy(i => i.Sender).LastOrDefault().Message = ResponseMessage;
+        }
+        public void Dispose()
+        {
+            objRef?.Dispose();
         }
     }
 }
