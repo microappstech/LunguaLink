@@ -62,7 +62,7 @@ namespace Langua.WebUI.Pages.Teachers
                 {
                     teacher.UserId = TaskUser.Value.Id;
                     var r = await Security.AddRoleToUser(TaskUser.Value, "TEACHER");
-                    var result = _repository!.Add(teacher);
+                    var result = await Task.Run(() => _repository!.Add(teacher));
                     if (result.Succeeded)
                     {
                         Notify("Success", "Creation Successful Completed", NotificationSeverity.Success);
@@ -79,7 +79,7 @@ namespace Langua.WebUI.Pages.Teachers
                 }
                         
             }
-            catch
+            catch(Exception ex)
             {
                 Notify("Failed", "Something Wrong", NotificationSeverity.Error);
             }

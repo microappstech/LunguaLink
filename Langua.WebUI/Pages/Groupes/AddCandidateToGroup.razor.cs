@@ -6,37 +6,62 @@ using System.Diagnostics.Contracts;
 
 namespace Langua.WebUI.Pages.Groupes
 {
-    public partial class AddCandidateToGroupComponent:BasePage
+    public partial class AddCandidateToGroupComponent: BasePage
     {
         [Parameter] public int groupId { get; set; }
         public Groups groupe { get; set; }
         public IEnumerable<Candidat> Candidates { get; set; }
-        public List<int> SelectedCandidates { get; set; }
+        public List<Candidat> SelectedCandidates { get; set; }
         [Inject] IRepositoryCrudBase<Groups> GroupService { get; set; }
         [Inject] IRepositoryCrudBase<Candidat> CandidateService { get; set; }
         [Inject] IGroupCandidateService<GroupCandidates> GrCanService { get; set; }
-
+        protected bool isloading;
         protected override async Task OnInitializedAsync()
         {
-            var groupResult = GroupService.GetById(Convert.ToInt32(groupId));
-            if (groupResult.Succeeded)
+            try
             {
-                groupe = groupResult.Value;
+                isloading = true;
+                var groupResult = await Task.Run(()=> GroupService.GetById(Convert.ToInt32(groupId)));
+                if (groupResult.Succeeded)
+                {
+                    groupe = groupResult.Value;
+                }
+                var CandiResult = await Task.Run(()=>CandidateService.GetAll());
+                if (CandiResult.Succeeded)
+                {
+                    Candidates = CandiResult.Value;
+                }
             }
-            var CandiResult = CandidateService.GetAll();
-            if(CandiResult.Succeeded)
+            finally
             {
-                Candidates = CandiResult.Value;
+                isloading = false;
+                StateHasChanged();
             }
         }
-
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if(firstRender)
+            {
+                Rendered = true;
+            }
+        }
+        bool Rendered = false;
+        protected bool IsSaving;
         public async Task Submit()
         {
-            var GResult = GrCanService.AddCandidateGroup(groupe,SelectedCandidates);
-            if (GResult.Succeeded)
+            try
             {
-                Notify("Success", "Group Successfuly created", Radzen.NotificationSeverity.Success);
-                dialogService.Close();
+                IsSaving = true;
+                var GResult = await Task.Run(()=> GrCanService.AddCandidateGroup(groupe, SelectedCandidates.Select(i => i.Id).ToList()));
+                if (GResult.Succeeded)
+                {
+                    Notify("Success", "Group Successfuly created", Radzen.NotificationSeverity.Success);
+                    dialogService.Close();
+                }
+            }
+            finally
+            {
+                IsSaving = false;
             }
         }
 

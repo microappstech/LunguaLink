@@ -1,31 +1,37 @@
 ﻿@using Langua.Models
- @inherits AddCandidateToGroupComponent
+@inherits AddCandidateToGroupComponent
 
-<div class="row">
-    <EditForm Model="@groupe" OnValidSubmit="@Submit">
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <RadzenLabel Text="@L["Group"]"></RadzenLabel>
+@if (!isloading)
+{
+    <div class="row">
+        <RadzenTemplateForm TItem="Groups" Data="@groupe" Submit="@Submit">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <RadzenLabel Text="@L["Group"]"></RadzenLabel>
+                </div>
+                <div class="col-md-9 ">
+                    <RadzenTextBox  @bind-Value="@groupe.Name" disabled="true" class="w-100"/>
+                </div>
             </div>
-            <div class="col-md-9 ">
-                <InputText @bind-Value="@groupe.Name" disabled="true" class="w-100"/>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <RadzenLabel Text="@L["Candidates"]"></RadzenLabel>
+                </div>
+                <div class="col-md-9">
+                    <RadzenDropDown Data="@Candidates" AllowClear="true" AllowFiltering="true" AllowSelectAll="false" class="w-100" TextProperty="FullName" Multiple="true" @bind-Value="@SelectedCandidates" />
+                </div>
             </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <RadzenLabel Text="@L["Candidates"]"></RadzenLabel>
+            <div class="row ">
+                <div class="mx-auto mt-2 text-center">
+                    <RadzenButton ButtonType="ButtonType.Submit" IsBusy="IsSaving" class="btn btn-primary  px-5 mx-3">Submit</RadzenButton>
+                    <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
+                    <button type="button" @onclick="@(()=>dialogService.Close())" class="btn btn-secondary px-5">Close</button>
+                </div>
             </div>
-            <div class="col-md-9">
-                <RadzenDropDown Data="@Candidates" AllowClear="true" AllowFiltering="true" AllowSelectAll="false" class="w-100"
-                TextProperty="FullName" ValueProperty="Id" Multiple="true" @bind-Value="@SelectedCandidates" />
-            </div>
-        </div>
-        <div class="row ">
-            <div class="mx-auto mt-2 text-center">
-                <button type="submit" class="btn btn-primary px-5 mx-3">Submit</button>
-                <button type="reset" class="btn btn-danger px-5 mx-3">Rest</button>
-                <button type="button" @onclick="@(()=>dialogService.Close())" class="btn btn-secondary px-5">Close</button>
-            </div>
-        </div>
-    </EditForm>
-</div>
+        </RadzenTemplateForm>
+    </div>
+}
+else
+{
+    <Langua.WebUI.Client.Components.Base.Loading />
+}
