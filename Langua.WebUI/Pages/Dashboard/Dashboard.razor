@@ -9,64 +9,129 @@
 
 
  @attribute [Authorize(Roles = "ADMIN,MANAGER")] 
+
+ <style>
+
+ </style>
+
 <PageTitle>LanguaLink| @L["Admin Dashboard"]</PageTitle>
 <HeadContent>
     <meta name="description" content="Rich dashboard created with the Radzen Blazor Components library.">
 </HeadContent>
+<RadzenRow>
+    <RadzenColumn Size="12">
+        <div class="container-fluid dashboard-container">
+            <RadzenRow class="Cards">                
+                <RadzenColumn Size="3"  SizeSM="6">
+                    <RadzenCard class="dashboard-card recieved-card">
+                        <div class="card-icon">
+                            <RadzenIcon Style="font-size: 45px;" Icon="groups"></RadzenIcon>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-label">@L["Nb Users"]</div>
+                            <div class="card-value">@NbUsers</div>
+                            <div class="card-trend positive">
+                                @* <i class="fas fa-arrow-up"></i> 5% from last month *@
+                            </div>
+                        </div>
+                    </RadzenCard>
+                </RadzenColumn>
+
+                <RadzenColumn Size="3" SizeSM="6" >
+                    <RadzenCard class="dashboard-card recieved-card">
+                        <div class="card-icon">
+                            <RadzenIcon Style="font-size: 45px;color:purple;" Icon="person" ></RadzenIcon>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-label">@L["Nb Teachers"]</div>
+                            <div class="card-value">@NbTeacher</div>
+                            <div class="card-trend positive">
+                                @* <i class="fas fa-arrow-up"></i> 5% from last month *@
+                            </div>
+                        </div>
+                    </RadzenCard>
+                </RadzenColumn>
+
+
+                <RadzenColumn Size="3" SizeSM="6" >
+                    <RadzenCard class="dashboard-card recieved-card">
+                        <div class="card-icon">
+                            <RadzenIcon Style="font-size: 45px;color:darkslategrey;" Icon="co_present"></RadzenIcon>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-label">@L["Nb Candidates"]</div>
+                            <div class="card-value">@NbCandidat</div>
+                            <div class="card-trend positive">
+                                @* <i class="fas fa-arrow-up"></i> 5% from last month *@
+                            </div>
+                        </div>
+                    </RadzenCard>
+                </RadzenColumn>
+
+                <RadzenColumn Size="3" SizeSM="6" >
+                    <RadzenCard class="dashboard-card recieved-card">
+                        <div class="card-icon">
+                            <RadzenIcon Style="font-size: 45px;color:darkorange;" Icon="diversity_3"></RadzenIcon>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-label">@L["Nb Groupes"]</div>
+                            <div class="card-value">@NbGroups</div>
+                            <div class="card-trend positive">
+                                @* <i class="fas fa-arrow-up"></i> 5% from last month *@
+                            </div>
+                        </div>
+                    </RadzenCard>
+                </RadzenColumn>
+                
+                <RadzenColumn Size="3" SizeSM="6" >
+                    <RadzenCard class="dashboard-card recieved-card">
+                        <div class="card-icon">
+                            <RadzenIcon Style="font-size: 45px;color:darkslateblue;" Icon="account_circle"></RadzenIcon>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-label">@L["Nb Managers"]</div>
+                            <div class="card-value">@NbManagers</div>
+                            <div class="card-trend positive">
+                                @* <i class="fas fa-arrow-up"></i> 5% from last month *@
+                            </div>
+                        </div>
+                    </RadzenCard>
+                </RadzenColumn>
+                <RadzenColumn Size="3" SizeSM="6" >
+                    <RadzenCard class="dashboard-card recieved-card">
+                        <div class="card-icon">
+                            <RadzenIcon Style="font-size: 45px;color:firebrick;" Icon="domain"></RadzenIcon>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-label">@L["Nb Departments"]</div>
+                            <div class="card-value">@NbDepartements</div>
+                            <div class="card-trend positive">
+                                @* <i class="fas fa-arrow-up"></i> 5% from last month *@
+                            </div>
+                        </div>
+                    </RadzenCard>
+                </RadzenColumn>
+                <RadzenColumn Size="3" SizeSM="6" >
+                    <RadzenCard class="dashboard-card recieved-card">
+                        <div class="card-icon">
+                            <RadzenIcon Style="font-size: 45px;color:darkslategray;" Icon="school"></RadzenIcon>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-label">@L["Nb Teacher / Groupes"]</div>
+                            <div class="card-value">@NbGrTeachers</div>
+                            <div class="card-trend positive">
+                                @* <i class="fas fa-arrow-up"></i> 5% from last month *@
+                            </div>
+                        </div>
+                    </RadzenCard>
+                </RadzenColumn>
+            </RadzenRow>
+        </div>
+    </RadzenColumn>
+</RadzenRow>
 
 <div class="py-4">
     <RadzenStack Gap="1rem" Style="position: relative">
-        <RadzenRow>
-        <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-            <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["Nb All Users"]</RadzenText>
-                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbUsers</RadzenText>
-            </RadzenCard>
-        </RadzenColumn>
-        <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-            <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["Nb Teachers"]</RadzenText>
-                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-success" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbTeacher</RadzenText>
-            </RadzenCard>
-        </RadzenColumn>
-        <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-            <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["NB Candidates"]</RadzenText>
-                <RadzenText TextStyle="TextStyle.H2" Class="rz-color-danger" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbCandidat</RadzenText>
-                
-            </RadzenCard>
-        </RadzenColumn>
-        <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-            <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6">@L["NB Groups"]</RadzenText>
-                <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbGroups</RadzenText>
-            </RadzenCard>
-            </RadzenColumn>
-
-
-        <RadzenColumn Size="12" SizeMD="6" SizeLG="3" Visible="@SecurityService.IsAdmin">
-            <RadzenCard Style="position: relative; height :100px">
-                <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["NB Managers"]</RadzenText>
-                <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbManagers</RadzenText>
-            </RadzenCard>
-        </RadzenColumn>
-
-            <RadzenColumn Size="12" SizeMD="6" SizeLG="3" Visible=SecurityService.IsAdmin>
-                <RadzenCard Style="position: relative; height :100px">
-                    <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["NB Departements"]</RadzenText>
-                    <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbDepartements</RadzenText>
-                </RadzenCard>
-            </RadzenColumn>
-
-            <RadzenColumn Size="12" SizeMD="6" SizeLG="3">
-                <RadzenCard Style="position: relative; height :100px">
-                    <RadzenText TextStyle="TextStyle.H6" class="w-75">@L["NB Teacher / Groupes "]</RadzenText>
-                    <RadzenText TextStyle="TextStyle.H2" Style="position: absolute; right: 1.5rem; top: 1rem;">@NbGrTeachers</RadzenText>
-                </RadzenCard>
-            </RadzenColumn>
-
-    </RadzenRow>
-     <hr />
     <RadzenRow>
         <RadzenColumn Size="6">
             <div class="rz-p-0 rz-p-md-12 w-100">

@@ -202,4 +202,7 @@
   <data name="Nb Candidates By Group" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
+  <data name="LoadingText" xml:space="preserve">
+    <value>jkhjkd</value>
+  </data>
 </root>

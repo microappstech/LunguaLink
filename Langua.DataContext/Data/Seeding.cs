@@ -35,7 +35,7 @@ namespace Langua.DataContext.Data
                     Email = "Hamzamouddakur@gmail.com",
                     UserName = "Hamzamouddakur@gmail.com"
                 };
-                var ExistUser = await userM.FindByEmailAsync(_user.Email);
+                var ExistUser = await userM.FindByEmailAsync(_user.Email.ToUpperInvariant());
                 if (ExistUser == null)
                     ExistUser = context
                         .Users.Where(i => i.Email == _user.Email).FirstOrDefault();

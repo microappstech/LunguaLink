@@ -28,6 +28,7 @@ namespace Langua.Account
         private NavigationManager navigationManager;
         private readonly AuthenticationStateProvider authentication;
         private readonly IWebHostEnvironment webHost;
+        
         private readonly RoleManager<IdentityRole> roleManager;
         public static bool IsAdmin;
         public SecurityService(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<SecurityService> logger, AuthenticationStateProvider authentication,

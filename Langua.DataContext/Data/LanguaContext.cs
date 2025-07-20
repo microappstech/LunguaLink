@@ -27,10 +27,9 @@ namespace Langua.DataContext.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            base.OnModelCreating(builder);
             //builder.Entity<LanguaRole>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
-            builder.Entity<ApplicationUser>().ToTable("Users").HasQueryFilter(i=>i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            builder.Entity<ApplicationUser>().ToTable("Users");
+//                .HasQueryFilter(i=>i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
             builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("UserRoleClaim");
             builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");
@@ -119,7 +118,7 @@ namespace Langua.DataContext.Data
         }
 
 
-
+        public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Candidat> Candidates { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Manager> Managers { get; set; }

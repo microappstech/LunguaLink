@@ -235,7 +235,7 @@ app.Use(async (context, next) =>
     await next.Invoke();
 });
 
-await Seeding.Initialize(app.Services.CreateScope().ServiceProvider);
+//await Seeding.Initialize(app.Services.CreateScope().ServiceProvider);
 //
 
 //app.MapIdentityApi<ApplicationUser>();
