@@ -36,15 +36,15 @@ namespace Langua.DataContext.Data
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogin");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserToken");
             
-            builder.Entity<Department>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
-            builder.Entity<Candidat>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
-            builder.Entity<Groups>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
-            builder.Entity<Teacher>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
-            builder.Entity<Manager>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
-            builder.Entity<BaseMessage>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
-            builder.Entity<Ressource>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
-            builder.Entity<Session>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
-            builder.Entity<Subject>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<Department>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<Candidat>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<Groups>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<Teacher>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<Manager>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<BaseMessage>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<Ressource>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<Session>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
+            //builder.Entity<Subject>().HasQueryFilter(i => i.TenantId == (int)TenantType.System || i.TenantId == _tenantService.GetTenant());
 
             builder.Entity<Department>()
                 .HasOne(i => i.Manager)

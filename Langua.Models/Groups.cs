@@ -25,7 +25,7 @@ namespace Langua.Models
         public string? Photo { get; set; }
         [Required] public string Name { get; set; }
         public string? Description { get; set; }
-        public int TenantId { get; set; }
+        public int? TenantId { get; set; }
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
 #nullable enable

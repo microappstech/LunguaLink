@@ -19,7 +19,7 @@ namespace Langua.Models
         public string? ContentFile { get; set; }
         public int RessourceType { get; set; }
         public string? Url { get; set; }
-        public int TenantId { get; set; }
+        public int? TenantId { get; set; }
 
         [NotMapped]
         public string? RessourceTypeStr { 

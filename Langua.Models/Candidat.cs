@@ -46,6 +46,6 @@ namespace Langua.Models
         [NotMapped] public bool ConfirmedMail { get; set; }
 
         // Implementing the missing TenantId property from ITenantEntity interface
-        public int TenantId { get; set; }
+        public int? TenantId { get; set; }
     }
 }

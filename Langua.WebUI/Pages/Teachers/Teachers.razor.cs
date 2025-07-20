@@ -70,7 +70,6 @@ namespace Langua.WebUI.Pages.Teachers
             try
             {
                 Teacher t = null;
-                _ = t.Departement;
                 _AddBtnClicked = true;
                 var result = await dialogService.OpenAsync<AddTeacher>("Add new teacher", null, new DialogOptions { Width = "50vw", ShowClose = true });
                 await LoadTeachers();

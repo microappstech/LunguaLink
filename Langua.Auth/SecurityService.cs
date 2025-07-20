@@ -13,6 +13,8 @@ using System.Transactions;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace Langua.Account
 {
@@ -125,6 +127,12 @@ namespace Langua.Account
         }
         public async Task<Result<ApplicationUser>> RegisterUser(ApplicationUser ApplicationUser)
         {
+
+            _userContext.ChangeTracker.Entries().Where(i => i.State == EntityState.Added).ToList()
+                .ForEach(entry =>
+                {
+                    entry.State = EntityState.Detached;
+                });
             //using (var UserScop = new TransactionScope( TransactionScopeAsyncFlowOption.Enabled))
             //{
                 var mailTaken = await _userManager.FindByEmailAsync(ApplicationUser.Email);

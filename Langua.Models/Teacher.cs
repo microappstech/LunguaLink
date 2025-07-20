@@ -23,7 +23,7 @@ namespace Langua.Models
         public string? Password { get; set; }
         [NotMapped]
         public string? ConfirmPassword { get; set; }
-        public int TenantId { get; set; }
+        public int? TenantId { get; set; }
         public string? Photo { get;set; }
         public DateTime CreatedAt { get; set; }
         public int DepartementId { get; set; }

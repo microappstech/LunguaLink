@@ -10,6 +10,6 @@ namespace Langua.Models
 {
     public class LanguaRole:IdentityRole,ITenantEntity
     {
-        public int TenantId { get; set; }
+        public int? TenantId { get; set; }
     }
 }

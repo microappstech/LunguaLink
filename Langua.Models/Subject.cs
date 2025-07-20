@@ -15,7 +15,7 @@ namespace Langua.Models
         public string Description { get; set; }
         public string Photo { get; set; }
         public string? UserId { get; set; }
-        public int TenantId { get; set; }
+        public int? TenantId { get; set; }
 
     }
 }

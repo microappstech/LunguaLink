@@ -101,6 +101,7 @@ namespace Langua.WebUI.Pages.Manager
                     if (TaskUser.Succeeded)
                     {
                         var role = await Security!.AddRoleToUser(TaskUser.Value, "MANAGER");
+                        Manager.UserId = TaskUser.Value.Id;
                         var result = crudRepository!.Add(Manager);
                         if (result.Succeeded)
                         {

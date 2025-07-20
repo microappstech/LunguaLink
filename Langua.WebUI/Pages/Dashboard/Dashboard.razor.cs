@@ -95,7 +95,7 @@ namespace Langua.WebUI.Pages.Dashboard
                 await _chatGroupHub.StartAsync();
             }catch(Exception ex)
             {
-                Notify("Error start connection", ex.Message, Radzen.NotificationSeverity.Error, 50000);
+                //Notify("Error start connection", ex.Message, Radzen.NotificationSeverity.Error, 50000);
             }
         }
     }

@@ -8,6 +8,6 @@ namespace Langua.Models
 {
     internal interface ITenantEntity
     {
-        int TenantId { get; set; }
+        int? TenantId { get; set; }
     }
 }
